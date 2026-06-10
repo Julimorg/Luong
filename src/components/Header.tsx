@@ -1,138 +1,220 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { AppBar, Toolbar, Box, Button, IconButton, Drawer, List, ListItem, ListItemButton, ListItemText, Container, Divider } from "@mui/material";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { Button, Drawer, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import { navLinks, siteConfig } from "../data/data";
+import PhoneIcon from "@mui/icons-material/Phone";
+import FlashOnIcon from "@mui/icons-material/FlashOn";
+import { navLinks, headerPhone } from "../data/dashBoardData";
+
+// Các route có hero ảnh tối → header transparent khi ở top
+const DARK_HERO_ROUTES = ["/"];
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const { pathname } = useLocation();
 
+  // Chỉ transparent khi đang ở route có dark hero VÀ chưa scroll
+  const hasDarkHero = DARK_HERO_ROUTES.includes(pathname);
+  const isTransparent = hasDarkHero && !scrolled;
+
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll);
+    // Reset scroll state khi đổi route
+    setScrolled(window.scrollY > 60);
+
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [pathname]);
+
+  // Text màu: transparent header → trắng, solid header → navy
+  const isDark = isTransparent;
+  const logoColor   = isDark ? "text-white"     : "text-[#1a3a5c]";
+  const logoSub     = isDark ? "text-white/60"  : "text-gray-400";
+  const phoneColor  = isDark ? "text-white/90"  : "text-[#1a3a5c]";
 
   return (
-    <>
-      <AppBar
-        position="fixed"
-        elevation={0}
-        sx={{
-          bgcolor: scrolled ? "rgba(10,22,40,0.96)" : "transparent",
-          backdropFilter: scrolled ? "blur(12px)" : "none",
-          boxShadow: scrolled ? "0 1px 0 rgba(255,255,255,0.08)" : "none",
-          transition: "all 0.3s ease",
-          py: scrolled ? 0 : 0.5,
-        }}
-      >
-        <Container maxWidth="lg">
-          <Toolbar disableGutters sx={{ gap: 1 }}>
-            {/* Logo */}
-            <Link to="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 10, flexGrow: 0 }}>
-              <Box sx={{ width: 36, height: 36, bgcolor: "#e8a020", borderRadius: 2, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <span style={{ color: "white", fontWeight: 900, fontSize: 11, letterSpacing: 0 }}>ABC</span>
-              </Box>
-              <Box component="span" sx={{ color: "white", fontWeight: 700, fontSize: "1rem", display: { xs: "none", sm: "block" } }}>
-                {siteConfig.company}
-              </Box>
-            </Link>
+    <header
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 50,
+        transition: "background-color 0.35s ease, box-shadow 0.35s ease, padding-top 0.35s ease, padding-bottom 0.35s ease",
+        backgroundColor: isTransparent ? "transparent" : "#ffffff",
+        boxShadow: isTransparent ? "none" : "0 2px 20px rgba(0,0,0,0.10)",
+        paddingTop:    scrolled ? "8px"  : "16px",
+        paddingBottom: scrolled ? "8px"  : "16px",
+      }}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
 
-            <Box sx={{ flexGrow: 1 }} />
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-2 no-underline">
+          <span className="flex items-center justify-center w-8 h-8 rounded-md bg-[#f5a623]">
+            <FlashOnIcon sx={{ fontSize: 18, color: "#fff" }} />
+          </span>
+          <div>
+            <span className={`font-extrabold text-lg tracking-widest transition-colors duration-300 ${logoColor}`}>
+              SOLARTECH
+            </span>
+            <div className={`text-[10px] leading-none transition-colors duration-300 ${logoSub}`}>
+              Năng lượng sạch cho tương lai
+            </div>
+          </div>
+        </Link>
 
-            {/* Desktop nav */}
-            <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center", gap: 0.5 }}>
-              {navLinks.map((link) => (
-                <Button
-                  key={link.to}
-                  component={Link}
-                  to={link.to}
-                  sx={{
-                    color: pathname === link.to ? "#e8a020" : "rgba(255,255,255,0.8)",
-                    bgcolor: pathname === link.to ? "rgba(232,160,32,0.1)" : "transparent",
-                    "&:hover": { bgcolor: "rgba(255,255,255,0.08)", color: "white" },
-                    fontWeight: 500, fontSize: "0.875rem", textTransform: "none",
-                    borderRadius: 2, px: 2,
-                  }}
-                >
-                  {link.label}
-                </Button>
-              ))}
-              <Button
-                component={Link}
-                to="/dashboard"
-                startIcon={<DashboardIcon sx={{ fontSize: "1rem !important" }} />}
-                sx={{
-                  ml: 1, bgcolor: "#e8a020", color: "white",
-                  "&:hover": { bgcolor: "#d4911a" },
-                  fontWeight: 700, fontSize: "0.8rem", textTransform: "none",
-                  borderRadius: 2, px: 2.5,
-                }}
+        {/* Desktop nav */}
+        {!isMobile && (
+          <nav className="flex items-center gap-6">
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.label}
+                to={link.to}
+                end={link.to === "/"}
+                className={({ isActive }) =>
+                  [
+                    "text-sm font-medium transition-colors duration-300 no-underline relative group",
+                    isDark
+                      ? isActive ? "text-[#f5a623]" : "text-white/90 hover:text-white"
+                      : isActive ? "text-[#f5a623]" : "text-gray-700 hover:text-[#f5a623]",
+                  ].join(" ")
+                }
               >
-                Dashboard
-              </Button>
-            </Box>
+                {({ isActive }) => (
+                  <>
+                    {link.label}
+                    <span
+                      className={`absolute -bottom-1 left-0 h-0.5 bg-[#f5a623] transition-all duration-300 ${
+                        isActive ? "w-full" : "w-0 group-hover:w-full"
+                      }`}
+                    />
+                  </>
+                )}
+              </NavLink>
+            ))}
+          </nav>
+        )}
 
-            {/* Mobile burger */}
-            <IconButton sx={{ display: { md: "none" }, color: "white" }} onClick={() => setDrawerOpen(true)}>
+        {/* Right side */}
+        <div className="flex items-center gap-3">
+          {!isMobile && (
+            <a
+              href={`tel:${headerPhone}`}
+              className={`flex items-center gap-1.5 text-sm font-semibold no-underline transition-colors duration-300 ${phoneColor}`}
+            >
+              <PhoneIcon sx={{ fontSize: 16 }} />
+              {headerPhone}
+            </a>
+          )}
+
+          <Button
+            component={Link}
+            to="/lien-he"
+            variant="contained"
+            size="small"
+            sx={{
+              backgroundColor: "#f5a623",
+              color: "#fff",
+              fontWeight: 700,
+              fontSize: "0.75rem",
+              textTransform: "none",
+              borderRadius: "6px",
+              px: 2,
+              py: 0.8,
+              boxShadow: "none",
+              "&:hover": {
+                backgroundColor: "#e09410",
+                boxShadow: "0 4px 12px rgba(245,166,35,0.4)",
+              },
+            }}
+          >
+            Nhận tư vấn
+          </Button>
+
+          {isMobile && (
+            <IconButton
+              onClick={() => setDrawerOpen(true)}
+              sx={{ color: isDark ? "#fff" : "#1a3a5c" }}
+            >
               <MenuIcon />
             </IconButton>
-          </Toolbar>
-        </Container>
-      </AppBar>
+          )}
+        </div>
+      </div>
 
       {/* Mobile Drawer */}
-      <Drawer anchor="right" open={drawerOpen} onClose={() => setDrawerOpen(false)}
-        PaperProps={{ sx: { width: 280, bgcolor: "#0a1628" } }}
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        PaperProps={{
+          sx: { width: 280, backgroundColor: "#0d2137", color: "#fff" },
+        }}
       >
-        <Box sx={{ p: 2, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-            <Box sx={{ width: 32, height: 32, bgcolor: "#e8a020", borderRadius: 1.5, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <span style={{ color: "white", fontWeight: 900, fontSize: 10 }}>ABC</span>
-            </Box>
-            <Box component="span" sx={{ color: "white", fontWeight: 700, fontSize: "0.9rem" }}>{siteConfig.company}</Box>
-          </Box>
-          <IconButton sx={{ color: "rgba(255,255,255,0.6)" }} onClick={() => setDrawerOpen(false)}>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
+          <Link
+            to="/"
+            onClick={() => setDrawerOpen(false)}
+            className="font-extrabold text-lg tracking-widest text-white no-underline"
+          >
+            SOLARTECH
+          </Link>
+          <IconButton onClick={() => setDrawerOpen(false)} sx={{ color: "#fff" }}>
             <CloseIcon />
           </IconButton>
-        </Box>
-        <Divider sx={{ borderColor: "rgba(255,255,255,0.08)" }} />
-        <List sx={{ px: 1.5, py: 2 }}>
+        </div>
+
+        <nav className="flex flex-col px-5 py-6 gap-1">
           {navLinks.map((link) => (
-            <ListItem key={link.to} disablePadding>
-              <ListItemButton
-                component={Link}
-                to={link.to}
-                onClick={() => setDrawerOpen(false)}
-                sx={{
-                  borderRadius: 2, mb: 0.5,
-                  color: pathname === link.to ? "#e8a020" : "rgba(255,255,255,0.7)",
-                  bgcolor: pathname === link.to ? "rgba(232,160,32,0.1)" : "transparent",
-                  "&:hover": { bgcolor: "rgba(255,255,255,0.08)", color: "white" },
-                }}
-              >
-                <ListItemText primary={link.label} primaryTypographyProps={{ fontSize: "0.9rem", fontWeight: 500 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-          <Divider sx={{ borderColor: "rgba(255,255,255,0.08)", my: 1.5 }} />
-          <ListItem disablePadding>
-            <ListItemButton
-              component={Link}
-              to="/dashboard"
+            <NavLink
+              key={link.label}
+              to={link.to}
+              end={link.to === "/"}
               onClick={() => setDrawerOpen(false)}
-              sx={{ borderRadius: 2, bgcolor: "#e8a020", "&:hover": { bgcolor: "#d4911a" }, color: "white" }}
+              className={({ isActive }) =>
+                [
+                  "py-3 text-base font-medium no-underline border-b border-white/5 transition-colors duration-200",
+                  isActive ? "text-[#f5a623]" : "text-white/80 hover:text-[#f5a623]",
+                ].join(" ")
+              }
             >
-              <DashboardIcon sx={{ mr: 1.5, fontSize: "1.1rem" }} />
-              <ListItemText primary="Dashboard" primaryTypographyProps={{ fontSize: "0.9rem", fontWeight: 700 }} />
-            </ListItemButton>
-          </ListItem>
-        </List>
+              {link.label}
+            </NavLink>
+          ))}
+        </nav>
+
+        <div className="px-5 mt-2">
+          <a
+            href={`tel:${headerPhone}`}
+            className="flex items-center gap-2 text-white/70 text-sm no-underline mb-4"
+          >
+            <PhoneIcon sx={{ fontSize: 16 }} />
+            {headerPhone}
+          </a>
+          <Button
+            component={Link}
+            to="/lien-he"
+            variant="contained"
+            fullWidth
+            onClick={() => setDrawerOpen(false)}
+            sx={{
+              backgroundColor: "#f5a623",
+              color: "#fff",
+              fontWeight: 700,
+              textTransform: "none",
+              borderRadius: "6px",
+              "&:hover": { backgroundColor: "#e09410" },
+            }}
+          >
+            Nhận tư vấn miễn phí
+          </Button>
+        </div>
       </Drawer>
-    </>
+    </header>
   );
 }

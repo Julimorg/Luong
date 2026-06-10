@@ -1,76 +1,120 @@
-import { Box, Container, Typography, Stack, Link as MuiLink, Divider } from "@mui/material";
-import Grid from "@mui/material/Grid2";
-import { Link } from "react-router-dom";
-import { siteConfig, navLinks, contactInfo } from "../data/data";
+import FlashOnIcon from "@mui/icons-material/FlashOn";
+import PhoneIcon from "@mui/icons-material/Phone";
+import EmailIcon from "@mui/icons-material/Email";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import { footerData } from "../data/dashBoardData";
+
+
+const socialIconMap: Record<string, React.ReactNode> = {
+  facebook: <FacebookIcon sx={{ fontSize: 20 }} />,
+  youtube: <YouTubeIcon sx={{ fontSize: 20 }} />,
+  linkedin: <LinkedInIcon sx={{ fontSize: 20 }} />,
+};
 
 export default function Footer() {
   return (
-    <Box component="footer" sx={{ bgcolor: "#060e1e", color: "white" }}>
-      <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3 }, pt: { xs: 8, md: 10 }, pb: 4 }}>
-        <Grid container spacing={{ xs: 5, md: 6 }} sx={{ mb: 6 }}>
-
-          {/* Brand */}
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2.5 }}>
-              <Box sx={{ width: 36, height: 36, bgcolor: "#e8a020", borderRadius: 2, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <span style={{ color: "white", fontWeight: 900, fontSize: 11 }}>ABC</span>
-              </Box>
-              <Typography sx={{ fontWeight: 700, fontSize: "1rem" }}>{siteConfig.company}</Typography>
-            </Box>
-            <Typography sx={{ color: "rgba(255,255,255,0.45)", fontSize: "0.875rem", lineHeight: 1.8 }}>
-              Đơn vị hàng đầu trong lĩnh vực xây dựng, thiết kế và tư vấn kỹ thuật tại Việt Nam.
-            </Typography>
-          </Grid>
-
-          {/* Nav */}
-          <Grid size={{ xs: 6, md: 3 }}>
-            <Typography sx={{ fontWeight: 700, fontSize: "0.65rem", textTransform: "uppercase", letterSpacing: "0.2em", color: "#e8a020", mb: 2.5 }}>
-              Điều Hướng
-            </Typography>
-            <Stack spacing={1.5}>
-              {navLinks.map((link) => (
-                <MuiLink
-                  key={link.to}
-                  component={Link}
-                  to={link.to}
-                  underline="none"
-                  sx={{ color: "rgba(255,255,255,0.45)", fontSize: "0.875rem", "&:hover": { color: "white" }, transition: "color 0.2s" }}
+    <footer className="bg-[#0d2137] text-white">
+      {/* Main footer */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-10">
+          {/* Brand column — takes 2 cols on lg */}
+          <div className="lg:col-span-2">
+            <a href="#home" className="flex items-center gap-2 no-underline mb-4">
+              <span className="flex items-center justify-center w-8 h-8 rounded-md bg-[#f5a623]">
+                <FlashOnIcon sx={{ fontSize: 18, color: "#fff" }} />
+              </span>
+              <span className="font-extrabold text-xl tracking-widest text-white">
+                {footerData.brand.name}
+              </span>
+            </a>
+            <p className="text-white/60 text-sm leading-relaxed mb-5 max-w-xs">
+              {footerData.brand.tagline}
+            </p>
+            {/* Social icons */}
+            <div className="flex items-center gap-3">
+              {footerData.socials.map((s) => (
+                <a
+                  key={s}
+                  href="#"
+                  className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:bg-[#f5a623] hover:border-[#f5a623] hover:text-white transition-all duration-200 no-underline"
                 >
-                  {link.label}
-                </MuiLink>
+                  {socialIconMap[s]}
+                </a>
               ))}
-            </Stack>
-          </Grid>
+            </div>
+          </div>
+
+          {/* Link columns */}
+          {footerData.columns.map((col) => (
+            <div key={col.title}>
+              <h4 className="text-white font-semibold text-sm uppercase tracking-widest mb-4">
+                {col.title}
+              </h4>
+              <ul className="space-y-2.5">
+                {col.links.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      className="text-white/55 hover:text-[#f5a623] text-sm no-underline transition-colors duration-200"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
 
           {/* Contact */}
-          <Grid size={{ xs: 6, md: 5 }}>
-            <Typography sx={{ fontWeight: 700, fontSize: "0.65rem", textTransform: "uppercase", letterSpacing: "0.2em", color: "#e8a020", mb: 2.5 }}>
-              Liên Hệ
-            </Typography>
-            <Stack spacing={2}>
-              {[
-                { icon: "📍", value: contactInfo.address },
-                { icon: "📞", value: contactInfo.phone },
-                { icon: "✉️", value: contactInfo.email },
-                { icon: "🕐", value: contactInfo.workingHours },
-              ].map((item) => (
-                <Box key={item.value} sx={{ display: "flex", alignItems: "flex-start", gap: 1.5 }}>
-                  <span style={{ fontSize: "0.9rem" }}>{item.icon}</span>
-                  <Typography sx={{ color: "rgba(255,255,255,0.45)", fontSize: "0.8rem", lineHeight: 1.6 }}>
-                    {item.value}
-                  </Typography>
-                </Box>
-              ))}
-            </Stack>
-          </Grid>
+          <div>
+            <h4 className="text-white font-semibold text-sm uppercase tracking-widest mb-4">
+              {footerData.contact.title}
+            </h4>
+            <ul className="space-y-3">
+              <li className="flex gap-2.5 text-white/55 text-sm leading-snug">
+                <LocationOnIcon sx={{ fontSize: 17, color: "#f5a623", mt: "1px", flexShrink: 0 }} />
+                {footerData.contact.address}
+              </li>
+              <li>
+                <a
+                  href={`tel:${footerData.contact.phone}`}
+                  className="flex gap-2.5 text-white/55 hover:text-[#f5a623] text-sm no-underline transition-colors duration-200"
+                >
+                  <PhoneIcon sx={{ fontSize: 17, color: "#f5a623", flexShrink: 0 }} />
+                  {footerData.contact.phone}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`mailto:${footerData.contact.email}`}
+                  className="flex gap-2.5 text-white/55 hover:text-[#f5a623] text-sm no-underline transition-colors duration-200"
+                >
+                  <EmailIcon sx={{ fontSize: 17, color: "#f5a623", flexShrink: 0 }} />
+                  {footerData.contact.email}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
 
-        </Grid>
-
-        <Divider sx={{ borderColor: "rgba(255,255,255,0.08)", mb: 3 }} />
-        <Typography sx={{ textAlign: "center", color: "rgba(255,255,255,0.25)", fontSize: "0.8rem" }}>
-          {siteConfig.copyright}
-        </Typography>
-      </Container>
-    </Box>
+      {/* Bottom bar */}
+      <div className="border-t border-white/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <p className="text-white/40 text-xs">{footerData.copyright}</p>
+          <div className="flex gap-4">
+            <a href="#" className="text-white/40 hover:text-white/70 text-xs no-underline transition-colors">
+              Chính sách bảo mật
+            </a>
+            <a href="#" className="text-white/40 hover:text-white/70 text-xs no-underline transition-colors">
+              Điều khoản sử dụng
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
   );
 }
