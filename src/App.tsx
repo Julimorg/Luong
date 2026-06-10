@@ -5,6 +5,7 @@ import HomePage from "./pages/DashBoardPage/DashBoardPage";
 import AboutPage from "./pages/AboutUsPage/AboutUsPage";
 import ContactPage from "./pages/ContractPage/ContractPage";
 import ProjectsPage from "./pages/ProjectPage/ProjectPage";
+import ProductPage from "./pages/ProductPage/ProductPage";
 
 const App: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const App: React.FC = () => {
           <Route path="/gioi-thieu" element={<AboutPage />} />
           <Route path="/lien-he" element={<ContactPage />} />
           <Route path="/du-an" element={<ProjectsPage />} />
+          <Route path="/san-pham" element={<ProductPage />} />
           {/* Thêm pages mới vào đây, Header vẫn hiển thị */}
           {/* <Route path="/du-an" element={<ProjectsPage />} /> */}
           {/* <Route path="/dich-vu" element={<ServicesPage />} /> */}
