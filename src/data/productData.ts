@@ -10,7 +10,8 @@ export const productsBreadcrumb = [
 
 // ---------- PAGE HEADER ----------
 export const productsPageHeader = {
-  headline:    "Sản Phẩm Nổi Bật",
+  badge:       "Thiết bị chính hãng",
+  headline:    "Sản phẩm nổi bật",
   description: "Thiết bị điện năng lượng mặt trời chính hãng đến từ các thương hiệu hàng đầu thế giới",
 };
 

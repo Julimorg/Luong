@@ -16,14 +16,8 @@ const GOLD = "#f6b918";
 const NAVY = "#1c2f5c";
 
 // ─── Reveal wrapper ───────────────────────────────────────────
-function Reveal({
-  children,
-  delay = 0,
-  className = "",
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
+function Reveal({ children, delay = 0, className = "" }: {
+  children: React.ReactNode; delay?: number; className?: string;
 }) {
   const { ref, isVisible } = useScrollReveal({ threshold: 0.06 });
   return (
@@ -41,16 +35,14 @@ function Reveal({
 
 // ─── Product Card ─────────────────────────────────────────────
 function ProductCard({ product }: { product: Product }) {
+  const navigate   = useNavigate();
   const brandColor = product.brandColor ?? GOLD;
-  const navigate = useNavigate();
 
   return (
     <div className="group bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg hover:shadow-gray-200/80 hover:-translate-y-1 transition-all duration-300 flex flex-col h-full">
-      {/* Image — nền xám nhạt */}
-      <div
-        className="relative bg-gray-50 flex items-center justify-center overflow-hidden"
-        style={{ height: 180 }}
-      >
+
+      {/* Image */}
+      <div className="relative bg-gray-50 overflow-hidden" style={{ height: 180 }}>
         <img
           src={product.image}
           alt={product.name}
@@ -60,33 +52,20 @@ function ProductCard({ product }: { product: Product }) {
 
       {/* Body */}
       <div className="p-4 flex flex-col flex-1">
-        {/* Brand name — màu riêng của từng brand */}
-        <p
-          className="text-sm font-extrabold mb-1 tracking-wide"
-          style={{ color: brandColor }}
-        >
+        <p className="text-sm font-extrabold mb-1 tracking-wide" style={{ color: brandColor }}>
           {product.brand}
         </p>
-
-        {/* Product name */}
         <h3 className="font-bold text-sm leading-snug mb-3 text-gray-800 group-hover:text-[#1c2f5c] transition-colors duration-200 line-clamp-2">
           {product.name}
         </h3>
-
-        {/* Specs */}
         <div className="flex flex-col gap-1.5 mb-4">
           {product.specs.map((s) => (
-            <div
-              key={s.label}
-              className="flex items-center justify-between text-xs text-gray-500"
-            >
+            <div key={s.label} className="flex items-center justify-between text-xs text-gray-500">
               <span>{s.label}:</span>
               <span className="font-semibold text-gray-700">{s.value}</span>
             </div>
           ))}
         </div>
-
-        {/* CTA — outline, hover fill navy */}
         <div className="mt-auto">
           <button
             onClick={() => navigate(`/san-pham/${product.id}`)}
@@ -102,11 +81,7 @@ function ProductCard({ product }: { product: Product }) {
 }
 
 // ─── Category Section ─────────────────────────────────────────
-function CategorySection({
-  section,
-}: {
-  section: (typeof productSections)[number];
-}) {
+function CategorySection({ section }: { section: typeof productSections[number] }) {
   const items = products.filter((p) => p.category === section.id);
 
   // Tấm pin: 6 col, inverter: 4 col, pin: 4 col
@@ -122,13 +97,10 @@ function CategorySection({
         <div className="flex items-center justify-between mb-5 pb-3 border-b border-gray-100">
           <div className="flex items-center gap-3">
             <div>
-              <h2 className="text-base sm:text-lg font-extrabold uppercase text-[#1c2f5c] leading-tight">
+              <h2 className="text-base sm:text-lg font-extrabold uppercase text-[#f6b918] leading-tight">
                 {section.title}
               </h2>
-              <div
-                className="h-[2px] w-10 rounded-full mt-1"
-                style={{ backgroundColor: GOLD }}
-              />
+              <div className="h-[2px] w-10 rounded-full mt-1" style={{ backgroundColor: GOLD }} />
             </div>
           </div>
           {section.viewAll && (
@@ -157,29 +129,33 @@ function CategorySection({
 
 // ─── MAIN ─────────────────────────────────────────────────────
 export default function ProductsPage() {
-  const navigate = useNavigate();
-  const { ref: ctaRef, isVisible: ctaVisible } = useScrollReveal({
-    threshold: 0.1,
-  });
+  const navigate  = useNavigate();
+  const { ref: ctaRef, isVisible: ctaVisible } = useScrollReveal({ threshold: 0.1 });
 
   return (
     <div className="min-h-screen bg-white">
+
       {/* ══ HERO ══ */}
-      <div
-        className="relative pt-[72px] overflow-hidden"
-        style={{ backgroundColor: NAVY }}
-      >
-        {/* Ảnh nền mờ */}
+      <div className="relative pt-[72px] overflow-hidden">
+        {/* Ảnh nền thật, không filter màu */}
         <img
-          src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1600&q=70"
+          src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1600&q=85"
           alt=""
           aria-hidden
-          className="absolute inset-0 w-full h-full object-cover opacity-20"
+          className="absolute inset-0 w-full h-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#1c2f5c]/60" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0d2137]/92 via-[#0d2137]/72 to-[#0d2137]/25" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 text-center">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white uppercase leading-tight mb-3">
+          {/* Badge line */}
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <span className="w-6 h-0.5" style={{ backgroundColor: GOLD }} />
+            <span className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: GOLD }}>
+              {productsPageHeader.badge}
+            </span>
+            <span className="w-6 h-0.5" style={{ backgroundColor: GOLD }} />
+          </div>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-3">
             {productsPageHeader.headline}
           </h1>
           <p className="text-white/60 text-base max-w-xl mx-auto leading-relaxed">
@@ -193,11 +169,7 @@ export default function ProductsPage() {
             <nav className="flex items-center gap-0.5 text-sm">
               {productsBreadcrumb.map((crumb, i) => (
                 <span key={crumb.to} className="flex items-center gap-0.5">
-                  {i > 0 && (
-                    <NavigateNextIcon
-                      sx={{ fontSize: 16, color: "rgba(255,255,255,0.4)" }}
-                    />
-                  )}
+                  {i > 0 && <NavigateNextIcon sx={{ fontSize: 16, color: "rgba(255,255,255,0.4)" }} />}
                   {i < productsBreadcrumb.length - 1 ? (
                     <Link
                       to={crumb.to}
@@ -206,9 +178,7 @@ export default function ProductsPage() {
                       {crumb.label}
                     </Link>
                   ) : (
-                    <span className="text-white/90 font-medium">
-                      {crumb.label}
-                    </span>
+                    <span className="text-white/90 font-medium">{crumb.label}</span>
                   )}
                 </span>
               ))}
@@ -233,14 +203,13 @@ export default function ProductsPage() {
         style={{ backgroundColor: NAVY }}
       >
         <div className="px-6 py-10 sm:px-10 lg:px-14 flex flex-col lg:flex-row items-start lg:items-center gap-8">
+
           {/* Left text */}
           <div className="flex-1">
             <h2 className="text-xl sm:text-2xl font-extrabold text-white leading-snug mb-2">
               {productCtaBanner.headline}
             </h2>
-            <p className="text-white/50 text-sm">
-              {productCtaBanner.description}
-            </p>
+            <p className="text-white/50 text-sm">{productCtaBanner.description}</p>
             <button
               onClick={() => navigate("/lien-he")}
               className="mt-5 inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-bold text-white transition-all duration-200"
@@ -264,6 +233,7 @@ export default function ProductsPage() {
           </div>
         </div>
       </div>
+
     </div>
   );
 }

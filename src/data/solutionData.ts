@@ -2,9 +2,7 @@
 // solutionData.ts — Cấu hình nội dung section Giải pháp NLMT
 // ============================================================
 
-
 export type Accent = "amber" | "navy";
-
 export type SolutionIcon = "home" | "building";
 export type TrustIcon    = "shield" | "award" | "coins" | "headset";
 
@@ -19,7 +17,7 @@ export const solutionHeader = {
 
 // ---------- SPEC ITEM ----------
 export interface SpecItem {
-  iconKey: string;   // key tra trong specIconMap bên UI
+  iconKey: string;
   label:   string;
   value:   string;
 }
@@ -29,6 +27,16 @@ export interface SolutionDetail {
   description: string;
   advantages:  string[];
   process:     string[];
+}
+
+// ---------- SUB TYPE (Hòa lưới / Lưu trữ) ----------
+export interface SubType {
+  id:          string;
+  icon:        "grid" | "battery";
+  name:        string;
+  subtitle:    string;
+  features:    string[];
+  diagramType: "on-grid" | "hybrid";
 }
 
 // ---------- SOLUTION ----------
@@ -43,6 +51,8 @@ export interface SolutionItem {
   image:    string;
   accent:   Accent;
   href:     string;
+  subTypes: SubType[];         // ← 2 sub-section
+  consumerLabel: string;       // label tải tiêu thụ trong diagram
 }
 
 export const solutions: SolutionItem[] = [
@@ -80,6 +90,35 @@ export const solutions: SolutionItem[] = [
     image:  "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
     accent: "amber",
     href:   "/giai-phap/ho-gia-dinh",
+    consumerLabel: "TẢI TIÊU THỤ\nTRONG GIA ĐÌNH",
+    subTypes: [
+      {
+        id:          "residential-grid",
+        icon:        "grid",
+        name:        "Hòa Lưới",
+        subtitle:    "Giải pháp tối ưu chi phí",
+        features: [
+          "Giảm chi phí tiền điện hàng tháng",
+          "Vận hành đơn giản, ổn định",
+          "Thân thiện với môi trường",
+          "Hoàn vốn nhanh chóng",
+        ],
+        diagramType: "on-grid",
+      },
+      {
+        id:          "residential-storage",
+        icon:        "battery",
+        name:        "Lưu Trữ",
+        subtitle:    "Chủ động nguồn điện – An tâm sử dụng",
+        features: [
+          "Chủ động nguồn điện 24/7",
+          "Dự phòng khi mất điện",
+          "Tối ưu hiệu suất sử dụng",
+          "Bảo vệ thiết bị điện",
+        ],
+        diagramType: "hybrid",
+      },
+    ],
   },
   {
     id:       "business",
@@ -115,6 +154,35 @@ export const solutions: SolutionItem[] = [
     image:  "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=800&q=80",
     accent: "navy",
     href:   "/giai-phap/doanh-nghiep",
+    consumerLabel: "TẢI TIÊU THỤ\nDOANH NGHIỆP",
+    subTypes: [
+      {
+        id:          "business-grid",
+        icon:        "grid",
+        name:        "Hòa Lưới",
+        subtitle:    "Giải pháp tối ưu chi phí",
+        features: [
+          "Giảm chi phí điện năng",
+          "Tăng giá trị thương hiệu xanh",
+          "Hiệu quả đầu tư cao",
+          "Phù hợp với đa số doanh nghiệp",
+        ],
+        diagramType: "on-grid",
+      },
+      {
+        id:          "business-storage",
+        icon:        "battery",
+        name:        "Lưu Trữ",
+        subtitle:    "Chủ động nguồn điện – Vận hành ổn định",
+        features: [
+          "Chủ động nguồn điện 24/7",
+          "Đảm bảo sản xuất liên tục",
+          "Giảm rủi ro gián đoạn",
+          "Tối ưu chi phí và hiệu suất",
+        ],
+        diagramType: "hybrid",
+      },
+    ],
   },
 ];
 
@@ -128,32 +196,8 @@ export interface TrustItem {
 }
 
 export const trustItems: TrustItem[] = [
-  {
-    id:     "safe",
-    icon:   "shield",
-    title:  "An Toàn & Bền Bỉ",
-    desc:   "Thiết bị chính hãng, chất lượng cao",
-    accent: "navy",
-  },
-  {
-    id:     "warranty",
-    icon:   "award",
-    title:  "Bảo Hành Dài Hạn",
-    desc:   "Bảo hành lên đến 25 năm",
-    accent: "amber",
-  },
-  {
-    id:     "saving",
-    icon:   "coins",
-    title:  "Tiết Kiệm Tối Đa",
-    desc:   "Giảm đến 90% chi phí điện",
-    accent: "navy",
-  },
-  {
-    id:     "support",
-    icon:   "headset",
-    title:  "Hỗ Trợ Toàn Diện",
-    desc:   "Tư vấn – Khảo sát – Hỗ trợ 24/7",
-    accent: "amber",
-  },
+  { id: "safe",     icon: "shield",  title: "An Toàn & Bền Bỉ",    desc: "Thiết bị chính hãng, chất lượng cao",    accent: "navy" },
+  { id: "warranty", icon: "award",   title: "Bảo Hành Dài Hạn",    desc: "Bảo hành lên đến 25 năm",                accent: "amber" },
+  { id: "saving",   icon: "coins",   title: "Tiết Kiệm Tối Đa",    desc: "Giảm đến 90% chi phí điện",              accent: "navy" },
+  { id: "support",  icon: "headset", title: "Hỗ Trợ Toàn Diện",   desc: "Tư vấn – Khảo sát – Hỗ trợ 24/7",       accent: "amber" },
 ];
