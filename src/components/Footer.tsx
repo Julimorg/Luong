@@ -7,7 +7,6 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { footerData } from "../data/dashBoardData";
 
-
 const socialIconMap: Record<string, React.ReactNode> = {
   facebook: <FacebookIcon sx={{ fontSize: 20 }} />,
   youtube: <YouTubeIcon sx={{ fontSize: 20 }} />,
@@ -17,12 +16,12 @@ const socialIconMap: Record<string, React.ReactNode> = {
 export default function Footer() {
   return (
     <footer className="bg-[#1c2f5c] text-white">
-      {/* Main footer */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-10">
-          {/* Brand column — takes 2 cols on lg */}
-          <div className="lg:col-span-2">
-            <a href="#home" className="flex items-center gap-2 no-underline mb-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+
+          {/* ── Brand ── */}
+          <div>
+            <a href="#home" className="flex items-center gap-2 no-underline mb-3">
               <span className="flex items-center justify-center w-8 h-8 rounded-md bg-[#f5a623]">
                 <FlashOnIcon sx={{ fontSize: 18, color: "#fff" }} />
               </span>
@@ -30,10 +29,9 @@ export default function Footer() {
                 {footerData.brand.name}
               </span>
             </a>
-            <p className="text-white/60 text-sm leading-relaxed mb-5 max-w-xs">
+            <p className="text-white/55 text-sm leading-relaxed mb-5 max-w-xs">
               {footerData.brand.tagline}
             </p>
-            {/* Social icons */}
             <div className="flex items-center gap-3">
               {footerData.socials.map((s) => (
                 <a
@@ -47,28 +45,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Link columns */}
-          {footerData.columns.map((col) => (
-            <div key={col.title}>
-              <h4 className="text-white font-semibold text-sm uppercase tracking-widest mb-4">
-                {col.title}
-              </h4>
-              <ul className="space-y-2.5">
-                {col.links.map((link) => (
-                  <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-white/55 hover:text-[#f5a623] text-sm no-underline transition-colors duration-200"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-
-          {/* Contact */}
+          {/* ── Contact ── */}
           <div>
             <h4 className="text-white font-semibold text-sm uppercase tracking-widest mb-4">
               {footerData.contact.title}
@@ -98,10 +75,11 @@ export default function Footer() {
               </li>
             </ul>
           </div>
+
         </div>
       </div>
 
-      {/* Bottom bar */}
+      {/* ── Bottom bar ── */}
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <p className="text-white/40 text-xs">{footerData.copyright}</p>

@@ -115,7 +115,7 @@ export default function ContactPage() {
             {/* ── LEFT: info + map ── */}
             <Reveal>
               {/* Page title */}
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0d2137] mb-2 leading-tight">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-[#1c2f5c] mb-2 leading-tight">
                 {contactPageHeader.headline}
               </h1>
               <p className="text-gray-500 text-base mb-8">{contactPageHeader.description}</p>
