@@ -16,7 +16,7 @@ const socialIconMap: Record<string, React.ReactNode> = {
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0d2137] text-white">
+    <footer className="bg-[#1c2f5c] text-white">
       {/* Main footer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-10">

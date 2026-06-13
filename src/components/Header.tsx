@@ -102,7 +102,7 @@ export default function Header() {
 
         {/* Right side */}
         <div className="flex items-center gap-3">
-          {!isMobile && (
+          {/* {!isMobile && (
             <a
               href={`tel:${headerPhone}`}
               className={`flex items-center gap-1.5 text-sm font-semibold no-underline transition-colors duration-300 ${phoneColor}`}
@@ -110,7 +110,7 @@ export default function Header() {
               <PhoneIcon sx={{ fontSize: 16 }} />
               {headerPhone}
             </a>
-          )}
+          )} */}
 
           <Button
             component={Link}

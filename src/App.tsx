@@ -6,6 +6,8 @@ import AboutPage from "./pages/AboutUsPage/AboutUsPage";
 import ContactPage from "./pages/ContractPage/ContractPage";
 import ProjectsPage from "./pages/ProjectPage/ProjectPage";
 import ProductPage from "./pages/ProductPage/ProductPage";
+import ProjectDetailPage from "./pages/ProjectDetailPage/ProjectDetailPage";
+import SolutionPage from "./pages/SolutionPage/SolutionPage";
 
 const App: React.FC = () => {
   return (
@@ -17,6 +19,8 @@ const App: React.FC = () => {
           <Route path="/lien-he" element={<ContactPage />} />
           <Route path="/du-an" element={<ProjectsPage />} />
           <Route path="/san-pham" element={<ProductPage />} />
+          <Route path="/du-an/:id" element={<ProjectDetailPage />} />
+          <Route path="/giai-phap" element={<SolutionPage />} />
           {/* Thêm pages mới vào đây, Header vẫn hiển thị */}
           {/* <Route path="/du-an" element={<ProjectsPage />} /> */}
           {/* <Route path="/dich-vu" element={<ServicesPage />} /> */}

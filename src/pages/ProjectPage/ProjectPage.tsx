@@ -8,7 +8,6 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { type ProjectCategory, projects, projectsBreadcrumb, projectsPageHeader, projectTabs } from "../../data/projectData";
 import { useScrollReveal } from "../../hooks/useScrollReveal";
 
-
 // ─── Reveal wrapper ───────────────────────────────────────────
 function Reveal({
   children,
@@ -46,10 +45,10 @@ export default function ProjectsPage() {
   );
 
   return (
-    <div className="pt-[72px] bg-white min-h-screen">
+    <div className="pt-[72px] bg-[#f3f4f6] min-h-screen">
 
       {/* ══════════════ BREADCRUMB ══════════════ */}
-      <div className="bg-gray-50 border-b border-gray-100">
+      <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <nav className="flex items-center gap-1 text-sm">
             {projectsBreadcrumb.map((crumb, i) => (
@@ -113,8 +112,10 @@ export default function ProjectsPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map((project, i) => (
               <Reveal key={project.id} delay={i * 60}>
-                <div className="group bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl hover:shadow-gray-200/60 transition-all duration-300 cursor-pointer h-full flex flex-col">
-
+                <Link
+                  to={`/du-an/${project.id}`}
+                  className="no-underline group bg-white rounded-2xl overflow-hidden border border-gray-200 hover:shadow-xl hover:shadow-gray-200/60 transition-all duration-300 h-full flex flex-col block"
+                >
                   {/* Image */}
                   <div className="relative h-52 overflow-hidden flex-shrink-0">
                     <img
@@ -151,7 +152,12 @@ export default function ProjectsPage() {
                     <div className="flex flex-col gap-1.5 mb-4">
                       <div className="flex items-center gap-1.5 text-gray-500 text-xs">
                         <BoltIcon sx={{ fontSize: 14, color: "#f5a623" }} />
-                        <span>Công suất: <span className="font-semibold text-[#0d2137]">{project.capacity}</span></span>
+                        <span>
+                          Công suất:{" "}
+                          <span className="font-semibold text-[#0d2137]">
+                            {project.capacity}
+                          </span>
+                        </span>
                       </div>
                       <div className="flex items-center gap-1.5 text-gray-500 text-xs">
                         <LocationOnIcon sx={{ fontSize: 14, color: "#f5a623" }} />
@@ -160,18 +166,14 @@ export default function ProjectsPage() {
                     </div>
 
                     {/* CTA */}
-                    <div className="mt-auto pt-3 border-t border-gray-50">
-                      <a
-                        href="#"
-                        className="flex items-center gap-1.5 text-[#f5a623] text-xs font-bold no-underline hover:gap-2.5 transition-all duration-200"
-                      >
+                    <div className="mt-auto pt-3 border-t border-gray-100">
+                      <span className="flex items-center gap-1.5 text-[#f5a623] text-xs font-bold group-hover:gap-2.5 transition-all duration-200">
                         Xem chi tiết
                         <ArrowForwardIcon sx={{ fontSize: 13 }} />
-                      </a>
+                      </span>
                     </div>
                   </div>
-
-                </div>
+                </Link>
               </Reveal>
             ))}
           </div>

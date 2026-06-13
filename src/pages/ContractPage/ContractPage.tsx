@@ -85,10 +85,10 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="pt-[72px] bg-white min-h-screen">
+    <div className="pt-[72px] bg-[#f3f4f6] min-h-screen">
 
       {/* ══════════════ BREADCRUMB ══════════════ */}
-      <div className="bg-gray-50 border-b border-gray-100">
+      <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <nav className="flex items-center gap-1 text-sm">
             {contactBreadcrumb.map((crumb, i) => (
@@ -153,7 +153,7 @@ export default function ContactPage() {
 
               {/* Google Map embed */}
               <Reveal delay={320}>
-                <div className="rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
+                <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
                   <iframe
                     src={contactMap.embedSrc}
                     width="100%"
@@ -178,7 +178,7 @@ export default function ContactPage() {
 
             {/* ── RIGHT: form ── */}
             <Reveal delay={150}>
-              <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-7 sm:p-8">
+              <div className="bg-white rounded-2xl border border-gray-200 shadow-md p-7 sm:p-8">
                 <h2 className="text-xl font-bold text-[#0d2137] mb-6">
                   {contactForm.title}
                 </h2>

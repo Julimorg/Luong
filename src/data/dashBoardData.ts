@@ -8,7 +8,7 @@ export const navLinks = [
   { label: "Dự án", to: "/du-an" },
   { label: "Sản phẩm", to: "/san-pham" },
   { label: "Giới thiệu", to: "/gioi-thieu" },
-  { label: "Liên hệ", to: "/lien-he" },
+  { label: "Giải Pháp", to: "/giai-phap" },
 ];
 
 export const headerPhone = "1800 1234";
