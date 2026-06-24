@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import DownloadIcon from "@mui/icons-material/Download";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -14,6 +15,10 @@ import { productDetails } from "../../data/productDetailData";
 // ─── Brand colors ─────────────────────────────────────────────
 const GOLD = "#f6b918";
 const NAVY = "#1c2f5c";
+
+// ─── Hotline ──────────────────────────────────────────────────
+const HOTLINE = "+84901234567"; // số gọi (dạng quốc tế, không khoảng trắng)
+const HOTLINE_DISPLAY = "0908011931"; // số hiển thị
 
 // ─── Reveal ───────────────────────────────────────────────────
 function Reveal({ children, delay = 0, className = "" }: {
@@ -48,6 +53,34 @@ export default function ProductDetailPage() {
     .slice(0, 4);
 
   const [mainImg, setMainImg] = useState(0);
+
+  // Nhận báo giá:
+  //  - Tablet & mobile (< lg 1024px) → mở trình gọi điện
+  //  - Desktop → hiện toast với hotline
+  const handleRequestQuote = () => {
+    const isMobileOrTablet = window.matchMedia("(max-width: 1023px)").matches;
+
+    if (isMobileOrTablet) {
+      window.location.href = `tel:${HOTLINE}`;
+      return;
+    }
+
+    toast.info(
+      <div className="flex flex-col gap-1">
+        <span className="font-bold" style={{ color: NAVY }}>
+          Nhận báo giá ngay
+        </span>
+        <span className="text-sm text-gray-600 leading-snug">
+          Gọi hotline{" "}
+          <a href={`tel:${HOTLINE}`} className="font-bold no-underline" style={{ color: GOLD }}>
+            {HOTLINE_DISPLAY}
+          </a>{" "}
+          để được tư vấn &amp; báo giá nhanh nhất.
+        </span>
+      </div>,
+      { autoClose: 5000 }
+    );
+  };
 
   if (!product || !detail) {
     return (
@@ -185,7 +218,7 @@ export default function ProductDetailPage() {
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-3">
               <button
-                onClick={() => navigate("/lien-he")}
+                onClick={handleRequestQuote}
                 className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-white text-sm font-bold transition-all duration-200 hover:opacity-90"
                 style={{ backgroundColor: NAVY }}
               >

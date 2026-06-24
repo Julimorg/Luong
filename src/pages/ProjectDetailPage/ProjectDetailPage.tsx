@@ -7,9 +7,21 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import BusinessIcon from "@mui/icons-material/Business";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import SolarPowerIcon from "@mui/icons-material/SolarPower";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ReportProblemIcon from "@mui/icons-material/ReportProblem";
+import EmojiObjectsIcon from "@mui/icons-material/EmojiObjects";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import { projects } from "../../data/projectData";
 import { useScrollReveal, revealClasses } from "../../hooks/useScrollReveal";
 import { projectDetails } from "../../data/projectDetailData";
+
+// ─── Brand colors ─────────────────────────────────────────────
+// (Giữ nguyên tông màu sẵn có của trang này: gold #f5a623 / navy #0d2137)
+const GOLD = "#f5a623";
+const NAVY = "#0d2137";
 
 // ─── Reveal wrapper ───────────────────────────────────────────
 function Reveal({
@@ -157,17 +169,28 @@ export default function ProjectDetailPage() {
 
       {/* ══════════════ OVERVIEW + META ══════════════ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
 
-          {/* Overview text */}
-          <Reveal className="lg:col-span-2">
-            <h2 className="text-xl font-extrabold text-[#0d2137] mb-4">Tổng quan dự án</h2>
-            <p className="text-gray-600 leading-relaxed text-base">{detail.overview}</p>
+          {/* Overview text + ảnh tượng trưng */}
+          <Reveal className="lg:col-span-2 h-full">
+            <div className="flex flex-col h-full">
+              <h2 className="text-xl font-extrabold text-[#0d2137] mb-4">Tổng quan dự án</h2>
+              <p className="text-gray-600 leading-relaxed text-base">{detail.overview}</p>
+
+              {/* Ảnh tượng trưng — flex-1 để kéo dài cho bằng meta card bên phải */}
+              <div className="mt-6 relative rounded-2xl overflow-hidden border border-gray-200 shadow-sm group flex-1 min-h-[180px]">
+                <img
+                  src={detail.overviewImage ?? detail.gallery?.[0] ?? detail.heroImage}
+                  alt={detail.title}
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+            </div>
           </Reveal>
 
           {/* Meta card */}
           <Reveal delay={120}>
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 flex flex-col gap-4">
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 flex flex-col gap-10">
               <div className="flex items-start gap-3">
                 <span className="flex-shrink-0 w-9 h-9 rounded-full bg-[#f5a623]/10 text-[#f5a623] flex items-center justify-center">
                   <BoltIcon sx={{ fontSize: 18 }} />
@@ -234,56 +257,134 @@ export default function ProjectDetailPage() {
         </div>
       </section>
 
-      {/* ══════════════ ZÍC ZẮC SECTIONS ══════════════ */}
-      <section className="pb-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-16">
-          {detail.sections.map((section, i) => {
-            const isEven = i % 2 === 0;
-            return (
-              <div
-                key={i}
-                className={`grid grid-cols-1 lg:grid-cols-2 gap-10 items-center ${
-                  isEven ? "" : "lg:[direction:rtl]"
-                }`}
-              >
-                {/* Text */}
-                <Reveal
-                  direction={isEven ? "left" : "right"}
-                  delay={80}
-                  className="lg:[direction:ltr]"
-                >
-                  <div className="flex flex-col justify-center">
-                    {/* Step indicator */}
-                    <div className="flex items-center gap-3 mb-4">
-                      <span className="w-8 h-8 rounded-full bg-[#f5a623] text-white text-xs font-extrabold flex items-center justify-center flex-shrink-0">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <div className="h-px flex-1 bg-[#f5a623]/20" />
-                    </div>
-                    <h3 className="text-xl font-extrabold text-[#0d2137] mb-4 leading-snug">
-                      {section.heading}
-                    </h3>
-                    <p className="text-gray-600 leading-relaxed text-base">{section.body}</p>
-                  </div>
-                </Reveal>
+      {/* ══════════════ THÔNG SỐ KỸ THUẬT ══════════════ */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-2">
+        <Reveal>
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-3">
 
-                {/* Image */}
-                <Reveal
-                  direction={isEven ? "right" : "left"}
-                  className="lg:[direction:ltr]"
-                >
-                  <div className="rounded-2xl overflow-hidden aspect-[4/3] shadow-md border border-gray-200">
-                    <img
-                      src={section.image}
-                      alt={section.heading}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                </Reveal>
+              {/* Thiết bị sử dụng */}
+              <div className="lg:col-span-2 p-6 sm:p-8">
+                <div className="flex items-center gap-2.5 mb-5">
+                  <SolarPowerIcon sx={{ fontSize: 20, color: GOLD }} />
+                  <h2 className="text-lg font-extrabold text-[#0d2137]">Thiết bị sử dụng</h2>
+                </div>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {(detail.equipment ?? []).map((item, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center gap-3 rounded-xl bg-gray-50 border border-gray-100 px-4 py-3 hover:border-[#f5a623]/40 hover:bg-[#f5a623]/[0.04] transition-colors duration-200"
+                    >
+                      <span
+                        className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                        style={{ backgroundColor: `${GOLD}1f` }}
+                      >
+                        <CheckCircleIcon sx={{ fontSize: 18, color: GOLD }} />
+                      </span>
+                      <span className="text-gray-700 text-sm font-medium leading-snug">{item}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            );
-          })}
+
+              {/* Thời gian thi công — nền trắng, thanh dọc navy dài bằng vùng nút thiết bị */}
+              <div className="relative p-6 sm:p-8 flex flex-col">
+                {/* Spacer khớp chiều cao heading "Thiết bị sử dụng" (chỉ desktop) */}
+                <div className="hidden lg:flex items-center gap-2.5 mb-5 invisible" aria-hidden="true">
+                  <SolarPowerIcon sx={{ fontSize: 20 }} />
+                  <span className="text-lg font-extrabold leading-none">x</span>
+                </div>
+
+                {/* Gạch ngang ngăn cách (mobile) */}
+                <span className="lg:hidden block w-full h-px bg-gray-100 mb-5" />
+
+                {/* Vùng canh đúng chiều cao các nút thiết bị */}
+                <div className="relative flex-1 flex items-center">
+                  {/* Thanh dọc navy — dài bằng vùng nút thiết bị */}
+                  <span
+                    className="hidden lg:block absolute left-0 top-0 bottom-0 w-[3px] rounded-full"
+                    style={{ backgroundColor: NAVY }}
+                  />
+                  <div className="lg:pl-8">
+                    <div className="flex items-center gap-2 mb-2">
+                      <AccessTimeIcon sx={{ fontSize: 18, color: GOLD }} />
+                      <span className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+                        Thời gian thi công
+                      </span>
+                    </div>
+                    <div className="text-2xl sm:text-3xl font-extrabold leading-snug" style={{ color: NAVY }}>
+                      {detail.constructionTime ?? "—"}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ══════════════ THÁCH THỨC / GIẢI PHÁP / KẾT QUẢ ══════════════ */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+
+          {/* Thách thức */}
+          <Reveal>
+            <div className="h-full bg-white rounded-2xl border border-gray-200 border-l-4 shadow-sm p-6 sm:p-8" style={{ borderLeftColor: GOLD }}>
+              <div className="flex items-center gap-2.5 mb-4">
+                <span className="w-9 h-9 rounded-full bg-[#f5a623]/10 flex items-center justify-center flex-shrink-0">
+                  <ReportProblemIcon sx={{ fontSize: 18, color: GOLD }} />
+                </span>
+                <h3 className="text-lg font-extrabold text-[#0d2137]">Thách thức của dự án</h3>
+              </div>
+              <p className="text-gray-600 leading-relaxed text-base">{detail.challenge}</p>
+            </div>
+          </Reveal>
+
+          {/* Giải pháp */}
+          <Reveal delay={120}>
+            <div className="h-full bg-white rounded-2xl border border-gray-200 shadow-sm p-6 sm:p-8">
+              <div className="flex items-center gap-2.5 mb-4">
+                <span className="w-9 h-9 rounded-full bg-[#f5a623]/10 flex items-center justify-center flex-shrink-0">
+                  <EmojiObjectsIcon sx={{ fontSize: 18, color: GOLD }} />
+                </span>
+                <h3 className="text-lg font-extrabold text-[#0d2137]">Giải pháp của VIETHUNGSOLAR</h3>
+              </div>
+              <div className="flex flex-col gap-3">
+                {(detail.solutions ?? []).map((s, i) => (
+                  <div key={i} className="flex items-start gap-2.5">
+                    <CheckCircleIcon sx={{ fontSize: 18, color: GOLD, mt: "2px", flexShrink: 0 }} />
+                    <span className="text-gray-700 text-sm leading-relaxed">{s}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+
         </div>
+
+        {/* Kết quả */}
+        <Reveal>
+          <div className="rounded-2xl p-6 sm:p-8 lg:p-10" style={{ backgroundColor: NAVY }}>
+            <div className="flex items-center gap-2.5 mb-6">
+              <span className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: GOLD }}>
+                <EmojiEventsIcon sx={{ fontSize: 18, color: NAVY }} />
+              </span>
+              <h3 className="text-lg font-extrabold text-white">Kết quả</h3>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {(detail.results ?? []).map((r, i) => (
+                <div
+                  key={i}
+                  className="flex items-start gap-3 rounded-xl bg-white/[0.06] border border-white/10 px-4 py-3.5"
+                >
+                  <TaskAltIcon sx={{ fontSize: 20, color: GOLD, mt: "1px", flexShrink: 0 }} />
+                  <span className="text-white/85 text-sm leading-relaxed">{r}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Reveal>
       </section>
 
       {/* ══════════════ GALLERY ══════════════ */}

@@ -5,8 +5,11 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import BoltIcon from "@mui/icons-material/Bolt";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { type ProjectCategory, projects, projectsBreadcrumb, projectsPageHeader, projectTabs } from "../../data/projectData";
+import { type ProjectCategory, projects, projectTabs, projectsBreadcrumb } from "../../data/projectData";
+import { ctaBanner } from "../../data/dashBoardData";
 import { useScrollReveal } from "../../hooks/useScrollReveal";
+
+const GOLD = "#f6b918";
 
 // ─── Reveal wrapper ───────────────────────────────────────────
 function Reveal({
@@ -47,43 +50,68 @@ export default function ProjectsPage() {
   return (
     <div className="pt-[72px] bg-[#f3f4f6] min-h-screen">
 
-      {/* ══════════════ BREADCRUMB ══════════════ */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-          <nav className="flex items-center gap-1 text-sm">
-            {projectsBreadcrumb.map((crumb, i) => (
-              <span key={crumb.to} className="flex items-center gap-1">
-                {i > 0 && (
-                  <NavigateNextIcon sx={{ fontSize: 16, color: "#9ca3af" }} />
-                )}
-                {i < projectsBreadcrumb.length - 1 ? (
-                  <Link
-                    to={crumb.to}
-                    className="text-gray-500 hover:text-[#f5a623] no-underline transition-colors duration-200"
-                  >
-                    {crumb.label}
-                  </Link>
-                ) : (
-                  <span className="text-[#0d2137] font-medium">{crumb.label}</span>
-                )}
-              </span>
-            ))}
-          </nav>
-        </div>
-      </div>
+      {/* ══════════════════════ HERO ══════════════════════════ */}
+      <section className="relative flex flex-col overflow-hidden" style={{ minHeight: "420px" }}>
+        {/* Background */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url(https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1600&q=80)" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0d2137]/90 via-[#0d2137]/70 to-[#0d2137]/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0d2137]/80 via-transparent to-transparent" />
 
+        {/* Center text */}
+        <div className="relative z-10 flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
+          <div className="text-center max-w-2xl">
+            {/* Eyebrow */}
+            <div className="flex items-center justify-center gap-3 mb-4 animate-[fadeInUp_0.8s_ease_both]">
+              <span className="w-8 h-0.5" style={{ backgroundColor: GOLD }} />
+              <span className="text-xs font-semibold uppercase tracking-[0.2em]" style={{ color: GOLD }}>
+                Dự án tiêu biểu
+              </span>
+              <span className="w-8 h-0.5" style={{ backgroundColor: GOLD }} />
+            </div>
+
+            <h1
+              className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-4 animate-[fadeInUp_0.9s_0.1s_ease_both]"
+            >
+              {ctaBanner.headline}
+            </h1>
+            <p className="text-white/70 text-sm sm:text-base leading-relaxed animate-[fadeInUp_0.9s_0.2s_ease_both]">
+              {ctaBanner.description}
+            </p>
+          </div>
+        </div>
+
+        {/* Breadcrumb bar — pinned to bottom of hero */}
+        <div className="relative z-10 border-t border-white/10 bg-[#0d2137]/60 backdrop-blur-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <nav className="flex items-center gap-1 text-sm">
+              {projectsBreadcrumb.map((crumb, i) => (
+                <span key={crumb.to} className="flex items-center gap-1">
+                  {i > 0 && (
+                    <NavigateNextIcon sx={{ fontSize: 16, color: "rgba(255,255,255,0.4)" }} />
+                  )}
+                  {i < projectsBreadcrumb.length - 1 ? (
+                    <Link
+                      to={crumb.to}
+                      className="text-white/50 hover:text-white no-underline transition-colors duration-200"
+                    >
+                      {crumb.label}
+                    </Link>
+                  ) : (
+                    <span className="text-white font-semibold">{crumb.label}</span>
+                  )}
+                </span>
+              ))}
+            </nav>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════ PROJECT LIST ══════════════ */}
       <section className="py-12 sm:py-16 lg:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-          {/* ── Page header ── */}
-          <Reveal className="mb-8">
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#1c2f5c] mb-2 leading-tight">
-              {projectsPageHeader.headline}
-            </h1>
-            <p className="text-gray-500 text-base max-w-2xl">
-              {projectsPageHeader.description}
-            </p>
-          </Reveal>
 
           {/* ── Filter tabs ── */}
           <Reveal delay={80} className="mb-8">
@@ -124,8 +152,6 @@ export default function ProjectsPage() {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-
-                    {/* Status badge */}
                     <Chip
                       label={project.status}
                       size="small"
@@ -148,15 +174,12 @@ export default function ProjectsPage() {
                     <h3 className="text-[#0d2137] font-bold text-base leading-snug mb-3 group-hover:text-[#f5a623] transition-colors duration-200">
                       {project.title}
                     </h3>
-
                     <div className="flex flex-col gap-1.5 mb-4">
                       <div className="flex items-center gap-1.5 text-gray-500 text-xs">
                         <BoltIcon sx={{ fontSize: 14, color: "#f5a623" }} />
                         <span>
                           Công suất:{" "}
-                          <span className="font-semibold text-[#0d2137]">
-                            {project.capacity}
-                          </span>
+                          <span className="font-semibold text-[#0d2137]">{project.capacity}</span>
                         </span>
                       </div>
                       <div className="flex items-center gap-1.5 text-gray-500 text-xs">
@@ -164,8 +187,6 @@ export default function ProjectsPage() {
                         <span>{project.location}</span>
                       </div>
                     </div>
-
-                    {/* CTA */}
                     <div className="mt-auto pt-3 border-t border-gray-100">
                       <span className="flex items-center gap-1.5 text-[#f5a623] text-xs font-bold group-hover:gap-2.5 transition-all duration-200">
                         Xem chi tiết
@@ -188,6 +209,14 @@ export default function ProjectsPage() {
 
         </div>
       </section>
+
+      <style>{`
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(28px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+
     </div>
   );
 }

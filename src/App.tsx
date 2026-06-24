@@ -10,6 +10,7 @@ import ProjectDetailPage from "./pages/ProjectDetailPage/ProjectDetailPage";
 import SolutionPage from "./pages/SolutionPage/SolutionPage";
 import ScrollToTop from "./hooks/useScrollToTop";
 import ProductDetailPage from "./pages/ProductDetailPage/ProductDetailPage";
+import { ToastContainer } from "react-toastify";
 
 const App: React.FC = () => {
   return (
@@ -31,6 +32,7 @@ const App: React.FC = () => {
           {/* <Route path="/lien-he" element={<ContactPage />} /> */}
         </Route>
       </Routes>
+      <ToastContainer position="top-right" />
     </BrowserRouter>
   );
 };

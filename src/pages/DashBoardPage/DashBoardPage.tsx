@@ -8,9 +8,6 @@ import HeadsetMicIcon from "@mui/icons-material/HeadsetMic";
 import SearchIcon from "@mui/icons-material/Search";
 import DesignServicesIcon from "@mui/icons-material/DesignServices";
 import EngineeringIcon from "@mui/icons-material/Engineering";
-import SolarPowerIcon from "@mui/icons-material/SolarPower";
-import HandshakeIcon from "@mui/icons-material/Handshake";
-import StarIcon from "@mui/icons-material/Star";
 import DescriptionIcon from "@mui/icons-material/Description";
 import CalculateIcon from "@mui/icons-material/Calculate";
 import ArchitectureIcon from "@mui/icons-material/Architecture";
@@ -22,7 +19,6 @@ import {
   heroBadges,
   solutionsSection,
   solutionCards,
-  statsData,
   projectsSection,
   projectCards,
   processSection,
@@ -49,13 +45,6 @@ const solutionIconMap: Record<string, React.ReactNode> = {
   design_services: <DesignServicesIcon sx={{ fontSize: 28 }} />,
   engineering:     <EngineeringIcon    sx={{ fontSize: 28 }} />,
   headset_mic:     <HeadsetMicIcon     sx={{ fontSize: 28 }} />,
-};
-
-const statsIconMap: Record<string, React.ReactNode> = {
-  solar_power: <SolarPowerIcon sx={{ fontSize: 28 }} />,
-  bolt:        <BoltIcon       sx={{ fontSize: 28 }} />,
-  handshake:   <HandshakeIcon  sx={{ fontSize: 28 }} />,
-  star:        <StarIcon       sx={{ fontSize: 28 }} />,
 };
 
 const processIconMap: Record<string, React.ReactNode> = {
@@ -157,7 +146,7 @@ export default function HomePage() {
       {/* ══════════════════════ HERO ══════════════════════════ */}
       <section
         ref={heroRef}
-        className="relative min-h-screen flex flex-col justify-end overflow-hidden"
+        className="relative min-h-screen flex flex-col justify-center overflow-hidden"
       >
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -166,7 +155,7 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#0d2137]/90 via-[#0d2137]/70 to-[#0d2137]/40" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0d2137]/80 via-transparent to-transparent" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-36 pb-0 w-full">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 w-full">
           <div className="max-w-2xl">
             <div className="flex items-center gap-2 mb-5 animate-[fadeInUp_0.8s_ease_both]">
               <span className="w-6 h-0.5" style={{ backgroundColor: GOLD }} />
@@ -230,28 +219,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Hero badges bar */}
-        <div className="relative z-10 mt-12 sm:mt-16">
-          <div className="border-t border-white/10" style={{ backgroundColor: "#1c2f5c" }}>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-white/10">
-                {heroBadges.map((badge, i) => (
-                  <div
-                    key={badge.id}
-                    className="flex items-center gap-3 px-4 sm:px-6 py-4 sm:py-5 animate-[fadeInUp_0.8s_ease_both]"
-                    style={{ animationDelay: `${0.4 + i * 0.1}s`, color: GOLD }}
-                  >
-                    <span className="flex-shrink-0">{badgeIconMap[badge.icon]}</span>
-                    <div>
-                      <div className="text-white text-sm font-semibold leading-tight">{badge.title}</div>
-                      <div className="text-white/50 text-xs mt-0.5">{badge.description}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* ══════════════════════ SOLUTIONS ═════════════════════ */}
@@ -267,7 +234,6 @@ export default function HomePage() {
               <p className="text-gray-500 text-base leading-relaxed mb-6">
                 {solutionsSection.description}
               </p>
-              {/* "Tìm hiểu thêm" → /giai-phap */}
               <Button
                 variant="outlined"
                 onClick={() => navigate("/gioi-thieu")}
@@ -313,16 +279,19 @@ export default function HomePage() {
       </section>
 
       {/* ══════════════════════ STATS ═════════════════════════ */}
-      <section className="py-12 sm:py-14"  style={{ backgroundColor: "#1c2f5c" }}>
+      {/* Hiển thị heroBadges (Tiết kiệm / Hiệu suất / An toàn / Bảo hành) */}
+      <section className="py-12 sm:py-14" style={{ backgroundColor: "#1c2f5c" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-0 lg:divide-x lg:divide-white/10">
-            {statsData.map((stat, i) => (
-              <RevealItem key={stat.id} delay={i * 100} className="text-center lg:px-8">
-                <div className="flex justify-center mb-2" style={{ color: GOLD }}>
-                  {statsIconMap[stat.icon]}
+            {heroBadges.map((badge, i) => (
+              <RevealItem key={badge.id} delay={i * 100} className="text-center lg:px-8">
+                <div className="flex justify-center mb-3" style={{ color: GOLD }}>
+                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full" style={{ backgroundColor: `${GOLD}1A` }}>
+                    {badgeIconMap[badge.icon]}
+                  </span>
                 </div>
-                <div className="text-3xl sm:text-4xl font-extrabold text-white mb-1">{stat.value}</div>
-                <div className="text-white/50 text-sm">{stat.label}</div>
+                <div className="text-base font-bold text-white mb-1 leading-snug">{badge.title}</div>
+                <div className="text-white/50 text-xs">{badge.description}</div>
               </RevealItem>
             ))}
           </div>
@@ -340,7 +309,6 @@ export default function HomePage() {
                 {projectsSection.headline}
               </h2>
             </div>
-            {/* "Xem tất cả dự án" → /du-an */}
             <button
               onClick={() => navigate("/du-an")}
               className="flex items-center gap-1.5 font-semibold text-sm flex-shrink-0 transition-all duration-200 hover:gap-3"
@@ -417,7 +385,6 @@ export default function HomePage() {
                 </h2>
                 <p className="text-white/60 text-base max-w-xl">{ctaBanner.description}</p>
               </div>
-              {/* "Nhận tư vấn miễn phí" → /lien-he */}
               <Button
                 variant="contained"
                 onClick={() => navigate("/lien-he")}
