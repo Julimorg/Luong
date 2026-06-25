@@ -1,29 +1,37 @@
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import FlagIcon from "@mui/icons-material/Flag";
-import DiamondIcon from "@mui/icons-material/Diamond";
-import DesignServicesIcon from "@mui/icons-material/DesignServices";
-import ConstructionIcon from "@mui/icons-material/Construction";
-import SettingsIcon from "@mui/icons-material/Settings";
-import InventoryIcon from "@mui/icons-material/Inventory";
+import HomeIcon from "@mui/icons-material/Home";
+import BusinessIcon from "@mui/icons-material/Business";
+import FactoryIcon from "@mui/icons-material/Factory";
+import AgricultureIcon from "@mui/icons-material/Agriculture";
+import BatteryChargingFullIcon from "@mui/icons-material/BatteryChargingFull";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { aboutBreadcrumb, aboutIntro, aboutStats, aboutFieldsSection, aboutFields, aboutCta } from "../../data/aboutUsData";
+import {
+  aboutBreadcrumb,
+  aboutIntro,
+  aboutFieldsSection,
+  aboutFields,
+  aboutWhySection,
+  aboutCommitments,
+  aboutCta,
+  type AboutField,
+} from "../../data/aboutUsData";
 import { useScrollReveal } from "../../hooks/useScrollReveal";
 
-// ─── Icon maps ────────────────────────────────────────────────
-const valueIconMap: Record<string, React.ReactNode> = {
-  visibility: <VisibilityIcon sx={{ fontSize: 20 }} />,
-  flag: <FlagIcon sx={{ fontSize: 20 }} />,
-  diamond: <DiamondIcon sx={{ fontSize: 20 }} />,
-};
+// ─── Brand colors ─────────────────────────────────────────────
+const GOLD = "#f5a623";
+const NAVY = "#0d2137";
+const GREEN = "#22c55e";
 
-const fieldIconMap: Record<string, React.ReactNode> = {
-  design_services: <DesignServicesIcon sx={{ fontSize: 32 }} />,
-  construction: <ConstructionIcon sx={{ fontSize: 32 }} />,
-  settings: <SettingsIcon sx={{ fontSize: 32 }} />,
-  inventory: <InventoryIcon sx={{ fontSize: 32 }} />,
+// ─── Icon map ─────────────────────────────────────────────────
+const fieldIconMap: Record<AboutField["icon"], React.ReactNode> = {
+  home: <HomeIcon sx={{ fontSize: 30 }} />,
+  business: <BusinessIcon sx={{ fontSize: 30 }} />,
+  factory: <FactoryIcon sx={{ fontSize: 30 }} />,
+  agriculture: <AgricultureIcon sx={{ fontSize: 30 }} />,
+  battery: <BatteryChargingFullIcon sx={{ fontSize: 30 }} />,
 };
 
 // ─── Reveal wrapper ───────────────────────────────────────────
@@ -51,7 +59,7 @@ function RevealSection({
 }
 
 // ─── MAIN ─────────────────────────────────────────────────────
-export default function AboutPage() {
+export default function AboutUsPage() {
   return (
     <div className="pt-[72px]">
 
@@ -61,9 +69,7 @@ export default function AboutPage() {
           <nav className="flex items-center gap-1 text-sm">
             {aboutBreadcrumb.map((crumb, i) => (
               <span key={crumb.to} className="flex items-center gap-1">
-                {i > 0 && (
-                  <NavigateNextIcon sx={{ fontSize: 16, color: "#9ca3af" }} />
-                )}
+                {i > 0 && <NavigateNextIcon sx={{ fontSize: 16, color: "#9ca3af" }} />}
                 {i < aboutBreadcrumb.length - 1 ? (
                   <Link
                     to={crumb.to}
@@ -87,32 +93,20 @@ export default function AboutPage() {
 
             {/* Left — text */}
             <RevealSection>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0d2137] mb-4 leading-tight">
-                {aboutIntro.headline}
+              <div className="flex items-center gap-2 mb-3">
+                <span className="w-6 h-0.5" style={{ backgroundColor: GOLD }} />
+                <span className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: GOLD }}>
+                  {aboutIntro.eyebrow}
+                </span>
+              </div>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0d2137] mb-5 leading-tight tracking-tight">
+                {aboutIntro.brand}
               </h1>
-              <p className="text-gray-500 text-base leading-relaxed mb-8">
-                {aboutIntro.description}
-              </p>
-
-              {/* Values list */}
-              <div className="flex flex-col gap-5">
-                {aboutIntro.values.map((v, i) => (
-                  <RevealSection key={v.id} delay={i * 100}>
-                    <div className="flex gap-4 items-start group">
-                      {/* Icon */}
-                      <span className="flex-shrink-0 w-10 h-10 rounded-full bg-[#f5a623]/10 text-[#f5a623] flex items-center justify-center group-hover:bg-[#f5a623] group-hover:text-white transition-all duration-300">
-                        {valueIconMap[v.icon]}
-                      </span>
-                      <div>
-                        <div className="font-bold text-[#0d2137] text-sm mb-0.5">
-                          {v.label}
-                        </div>
-                        <div className="text-gray-500 text-sm leading-relaxed">
-                          {v.description}
-                        </div>
-                      </div>
-                    </div>
-                  </RevealSection>
+              <div className="flex flex-col gap-4">
+                {aboutIntro.paragraphs.map((p, i) => (
+                  <p key={i} className="text-gray-500 text-base leading-relaxed">
+                    {p}
+                  </p>
                 ))}
               </div>
             </RevealSection>
@@ -123,100 +117,127 @@ export default function AboutPage() {
                 <img
                   src={aboutIntro.image}
                   alt={aboutIntro.imageAlt}
-                  className="w-full h-[320px] sm:h-[400px] lg:h-[460px] object-cover"
+                  className="w-full h-[300px] sm:h-[380px] lg:h-[440px] object-cover"
                 />
-                {/* Subtle overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-[#0d2137]/20 to-transparent" />
-              </div>
-              {/* Floating badge */}
-              <div className="absolute -bottom-5 -left-5 hidden sm:flex items-center gap-3 bg-white rounded-xl shadow-lg px-4 py-3 border border-gray-100">
-                <span className="w-10 h-10 rounded-full bg-[#f5a623]/10 flex items-center justify-center text-[#f5a623] font-extrabold text-lg">
-                  10+
-                </span>
-                <div>
-                  <div className="text-[#0d2137] font-bold text-sm leading-tight">Năm kinh nghiệm</div>
-                  <div className="text-gray-400 text-xs">trong lĩnh vực năng lượng sạch</div>
-                </div>
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#0d2137]/25 to-transparent" />
               </div>
             </RevealSection>
+
           </div>
         </div>
       </section>
 
-      {/* ══════════════════ STATS BAR ══════════════════ */}
-      <section className="py-10 sm:py-12 bg-[#0d2137]">
+      {/* ══════════════════ LĨNH VỰC HOẠT ĐỘNG ══════════════════ */}
+      <section className="py-12 sm:py-14" style={{ backgroundColor: NAVY }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-0 lg:divide-x lg:divide-white/10">
-            {aboutStats.map((stat, i) => (
-              <RevealSection
-                key={stat.id}
-                delay={i * 80}
-                className="text-center lg:px-8"
-              >
-                <div className="text-3xl sm:text-4xl font-extrabold text-[#f5a623] mb-1">
-                  {stat.value}
-                </div>
-                <div className="text-white/60 text-sm">{stat.label}</div>
-              </RevealSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════ FIELDS OF OPERATION ══════════════════ */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <RevealSection className="mb-10">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0d2137]">
-              {aboutFieldsSection.headline}
-            </h2>
-            <div className="w-10 h-1 bg-[#f5a623] rounded-full mt-3" />
+          <RevealSection className="mb-8">
+            <div className="flex items-center gap-3">
+              <span className="w-8 h-0.5" style={{ backgroundColor: GOLD }} />
+              <h2 className="text-lg sm:text-xl font-extrabold uppercase tracking-wide text-white">
+                {aboutFieldsSection.headline}
+              </h2>
+            </div>
           </RevealSection>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {aboutFields.map((field, i) => (
-              <RevealSection key={field.id} delay={i * 100}>
-                <div className="group p-6 rounded-xl border border-gray-100 hover:border-[#f5a623]/30 hover:shadow-lg hover:shadow-[#f5a623]/8 transition-all duration-300 cursor-default h-full">
-                  {/* Icon */}
-                  <span className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gray-50 text-gray-400 group-hover:bg-[#f5a623]/10 group-hover:text-[#f5a623] transition-all duration-300 mb-4">
+              <RevealSection key={field.id} delay={i * 80}>
+                <div className="group flex flex-col items-center text-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-6 h-full hover:bg-white/[0.08] hover:border-[#f5a623]/40 transition-all duration-300">
+                  <span className="w-14 h-14 rounded-full bg-[#f5a623]/15 flex items-center justify-center text-[#f5a623] group-hover:bg-[#f5a623] group-hover:text-white transition-all duration-300">
                     {fieldIconMap[field.icon]}
                   </span>
-                  <h3 className="text-[#0d2137] font-bold text-base mb-2">
+                  <span className="text-white/90 text-sm font-semibold leading-snug">
                     {field.title}
-                  </h3>
-                  <p className="text-gray-500 text-sm leading-relaxed">
-                    {field.description}
-                  </p>
+                  </span>
                 </div>
               </RevealSection>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ══════════════════ VÌ SAO CHỌN ══════════════════ */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <RevealSection className="mb-8">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0d2137]">
+              {aboutWhySection.headline}
+            </h2>
+            <div className="w-10 h-1 rounded-full mt-3" style={{ backgroundColor: GOLD }} />
+          </RevealSection>
+
+          <RevealSection>
+            <div className="rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
+              {/* Header */}
+              <div className="grid grid-cols-1 sm:grid-cols-2" style={{ backgroundColor: NAVY }}>
+                <div className="px-5 sm:px-6 py-3.5 text-white text-xs font-bold uppercase tracking-wide">
+                  {aboutWhySection.colCommit}
+                </div>
+                <div className="hidden sm:block px-5 sm:px-6 py-3.5 text-white text-xs font-bold uppercase tracking-wide border-l border-white/10">
+                  {aboutWhySection.colValue}
+                </div>
+              </div>
+
+              {/* Rows */}
+              {aboutCommitments.map((row, i) => (
+                <div
+                  key={row.commit}
+                  className={`grid grid-cols-1 sm:grid-cols-2 border-t border-gray-100 ${
+                    i % 2 === 1 ? "bg-gray-50/60" : "bg-white"
+                  }`}
+                >
+                  {/* Commit */}
+                  <div className="flex items-start gap-2.5 px-5 sm:px-6 py-4">
+                    <CheckCircleIcon sx={{ fontSize: 18, color: GREEN, mt: "1px", flexShrink: 0 }} />
+                    <span className="text-[#0d2137] font-semibold text-sm leading-snug">
+                      {row.commit}
+                    </span>
+                  </div>
+                  {/* Value */}
+                  <div className="px-5 sm:px-6 pb-4 sm:py-4 sm:border-l border-gray-100 pl-[2.65rem] sm:pl-6">
+                    <span className="text-gray-500 text-sm leading-relaxed">{row.value}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </RevealSection>
         </div>
       </section>
 
       {/* ══════════════════ CTA BANNER ══════════════════ */}
-      <section className="relative overflow-hidden min-h-[200px] flex items-center">
-        {/* Background image */}
+      <section className="relative overflow-hidden flex items-center">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${aboutCta.backgroundImage})` }}
         />
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-[#0d2137]/75" />
+        <div className="absolute inset-0 bg-[#0d2137]/80" />
 
         <div className="relative z-10 w-full py-14 sm:py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <RevealSection className="flex flex-col sm:flex-row items-center justify-between gap-6">
-              <p className="text-white text-xl sm:text-2xl lg:text-3xl font-bold leading-snug max-w-2xl text-center sm:text-left">
-                {aboutCta.quote}
-              </p>
+            <RevealSection className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+              {/* Left: quote + tags */}
+              <div className="max-w-2xl">
+                <p className="text-white text-xl sm:text-2xl lg:text-3xl font-bold leading-snug mb-5">
+                  {aboutCta.quote}
+                </p>
+                <div className="flex flex-wrap gap-x-6 gap-y-2">
+                  {aboutCta.tags.map((tag) => (
+                    <span key={tag} className="flex items-center gap-1.5 text-white/85 text-sm font-medium">
+                      <CheckCircleIcon sx={{ fontSize: 16, color: GOLD }} />
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right: CTA button */}
               <Button
                 component={Link}
                 to={aboutCta.cta.to}
                 variant="contained"
                 endIcon={<ArrowForwardIcon />}
                 sx={{
-                  backgroundColor: "#f5a623",
+                  backgroundColor: GOLD,
                   color: "#fff",
                   fontWeight: 700,
                   fontSize: "0.9rem",
@@ -225,6 +246,7 @@ export default function AboutPage() {
                   px: 3.5,
                   py: 1.4,
                   flexShrink: 0,
+                  whiteSpace: "nowrap",
                   boxShadow: "0 4px 20px rgba(245,166,35,0.3)",
                   "&:hover": {
                     backgroundColor: "#e09410",

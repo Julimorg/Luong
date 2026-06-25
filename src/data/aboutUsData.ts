@@ -1,93 +1,89 @@
 // ============================================================
-// aboutUsData.ts — Cấu hình nội dung trang Giới thiệu
+// aboutUsData.ts — Dữ liệu trang Giới thiệu (About Us)
 // ============================================================
 
-// ---------- BREADCRUMB ----------
-export const aboutBreadcrumb = [
+export interface Crumb {
+  label: string;
+  to: string;
+}
+
+export interface AboutField {
+  id: string;
+  icon: "home" | "business" | "factory" | "agriculture" | "battery";
+  title: string;
+}
+
+export interface AboutCommitment {
+  commit: string; // Chúng tôi cam kết
+  value: string; // Giá trị khách hàng nhận được
+}
+
+export const aboutBreadcrumb: Crumb[] = [
   { label: "Trang chủ", to: "/" },
   { label: "Giới thiệu", to: "/gioi-thieu" },
 ];
 
-// ---------- INTRO ----------
 export const aboutIntro = {
-  headline: "Giới thiệu về Solartech",
-  description:
-    "Với hơn 10 năm kinh nghiệm trong lĩnh vực năng lượng mặt trời, Solartech tự hào là đối tác tin cậy của hàng nghìn khách hàng trên khắp cả nước.",
-  image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=900&q=80",
-  imageAlt: "Hệ thống năng lượng mặt trời Solartech",
-  values: [
-    {
-      id: 1,
-      icon: "visibility",
-      label: "Tầm nhìn",
-      description:
-        "Trở thành công ty hàng đầu trong lĩnh vực năng lượng tái tạo tại Việt Nam.",
-    },
-    {
-      id: 2,
-      icon: "flag",
-      label: "Sứ mệnh",
-      description:
-        "Mang đến giải pháp năng lượng sạch, hiệu quả và bền vững cho cộng đồng.",
-    },
-    {
-      id: 3,
-      icon: "diamond",
-      label: "Giá trị cốt lõi",
-      description: "Uy tín – Chất lượng – Hiệu quả – Bền vững.",
-    },
+  eyebrow: "GIỚI THIỆU",
+  brand: "VIETHUNGSOLAR",
+  paragraphs: [
+    "VIETHUNGSOLAR là thương hiệu thuộc CÔNG TY TNHH XÂY DỰNG VÀ THƯƠNG MẠI HÙNG VIỆT HƯNG, chuyên tư vấn, thiết kế và thi công hệ thống điện năng lượng mặt trời cho hộ gia đình, doanh nghiệp, nhà xưởng và trang trại.",
+    "Chúng tôi mang đến các giải pháp năng lượng sạch, giúp khách hàng tiết kiệm chi phí điện, tối ưu hiệu quả đầu tư và hướng tới phát triển bền vững.",
   ],
+  image:
+    "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1000&q=85",
+  imageAlt: "Hệ thống điện mặt trời VIETHUNGSOLAR",
 };
 
-// ---------- STATS ----------
-export const aboutStats = [
-  { id: 1, value: "10+", label: "Năm kinh nghiệm" },
-  { id: 2, value: "500+", label: "Dự án hoàn thành" },
-  { id: 3, value: "50MW+", label: "Công suất lắp đặt" },
-  { id: 4, value: "300+", label: "Khách hàng" },
-];
-
-// ---------- FIELDS OF OPERATION ----------
 export const aboutFieldsSection = {
-  headline: "Lĩnh vực hoạt động",
+  headline: "LĨNH VỰC HOẠT ĐỘNG",
 };
 
-export const aboutFields = [
+export const aboutFields: AboutField[] = [
+  { id: "ho-gia-dinh", icon: "home", title: "Điện mặt trời hộ gia đình" },
+  { id: "doanh-nghiep", icon: "business", title: "Điện mặt trời doanh nghiệp" },
+  { id: "nha-xuong", icon: "factory", title: "Điện mặt trời nhà xưởng" },
+  { id: "trang-trai", icon: "agriculture", title: "Điện mặt trời trang trại" },
+  { id: "luu-tru", icon: "battery", title: "Giải pháp lưu trữ năng lượng" },
+];
+
+export const aboutWhySection = {
+  headline: "VÌ SAO CHỌN VIETHUNGSOLAR?",
+  colCommit: "CHÚNG TÔI CAM KẾT",
+  colValue: "GIÁ TRỊ KHÁCH HÀNG NHẬN ĐƯỢC",
+};
+
+export const aboutCommitments: AboutCommitment[] = [
   {
-    id: 1,
-    icon: "design_services",
-    title: "Tư vấn & thiết kế",
-    description:
-      "Giải pháp tối ưu phù hợp với nhu cầu khách hàng.",
+    commit: "Khảo sát thực tế trước khi thiết kế",
+    value: "Giải pháp phù hợp với nhu cầu sử dụng và ngân sách.",
   },
   {
-    id: 2,
-    icon: "construction",
-    title: "Thi công & lắp đặt",
-    description:
-      "Thi công chuyên nghiệp, đảm bảo chất lượng.",
+    commit: "Thiết kế tối ưu theo từng công trình",
+    value: "Tăng hiệu quả đầu tư và khả năng vận hành lâu dài.",
   },
   {
-    id: 3,
-    icon: "settings",
-    title: "Vận hành & bảo trì",
-    description:
-      "Bảo trì định kỳ, đảm bảo hệ thống vận hành ổn định.",
+    commit: "Thi công đúng quy trình kỹ thuật",
+    value: "Đảm bảo an toàn, tính thẩm mỹ và độ bền hệ thống.",
   },
   {
-    id: 4,
-    icon: "inventory",
-    title: "Cung cấp thiết bị",
-    description:
-      "Thiết bị chính hãng, chất lượng đến từ các thương hiệu uy tín.",
+    commit: "Sử dụng thiết bị chính hãng",
+    value: "Hiệu suất ổn định và nguồn gốc minh bạch.",
+  },
+  {
+    commit: "Chính sách bảo hành rõ ràng",
+    value: "An tâm trong quá trình sử dụng.",
+  },
+  {
+    commit: "Hỗ trợ kỹ thuật sau bàn giao",
+    value: "Đồng hành cùng khách hàng trong suốt vòng đời hệ thống.",
   },
 ];
 
-// ---------- CTA BANNER ----------
 export const aboutCta = {
+  quote: "Sẵn sàng đồng hành cùng bạn trên hành trình năng lượng xanh.",
+  tags: ["Tư vấn tận tâm", "Giải pháp tối ưu", "Hiệu quả bền vững"],
+  cta: { label: "Nhận tư vấn miễn phí", to: "/lien-he" },
   backgroundImage:
-    "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1600&q=80",
-  quote:
-    "Solartech cam kết mang đến giá trị bền vững và góp phần xây dựng tương lai xanh.",
-  cta: { label: "Liên hệ với chúng tôi", to: "/lien-he" },
+    "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80",
 };
