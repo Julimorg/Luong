@@ -14,8 +14,8 @@ export interface AboutField {
 }
 
 export interface AboutCommitment {
-  commit: string; // Chúng tôi cam kết
-  value: string; // Giá trị khách hàng nhận được
+  commit: string;
+  value: string; 
 }
 
 export const aboutBreadcrumb: Crumb[] = [
