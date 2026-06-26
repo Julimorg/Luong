@@ -1,6 +1,9 @@
+import { useRef, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useScrollReveal } from "../../hooks/useScrollReveal";
 import {
   products,
@@ -33,49 +36,131 @@ function Reveal({ children, delay = 0, className = "" }: {
   );
 }
 
-// ─── Product Card ─────────────────────────────────────────────
+// ─── Product Card (catalog style) ─────────────────────────────
 function ProductCard({ product }: { product: Product }) {
   const navigate   = useNavigate();
   const brandColor = product.brandColor ?? GOLD;
 
   return (
-    <div className="group bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg hover:shadow-gray-200/80 hover:-translate-y-1 transition-all duration-300 flex flex-col h-full">
-
-      {/* Image */}
-      <div className="relative bg-gray-50 overflow-hidden" style={{ height: 180 }}>
+    <div
+      onClick={() => navigate(`/san-pham/${product.id}`)}
+      className="group h-full bg-white rounded-2xl border border-gray-100 shadow-lg shadow-gray-200/70 hover:shadow-2xl hover:shadow-gray-300/60 hover:border-gray-200 hover:-translate-y-1.5 transition-all duration-300 cursor-pointer flex flex-col overflow-hidden"
+    >
+      {/* Image — nền gradient nhạt để thiết bị nổi bật, object-contain để thấy trọn */}
+      <div className="bg-gradient-to-b from-slate-50 to-slate-100 flex items-center justify-center p-5" style={{ height: 190 }}>
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          draggable={false}
+          className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500"
         />
       </div>
 
       {/* Body */}
-      <div className="p-4 flex flex-col flex-1">
-        <p className="text-sm font-extrabold mb-1 tracking-wide" style={{ color: brandColor }}>
-          {product.brand}
-        </p>
-        <h3 className="font-bold text-sm leading-snug mb-3 text-gray-800 group-hover:text-[#1c2f5c] transition-colors duration-200 line-clamp-2">
+      <div className="px-5 pb-5 pt-4 flex flex-col flex-1 text-center border-t border-gray-50">
+        <h3 className="font-bold text-sm uppercase leading-snug text-[#1c2f5c] mb-3 min-h-[2.5rem] line-clamp-2 group-hover:text-[#f6b918] transition-colors duration-200">
           {product.name}
         </h3>
-        <div className="flex flex-col gap-1.5 mb-4">
+        <div className="flex flex-col gap-1 text-sm text-gray-500 mt-auto">
           {product.specs.map((s) => (
-            <div key={s.label} className="flex items-center justify-between text-xs text-gray-500">
-              <span>{s.label}:</span>
-              <span className="font-semibold text-gray-700">{s.value}</span>
-            </div>
+            <p key={s.label}>
+              {s.label}: <span className="font-bold text-gray-800">{s.value}</span>
+            </p>
           ))}
-        </div>
-        <div className="mt-auto">
-          <button
-            onClick={() => navigate(`/san-pham/${product.id}`)}
-            className="w-full flex items-center justify-center gap-1.5 border border-gray-300 hover:border-[#1c2f5c] hover:bg-[#1c2f5c] hover:text-white text-gray-700 text-xs font-semibold py-2.5 rounded-lg transition-all duration-200"
-          >
-            Xem chi tiết
-            <NavigateNextOutlinedIcon sx={{ fontSize: 14 }} />
-          </button>
+          <p>
+            Thương hiệu: <span className="font-bold" style={{ color: brandColor }}>{product.brand}</span>
+          </p>
         </div>
       </div>
+    </div>
+  );
+}
+
+// ─── Product Carousel (mũi tên + kéo thả) ─────────────────────
+function ProductCarousel({ items }: { items: Product[] }) {
+  const ref  = useRef<HTMLDivElement>(null);
+  const drag = useRef({ active: false, startX: 0, startLeft: 0, moved: false });
+  const [canLeft, setCanLeft]   = useState(false);
+  const [canRight, setCanRight] = useState(false);
+
+  const update = () => {
+    const el = ref.current;
+    if (!el) return;
+    setCanLeft(el.scrollLeft > 4);
+    setCanRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
+  };
+
+  useEffect(() => {
+    update();
+    const el = ref.current;
+    if (!el) return;
+    const onResize = () => update();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const scrollByDir = (dir: number) => {
+    const el = ref.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: "smooth" });
+  };
+
+  // Kéo thả bằng chuột (desktop); mobile dùng cuộn cảm ứng sẵn có
+  const onMouseDown = (e: React.MouseEvent) => {
+    const el = ref.current;
+    if (!el) return;
+    drag.current = { active: true, startX: e.pageX, startLeft: el.scrollLeft, moved: false };
+  };
+  const onMouseMove = (e: React.MouseEvent) => {
+    const el = ref.current;
+    if (!el || !drag.current.active) return;
+    const dx = e.pageX - drag.current.startX;
+    if (Math.abs(dx) > 5) drag.current.moved = true;
+    el.scrollLeft = drag.current.startLeft - dx;
+  };
+  const stop = () => { drag.current.active = false; };
+
+  const arrowBase =
+    "absolute top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-[#1c2f5c] hover:bg-[#f6b918] text-white shadow-lg flex items-center justify-center transition-colors duration-200";
+
+  return (
+    <div className="relative">
+      {canLeft && (
+        <button aria-label="Trước" onClick={() => scrollByDir(-1)} className={`${arrowBase} left-0 -translate-x-1/2`}>
+          <ChevronLeftIcon />
+        </button>
+      )}
+
+      <div
+        ref={ref}
+        onScroll={update}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={stop}
+        onMouseLeave={stop}
+        onClickCapture={(e) => {
+          // Nếu vừa kéo thì chặn click (không điều hướng vào sản phẩm)
+          if (drag.current.moved) {
+            e.stopPropagation();
+            drag.current.moved = false;
+          }
+        }}
+        className="flex gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-2 cursor-grab active:cursor-grabbing"
+        style={{ scrollbarWidth: "none" }}
+      >
+        {items.map((product) => (
+          <div key={product.id} className="snap-start shrink-0 w-[240px] sm:w-[256px]">
+            <ProductCard product={product} />
+          </div>
+        ))}
+      </div>
+
+      {canRight && (
+        <button aria-label="Sau" onClick={() => scrollByDir(1)} className={`${arrowBase} right-0 translate-x-1/2`}>
+          <ChevronRightIcon />
+        </button>
+      )}
     </div>
   );
 }
@@ -84,52 +169,29 @@ function ProductCard({ product }: { product: Product }) {
 function CategorySection({ section }: { section: typeof productSections[number] }) {
   const items = products.filter((p) => p.category === section.id);
 
-  // Tấm pin: 6 col, inverter: 4 col, pin: 4 col
-  const gridCols =
-    section.id === "tam-pin"
-      ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-6"
-      : "grid-cols-2 sm:grid-cols-2 lg:grid-cols-4";
-
   return (
     <div className="mb-12">
-      {/* Section header */}
+      {/* Section header (đã bỏ "Xem tất cả") */}
       <Reveal>
-        <div className="flex items-center justify-between mb-5 pb-3 border-b border-gray-100">
-          <div className="flex items-center gap-3">
-            <div>
-              <h2 className="text-base sm:text-lg font-extrabold uppercase text-[#f6b918] leading-tight">
-                {section.title}
-              </h2>
-              <div className="h-[2px] w-10 rounded-full mt-1" style={{ backgroundColor: GOLD }} />
-            </div>
-          </div>
-          {section.viewAll && (
-            <Link
-              to={section.viewAll}
-              className="flex items-center gap-0.5 text-sm text-gray-500 hover:text-[#f6b918] no-underline transition-colors duration-200 flex-shrink-0"
-            >
-              Xem tất cả
-              <NavigateNextIcon sx={{ fontSize: 18 }} />
-            </Link>
-          )}
+        <div className="mb-5 pb-3 border-b border-gray-100">
+          <h2 className="text-base sm:text-lg font-extrabold uppercase text-[#f6b918] leading-tight">
+            {section.title}
+          </h2>
+          <div className="h-[2px] w-10 rounded-full mt-1" style={{ backgroundColor: GOLD }} />
         </div>
       </Reveal>
 
-      {/* Cards */}
-      <div className={`grid ${gridCols} gap-4`}>
-        {items.map((product, i) => (
-          <Reveal key={product.id} delay={i * 60}>
-            <ProductCard product={product} />
-          </Reveal>
-        ))}
-      </div>
+      {/* Carousel */}
+      <Reveal>
+        <ProductCarousel items={items} />
+      </Reveal>
     </div>
   );
 }
 
 // ─── MAIN ─────────────────────────────────────────────────────
 export default function ProductsPage() {
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
   const { ref: ctaRef, isVisible: ctaVisible } = useScrollReveal({ threshold: 0.1 });
 
   return (
@@ -137,7 +199,6 @@ export default function ProductsPage() {
 
       {/* ══ HERO ══ */}
       <div className="relative pt-[72px] overflow-hidden">
-        {/* Ảnh nền thật, không filter màu */}
         <img
           src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1600&q=85"
           alt=""
@@ -147,7 +208,6 @@ export default function ProductsPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#0d2137]/92 via-[#0d2137]/72 to-[#0d2137]/25" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 text-center">
-          {/* Badge line */}
           <div className="flex items-center justify-center gap-2 mb-4">
             <span className="w-6 h-0.5" style={{ backgroundColor: GOLD }} />
             <span className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: GOLD }}>
@@ -163,7 +223,7 @@ export default function ProductsPage() {
           </p>
         </div>
 
-        {/* Breadcrumb — nằm ngay dưới hero, nền hơi sáng hơn */}
+        {/* Breadcrumb */}
         <div className="relative z-10 border-t border-white/10 bg-white/5 backdrop-blur-sm">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5">
             <nav className="flex items-center gap-0.5 text-sm">
@@ -194,46 +254,45 @@ export default function ProductsPage() {
         ))}
       </div>
 
-      {/* ══ CTA BANNER ══ */}
-      <div
-        ref={ctaRef}
-        className={`mx-4 sm:mx-6 lg:mx-8 xl:mx-auto max-w-7xl mb-12 rounded-2xl overflow-hidden transition-all duration-700 ease-out ${
-          ctaVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        }`}
-        style={{ backgroundColor: NAVY }}
-      >
-        <div className="px-6 py-10 sm:px-10 lg:px-14 flex flex-col lg:flex-row items-start lg:items-center gap-8">
+      {/* ══ CTA BANNER (full-bleed, kiểu trang chủ) ══ */}
+      <section className="relative overflow-hidden" style={{ minHeight: 180 }}>
+        <img
+          src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1600&q=80"
+          alt=""
+          aria-hidden
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#1c2f5c]/92 via-[#1c2f5c]/75 to-[#1c2f5c]/30" />
 
-          {/* Left text */}
-          <div className="flex-1">
-            <h2 className="text-xl sm:text-2xl font-extrabold text-white leading-snug mb-2">
-              {productCtaBanner.headline}
-            </h2>
-            <p className="text-white/50 text-sm">{productCtaBanner.description}</p>
+        <div
+          ref={ctaRef}
+          className={`relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16 transition-all duration-700 ease-out ${
+            ctaVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-10">
+            <div className="text-center lg:text-left">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white mb-2 leading-snug">
+                {productCtaBanner.headline}
+              </h2>
+              <p className="text-white/60 text-base max-w-xl">{productCtaBanner.description}</p>
+            </div>
             <button
               onClick={() => navigate("/lien-he")}
-              className="mt-5 inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-bold text-white transition-all duration-200"
-              style={{ backgroundColor: GOLD }}
+              className="flex-shrink-0 inline-flex items-center gap-2 px-7 py-3.5 rounded-lg text-sm font-bold text-white transition-all duration-200 hover:-translate-y-0.5"
+              style={{ backgroundColor: GOLD, boxShadow: `0 4px 20px ${GOLD}55` }}
             >
               {productCtaBanner.cta.label}
+              <ArrowForwardIcon sx={{ fontSize: 18 }} />
             </button>
           </div>
-
-          {/* Right badges */}
-          <div className="flex flex-col sm:flex-row gap-6 lg:gap-8 flex-shrink-0">
-            {productCtaBanner.badges.map((b) => (
-              <div key={b.title} className="flex items-center gap-3 text-white">
-                <span className="text-2xl">{b.icon}</span>
-                <div>
-                  <p className="text-sm font-bold">{b.title}</p>
-                  <p className="text-xs text-white/50 mt-0.5">{b.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
-      </div>
+      </section>
 
+      <style>{`
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
     </div>
   );
 }

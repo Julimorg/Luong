@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import SavingsIcon from "@mui/icons-material/Savings";
@@ -8,11 +8,6 @@ import HeadsetMicIcon from "@mui/icons-material/HeadsetMic";
 import SearchIcon from "@mui/icons-material/Search";
 import DesignServicesIcon from "@mui/icons-material/DesignServices";
 import EngineeringIcon from "@mui/icons-material/Engineering";
-import DescriptionIcon from "@mui/icons-material/Description";
-import CalculateIcon from "@mui/icons-material/Calculate";
-import ArchitectureIcon from "@mui/icons-material/Architecture";
-import ConstructionIcon from "@mui/icons-material/Construction";
-import SettingsIcon from "@mui/icons-material/Settings";
 import { useNavigate } from "react-router-dom";
 import {
   heroData,
@@ -21,9 +16,10 @@ import {
   solutionCards,
   projectsSection,
   projectCards,
-  processSection,
-  processSteps,
+  featuredBrandsSection,
+  featuredBrands,
   ctaBanner,
+  type FeaturedBrand,
 } from "../../data/dashBoardData";
 import { useScrollReveal } from "../../hooks/useScrollReveal";
 
@@ -45,14 +41,6 @@ const solutionIconMap: Record<string, React.ReactNode> = {
   design_services: <DesignServicesIcon sx={{ fontSize: 28 }} />,
   engineering:     <EngineeringIcon    sx={{ fontSize: 28 }} />,
   headset_mic:     <HeadsetMicIcon     sx={{ fontSize: 28 }} />,
-};
-
-const processIconMap: Record<string, React.ReactNode> = {
-  description: <DescriptionIcon sx={{ fontSize: 26 }} />,
-  calculate:   <CalculateIcon   sx={{ fontSize: 26 }} />,
-  architecture:<ArchitectureIcon sx={{ fontSize: 26 }} />,
-  construction:<ConstructionIcon sx={{ fontSize: 26 }} />,
-  settings:    <SettingsIcon    sx={{ fontSize: 26 }} />,
 };
 
 // ─── Reveal wrappers ─────────────────────────────────────────
@@ -103,17 +91,12 @@ function SectionEyebrow({ text }: { text: string }) {
 function ProjectCard({ project }: { project: typeof projectCards[number] }) {
   return (
     <div className="group relative rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer aspect-[4/3]">
-      {/* Image — always full cover */}
       <img
         src={project.image}
         alt={project.title}
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
       />
-
-      {/* Static dark gradient — bottom always slightly visible */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-
-      {/* Hover info panel — slides up from bottom */}
       <div
         className="
           absolute inset-x-0 bottom-0
@@ -130,6 +113,97 @@ function ProjectCard({ project }: { project: typeof projectCards[number] }) {
           <BoltIcon sx={{ fontSize: 14, color: GOLD }} />
           <span className="text-white/70 text-xs">Công suất: {project.capacity}</span>
         </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Brand logo: CHỈ hiện ảnh (không khung, không chữ); ảnh lỗi thì ẩn ──
+function BrandLogo({ brand }: { brand: FeaturedBrand }) {
+  const [err, setErr] = useState(false);
+  if (err || !brand.logo) return null;
+  return (
+    <div className="flex-shrink-0 w-44 sm:w-52 h-28 mx-4 sm:mx-8 flex items-center justify-center">
+      <img
+        src={brand.logo}
+        alt={brand.name}
+        draggable={false}
+        loading="lazy"
+        referrerPolicy="no-referrer"
+        onError={() => setErr(true)}
+        className="max-h-16 max-w-full object-contain"
+      />
+    </div>
+  );
+}
+
+// ─── Brands marquee: tự chạy + kéo thả ───────────────────────
+function BrandsMarquee({ brands }: { brands: FeaturedBrand[] }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const drag = useRef({ active: false, startX: 0, startLeft: 0 });
+  const paused = useRef(false);
+  const items = [...brands, ...brands]; // nhân đôi để chạy liền mạch
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    let raf = 0;
+    const tick = () => {
+      if (el && !paused.current && !drag.current.active) {
+        el.scrollLeft += 0.5;
+        const half = el.scrollWidth / 2;
+        if (el.scrollLeft >= half) el.scrollLeft -= half;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  const wrap = (el: HTMLDivElement) => {
+    const half = el.scrollWidth / 2;
+    if (el.scrollLeft <= 0) el.scrollLeft += half;
+    else if (el.scrollLeft >= half) el.scrollLeft -= half;
+  };
+
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = ref.current;
+    if (!el) return;
+    drag.current = { active: true, startX: e.clientX, startLeft: el.scrollLeft };
+    el.setPointerCapture(e.pointerId);
+  };
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = ref.current;
+    if (!el || !drag.current.active) return;
+    el.scrollLeft = drag.current.startLeft - (e.clientX - drag.current.startX);
+    wrap(el);
+  };
+  const endDrag = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = ref.current;
+    drag.current.active = false;
+    el?.releasePointerCapture?.(e.pointerId);
+  };
+
+  return (
+    <div className="relative">
+      {/* fade 2 mép */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-12 sm:w-20 z-10 bg-gradient-to-r from-white to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-12 sm:w-20 z-10 bg-gradient-to-l from-white to-transparent" />
+
+      <div
+        ref={ref}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+        onMouseEnter={() => (paused.current = true)}
+        onMouseLeave={() => (paused.current = false)}
+        className="flex overflow-x-hidden select-none cursor-grab active:cursor-grabbing py-3"
+        style={{ touchAction: "pan-y" }}
+      >
+        {items.map((b, i) => (
+          <BrandLogo key={`${b.id}-${i}`} brand={b} />
+        ))}
       </div>
     </div>
   );
@@ -279,7 +353,6 @@ export default function HomePage() {
       </section>
 
       {/* ══════════════════════ STATS ═════════════════════════ */}
-      {/* Hiển thị heroBadges (Tiết kiệm / Hiệu suất / An toàn / Bảo hành) */}
       <section className="py-12 sm:py-14" style={{ backgroundColor: "#1c2f5c" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-0 lg:divide-x lg:divide-white/10">
@@ -301,7 +374,6 @@ export default function HomePage() {
       {/* ══════════════════════ PROJECTS ══════════════════════ */}
       <section id="projects" className="py-16 sm:py-20 lg:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header */}
           <RevealSection className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
             <div>
               <SectionEyebrow text={projectsSection.eyebrow} />
@@ -319,7 +391,6 @@ export default function HomePage() {
             </button>
           </RevealSection>
 
-          {/* Cards — ảnh only + hover reveal */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {projectCards.map((project, i) => (
               <RevealItem key={project.id} delay={i * 100}>
@@ -330,42 +401,31 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ══════════════════════ PROCESS ═══════════════════════ */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-white">
+      {/* ══════════════════════ NHÃN HÀNG NỔI BẬT (swiper kéo thả) ══════════════════════ */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <RevealSection className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-extrabold" style={{ color: NAVY }}>
-              {processSection.headline}
-            </h2>
-          </RevealSection>
-
-          <div className="relative">
-            {/* Connector line desktop */}
-            <div className="hidden lg:block absolute top-10 left-[calc(10%+28px)] right-[calc(10%+28px)] h-0.5 bg-gray-100 z-0" />
-            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-6 lg:gap-4">
-              {processSteps.map((step, i) => (
-                <RevealItem key={step.id} delay={i * 100} className="relative z-10">
-                  <div className="flex flex-col items-center text-center group">
-                    <div
-                      className="w-16 h-16 rounded-full bg-gray-50 border-2 border-gray-100 flex items-center justify-center text-gray-400 transition-all duration-300 mb-3 relative"
-                      style={{ ["--tw-border-opacity" as string]: "1" }}
-                    >
-                      {processIconMap[step.icon]}
-                      <span
-                        className="absolute -top-1 -right-1 w-5 h-5 rounded-full text-white text-[10px] font-bold flex items-center justify-center"
-                        style={{ backgroundColor: GOLD }}
-                      >
-                        {step.id}
-                      </span>
-                    </div>
-                    <h3 className="font-bold text-sm mb-1.5" style={{ color: NAVY }}>{step.title}</h3>
-                    <p className="text-gray-500 text-xs leading-relaxed">{step.description}</p>
-                  </div>
-                </RevealItem>
-              ))}
+          <RevealSection className="text-center mb-10">
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <span className="w-6 h-0.5" style={{ backgroundColor: GOLD }} />
+              <span className="text-xs font-semibold uppercase tracking-[0.15em]" style={{ color: GOLD }}>
+                {featuredBrandsSection.eyebrow}
+              </span>
+              <span className="w-6 h-0.5" style={{ backgroundColor: GOLD }} />
             </div>
-          </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold" style={{ color: NAVY }}>
+              {featuredBrandsSection.headline}
+            </h2>
+            <p className="text-gray-500 text-base mt-3 max-w-2xl mx-auto">
+              {featuredBrandsSection.description}
+            </p>
+          </RevealSection>
         </div>
+
+        <RevealSection>
+          <div className="max-w-7xl mx-auto px-2 sm:px-4">
+            <BrandsMarquee brands={featuredBrands} />
+          </div>
+        </RevealSection>
       </section>
 
       {/* ══════════════════════ CTA BANNER ════════════════════ */}
@@ -417,7 +477,6 @@ export default function HomePage() {
           from { opacity: 0; transform: translateY(28px); }
           to   { opacity: 1; transform: translateY(0); }
         }
-        [style*="animationDelay"] { animation-fill-mode: both; }
         .duration-400 { transition-duration: 400ms; }
       `}</style>
     </div>

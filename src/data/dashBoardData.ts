@@ -138,7 +138,62 @@ export const projectCards = [
   },
 ];
 
-// ---------- PROCESS STEPS ----------
+// ---------- FEATURED BRANDS (Nhãn hàng nổi bật) ----------
+export const featuredBrandsSection = {
+  eyebrow: "Đối tác & Thương hiệu",
+  headline: "Các nhãn hàng nổi bật của chúng tôi",
+  description:
+    "VIETHUNGSOLAR hợp tác và phân phối thiết bị từ các thương hiệu năng lượng mặt trời hàng đầu thế giới.",
+};
+
+export interface FeaturedBrand {
+  id: number;
+  name: string;
+  logo: string; // đặt logo vào /public/brands/... — nếu thiếu sẽ hiện tên hãng
+}
+
+// ⚠️ VÌ SAO LOGO QUA URL HAY KHÔNG HIỆN:
+//  • net::ERR_BLOCKED_BY_CLIENT  → trình chặn quảng cáo/extension chặn request
+//    (clearbit, logo.dev... nằm trong blocklist tracker). Khách có adblock cũng sẽ KHÔNG thấy.
+//  • logo.clearbit.com đã NGỪNG hoạt động từ 01/12/2025 → luôn lỗi.
+//
+// ✅ CÁCH CHẮC ĂN: tải logo về thư mục public/brands/ rồi trỏ "/brands/<ten>.png".
+//    Ảnh cùng domain với web nên KHÔNG bao giờ bị adblock/hotlink/CORS chặn.
+//
+// (Muốn xem tạm bằng URL ít bị adblock chặn nhất — chỉ ra icon nhỏ — đổi sang Google favicon:
+//    const logoUrl = (d: string) => `https://www.google.com/s2/favicons?domain=${d}&sz=128`;
+//    rồi dùng  logo: logoUrl("jasolar.com")  )
+export const featuredBrands: FeaturedBrand[] = [
+  // ── Tấm pin (Solar panels) ──
+  { id: 1,  name: "JA Solar",        logo: "/logo/hello.png" },
+  { id: 2,  name: "JinkoSolar",      logo: "/logo/hello.png" },
+  { id: 3,  name: "Trina Solar",     logo: "/logo/hello.png" },
+  { id: 4,  name: "Canadian Solar",  logo: "/logo/hello.png" },
+  { id: 5,  name: "LONGi Solar",     logo: "/logo/hello.png" },
+  { id: 6,  name: "Hanwha Q CELLS",  logo: "/logo/hello.png" },
+  { id: 7,  name: "REC Group",       logo: "/logo/hello.png" },
+  { id: 8,  name: "SunPower",        logo: "/logo/hello.png" },
+  { id: 9,  name: "First Solar",     logo: "/logo/hello.png" },
+  { id: 10, name: "Risen Energy",    logo: "/logo/hello.png" },
+
+  // ── Inverter (Biến tần) ──
+  { id: 11, name: "Huawei FusionSolar", logo: "/logo/hello.png" },
+  { id: 12, name: "Sungrow",         logo: "/logo/hello.png" },
+  { id: 13, name: "SMA",             logo: "/logo/hello.png" },
+  { id: 14, name: "Fronius",         logo: "/logo/hello.png" },
+  { id: 15, name: "GoodWe",          logo: "/logo/hello.png" },
+  { id: 16, name: "Growatt",         logo: "/logo/hello.png" },
+  { id: 17, name: "Solis",           logo: "/logo/hello.png" },
+  { id: 18, name: "Schneider Electric", logo: "/logo/hello.png" },
+
+  // ── Lưu trữ (Battery / ESS) ──
+  { id: 19, name: "BYD",             logo: "/logo/hello.png" },
+  { id: 20, name: "LG Energy Solution", logo: "/logo/hello.png" },
+  { id: 21, name: "Victron Energy",  logo: "/logo/hello.png" },
+  { id: 22, name: "Tesla",           logo: "/logo/hello.png" },
+];
+
+// ---------- PROCESS STEPS (không còn dùng ở trang chủ) ----------
 export const processSection = {
   headline: "5 bước đơn giản",
 };

@@ -1,19 +1,63 @@
 // ============================================================
-// solutionData.ts — Cấu hình nội dung section Giải pháp NLMT
+// solutionData.ts — Cấu hình nội dung trang Giải pháp NLMT
 // ============================================================
 
 export type Accent = "amber" | "navy";
-export type SolutionIcon = "home" | "building";
+export type SolutionIcon = "home" | "building" | "factory" | "industrial";
 export type TrustIcon    = "shield" | "award" | "coins" | "headset";
+export type DiagramType  = "on-grid" | "hybrid" | "off-grid";
 
-// ---------- SECTION HEADER ----------
+// ---------- PAGE HEADER ----------
 export const solutionHeader = {
-  badge:             "Giải pháp toàn diện",
-  headlineLead:      "Giải pháp",
-  headlineHighlight: "năng lượng mặt trời",
+  badge:       "Giải pháp toàn diện",
+  headline:    "Giải pháp năng lượng mặt trời cho mọi nhu cầu",
   description:
-    "VIETHUNGSOLAR cung cấp giải pháp năng lượng mặt trời tối ưu, phù hợp với mọi nhu cầu từ hộ gia đình đến doanh nghiệp.",
+    "VIETHUNGSOLAR cung cấp giải pháp năng lượng mặt trời tối ưu, phù hợp với mọi nhu cầu từ hộ gia đình, doanh nghiệp đến nhà máy và khu công nghiệp.",
+  ctaPrimary:   { label: "Nhận tư vấn miễn phí", to: "/lien-he" },
+  ctaSecondary: { label: "Xem dự án",            to: "/du-an" },
 };
+
+// Card highlight bên phải hero
+export const solutionHighlights: { icon: string; title: string; desc: string }[] = [
+  { icon: "coins",   title: "Tiết kiệm chi phí",     desc: "Giảm đến 90% hóa đơn tiền điện" },
+  { icon: "bolt",    title: "Hiệu suất vượt trội",   desc: "Công nghệ hiện đại, tối ưu sản lượng" },
+  { icon: "shield",  title: "Đảm bảo an toàn",       desc: "Thiết bị chính hãng, bảo hành dài hạn" },
+  { icon: "headset", title: "Hỗ trợ chuyên nghiệp",  desc: "Tư vấn – Thiết kế – Thi công trọn gói" },
+];
+
+// ---------- 2 GIẢI PHÁP CHÍNH (On-grid / Hybrid) ----------
+export interface MainSolution {
+  id:          string;
+  tag:         string;
+  icon:        "grid" | "battery";
+  title:       string;
+  description: string;
+  features:    string[];
+  diagramType: DiagramType;
+}
+
+export const mainSolutions: MainSolution[] = [
+  {
+    id:          "on-grid",
+    tag:         "ON-GRID",
+    icon:        "grid",
+    title:       "Điện mặt trời hòa lưới",
+    description:
+      "Hệ thống hòa lưới sử dụng điện mặt trời và hòa trực tiếp vào lưới điện quốc gia, giúp tối ưu chi phí đầu tư và tiền điện hàng tháng.",
+    features: ["Chi phí đầu tư thấp", "Hiệu suất cao", "Không cần bảo trì nhiều", "Hoàn vốn nhanh"],
+    diagramType: "on-grid",
+  },
+  {
+    id:          "hybrid",
+    tag:         "HYBRID",
+    icon:        "battery",
+    title:       "Điện mặt trời có lưu trữ",
+    description:
+      "Hệ thống có pin lưu trữ giúp dự phòng điện mỗi đêm và khi mất điện, sử dụng điện mặt trời cả ngày lẫn đêm.",
+    features: ["Có pin lưu trữ", "Dự phòng khi mất điện", "Tối ưu hiệu suất sử dụng", "Quản lý thông minh"],
+    diagramType: "hybrid",
+  },
+];
 
 // ---------- SPEC ITEM ----------
 export interface SpecItem {
@@ -22,38 +66,54 @@ export interface SpecItem {
   value:   string;
 }
 
-// ---------- DETAIL ----------
-export interface SolutionDetail {
-  description: string;
-  advantages:  string[];
-  process:     string[];
-}
-
-// ---------- SUB TYPE (Hòa lưới / Lưu trữ) ----------
+// ---------- SUB TYPE (Hòa lưới / Hybrid / Off-grid) ----------
 export interface SubType {
   id:          string;
-  icon:        "grid" | "battery";
+  icon:        "grid" | "battery" | "offgrid";
   name:        string;
   subtitle:    string;
   features:    string[];
-  diagramType: "on-grid" | "hybrid";
+  diagramType: DiagramType;
 }
 
-// ---------- SOLUTION ----------
+// ---------- SOLUTION (Mô hình) ----------
 export interface SolutionItem {
-  id:       string;
-  icon:     SolutionIcon;
-  title:    string;
-  subtitle: string;
-  features: string[];
-  specs:    SpecItem[];
-  detail:   SolutionDetail;
-  image:    string;
-  accent:   Accent;
-  href:     string;
-  subTypes: SubType[];         // ← 2 sub-section
-  consumerLabel: string;       // label tải tiêu thụ trong diagram
+  id:            string;
+  icon:          SolutionIcon;
+  title:         string;
+  subtitle:      string;
+  specs:         SpecItem[];
+  image:         string;
+  accent:        Accent;
+  consumerLabel: string;
+  subTypes:      SubType[];
 }
+
+// 3 loại hệ thống chuẩn dùng lại cho mọi mô hình
+const subGrid = (id: string): SubType => ({
+  id:          `${id}-grid`,
+  icon:        "grid",
+  name:        "Hòa Lưới (On-Grid)",
+  subtitle:    "Tối ưu chi phí",
+  features: ["Chi phí đầu tư thấp", "Hiệu suất cao", "Vận hành đơn giản", "Hoàn vốn nhanh"],
+  diagramType: "on-grid",
+});
+const subHybrid = (id: string): SubType => ({
+  id:          `${id}-hybrid`,
+  icon:        "battery",
+  name:        "Hybrid (Có Lưu Trữ)",
+  subtitle:    "Chủ động nguồn điện",
+  features: ["Có pin lưu trữ", "Dự phòng khi mất điện", "Tối ưu hiệu suất", "Quản lý thông minh"],
+  diagramType: "hybrid",
+});
+const subOffgrid = (id: string): SubType => ({
+  id:          `${id}-offgrid`,
+  icon:        "offgrid",
+  name:        "Off-Grid (Độc Lập)",
+  subtitle:    "Hoàn toàn độc lập",
+  features: ["Không phụ thuộc điện lưới", "Tự chủ 100%", "Phù hợp vùng xa", "Kết hợp pin lưu trữ"],
+  diagramType: "off-grid",
+});
 
 export const solutions: SolutionItem[] = [
   {
@@ -61,128 +121,60 @@ export const solutions: SolutionItem[] = [
     icon:     "home",
     title:    "Hộ Gia Đình",
     subtitle: "Tiết kiệm điện – Chủ động năng lượng",
-    features: [
-      "Giảm đến 90% chi phí điện",
-      "Tăng giá trị bất động sản",
-      "Hệ thống vận hành tự động",
-      "Bảo hành dài hạn",
-    ],
     specs: [
-      { iconKey: "bolt",    label: "Công suất điển hình", value: "5 – 20 kWp" },
-      { iconKey: "percent", label: "Tiết kiệm điện",       value: "Đến 90%" },
-      { iconKey: "verify",  label: "Bảo hành hệ thống",    value: "25 năm" },
+      { iconKey: "bolt",    label: "Công suất lắp đặt", value: "5 – 20 kWp" },
+      { iconKey: "percent", label: "Tiết kiệm điện",    value: "Đến 90%" },
+      { iconKey: "verify",  label: "Bảo hành hệ thống", value: "25 năm" },
     ],
-    detail: {
-      description:
-        "Hệ thống điện mặt trời hộ gia đình được thiết kế tối ưu cho mái nhà dân dụng, từ nhà phố đến biệt thự. Chúng tôi khảo sát thực tế, tính toán chính xác nhu cầu tiêu thụ và thiết kế hệ thống phù hợp — đảm bảo hiệu suất tối đa suốt vòng đời 25 năm.",
-      advantages: [
-        "Giảm hóa đơn điện ngay từ tháng đầu vận hành",
-        "Hệ thống giám sát từ xa qua ứng dụng điện thoại",
-        "Không cần bảo trì thường xuyên, vận hành hoàn toàn tự động",
-        "Tăng giá trị bất động sản từ 10 – 15%",
-      ],
-      process: [
-        "Khảo sát miễn phí tại nhà & tư vấn giải pháp phù hợp",
-        "Thiết kế hệ thống & ký hợp đồng — hoàn thành trong 3 ngày",
-        "Lắp đặt & bàn giao — chỉ 1 – 3 ngày thi công",
-      ],
-    },
     image:  "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
     accent: "amber",
-    href:   "/giai-phap/ho-gia-dinh",
-    consumerLabel: "TẢI TIÊU THỤ\nTRONG GIA ĐÌNH",
-    subTypes: [
-      {
-        id:          "residential-grid",
-        icon:        "grid",
-        name:        "Hòa Lưới",
-        subtitle:    "Giải pháp tối ưu chi phí",
-        features: [
-          "Giảm chi phí tiền điện hàng tháng",
-          "Vận hành đơn giản, ổn định",
-          "Thân thiện với môi trường",
-          "Hoàn vốn nhanh chóng",
-        ],
-        diagramType: "on-grid",
-      },
-      {
-        id:          "residential-storage",
-        icon:        "battery",
-        name:        "Lưu Trữ",
-        subtitle:    "Chủ động nguồn điện – An tâm sử dụng",
-        features: [
-          "Chủ động nguồn điện 24/7",
-          "Dự phòng khi mất điện",
-          "Tối ưu hiệu suất sử dụng",
-          "Bảo vệ thiết bị điện",
-        ],
-        diagramType: "hybrid",
-      },
-    ],
+    consumerLabel: "TẢI TIÊU THỤ\nGIA ĐÌNH",
+    subTypes: [subGrid("residential"), subHybrid("residential"), subOffgrid("residential")],
   },
   {
     id:       "business",
     icon:     "building",
     title:    "Doanh Nghiệp",
     subtitle: "Tối ưu chi phí vận hành",
-    features: [
-      "Giảm chi phí điện hàng tháng",
-      "Nâng cao hình ảnh doanh nghiệp xanh",
-      "Gia tăng năng lực cạnh tranh",
-      "Hoàn vốn nhanh",
-    ],
     specs: [
-      { iconKey: "bolt",    label: "Công suất điển hình", value: "20 – 500 kWp" },
-      { iconKey: "percent", label: "Hoàn vốn",             value: "4 – 6 năm" },
-      { iconKey: "verify",  label: "Bảo hành hệ thống",    value: "25 năm" },
+      { iconKey: "bolt",    label: "Công suất lắp đặt", value: "20 – 200 kWp" },
+      { iconKey: "percent", label: "Tiết kiệm điện",    value: "Đến 80%" },
+      { iconKey: "verify",  label: "Bảo hành hệ thống", value: "25 năm" },
     ],
-    detail: {
-      description:
-        "Giải pháp năng lượng mặt trời cho doanh nghiệp — từ văn phòng, trường học đến tòa nhà thương mại. Hệ thống được tích hợp vào hạ tầng điện hiện có, giúp doanh nghiệp chủ động nguồn điện, cắt giảm chi phí vận hành và nâng cao hình ảnh thương hiệu xanh.",
-      advantages: [
-        "Tiết kiệm điện tối đa trong giờ cao điểm ban ngày",
-        "Báo cáo hiệu suất tự động hàng tuần/tháng",
-        "Đáp ứng tiêu chí ESG và chứng nhận xanh quốc tế",
-        "Hoàn vốn đầu tư trong 4 – 6 năm",
-      ],
-      process: [
-        "Khảo sát tòa nhà & phân tích hóa đơn điện 3 tháng gần nhất",
-        "Lập phương án thiết kế & trình bày ROI chi tiết",
-        "Thi công & đấu nối lưới — bàn giao kèm hướng dẫn vận hành",
-      ],
-    },
     image:  "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=800&q=80",
     accent: "navy",
-    href:   "/giai-phap/doanh-nghiep",
     consumerLabel: "TẢI TIÊU THỤ\nDOANH NGHIỆP",
-    subTypes: [
-      {
-        id:          "business-grid",
-        icon:        "grid",
-        name:        "Hòa Lưới",
-        subtitle:    "Giải pháp tối ưu chi phí",
-        features: [
-          "Giảm chi phí điện năng",
-          "Tăng giá trị thương hiệu xanh",
-          "Hiệu quả đầu tư cao",
-          "Phù hợp với đa số doanh nghiệp",
-        ],
-        diagramType: "on-grid",
-      },
-      {
-        id:          "business-storage",
-        icon:        "battery",
-        name:        "Lưu Trữ",
-        subtitle:    "Chủ động nguồn điện – Vận hành ổn định",
-        features: [
-          "Chủ động nguồn điện 24/7",
-          "Đảm bảo sản xuất liên tục",
-          "Giảm rủi ro gián đoạn",
-          "Tối ưu chi phí và hiệu suất",
-        ],
-        diagramType: "hybrid",
-      },
+    subTypes: [subGrid("business"), subHybrid("business"), subOffgrid("business")],
+  },
+  {
+    id:       "factory",
+    icon:     "factory",
+    title:    "Nhà Máy",
+    subtitle: "Giảm chi phí sản xuất – Vận hành ổn định",
+    specs: [
+      { iconKey: "bolt",    label: "Công suất lắp đặt", value: "100 kWp – 3 MWp" },
+      { iconKey: "percent", label: "Tiết kiệm điện",    value: "Đến 80%" },
+      { iconKey: "verify",  label: "Bảo hành hệ thống", value: "25 năm" },
     ],
+    image:  "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80",
+    accent: "amber",
+    consumerLabel: "TẢI TIÊU THỤ\nNHÀ MÁY",
+    subTypes: [subGrid("factory"), subHybrid("factory"), subOffgrid("factory")],
+  },
+  {
+    id:       "industrial",
+    icon:     "industrial",
+    title:    "Khu Công Nghiệp",
+    subtitle: "Năng lượng xanh quy mô lớn",
+    specs: [
+      { iconKey: "bolt",    label: "Công suất lắp đặt", value: "1 – 20 MWp" },
+      { iconKey: "percent", label: "Tiết kiệm điện",    value: "Đến 80%" },
+      { iconKey: "verify",  label: "Bảo hành hệ thống", value: "25 năm" },
+    ],
+    image:  "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&q=80",
+    accent: "navy",
+    consumerLabel: "TẢI TIÊU THỤ\nKCN",
+    subTypes: [subGrid("industrial"), subHybrid("industrial"), subOffgrid("industrial")],
   },
 ];
 
@@ -196,8 +188,8 @@ export interface TrustItem {
 }
 
 export const trustItems: TrustItem[] = [
-  { id: "safe",     icon: "shield",  title: "An Toàn & Bền Bỉ",    desc: "Thiết bị chính hãng, chất lượng cao",    accent: "navy" },
-  { id: "warranty", icon: "award",   title: "Bảo Hành Dài Hạn",    desc: "Bảo hành lên đến 25 năm",                accent: "amber" },
-  { id: "saving",   icon: "coins",   title: "Tiết Kiệm Tối Đa",    desc: "Giảm đến 90% chi phí điện",              accent: "navy" },
-  { id: "support",  icon: "headset", title: "Hỗ Trợ Toàn Diện",   desc: "Tư vấn – Khảo sát – Hỗ trợ 24/7",       accent: "amber" },
+  { id: "consult",  icon: "headset", title: "Tư Vấn Chuyên Sâu",     desc: "Giải pháp phù hợp từng nhu cầu",    accent: "navy" },
+  { id: "design",   icon: "award",   title: "Thiết Kế Tối Ưu",       desc: "Hiệu quả – An toàn – Thẩm mỹ",      accent: "amber" },
+  { id: "build",    icon: "shield",  title: "Thi Công Chuyên Nghiệp", desc: "Đúng quy trình – Đúng tiến độ",     accent: "navy" },
+  { id: "warranty", icon: "coins",   title: "Bảo Hành Dài Hạn",      desc: "Lên đến 25 năm hệ thống",           accent: "amber" },
 ];
