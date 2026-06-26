@@ -16,7 +16,6 @@ import {
 
 // ─── Brand colors ─────────────────────────────────────────────
 const GOLD = "#f6b918";
-const NAVY = "#1c2f5c";
 
 // ─── Reveal wrapper ───────────────────────────────────────────
 function Reveal({ children, delay = 0, className = "" }: {
