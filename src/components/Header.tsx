@@ -4,7 +4,6 @@ import { Button, Drawer, IconButton, useMediaQuery, useTheme } from "@mui/materi
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import PhoneIcon from "@mui/icons-material/Phone";
-import FlashOnIcon from "@mui/icons-material/FlashOn";
 import { navLinks, headerPhone } from "../data/dashBoardData";
 
 // ─── Brand colors ─────────────────────────────────────────────
@@ -15,7 +14,6 @@ const NAVY      = "#1c2f5c";
 const DARK_HERO_ROUTES = ["/"];
 
 export default function Header() {
-  // Init trực tiếp từ window — tránh hoàn toàn setState trong effect
   const [scrolled, setScrolled] = useState(() => window.scrollY > 60);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const theme    = useTheme();
@@ -24,24 +22,18 @@ export default function Header() {
 
   const hasDarkHero   = DARK_HERO_ROUTES.includes(pathname);
   const isTransparent = hasDarkHero && !scrolled;
+  const isDark        = isTransparent;
 
-  // Reset về top khi đổi route (không dùng setState trong effect body)
   useEffect(() => {
     const reset = () => setScrolled(window.scrollY > 60);
-    // Chạy sau khi route thay đổi xong — dùng queueMicrotask để thoát khỏi effect body
     queueMicrotask(reset);
   }, [pathname]);
 
-  // Subscribe scroll events — setState chỉ trong callback, không phải body effect
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  const isDark     = isTransparent;
-  const logoColor  = isDark ? "text-white"    : "text-[#1a3a5c]";
-  const logoSub    = isDark ? "text-white/60" : "text-gray-400";
 
   return (
     <header
@@ -61,21 +53,17 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
 
         {/* ── Logo ── */}
-        <Link to="/" className="flex items-center gap-2 no-underline">
-          <span
-            className="flex items-center justify-center w-8 h-8 rounded-md"
-            style={{ backgroundColor: GOLD }}
-          >
-            <FlashOnIcon sx={{ fontSize: 18, color: "#fff" }} />
-          </span>
-          <div>
-            <span className={`font-extrabold text-lg tracking-widest transition-colors duration-300 ${logoColor}`}>
-              SOLARTECH
-            </span>
-            <div className={`text-[10px] leading-none transition-colors duration-300 ${logoSub}`}>
-              Năng lượng sạch cho tương lai
-            </div>
-          </div>
+        <Link to="/" className="flex items-center no-underline">
+          <img
+            src="/logo/logoWebSite.png"
+            alt="Solartech"
+            style={{
+              height: scrolled ? 120 : 120,
+              width: "auto",
+              transition: "height 0.35s ease",
+              filter: isDark ? "brightness(0) invert(1)" : "none",
+            }}
+          />
         </Link>
 
         {/* ── Desktop nav ── */}
@@ -161,9 +149,13 @@ export default function Header() {
           <Link
             to="/"
             onClick={() => setDrawerOpen(false)}
-            className="font-extrabold text-lg tracking-widest text-white no-underline"
+            className="no-underline"
           >
-            SOLARTECH
+            <img
+              src="/logo/logoWebSite.png"
+              alt="Solartech"
+              style={{ height: 48, width: "auto" }}
+            />
           </Link>
           <IconButton onClick={() => setDrawerOpen(false)} sx={{ color: "#fff" }}>
             <CloseIcon />
