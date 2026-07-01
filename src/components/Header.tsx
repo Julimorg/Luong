@@ -1,28 +1,34 @@
 import { useState, useEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { Button, Drawer, IconButton, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Button,
+  Drawer,
+  IconButton,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import PhoneIcon from "@mui/icons-material/Phone";
 import { navLinks, headerPhone } from "../data/dashBoardData";
 
 // ─── Brand colors ─────────────────────────────────────────────
-const GOLD      = "#f6b918";
+const GOLD = "#f6b918";
 const GOLD_DARK = "#d9a210";
-const NAVY      = "#1c2f5c";
+const NAVY = "#1c2f5c";
 
 const DARK_HERO_ROUTES = ["/"];
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(() => window.scrollY > 60);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const theme    = useTheme();
+  const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const { pathname } = useLocation();
 
-  const hasDarkHero   = DARK_HERO_ROUTES.includes(pathname);
+  const hasDarkHero = DARK_HERO_ROUTES.includes(pathname);
   const isTransparent = hasDarkHero && !scrolled;
-  const isDark        = isTransparent;
+  const isDark = isTransparent;
 
   useEffect(() => {
     const reset = () => setScrolled(window.scrollY > 60);
@@ -38,29 +44,35 @@ export default function Header() {
   return (
     <header
       style={{
-        position:        "fixed",
-        top:             0,
-        left:            0,
-        right:           0,
-        zIndex:          50,
-        transition:      "background-color 0.35s ease, box-shadow 0.35s ease, padding-top 0.35s ease, padding-bottom 0.35s ease",
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 50,
+        transition:
+          "background-color 0.35s ease, box-shadow 0.35s ease, padding-top 0.35s ease, padding-bottom 0.35s ease",
         backgroundColor: isTransparent ? "transparent" : "#ffffff",
-        boxShadow:       isTransparent ? "none" : "0 2px 20px rgba(0,0,0,0.10)",
-        paddingTop:      scrolled ? "8px"  : "16px",
-        paddingBottom:   scrolled ? "8px"  : "16px",
+        boxShadow: isTransparent ? "none" : "0 2px 20px rgba(0,0,0,0.10)",
+        paddingTop: "10px",
+        paddingBottom: "10px",
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-
-        {/* ── Logo ── */}
-        <Link to="/" className="flex items-center no-underline">
+        {/* ── Logo (giữ nguyên kích thước, không đổi theo scroll) ── */}
+        <Link
+          to="/"
+          className="flex items-center no-underline overflow-visible"
+          style={{ height: 40 }}
+        >
           <img
             src="/logo/logoWebSite.png"
-            alt="Solartech"
+            alt="VietHungSolar"
             style={{
-              height: scrolled ? 120 : 120,
+              height: 60,
               width: "auto",
-              transition: "height 0.35s ease",
+              objectFit: "contain",
+              transform: "scale(2.4)",
+              transformOrigin: "left center",
               filter: isDark ? "brightness(0) invert(1)" : "none",
             }}
           />
@@ -78,8 +90,12 @@ export default function Header() {
                   [
                     "text-sm font-medium transition-colors duration-300 no-underline relative group",
                     isDark
-                      ? isActive ? "text-[#f6b918]" : "text-white/90 hover:text-white"
-                      : isActive ? "text-[#f6b918]" : "text-gray-700 hover:text-[#f6b918]",
+                      ? isActive
+                        ? "text-[#f6b918]"
+                        : "text-white/90 hover:text-white"
+                      : isActive
+                        ? "text-[#f6b918]"
+                        : "text-gray-700 hover:text-[#f6b918]",
                   ].join(" ")
                 }
               >
@@ -108,17 +124,17 @@ export default function Header() {
             size="small"
             sx={{
               backgroundColor: GOLD,
-              color:           "#fff",
-              fontWeight:      700,
-              fontSize:        "0.75rem",
-              textTransform:   "none",
-              borderRadius:    "6px",
-              px:              2,
-              py:              0.8,
-              boxShadow:       "none",
+              color: "#fff",
+              fontWeight: 700,
+              fontSize: "0.75rem",
+              textTransform: "none",
+              borderRadius: "6px",
+              px: 2,
+              py: 0.8,
+              boxShadow: "none",
               "&:hover": {
                 backgroundColor: GOLD_DARK,
-                boxShadow:       `0 4px 12px ${GOLD}66`,
+                boxShadow: `0 4px 12px ${GOLD}66`,
               },
             }}
           >
@@ -153,11 +169,14 @@ export default function Header() {
           >
             <img
               src="/logo/logoWebSite.png"
-              alt="Solartech"
-              style={{ height: 48, width: "auto" }}
+              alt="VietHungSolar"
+              style={{ height: 56, width: "auto", objectFit: "contain" }}
             />
           </Link>
-          <IconButton onClick={() => setDrawerOpen(false)} sx={{ color: "#fff" }}>
+          <IconButton
+            onClick={() => setDrawerOpen(false)}
+            sx={{ color: "#fff" }}
+          >
             <CloseIcon />
           </IconButton>
         </div>
@@ -172,7 +191,9 @@ export default function Header() {
               className={({ isActive }) =>
                 [
                   "py-3 text-base font-medium no-underline border-b border-white/5 transition-colors duration-200",
-                  isActive ? "text-[#f6b918]" : "text-white/80 hover:text-[#f6b918]",
+                  isActive
+                    ? "text-[#f6b918]"
+                    : "text-white/80 hover:text-[#f6b918]",
                 ].join(" ")
               }
             >
@@ -197,10 +218,10 @@ export default function Header() {
             onClick={() => setDrawerOpen(false)}
             sx={{
               backgroundColor: GOLD,
-              color:           "#fff",
-              fontWeight:      700,
-              textTransform:   "none",
-              borderRadius:    "6px",
+              color: "#fff",
+              fontWeight: 700,
+              textTransform: "none",
+              borderRadius: "6px",
               "&:hover": { backgroundColor: GOLD_DARK },
             }}
           >

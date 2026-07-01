@@ -14,11 +14,15 @@ import VerifiedOutlined from "@mui/icons-material/VerifiedOutlined";
 import GridOnOutlined from "@mui/icons-material/GridOnOutlined";
 import BatteryChargingFullOutlined from "@mui/icons-material/BatteryChargingFullOutlined";
 import PowerOffOutlined from "@mui/icons-material/PowerOffOutlined";
+import LocalParkingOutlined from "@mui/icons-material/LocalParkingOutlined";
+import Battery6BarOutlined from "@mui/icons-material/Battery6BarOutlined";
+import InsightsOutlined from "@mui/icons-material/InsightsOutlined";
+import HubOutlined from "@mui/icons-material/HubOutlined";
+import ElectricCarOutlined from "@mui/icons-material/ElectricCarOutlined";
 import CheckIcon from "@mui/icons-material/Check";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import type { SvgIconComponent } from "@mui/icons-material";
 import {
-  type DiagramType,
   type SubType,
   type MainSolution,
   solutionHeader,
@@ -39,6 +43,8 @@ const iconMap: Record<string, SvgIconComponent> = {
   shield: VerifiedUser, award: WorkspacePremium, coins: Savings, headset: SupportAgent,
   bolt: BoltOutlined, percent: PercentOutlined, verify: VerifiedOutlined,
   grid: GridOnOutlined, battery: BatteryChargingFullOutlined, offgrid: PowerOffOutlined,
+  carport: LocalParkingOutlined, bess: Battery6BarOutlined, ems: InsightsOutlined,
+  utility: HubOutlined, ev: ElectricCarOutlined,
 };
 
 // ─── Reveal ───────────────────────────────────────────────────
@@ -57,101 +63,12 @@ function Reveal({ children, delay = 0, className = "" }: {
   );
 }
 
-// ─── Diagrams ─────────────────────────────────────────────────
-function OnGridDiagram({ consumerLabel }: { consumerLabel: string }) {
-  const lines = consumerLabel.split("\n");
-  return (
-    <svg viewBox="0 0 240 150" className="w-full" style={{ maxHeight: 150 }}>
-      <defs>
-        <marker id="og-g" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill={GOLD} /></marker>
-        <marker id="og-s" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8" /></marker>
-      </defs>
-      <circle cx="120" cy="16" r="11" fill={GOLD} />
-      <text x="120" y="20" textAnchor="middle" fontSize="10" fill="white" fontWeight="bold">☀</text>
-      <text x="120" y="34" textAnchor="middle" fontSize="6.5" fill="#64748b" fontWeight="600">TẤM PIN NLMT</text>
-      <line x1="120" y1="37" x2="120" y2="64" stroke={GOLD} strokeWidth="1.5" markerEnd="url(#og-g)" />
-      <rect x="78" y="66" width="84" height="26" rx="5" fill={NAVY} />
-      <text x="120" y="83" textAnchor="middle" fontSize="8" fill="white" fontWeight="bold">INVERTER</text>
-      <line x1="78" y1="79" x2="28" y2="79" stroke="#94a3b8" strokeWidth="1.5" markerEnd="url(#og-s)" />
-      <line x1="162" y1="79" x2="212" y2="79" stroke="#94a3b8" strokeWidth="1.5" markerEnd="url(#og-s)" />
-      <rect x="8" y="66" width="20" height="26" rx="3" fill="#f1f5f9" stroke="#cbd5e1" strokeWidth="0.5" />
-      <text x="18" y="82" textAnchor="middle" fontSize="10">⚡</text>
-      <text x="18" y="104" textAnchor="middle" fontSize="6" fill="#64748b">LƯỚI ĐIỆN</text>
-      <rect x="212" y="66" width="20" height="26" rx="3" fill="#f1f5f9" stroke="#cbd5e1" strokeWidth="0.5" />
-      <text x="222" y="82" textAnchor="middle" fontSize="10">🏠</text>
-      {lines.map((l, i) => <text key={l} x="222" y={104 + i * 8} textAnchor="middle" fontSize="5.3" fill="#64748b">{l}</text>)}
-    </svg>
-  );
-}
-
-function HybridDiagram({ consumerLabel }: { consumerLabel: string }) {
-  const lines = consumerLabel.split("\n");
-  return (
-    <svg viewBox="0 0 260 175" className="w-full" style={{ maxHeight: 175 }}>
-      <defs>
-        <marker id="hy-g" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill={GOLD} /></marker>
-        <marker id="hy-s" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8" /></marker>
-        <marker id="hy-b" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#3b82f6" /></marker>
-      </defs>
-      <circle cx="130" cy="16" r="11" fill={GOLD} />
-      <text x="130" y="20" textAnchor="middle" fontSize="10" fill="white" fontWeight="bold">☀</text>
-      <text x="130" y="34" textAnchor="middle" fontSize="6.5" fill="#64748b" fontWeight="600">TẤM PIN NLMT</text>
-      <line x1="130" y1="37" x2="130" y2="64" stroke={GOLD} strokeWidth="1.5" markerEnd="url(#hy-g)" />
-      <rect x="82" y="66" width="96" height="26" rx="5" fill={NAVY} />
-      <text x="130" y="83" textAnchor="middle" fontSize="7.5" fill="white" fontWeight="bold">HYBRID INVERTER</text>
-      <line x1="82" y1="79" x2="24" y2="79" stroke="#94a3b8" strokeWidth="1.5" markerEnd="url(#hy-s)" />
-      <line x1="178" y1="79" x2="230" y2="79" stroke="#94a3b8" strokeWidth="1.5" markerEnd="url(#hy-s)" />
-      <line x1="130" y1="92" x2="130" y2="124" stroke="#3b82f6" strokeWidth="1.5" markerEnd="url(#hy-b)" />
-      <rect x="4" y="66" width="20" height="26" rx="3" fill="#f1f5f9" stroke="#cbd5e1" strokeWidth="0.5" />
-      <text x="14" y="82" textAnchor="middle" fontSize="10">⚡</text>
-      <text x="14" y="104" textAnchor="middle" fontSize="6" fill="#64748b">LƯỚI ĐIỆN</text>
-      <rect x="230" y="66" width="20" height="26" rx="3" fill="#f1f5f9" stroke="#cbd5e1" strokeWidth="0.5" />
-      <text x="240" y="82" textAnchor="middle" fontSize="10">🏠</text>
-      {lines.map((l, i) => <text key={l} x="240" y={104 + i * 8} textAnchor="middle" fontSize="5.3" fill="#64748b">{l}</text>)}
-      <rect x="100" y="126" width="60" height="24" rx="5" fill="#1d4ed8" />
-      <text x="130" y="141" textAnchor="middle" fontSize="7" fill="white" fontWeight="bold">PIN LƯU TRỮ</text>
-    </svg>
-  );
-}
-
-function OffGridDiagram({ consumerLabel }: { consumerLabel: string }) {
-  const lines = consumerLabel.split("\n");
-  return (
-    <svg viewBox="0 0 240 175" className="w-full" style={{ maxHeight: 175 }}>
-      <defs>
-        <marker id="of-g" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill={GOLD} /></marker>
-        <marker id="of-s" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8" /></marker>
-        <marker id="of-b" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#3b82f6" /></marker>
-      </defs>
-      <circle cx="100" cy="16" r="11" fill={GOLD} />
-      <text x="100" y="20" textAnchor="middle" fontSize="10" fill="white" fontWeight="bold">☀</text>
-      <text x="100" y="34" textAnchor="middle" fontSize="6.5" fill="#64748b" fontWeight="600">TẤM PIN NLMT</text>
-      <line x1="100" y1="37" x2="100" y2="64" stroke={GOLD} strokeWidth="1.5" markerEnd="url(#of-g)" />
-      <rect x="58" y="66" width="84" height="26" rx="5" fill={NAVY} />
-      <text x="100" y="82" textAnchor="middle" fontSize="6.8" fill="white" fontWeight="bold">OFF-GRID INVERTER</text>
-      {/* xuống pin */}
-      <line x1="100" y1="92" x2="100" y2="124" stroke="#3b82f6" strokeWidth="1.5" markerEnd="url(#of-b)" />
-      {/* sang tải */}
-      <line x1="142" y1="79" x2="200" y2="79" stroke="#94a3b8" strokeWidth="1.5" markerEnd="url(#of-s)" />
-      <rect x="200" y="66" width="20" height="26" rx="3" fill="#f1f5f9" stroke="#cbd5e1" strokeWidth="0.5" />
-      <text x="210" y="82" textAnchor="middle" fontSize="10">🏠</text>
-      {lines.map((l, i) => <text key={l} x="210" y={104 + i * 8} textAnchor="middle" fontSize="5.3" fill="#64748b">{l}</text>)}
-      <rect x="70" y="126" width="60" height="24" rx="5" fill="#1d4ed8" />
-      <text x="100" y="141" textAnchor="middle" fontSize="7" fill="white" fontWeight="bold">PIN LƯU TRỮ</text>
-    </svg>
-  );
-}
-
-function Diagram({ type, consumerLabel }: { type: DiagramType; consumerLabel: string }) {
-  if (type === "hybrid")   return <HybridDiagram consumerLabel={consumerLabel} />;
-  if (type === "off-grid") return <OffGridDiagram consumerLabel={consumerLabel} />;
-  return <OnGridDiagram consumerLabel={consumerLabel} />;
-}
-
 // ─── Sub-type card ────────────────────────────────────────────
-function SubTypeCard({ sub, index, consumerLabel }: { sub: SubType; index: number; consumerLabel: string }) {
+function SubTypeCard({ sub, index }: { sub: SubType; index: number }) {
   const Icon = iconMap[sub.icon];
-  const color = sub.icon === "battery" ? "#1d4ed8" : sub.icon === "offgrid" ? NAVY : GOLD;
+  const color = sub.icon === "battery" || sub.icon === "bess" ? "#1d4ed8"
+    : sub.icon === "offgrid" || sub.icon === "utility" ? NAVY
+    : GOLD;
   return (
     <div className="flex flex-col rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden h-full">
       <div className="flex items-center gap-3 px-5 py-4 border-b border-gray-50">
@@ -174,8 +91,8 @@ function SubTypeCard({ sub, index, consumerLabel }: { sub: SubType; index: numbe
             </li>
           ))}
         </ul>
-        <div className="mt-auto flex items-center justify-center bg-gray-50 rounded-xl p-3">
-          <Diagram type={sub.diagramType} consumerLabel={consumerLabel} />
+        <div className="mt-auto rounded-xl overflow-hidden bg-gray-50">
+          <img src={sub.image} alt={sub.name} loading="lazy" className="w-full h-32 object-cover" />
         </div>
       </div>
     </div>
@@ -210,8 +127,8 @@ function MainSolutionCard({ ms }: { ms: MainSolution }) {
             </li>
           ))}
         </ul>
-        <div className="flex items-center justify-center bg-gray-50 rounded-xl p-3">
-          <Diagram type={ms.diagramType} consumerLabel={"TẢI\nTIÊU THỤ"} />
+        <div className="rounded-xl overflow-hidden bg-gray-50">
+          <img src={ms.image} alt={ms.title} loading="lazy" className="w-full h-40 object-cover" />
         </div>
       </div>
     </div>
@@ -240,7 +157,6 @@ export default function SolutionPage() {
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-10 items-center">
-            {/* Left */}
             <Reveal>
               <div className="flex items-center gap-2 mb-4">
                 <span className="w-6 h-0.5" style={{ backgroundColor: GOLD }} />
@@ -267,7 +183,6 @@ export default function SolutionPage() {
               </div>
             </Reveal>
 
-            {/* Right — highlights card */}
             <Reveal delay={150}>
               <div className="rounded-2xl bg-[#0d2137]/60 backdrop-blur-sm border border-white/10 p-6 flex flex-col gap-5">
                 {solutionHighlights.map((h) => {
@@ -339,9 +254,9 @@ export default function SolutionPage() {
           </Reveal>
 
           {/* Active model content */}
-          <div key={model.id} className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          <div key={model.id} className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Specs (left) */}
-            <Reveal>
+            <Reveal className="lg:col-span-3">
               <div className="flex flex-col gap-3 h-full">
                 {model.specs.map((s) => {
                   const SIcon = iconMap[s.iconKey] ?? BoltOutlined;
@@ -360,17 +275,20 @@ export default function SolutionPage() {
               </div>
             </Reveal>
 
-            {/* Sub-types (right) */}
-            <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Sub-types (right) — tự động 3 hoặc 4 cột tùy số lượng */}
+            <div
+              className={`lg:col-span-9 grid grid-cols-1 sm:grid-cols-2 gap-4 ${
+                model.subTypes.length >= 4 ? "xl:grid-cols-4" : "xl:grid-cols-3"
+              }`}
+            >
               {model.subTypes.map((sub, i) => (
                 <Reveal key={sub.id} delay={i * 80}>
-                  <SubTypeCard sub={sub} index={i} consumerLabel={model.consumerLabel} />
+                  <SubTypeCard sub={sub} index={i} />
                 </Reveal>
               ))}
             </div>
           </div>
 
-          {/* CTA: chuyển sang mô hình kế tiếp */}
           <Reveal className="mt-8 text-center">
             <button
               onClick={() => setActive((active + 1) % solutions.length)}
