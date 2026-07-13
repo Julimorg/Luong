@@ -15,82 +15,126 @@ export const headerPhone = "1800 1234";
 
 // ---------- HERO ----------
 export const heroData = {
-  eyebrow: "Giải pháp năng lượng mặt trời toàn diện",
-  headline: "Lắp đặt hệ thống\nnăng lượng mặt trời",
+  eyebrow: "TỐI ƯU HIỆU QUẢ ĐẦU TƯ ĐIỆN MẶT TRỜI",
+  headline: "Biến ánh nắng thành lợi nhuận",
   subheadline:
-    "Giải pháp năng lượng thông minh – Tiết kiệm chi phí – Bền vững dài lâu cho doanh nghiệp và hộ gia đình.",
-  ctaPrimary: { label: "Nhận báo giá ngay", href: "#contact" },
-  ctaSecondary: { label: "Khám phá giải pháp", href: "#solutions" },
+    "Thiết kế, thi công và đồng hành cùng doanh nghiệp, nhà xưởng và hộ gia đình trong hành trình tối ưu chi phí điện.",
+  ctaPrimary: { label: "Trang Liên Hệ", href: "#contact" },
+  ctaSecondary: { label: "Trang Dự Án", href: "#solutions" },
   backgroundImage: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1600&q=80",
 };
 
-// ---------- HERO BADGES ----------
-export const heroBadges = [
+// ---------- PROCESS STEPS (Quy trình triển khai) ----------
+export const processSection = {
+  eyebrow: "QUY TRÌNH TRIỂN KHAI",
+  headline: "Triển khai minh bạch từ khảo sát đến bàn giao",
+  description:
+    "Khảo sát tận nơi, thiết kế tối ưu và thi công đúng tiêu chuẩn nhằm mang lại hiệu quả đầu tư lâu dài.",
+};
+
+export const processSteps = [
   {
     id: 1,
-    icon: "savings",
-    title: "Tiết kiệm chi phí",
-    description: "Giảm đến 70% tiền điện",
+    title: "Tiếp nhận yêu cầu",
+    description: "Lắng nghe nhu cầu và tư vấn giải pháp phù hợp.",
   },
   {
     id: 2,
-    icon: "bolt",
-    title: "Hiệu suất vượt trội",
-    description: "Công nghệ hiện đại, tối ưu",
+    title: "Khảo sát thực tế",
+    description: "Khảo sát thực tế, đánh giá hiện trạng và đề xuất phương án tối ưu.",
   },
   {
     id: 3,
-    icon: "shield",
-    title: "An toàn & bền bỉ",
-    description: "Đáp ứng tiêu chuẩn quốc tế",
+    title: "Thiết kế & Báo giá",
+    description: "Thiết kế hệ thống tối ưu, đảm bảo hiệu quả và chi phí.",
   },
   {
     id: 4,
-    icon: "support",
-    title: "Bảo hành dài hạn",
-    description: "Hỗ trợ kỹ thuật 24/7",
+    title: "Thi công lắp đặt",
+    description: "Thi công chuyên nghiệp, đúng kỹ thuật, đảm bảo tiến độ và an toàn.",
+  },
+  {
+    id: 5,
+    title: "Bàn giao & Bảo hành",
+    description: "Nghiệm thu, bàn giao và bảo hành, đồng hành lâu dài.",
   },
 ];
 
 // ---------- SOLUTIONS SECTION ----------
-export const solutionsSection = {
-  eyebrow: "Tại sao chọn chúng tôi",
-  headline: "Giải pháp tối ưu – Hiệu quả dài lâu",
+export const solutionSection = {
+  eyebrow: "VIETHUNGSOLAR CÓ THỂ GIÚP GÌ CHO BẠN?",
+  headline: "Giải pháp phù hợp cho từng nhu cầu",
   description:
-    "Chúng tôi cam kết cung cấp những hệ thống điện mặt trời chất lượng cao, tối ưu hiệu suất và chi phí phù hợp thị trường.",
-  cta: { label: "Tìm hiểu thêm", href: "#about" },
+    "Chúng tôi cung cấp giải pháp điện mặt trời tối ưu cho từng đối tượng, giúp bạn tiết kiệm chi phí và chủ động nguồn năng lượng.",
 };
 
-export const solutionCards = [
+export interface SolutionAudience {
+  id: number;
+  icon: "home" | "apartment" | "warehouse" | "factory";
+  image: string;
+  title: string;
+  description: string;
+  checklist: string[];
+}
+
+export const solutionAudiences: SolutionAudience[] = [
   {
     id: 1,
-    icon: "search",
-    title: "Tư vấn chuyên sâu",
-    description:
-      "Khảo sát và tư vấn giải pháp phù hợp nhất cho nhu cầu thực tế của bạn. Tiếp cận §8.",
+    icon: "home",
+    image: "https://images.unsplash.com/photo-1613665813446-82a78c468a1d?w=600&q=80",
+    title: "Hộ gia đình",
+    description: "Giảm hóa đơn tiền điện hàng tháng và tăng giá trị cho ngôi nhà của bạn.",
+    checklist: [
+      "Tiết kiệm đến 90% chi phí điện",
+      "Hệ thống an toàn, thẩm mỹ",
+      "Bảo hành và hỗ trợ dài hạn",
+    ],
   },
   {
     id: 2,
-    icon: "design_services",
-    title: "Thiết kế tối ưu",
-    description:
-      "Đội ngũ kỹ sư thiết kế hệ thống hiệu quả và phù hợp với từng dự án đầu tư.",
+    icon: "apartment",
+    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80",
+    title: "Doanh nghiệp",
+    description: "Kiểm soát chi phí điện và hướng tới phát triển bền vững.",
+    checklist: [
+      "Ổn định chi phí điện dài hạn",
+      "Nâng cao hình ảnh doanh nghiệp",
+      "Giải pháp linh hoạt theo nhu cầu",
+    ],
   },
   {
     id: 3,
-    icon: "engineering",
-    title: "Thi công chuyên nghiệp",
-    description:
-      "Đội ngũ kỹ thuật có nhiều năm kinh nghiệm, thi công chuẩn quy trình chuyên nghiệp.",
+    icon: "warehouse",
+    image: "https://images.unsplash.com/photo-1613665813446-82a78c468a1d?w=600&q=80",
+    title: "Nhà máy",
+    description: "Tối ưu chi phí điện cho sản xuất và nâng cao năng lực cạnh tranh.",
+    checklist: [
+      "Giảm chi phí vận hành dài hạn",
+      "Hệ thống công suất lớn, ổn định",
+      "Thi công nhanh chóng, chuyên nghiệp",
+    ],
   },
   {
     id: 4,
-    icon: "headset_mic",
-    title: "Hỗ trợ tận tâm",
-    description:
-      "Bảo trì định kỳ và hỗ trợ kỹ thuật 24/7. Cam kết đồng hành cùng khách hàng.",
+    icon: "factory",
+    image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600&q=80",
+    title: "Công nghiệp",
+    description: "Giải pháp năng lượng tối ưu cho hệ thống sản xuất lớn.",
+    checklist: [
+      "Giải pháp thiết kế chuyên biệt",
+      "Vận hành ổn định, hiệu quả cao",
+      "Hỗ trợ kỹ thuật 24/7",
+    ],
   },
 ];
+
+export const solutionContactBar = {
+  title: "Tư vấn miễn phí",
+  description:
+    "Đội ngũ kỹ thuật của chúng tôi luôn sẵn sàng hỗ trợ và tư vấn giải pháp phù hợp nhất cho bạn.",
+  hotlineLabel: "Hotline",
+  cta: { label: "Nhận tư vấn ngay", href: "#contact" },
+};
 
 // ---------- STATS ----------
 export const statsData = [
@@ -193,43 +237,6 @@ export const featuredBrands: FeaturedBrand[] = [
   { id: 22, name: "Tesla",           logo: "/logo/hello.png" },
 ];
 
-// ---------- PROCESS STEPS (không còn dùng ở trang chủ) ----------
-export const processSection = {
-  headline: "5 bước đơn giản",
-};
-
-export const processSteps = [
-  {
-    id: 1,
-    icon: "description",
-    title: "Tiếp nhận yêu cầu",
-    description: "Lắng nghe nhu cầu và mong muốn của bạn về hệ thống điện mặt trời.",
-  },
-  {
-    id: 2,
-    icon: "calculate",
-    title: "Khảo sát & tư vấn",
-    description: "Khảo sát thực tế, đánh giá và tư vấn giải pháp phù hợp nhất.",
-  },
-  {
-    id: 3,
-    icon: "architecture",
-    title: "Thiết kế hệ thống",
-    description: "Thiết kế chi tiết hệ thống tối ưu theo tiêu chuẩn kỹ thuật.",
-  },
-  {
-    id: 4,
-    icon: "construction",
-    title: "Thi công lắp đặt",
-    description: "Thi công chuyên nghiệp, đảm bảo tiến độ và chất lượng công trình.",
-  },
-  {
-    id: 5,
-    icon: "settings",
-    title: "Vận hành & bảo trì",
-    description: "Bàn giao, hướng dẫn vận hành và bảo trì định kỳ hệ thống.",
-  },
-];
 
 // ---------- CTA BANNER ----------
 export const ctaBanner = {

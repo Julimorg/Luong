@@ -62,7 +62,7 @@ export default function Header() {
         <Link
           to="/"
           className="flex items-center no-underline overflow-visible"
-          style={{ height: 40 }}
+          style={{ height: 55 }}
         >
           <img
             src="/logo/logoWebSite.png"
