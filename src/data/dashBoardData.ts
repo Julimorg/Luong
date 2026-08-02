@@ -21,7 +21,7 @@ export const heroData = {
     "Thiết kế, thi công và đồng hành cùng doanh nghiệp, nhà xưởng và hộ gia đình trong hành trình tối ưu chi phí điện.",
   ctaPrimary: { label: "Trang Liên Hệ", href: "#contact" },
   ctaSecondary: { label: "Trang Dự Án", href: "#solutions" },
-  backgroundImage: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1600&q=80",
+  backgroundImage: "public/background/dashboard/hero_background.png",
 };
 
 // ---------- PROCESS STEPS (Quy trình triển khai) ----------

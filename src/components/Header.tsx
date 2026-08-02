@@ -19,6 +19,10 @@ const NAVY = "#1c2f5c";
 
 const DARK_HERO_ROUTES = ["/"];
 
+// ─── Text cho hiệu ứng gõ chữ của logo ─────────────────────────
+const LOGO_MAIN = "VIETHUNG";
+const LOGO_SUB = "Solar Energy";
+
 export default function Header() {
   const [scrolled, setScrolled] = useState(() => window.scrollY > 60);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -29,6 +33,45 @@ export default function Header() {
   const hasDarkHero = DARK_HERO_ROUTES.includes(pathname);
   const isTransparent = hasDarkHero && !scrolled;
   const isDark = isTransparent;
+
+  // ── Hiệu ứng gõ chữ "VIETHUNG" -> "Solar Energy", chạy 1 lần khi mount ──
+  const [typedMain, setTypedMain] = useState("");
+  const [typedSub, setTypedSub] = useState("");
+  const [showCursor, setShowCursor] = useState(true);
+
+  useEffect(() => {
+    let mainIdx = 0;
+    let subIdx = 0;
+    let subTimeout: ReturnType<typeof setTimeout> | undefined;
+    let subInterval: ReturnType<typeof setInterval> | undefined;
+
+    const mainInterval = setInterval(() => {
+      mainIdx += 1;
+      setTypedMain(LOGO_MAIN.slice(0, mainIdx));
+      if (mainIdx >= LOGO_MAIN.length) {
+        clearInterval(mainInterval);
+        subTimeout = setTimeout(() => {
+          subInterval = setInterval(() => {
+            subIdx += 1;
+            setTypedSub(LOGO_SUB.slice(0, subIdx));
+            if (subIdx >= LOGO_SUB.length) clearInterval(subInterval);
+          }, 60);
+        }, 150);
+      }
+    }, 90);
+
+    const cursorInterval = setInterval(() => setShowCursor((c) => !c), 500);
+
+    return () => {
+      clearInterval(mainInterval);
+      clearInterval(subInterval);
+      clearInterval(cursorInterval);
+      clearTimeout(subTimeout);
+    };
+  }, []);
+
+  const mainTyping = typedMain.length < LOGO_MAIN.length;
+  const subTyping = !mainTyping && typedSub.length < LOGO_SUB.length;
 
   useEffect(() => {
     const reset = () => setScrolled(window.scrollY > 60);
@@ -58,24 +101,49 @@ export default function Header() {
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        {/* ── Logo (giữ nguyên kích thước, không đổi theo scroll) ── */}
+        {/* ── Logo chỉ còn chữ: VIETHUNG / Solar Energy xếp chồng ── */}
         <Link
           to="/"
-          className="flex items-center no-underline overflow-visible"
+          className="flex items-center no-underline flex-shrink-0"
           style={{ height: 55 }}
         >
-          <img
-            src="/logo/logoWebSite.png"
-            alt="VietHungSolar"
+          <div
             style={{
-              height: 60,
-              width: "auto",
-              objectFit: "contain",
-              transform: "scale(2.4)",
-              transformOrigin: "left center",
-              filter: isDark ? "brightness(0) invert(1)" : "none",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              lineHeight: 1,
+              minWidth: 150,
             }}
-          />
+          >
+            <span
+              style={{
+                fontWeight: 800,
+                fontSize: "1.4rem",
+                letterSpacing: "0.5px",
+                textTransform: "uppercase",
+                color: isDark ? "#ffffff" : NAVY,
+                whiteSpace: "nowrap",
+                transition: "color 0.35s ease",
+              }}
+            >
+              {typedMain}
+              {mainTyping && showCursor && <span style={{ opacity: 0.6 }}>|</span>}
+            </span>
+            <span
+              style={{
+                fontWeight: 600,
+                fontSize: "0.8rem",
+                letterSpacing: "0.5px",
+                color: GOLD,
+                whiteSpace: "nowrap",
+                marginTop: "2px",
+              }}
+            >
+              {typedSub}
+              {subTyping && showCursor && <span style={{ opacity: 0.6 }}>|</span>}
+            </span>
+          </div>
         </Link>
 
         {/* ── Desktop nav ── */}
@@ -165,13 +233,29 @@ export default function Header() {
           <Link
             to="/"
             onClick={() => setDrawerOpen(false)}
-            className="no-underline"
+            className="no-underline flex flex-col leading-none"
           >
-            <img
-              src="/logo/logoWebSite.png"
-              alt="VietHungSolar"
-              style={{ height: 56, width: "auto", objectFit: "contain" }}
-            />
+            <span
+              style={{
+                fontWeight: 800,
+                fontSize: "1.25rem",
+                letterSpacing: "0.5px",
+                textTransform: "uppercase",
+                color: "#ffffff",
+              }}
+            >
+              {LOGO_MAIN}
+            </span>
+            <span
+              style={{
+                fontWeight: 600,
+                fontSize: "0.75rem",
+                color: GOLD,
+                marginTop: "2px",
+              }}
+            >
+              {LOGO_SUB}
+            </span>
           </Link>
           <IconButton
             onClick={() => setDrawerOpen(false)}
