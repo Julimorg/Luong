@@ -21,7 +21,7 @@ export const heroData = {
     "Thiết kế, thi công và đồng hành cùng doanh nghiệp, nhà xưởng và hộ gia đình trong hành trình tối ưu chi phí điện.",
   ctaPrimary: { label: "Trang Liên Hệ", href: "#contact" },
   ctaSecondary: { label: "Trang Dự Án", href: "#solutions" },
-  backgroundImage: "public/background/dashboard/hero_background.png",
+  backgroundImage: "/background/dashboard/hero_background.png",
 };
 
 // ---------- PROCESS STEPS (Quy trình triển khai) ----------
@@ -240,9 +240,9 @@ export const featuredBrands: FeaturedBrand[] = [
 
 // ---------- CTA BANNER ----------
 export const ctaBanner = {
-  headline: "Sẵn sàng sử dụng năng lượng sạch?",
+  headline: "Sẵn sàng biến ánh nắng thành lợi nhuận?",
   description:
-    "Hãy ngày sử dụng nguồn năng lượng của tương lai mà không mất chi phí nào thêm.",
+    "Khai thác nguồn năng lượng mặt trời để tiết kiệm chi phí và tạo ra lợi ích bền vững cho tương lai",
   cta: { label: "Nhận tư vấn miễn phí", href: "#contact" },
 };
 
