@@ -1,4 +1,4 @@
-import FlashOnIcon from "@mui/icons-material/FlashOn";
+import { motion } from "framer-motion";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -13,6 +13,82 @@ const socialIconMap: Record<string, React.ReactNode> = {
   linkedin: <LinkedInIcon sx={{ fontSize: 20 }} />,
 };
 
+// ─── Brand colors (đồng bộ với Header) ─────────────────────────────
+const GOLD = "#f6b918";
+
+const LOGO_MAIN = "VIETHUNG";
+const LOGO_SUB = "Solar Energy";
+
+// ─── Animation variants: từng chữ cái của "VIETHUNG" bay lên tuần tự ──
+const letterContainerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.06,
+    },
+  },
+};
+
+const letterVariants = {
+  hidden: { opacity: 0, y: 14 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as any },
+  },
+};
+
+function AnimatedBrandLogo() {
+  return (
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.6 }}
+      className="mb-3"
+    >
+      {/* VIETHUNG — từng chữ cái bay lên tuần tự */}
+      <motion.span
+        variants={letterContainerVariants}
+        className="flex font-extrabold text-2xl tracking-wide text-white uppercase"
+        aria-label={LOGO_MAIN}
+      >
+        {LOGO_MAIN.split("").map((char, i) => (
+          <motion.span key={i} variants={letterVariants} className="inline-block">
+            {char}
+          </motion.span>
+        ))}
+      </motion.span>
+
+      {/* Solar Energy — hiệu ứng shimmer ánh vàng lướt qua liên tục */}
+      <motion.span
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, amount: 0.6 }}
+        transition={{ delay: LOGO_MAIN.length * 0.06 + 0.1, duration: 0.5 }}
+        className="block font-semibold text-sm tracking-[0.05em] mt-0.5"
+        style={{
+          backgroundImage: `linear-gradient(90deg, ${GOLD} 0%, #fff2cc 50%, ${GOLD} 100%)`,
+          backgroundSize: "200% auto",
+          WebkitBackgroundClip: "text",
+          backgroundClip: "text",
+          color: "transparent",
+          animation: "footerShimmer 3s linear infinite",
+        }}
+      >
+        {LOGO_SUB}
+      </motion.span>
+
+      {/* Keyframes cho shimmer — nằm inline vì component này không phải global CSS */}
+      <style>{`
+        @keyframes footerShimmer {
+          0% { background-position: 0% center; }
+          100% { background-position: 200% center; }
+        }
+      `}</style>
+    </motion.div>
+  );
+}
+
 export default function Footer() {
   return (
     <footer className="bg-[#1c2f5c] text-white">
@@ -21,14 +97,7 @@ export default function Footer() {
 
           {/* ── Brand ── */}
           <div>
-            <a href="#home" className="flex items-center gap-2 no-underline mb-3">
-              <span className="flex items-center justify-center w-8 h-8 rounded-md bg-[#f5a623]">
-                <FlashOnIcon sx={{ fontSize: 18, color: "#fff" }} />
-              </span>
-              <span className="font-extrabold text-xl tracking-widest text-white">
-                {footerData.brand.name}
-              </span>
-            </a>
+            <AnimatedBrandLogo />
             <p className="text-white/55 text-sm leading-relaxed mb-5 max-w-xs">
               {footerData.brand.tagline}
             </p>
