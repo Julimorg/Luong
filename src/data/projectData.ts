@@ -2,7 +2,6 @@
 // projectsData.ts — Cấu hình nội dung trang Dự án
 // ============================================================
 
-// ---------- BREADCRUMB ----------
 export const projectsBreadcrumb = [
   { label: "Trang chủ", to: "/" },
   { label: "Dự án", to: "/du-an" },
@@ -10,14 +9,11 @@ export const projectsBreadcrumb = [
 
 // ---------- PAGE HEADER ----------
 export const projectsPageHeader = {
-  headline: "Dự án tiêu biểu",
+  eyebrow: "Dự án tiêu biểu",
+  headline: "Các dự án\nchúng tôi đã triển khai",
   description:
-    "Khám phá những dự án năng lượng mặt trời tiêu biểu mà chúng tôi đã triển khai trên khắp toàn quốc.",
+    "Những công trình năng lượng mặt trời trên khắp Việt Nam\nHiệu quả – Bền vững – Thân thiện môi trường",
 };
-
-// ---------- FILTER THEO TRẠNG THÁI ----------
-// Trước đây lọc theo loại hình công trình (bao gồm cả "Hộ gia đình") —
-// giờ chuyển sang lọc theo tiến độ triển khai, phù hợp hơn cho trang showcase dự án lớn.
 export type ProjectFilterValue = "all" | "completed" | "in-progress";
 
 export const projectFilters: { label: string; value: ProjectFilterValue }[] = [
@@ -26,8 +22,6 @@ export const projectFilters: { label: string; value: ProjectFilterValue }[] = [
   { label: "Đang triển khai", value: "in-progress" },
 ];
 
-// ---------- LOẠI HÌNH CÔNG TRÌNH ----------
-// Không còn dùng để lọc — chỉ hiển thị như tag phân loại nhỏ trên mỗi card.
 export type ProjectCategory = "nha-may" | "doanh-nghiep" | "cong-nghiep";
 
 export const categoryLabels: Record<ProjectCategory, string> = {
@@ -36,7 +30,6 @@ export const categoryLabels: Record<ProjectCategory, string> = {
   "cong-nghiep": "Công nghiệp",
 };
 
-// ---------- PROJECTS ----------
 export interface Project {
   id: number;
   category: ProjectCategory;
@@ -44,8 +37,10 @@ export interface Project {
   title: string;
   capacity: string;
   location: string;
+  panelCount: string;   // VD: "2.180 tấm pin" — TODO: thay số liệu thật
+  timeline: string;     // VD: "04/2026" — TODO: thay số liệu thật
   status: "Hoàn thành" | "Đang thi công";
-  featured?: boolean; // dự án nổi bật -> hiển thị card lớn hơn trong bố cục bento
+  featured?: boolean;
 }
 
 export const projects: Project[] = [
@@ -56,6 +51,8 @@ export const projects: Project[] = [
     title: "Nhà máy May Việt Tân – Hưng Yên",
     capacity: "1.2 MWp",
     location: "Hưng Yên",
+    panelCount: "2.180 tấm pin",
+    timeline: "03/2025",
     status: "Hoàn thành",
   },
   {
@@ -65,6 +62,8 @@ export const projects: Project[] = [
     title: "Nhà máy Bao bì Tân Tiến – Bình Dương",
     capacity: "2 MWp",
     location: "Bình Dương",
+    panelCount: "3.640 tấm pin",
+    timeline: "04/2026",
     status: "Hoàn thành",
   },
   {
@@ -74,6 +73,8 @@ export const projects: Project[] = [
     title: "Trường Quốc tế Việt Úc – TP. HCM",
     capacity: "560 kWp",
     location: "TP. Hồ Chí Minh",
+    panelCount: "1.020 tấm pin",
+    timeline: "02/2026",
     status: "Hoàn thành",
   },
   {
@@ -83,6 +84,8 @@ export const projects: Project[] = [
     title: "Nhà máy Cà Phê Chính xác – Đồng Nai",
     capacity: "5 MWp",
     location: "Đồng Nai",
+    panelCount: "9.090 tấm pin",
+    timeline: "11/2025",
     status: "Hoàn thành",
     featured: true,
   },
@@ -93,6 +96,8 @@ export const projects: Project[] = [
     title: "Tòa nhà văn phòng – Hà Nội",
     capacity: "220 kWp",
     location: "Hà Nội",
+    panelCount: "400 tấm pin",
+    timeline: "08/2025",
     status: "Hoàn thành",
   },
   {
@@ -102,6 +107,8 @@ export const projects: Project[] = [
     title: "Khu công nghiệp VSIP – Bình Dương",
     capacity: "8 MWp",
     location: "Bình Dương",
+    panelCount: "14.540 tấm pin",
+    timeline: "01/2026",
     status: "Hoàn thành",
     featured: true,
   },
@@ -112,6 +119,19 @@ export const projects: Project[] = [
     title: "Nhà máy Dệt may Thắng Lợi – Long An",
     capacity: "3.5 MWp",
     location: "Long An",
+    panelCount: "6.360 tấm pin",
+    timeline: "Dự kiến 09/2026",
+    status: "Đang thi công",
+  },
+  {
+    id: 10,
+    category: "nha-may",
+    image: "https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?w=900&q=80",
+    title: "Nhà máy Dệt may Thắng Lợi – Long An",
+    capacity: "3.5 MWp",
+    location: "Long An",
+    panelCount: "6.360 tấm pin",
+    timeline: "Dự kiến 09/2026",
     status: "Đang thi công",
   },
 ];

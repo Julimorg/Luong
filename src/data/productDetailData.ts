@@ -12,6 +12,7 @@ export interface ProductDocument {
   fileUrl: string; // link tải hoặc xem PDF
 }
 
+
 export interface ProductDetail {
   productId: number;          // khớp với Product.id trong productData.ts
   images: string[];           // gallery ảnh (index 0 = ảnh chính)

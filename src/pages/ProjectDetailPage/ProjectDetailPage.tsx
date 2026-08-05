@@ -1,29 +1,26 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import BoltIcon from "@mui/icons-material/Bolt";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import BusinessIcon from "@mui/icons-material/Business";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import SolarPowerIcon from "@mui/icons-material/SolarPower";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import ReportProblemIcon from "@mui/icons-material/ReportProblem";
-import EmojiObjectsIcon from "@mui/icons-material/EmojiObjects";
-import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import GridViewIcon from "@mui/icons-material/GridView";
+import MemoryIcon from "@mui/icons-material/Memory";
+import NatureIcon from "@mui/icons-material/Nature";
+import SavingsIcon from "@mui/icons-material/Savings";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
-import { projects } from "../../data/projectData";
+import { projects, categoryLabels } from "../../data/projectData";
 import { useScrollReveal, revealClasses } from "../../hooks/useScrollReveal";
 import { projectDetails } from "../../data/projectDetailData";
 
-// ─── Brand colors ─────────────────────────────────────────────
-// (Giữ nguyên tông màu sẵn có của trang này: gold #f5a623 / navy #0d2137)
 const GOLD = "#f5a623";
 const NAVY = "#0d2137";
 
-// ─── Reveal wrapper ───────────────────────────────────────────
+// ─── Reveal wrapper (giữ nguyên) ───────────────────────────────
 function Reveal({
   children,
   delay = 0,
@@ -40,8 +37,8 @@ function Reveal({
     direction === "left"
       ? revealClasses.slideLeft(isVisible, delay)
       : direction === "right"
-      ? `transition-all duration-700 ease-out ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"}`
-      : revealClasses.fadeUp(isVisible, delay);
+        ? `transition-all duration-700 ease-out ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"}`
+        : revealClasses.fadeUp(isVisible, delay);
   return (
     <div ref={ref} className={`${cls} ${className}`}>
       {children}
@@ -49,7 +46,17 @@ function Reveal({
   );
 }
 
-// ─── MAIN ─────────────────────────────────────────────────────
+function pickStatIcon(label: string) {
+  const l = label.toLowerCase();
+  if (l.includes("phát thải") || l.includes("co2") || l.includes("co₂"))
+    return <NatureIcon sx={{ fontSize: 20 }} />;
+  if (l.includes("tiết kiệm") || l.includes("chi phí") || l.includes("vnđ"))
+    return <SavingsIcon sx={{ fontSize: 20 }} />;
+  if (l.includes("sản lượng")) return <SolarPowerIcon sx={{ fontSize: 20 }} />;
+  if (l.includes("công suất")) return <BoltIcon sx={{ fontSize: 20 }} />;
+  return <TaskAltIcon sx={{ fontSize: 20 }} />;
+}
+
 export default function ProjectDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -58,11 +65,14 @@ export default function ProjectDetailPage() {
   const detail = projectDetails[projectId];
   const project = projects.find((p) => p.id === projectId);
 
-  // Prev / Next navigation
-  const allIds = useMemo(() => projects.map((p) => p.id), []);
-  const currentIdx = allIds.indexOf(projectId);
-  const prevId = currentIdx > 0 ? allIds[currentIdx - 1] : null;
-  const nextId = currentIdx < allIds.length - 1 ? allIds[currentIdx + 1] : null;
+  const heroImages = useMemo(
+    () => (detail ? [detail.heroImage, ...(detail.gallery ?? [])] : []),
+    [detail],
+  );
+  const [activeImgIdx, setActiveImgIdx] = useState(0);
+  const goPrevImg = () =>
+    setActiveImgIdx((i) => (i - 1 + heroImages.length) % heroImages.length);
+  const goNextImg = () => setActiveImgIdx((i) => (i + 1) % heroImages.length);
 
   if (!detail || !project) {
     return (
@@ -82,319 +92,334 @@ export default function ProjectDetailPage() {
     );
   }
 
+  const metaRows: { label: string; value?: string }[] = [
+    { label: "Loại hình dự án", value: categoryLabels[project.category] },
+    { label: "Địa điểm", value: detail.location },
+    { label: "Công suất hệ thống", value: detail.capacity },
+    { label: "Sản lượng dự kiến", value: detail.expectedOutput },
+    { label: "Diện tích mái", value: detail.roofArea },
+    { label: "Ngày hoàn thành", value: detail.completedAt },
+    { label: "Phạm vi thực hiện", value: detail.scope },
+    { label: "Khách hàng", value: detail.client },
+  ].filter((row) => Boolean(row.value));
+
+  const hasEquipmentStrip =
+    (detail.equipmentItems?.length ?? 0) > 0 ||
+    (detail.equipment?.length ?? 0) > 0 ||
+    Boolean(project.panelCount) ||
+    Boolean(detail.inverterCount);
+
   return (
     <div className="pt-[72px] bg-[#f3f4f6] min-h-screen">
-
       {/* ══════════════ BREADCRUMB ══════════════ */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <nav className="flex items-center gap-1 text-sm flex-wrap">
-            <Link to="/" className="text-gray-500 hover:text-[#f5a623] no-underline transition-colors duration-200">
+            <Link
+              to="/"
+              className="text-gray-500 hover:text-[#f5a623] no-underline transition-colors duration-200"
+            >
               Trang chủ
             </Link>
             <NavigateNextIcon sx={{ fontSize: 16, color: "#9ca3af" }} />
-            <Link to="/du-an" className="text-gray-500 hover:text-[#f5a623] no-underline transition-colors duration-200">
+            <Link
+              to="/du-an"
+              className="text-gray-500 hover:text-[#f5a623] no-underline transition-colors duration-200"
+            >
               Dự án
             </Link>
             <NavigateNextIcon sx={{ fontSize: 16, color: "#9ca3af" }} />
-            <span className="text-[#0d2137] font-medium line-clamp-1">{detail.title}</span>
+            <span className="text-[#0d2137] font-medium line-clamp-1">
+              {detail.title}
+            </span>
           </nav>
         </div>
       </div>
 
-      {/* ══════════════ HERO ══════════════ */}
-      <div className="relative h-[420px] sm:h-[520px] overflow-hidden">
+      {/* ══════════════ HERO — ảnh full-bleed + card kính mờ, đẩy về phía phải ══════════════ */}
+      <div className="relative h-[560px] sm:h-[600px] lg:h-[620px] overflow-hidden bg-[#0d2137]">
         <img
-          src={detail.heroImage}
+          key={activeImgIdx}
+          src={heroImages[activeImgIdx]}
           alt={detail.title}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transition-opacity duration-500"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0d2137]/85 via-[#0d2137]/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0d2137]/70 via-[#0d2137]/10 to-[#0d2137]/40" />
 
-        {/* Back button */}
         <button
           onClick={() => navigate("/du-an")}
-          className="absolute top-6 left-4 sm:left-8 flex items-center gap-1.5 text-white/80 hover:text-white text-sm font-medium transition-colors duration-200 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg backdrop-blur-sm"
+          className="absolute top-5 left-4 sm:left-8 z-20 flex items-center gap-1.5 text-white/85 hover:text-white text-sm font-medium transition-colors duration-200 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg backdrop-blur-sm border border-white/10"
         >
           <ArrowBackIcon sx={{ fontSize: 16 }} />
           Dự án
         </button>
 
-        {/* Status badge */}
-        <div className="absolute top-6 right-4 sm:right-8">
-          <span
-            className="px-3 py-1.5 rounded-full text-xs font-bold text-white"
-            style={{
-              background: detail.status === "Hoàn thành" ? "#22c55e" : "#f59e0b",
-            }}
-          >
-            {detail.status}
-          </span>
-        </div>
-
-        {/* Hero text */}
-        <div className="absolute bottom-0 left-0 right-0 px-4 sm:px-8 lg:px-0">
-          <div className="max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 pb-10">
-            <p className="text-[#f5a623] text-sm font-semibold mb-2 uppercase tracking-widest">
-              {detail.location}
-            </p>
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white leading-tight mb-2 max-w-3xl">
-              {detail.title}
-            </h1>
-            <p className="text-white/70 text-base max-w-2xl">{detail.subtitle}</p>
+        {heroImages.length > 1 && (
+          <div className="absolute bottom-5 right-4 sm:right-8 z-20 flex items-center gap-2">
+            <button
+              onClick={goPrevImg}
+              className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/25 border border-white/15 backdrop-blur-sm flex items-center justify-center text-white transition-colors duration-200"
+              aria-label="Ảnh trước"
+            >
+              <ArrowBackIosNewIcon sx={{ fontSize: 13 }} />
+            </button>
+            <button
+              onClick={goNextImg}
+              className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/25 border border-white/15 backdrop-blur-sm flex items-center justify-center text-white transition-colors duration-200"
+              aria-label="Ảnh tiếp"
+            >
+              <ArrowForwardIosIcon sx={{ fontSize: 13 }} />
+            </button>
           </div>
-        </div>
-      </div>
+        )}
 
-      {/* ══════════════ STAT CARDS ══════════════ */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 -mt-8 relative z-10">
-          {detail.stats.map((stat, i) => (
-            <Reveal key={i} delay={i * 60}>
-              <div className="bg-white rounded-2xl px-5 py-4 shadow-md border border-gray-100 text-center">
-                <div className="flex items-baseline justify-center gap-1">
-                  <span className="text-2xl sm:text-3xl font-extrabold text-[#0d2137]">
-                    {stat.value}
+        {/* Wrapper full-width; ml tăng dần theo breakpoint để card lùi dần về phía phải */}
+        <div className="absolute inset-0 z-10 flex items-start pointer-events-none">
+          <div className="pointer-events-auto ml-4 sm:ml-16 lg:ml-28 xl:ml-40 mt-20 sm:mt-24 w-full max-w-[calc(100%-2rem)] sm:max-w-[440px]">
+            <Reveal>
+              <div className="rounded-2xl border border-white/15 bg-black/35 backdrop-blur-md p-5 sm:p-7 shadow-2xl">
+                <span
+                  className="inline-block rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider mb-3"
+                  style={{ backgroundColor: GOLD, color: "#fff" }}
+                >
+                  {categoryLabels[project.category]}
+                </span>
+
+                <h1
+                  className="text-2xl sm:text-3xl font-extrabold text-white leading-tight mb-2"
+                  style={{ textShadow: "0 2px 10px rgba(0,0,0,0.5)" }}
+                >
+                  {detail.title}
+                </h1>
+
+                <div className="flex items-center gap-1.5 text-white/75 text-sm mb-3">
+                  <LocationOnIcon sx={{ fontSize: 16, color: GOLD }} />
+                  {detail.location}
+                </div>
+
+                <p className="text-white/65 text-sm leading-relaxed mb-4">
+                  {detail.subtitle}
+                </p>
+
+                <div className="flex items-center gap-2 mb-5">
+                  <span
+                    className="px-2.5 py-1 rounded-full text-[11px] font-bold text-white"
+                    style={{
+                      background:
+                        detail.status === "Hoàn thành" ? "#22c55e" : "#f59e0b",
+                    }}
+                  >
+                    {detail.status}
                   </span>
-                  {stat.unit && (
-                    <span className="text-xs font-semibold text-[#f5a623]">{stat.unit}</span>
+                  {detail.completedAt && (
+                    <span className="text-white/50 text-xs font-medium">
+                      {detail.completedAt}
+                    </span>
                   )}
                 </div>
-                <div className="text-xs text-gray-400 mt-1 font-medium">{stat.label}</div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
 
-      {/* ══════════════ OVERVIEW + META ══════════════ */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-
-          {/* Overview text + ảnh tượng trưng */}
-          <Reveal className="lg:col-span-2 h-full">
-            <div className="flex flex-col h-full">
-              <h2 className="text-xl font-extrabold text-[#0d2137] mb-4">Tổng quan dự án</h2>
-              <p className="text-gray-600 leading-relaxed text-base">{detail.overview}</p>
-
-              {/* Ảnh tượng trưng — flex-1 để kéo dài cho bằng meta card bên phải */}
-              <div className="mt-6 relative rounded-2xl overflow-hidden border border-gray-200 shadow-sm group flex-1 min-h-[180px]">
-                <img
-                  src={detail.overviewImage ?? detail.gallery?.[0] ?? detail.heroImage}
-                  alt={detail.title}
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-            </div>
-          </Reveal>
-
-          {/* Meta card */}
-          <Reveal delay={120}>
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 flex flex-col gap-10">
-              <div className="flex items-start gap-3">
-                <span className="flex-shrink-0 w-9 h-9 rounded-full bg-[#f5a623]/10 text-[#f5a623] flex items-center justify-center">
-                  <BoltIcon sx={{ fontSize: 18 }} />
-                </span>
-                <div>
-                  <div className="text-xs text-gray-400 font-semibold uppercase tracking-wide mb-0.5">
-                    Công suất
-                  </div>
-                  <div className="text-[#0d2137] font-bold text-sm">{detail.capacity}</div>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <span className="flex-shrink-0 w-9 h-9 rounded-full bg-[#f5a623]/10 text-[#f5a623] flex items-center justify-center">
-                  <LocationOnIcon sx={{ fontSize: 18 }} />
-                </span>
-                <div>
-                  <div className="text-xs text-gray-400 font-semibold uppercase tracking-wide mb-0.5">
-                    Địa điểm
-                  </div>
-                  <div className="text-[#0d2137] font-bold text-sm">{detail.location}</div>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <span className="flex-shrink-0 w-9 h-9 rounded-full bg-[#f5a623]/10 text-[#f5a623] flex items-center justify-center">
-                  <BusinessIcon sx={{ fontSize: 18 }} />
-                </span>
-                <div>
-                  <div className="text-xs text-gray-400 font-semibold uppercase tracking-wide mb-0.5">
-                    Khách hàng
-                  </div>
-                  <div className="text-[#0d2137] font-bold text-sm">{detail.client}</div>
-                </div>
-              </div>
-
-              {detail.completedAt && (
-                <div className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-9 h-9 rounded-full bg-[#f5a623]/10 text-[#f5a623] flex items-center justify-center">
-                    <CalendarTodayIcon sx={{ fontSize: 16 }} />
-                  </span>
-                  <div>
-                    <div className="text-xs text-gray-400 font-semibold uppercase tracking-wide mb-0.5">
-                      Hoàn thành
-                    </div>
-                    <div className="text-[#0d2137] font-bold text-sm">{detail.completedAt}</div>
-                  </div>
-                </div>
-              )}
-
-              <div className="pt-2 border-t border-gray-100">
-                <span
-                  className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold text-white"
-                  style={{
-                    background: detail.status === "Hoàn thành" ? "#22c55e" : "#f59e0b",
-                  }}
-                >
-                  {detail.status}
-                </span>
-              </div>
-            </div>
-          </Reveal>
-
-        </div>
-      </section>
-
-      {/* ══════════════ THÔNG SỐ KỸ THUẬT ══════════════ */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-2">
-        <Reveal>
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="grid grid-cols-1 lg:grid-cols-3">
-
-              {/* Thiết bị sử dụng */}
-              <div className="lg:col-span-2 p-6 sm:p-8">
-                <div className="flex items-center gap-2.5 mb-5">
-                  <SolarPowerIcon sx={{ fontSize: 20, color: GOLD }} />
-                  <h2 className="text-lg font-extrabold text-[#0d2137]">Thiết bị sử dụng</h2>
-                </div>
-                <div className="grid sm:grid-cols-2 gap-3">
-                  {(detail.equipment ?? []).map((item, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center gap-3 rounded-xl bg-gray-50 border border-gray-100 px-4 py-3 hover:border-[#f5a623]/40 hover:bg-[#f5a623]/[0.04] transition-colors duration-200"
-                    >
-                      <span
-                        className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                        style={{ backgroundColor: `${GOLD}1f` }}
-                      >
-                        <CheckCircleIcon sx={{ fontSize: 18, color: GOLD }} />
+                <div className="flex flex-wrap gap-x-6 gap-y-3 pt-4 border-t border-white/15 mb-5">
+                  {detail.stats.map((stat, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <span className="flex-shrink-0" style={{ color: GOLD }}>
+                        {pickStatIcon(stat.label)}
                       </span>
-                      <span className="text-gray-700 text-sm font-medium leading-snug">{item}</span>
+                      <div className="leading-tight">
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-white font-extrabold text-base">
+                            {stat.value}
+                          </span>
+                          {stat.unit && (
+                            <span
+                              className="text-[11px] font-bold"
+                              style={{ color: GOLD }}
+                            >
+                              {stat.unit}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-white/45 text-[10px] whitespace-nowrap">
+                          {stat.label}
+                        </p>
+                      </div>
                     </div>
                   ))}
                 </div>
+
+                <Link
+                  to="/lien-he"
+                  className="inline-flex items-center gap-1.5 w-fit rounded-lg px-4 py-2.5 text-sm font-bold no-underline transition-all duration-200 hover:gap-2.5"
+                  style={{ backgroundColor: GOLD, color: "#fff" }}
+                >
+                  Liên hệ nhận giải pháp
+                  <ArrowForwardIcon sx={{ fontSize: 15 }} />
+                </Link>
               </div>
-
-              {/* Thời gian thi công — nền trắng, thanh dọc navy dài bằng vùng nút thiết bị */}
-              <div className="relative p-6 sm:p-8 flex flex-col">
-                {/* Spacer khớp chiều cao heading "Thiết bị sử dụng" (chỉ desktop) */}
-                <div className="hidden lg:flex items-center gap-2.5 mb-5 invisible" aria-hidden="true">
-                  <SolarPowerIcon sx={{ fontSize: 20 }} />
-                  <span className="text-lg font-extrabold leading-none">x</span>
-                </div>
-
-                {/* Gạch ngang ngăn cách (mobile) */}
-                <span className="lg:hidden block w-full h-px bg-gray-100 mb-5" />
-
-                {/* Vùng canh đúng chiều cao các nút thiết bị */}
-                <div className="relative flex-1 flex items-center">
-                  {/* Thanh dọc navy — dài bằng vùng nút thiết bị */}
-                  <span
-                    className="hidden lg:block absolute left-0 top-0 bottom-0 w-[3px] rounded-full"
-                    style={{ backgroundColor: NAVY }}
-                  />
-                  <div className="lg:pl-8">
-                    <div className="flex items-center gap-2 mb-2">
-                      <AccessTimeIcon sx={{ fontSize: 18, color: GOLD }} />
-                      <span className="text-xs font-semibold uppercase tracking-wide text-gray-400">
-                        Thời gian thi công
-                      </span>
-                    </div>
-                    <div className="text-2xl sm:text-3xl font-extrabold leading-snug" style={{ color: NAVY }}>
-                      {detail.constructionTime ?? "—"}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
+            </Reveal>
           </div>
-        </Reveal>
-      </section>
+        </div>
+      </div>
 
-      {/* ══════════════ THÁCH THỨC / GIẢI PHÁP / KẾT QUẢ ══════════════ */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-
-          {/* Thách thức */}
-          <Reveal>
-            <div className="h-full bg-white rounded-2xl border border-gray-200 border-l-4 shadow-sm p-6 sm:p-8" style={{ borderLeftColor: GOLD }}>
-              <div className="flex items-center gap-2.5 mb-4">
-                <span className="w-9 h-9 rounded-full bg-[#f5a623]/10 flex items-center justify-center flex-shrink-0">
-                  <ReportProblemIcon sx={{ fontSize: 18, color: GOLD }} />
+      {/* Desktop (lg+): grid chia đều, full width, KHÔNG overflow. Mobile/tablet: cuộn ngang. */}
+      {/* ══════════════ THIẾT BỊ SỬ DỤNG ══════════════ */}
+      {hasEquipmentStrip && (
+        <div className="bg-white border-b border-gray-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex overflow-x-auto no-scrollbar divide-x divide-gray-200 lg:grid lg:grid-flow-col lg:auto-cols-fr lg:overflow-visible">
+              {/* Nhãn — luôn là cột đầu tiên */}
+              <div className="flex-shrink-0 lg:min-w-0 flex items-center pr-6 lg:pr-4 py-5">
+                <span className="text-gray-400 text-sm font-medium whitespace-nowrap lg:whitespace-normal">
+                  Thiết bị sử dụng
                 </span>
-                <h3 className="text-lg font-extrabold text-[#0d2137]">Thách thức của dự án</h3>
               </div>
-              <p className="text-gray-600 leading-relaxed text-base">{detail.challenge}</p>
-            </div>
-          </Reveal>
 
-          {/* Giải pháp */}
-          <Reveal delay={120}>
-            <div className="h-full bg-white rounded-2xl border border-gray-200 shadow-sm p-6 sm:p-8">
-              <div className="flex items-center gap-2.5 mb-4">
-                <span className="w-9 h-9 rounded-full bg-[#f5a623]/10 flex items-center justify-center flex-shrink-0">
-                  <EmojiObjectsIcon sx={{ fontSize: 18, color: GOLD }} />
-                </span>
-                <h3 className="text-lg font-extrabold text-[#0d2137]">Giải pháp của VIETHUNGSOLAR</h3>
-              </div>
-              <div className="flex flex-col gap-3">
-                {(detail.solutions ?? []).map((s, i) => (
-                  <div key={i} className="flex items-start gap-2.5">
-                    <CheckCircleIcon sx={{ fontSize: 18, color: GOLD, mt: "2px", flexShrink: 0 }} />
-                    <span className="text-gray-700 text-sm leading-relaxed">{s}</span>
+              {/* Thiết bị dạng brand + spec (2 dòng) — ưu tiên dùng nếu có */}
+              {detail.equipmentItems?.map((item, i) => (
+                <div
+                  key={`eq-${i}`}
+                  className="flex-shrink-0 lg:min-w-0 flex flex-col justify-center px-6 lg:px-4 py-5"
+                >
+                  <span
+                    className="font-extrabold text-sm tracking-wide whitespace-nowrap lg:whitespace-normal lg:leading-snug"
+                    style={{ color: NAVY }}
+                  >
+                    {item.brand}
+                  </span>
+                  <span className="text-gray-400 text-xs whitespace-nowrap lg:whitespace-normal lg:leading-snug mt-0.5">
+                    {item.spec}
+                  </span>
+                </div>
+              ))}
+
+              {/* Fallback: nếu chưa có equipmentItems, dùng equipment: string[] cũ */}
+              {!detail.equipmentItems?.length &&
+                detail.equipment?.map((item, i) => (
+                  <div
+                    key={`eq-legacy-${i}`}
+                    className="flex-shrink-0 lg:min-w-0 flex items-center px-6 lg:px-4 py-5"
+                  >
+                    <span
+                      className="font-semibold text-sm whitespace-nowrap lg:whitespace-normal lg:leading-snug"
+                      style={{ color: NAVY }}
+                    >
+                      {item}
+                    </span>
                   </div>
                 ))}
-              </div>
-            </div>
-          </Reveal>
 
+              {/* Số lượng tấm pin */}
+              {project.panelCount && (
+                <div className="flex-shrink-0 lg:min-w-0 flex items-center gap-2.5 px-6 lg:px-4 py-5">
+                  <GridViewIcon
+                    sx={{ fontSize: 20, color: GOLD, flexShrink: 0 }}
+                  />
+                  <span
+                    className="font-extrabold text-sm whitespace-nowrap lg:whitespace-normal lg:leading-snug"
+                    style={{ color: NAVY }}
+                  >
+                    {project.panelCount}
+                  </span>
+                </div>
+              )}
+
+              {/* Số lượng inverter */}
+              {detail.inverterCount && (
+                <div className="flex-shrink-0 lg:min-w-0 flex items-center gap-2.5 px-6 lg:px-4 py-5">
+                  <MemoryIcon
+                    sx={{ fontSize: 20, color: GOLD, flexShrink: 0 }}
+                  />
+                  <div className="leading-tight">
+                    <span
+                      className="font-extrabold text-sm block whitespace-nowrap lg:whitespace-normal"
+                      style={{ color: NAVY }}
+                    >
+                      {detail.inverterCount}
+                    </span>
+                    <span className="text-gray-400 text-xs whitespace-nowrap lg:whitespace-normal">
+                      Inverter
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
+      )}
 
-        {/* Kết quả */}
-        <Reveal>
-          <div className="rounded-2xl p-6 sm:p-8 lg:p-10" style={{ backgroundColor: NAVY }}>
-            <div className="flex items-center gap-2.5 mb-6">
-              <span className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: GOLD }}>
-                <EmojiEventsIcon sx={{ fontSize: 18, color: NAVY }} />
-              </span>
-              <h3 className="text-lg font-extrabold text-white">Kết quả</h3>
-            </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {(detail.results ?? []).map((r, i) => (
+      {/* ══════════════ TỔNG QUAN DỰ ÁN ══════════════ */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
+          <Reveal className="lg:col-span-2">
+            <h2 className="text-xl font-extrabold text-[#0d2137] mb-4">
+              Tổng quan dự án
+            </h2>
+            <p className="text-gray-600 leading-relaxed text-sm mb-6">
+              {detail.overview}
+            </p>
+
+            <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
+              {metaRows.map((row, i) => (
                 <div
-                  key={i}
-                  className="flex items-start gap-3 rounded-xl bg-white/[0.06] border border-white/10 px-4 py-3.5"
+                  key={row.label}
+                  className={`flex items-center justify-between px-5 py-3 text-sm ${
+                    i !== metaRows.length - 1 ? "border-b border-gray-100" : ""
+                  }`}
                 >
-                  <TaskAltIcon sx={{ fontSize: 20, color: GOLD, mt: "1px", flexShrink: 0 }} />
-                  <span className="text-white/85 text-sm leading-relaxed">{r}</span>
+                  <span className="text-gray-400">{row.label}</span>
+                  <span
+                    className="font-bold text-right"
+                    style={{ color: NAVY }}
+                  >
+                    {row.value}
+                  </span>
                 </div>
               ))}
             </div>
-          </div>
-        </Reveal>
+          </Reveal>
+
+          <Reveal delay={120} className="lg:col-span-3">
+            <div className="relative rounded-2xl overflow-hidden border border-gray-200 shadow-sm group aspect-[16/11]">
+              <img
+                src={
+                  detail.overviewImage ??
+                  detail.gallery?.[0] ??
+                  detail.heroImage
+                }
+                alt={detail.title}
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+
+              <div className="absolute left-4 right-4 bottom-4 sm:left-6 sm:right-auto sm:bottom-6 sm:max-w-sm">
+                <div className="rounded-xl border border-white/15 bg-black/40 backdrop-blur-md p-4">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <SolarPowerIcon sx={{ fontSize: 17, color: GOLD }} />
+                    <h3 className="text-white font-bold text-sm">
+                      Giải pháp tối ưu cho sản xuất xanh
+                    </h3>
+                  </div>
+                  <p className="text-white/70 text-xs leading-relaxed">
+                    {detail.solutions?.[0] ??
+                      detail.challenge ??
+                      detail.overview}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </div>
       </section>
 
       {/* ══════════════ GALLERY ══════════════ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         <Reveal className="mb-6">
-          <h2 className="text-xl font-extrabold text-[#0d2137]">Hình ảnh dự án</h2>
+          <h2 className="text-xl font-extrabold text-[#0d2137]">
+            Hình ảnh dự án
+          </h2>
         </Reveal>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {detail.gallery.map((src, i) => (
-            <Reveal key={i} delay={i * 80}>
+            <Reveal key={i} delay={i * 70}>
               <div className="rounded-2xl overflow-hidden aspect-[4/3] border border-gray-200 shadow-sm">
                 <img
                   src={src}
@@ -407,48 +432,27 @@ export default function ProjectDetailPage() {
         </div>
       </section>
 
-      {/* ══════════════ PREV / NEXT ══════════════ */}
+      {/* ══════════════ FOOTER — quay lại + CTA ══════════════ */}
       <div className="border-t border-gray-200 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between gap-4">
-          {prevId ? (
-            <Link
-              to={`/du-an/${prevId}`}
-              className="flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-[#f5a623] no-underline transition-colors duration-200 group"
-            >
-              <ArrowBackIcon sx={{ fontSize: 16 }} />
-              <span className="hidden sm:inline">
-                {projects.find((p) => p.id === prevId)?.title}
-              </span>
-              <span className="sm:hidden">Dự án trước</span>
-            </Link>
-          ) : (
-            <div />
-          )}
-
           <Link
             to="/du-an"
-            className="text-xs font-semibold text-gray-400 hover:text-[#f5a623] no-underline transition-colors duration-200 shrink-0"
+            className="flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-[#f5a623] no-underline transition-colors duration-200"
           >
-            Tất cả dự án
+            <ArrowBackIcon sx={{ fontSize: 16 }} />
+            Quay lại danh sách dự án
           </Link>
 
-          {nextId ? (
-            <Link
-              to={`/du-an/${nextId}`}
-              className="flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-[#f5a623] no-underline transition-colors duration-200 group text-right"
-            >
-              <span className="hidden sm:inline">
-                {projects.find((p) => p.id === nextId)?.title}
-              </span>
-              <span className="sm:hidden">Dự án tiếp</span>
-              <ArrowForwardIcon sx={{ fontSize: 16 }} />
-            </Link>
-          ) : (
-            <div />
-          )}
+          <Link
+            to="/lien-he"
+            className="inline-flex items-center gap-1.5 rounded-lg px-5 py-2.5 text-sm font-bold no-underline transition-all duration-200 hover:gap-2.5"
+            style={{ backgroundColor: GOLD, color: "#fff" }}
+          >
+            Liên hệ nhận giải pháp
+            <ArrowForwardIcon sx={{ fontSize: 15 }} />
+          </Link>
         </div>
       </div>
-
     </div>
   );
 }

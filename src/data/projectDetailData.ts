@@ -22,6 +22,13 @@ export interface ProjectDetail {
   stats: ProjectStat[]; // 4 con số nổi bật dưới hero
   overview: string; // đoạn mô tả tổng quan
 
+  expectedOutput?: string; // VD: "2.700 MWh/năm"
+  roofArea?: string; // VD: "12.000 m²"
+  scope?: string;
+
+  equipmentItems?: { brand: string; spec: string }[]; // VD: { brand: "LONGi", spec: "Tấm pin 480W" }
+  inverterCount?: string; // VD: "18"
+
   // ── Thông số kỹ thuật ──
   equipment: string[]; // Thiết bị sử dụng
   constructionTime: string; // Thời gian thi công
@@ -39,8 +46,10 @@ export const projectDetails: Record<number, ProjectDetail> = {
     id: 1,
     title: "Nhà máy May Việt Tân – Hưng Yên",
     subtitle: "Hệ thống điện mặt trời áp mái quy mô lớn cho ngành dệt may",
-    heroImage: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1400&q=80",
-    overviewImage: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1200&q=80",
+    heroImage:
+      "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1400&q=80",
+    overviewImage:
+      "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1200&q=80",
     location: "Hưng Yên",
     capacity: "1.2 MWp",
     status: "Hoàn thành",
@@ -78,6 +87,12 @@ export const projectDetails: Record<number, ProjectDetail> = {
       "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600&q=80",
       "https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?w=600&q=80",
       "https://images.unsplash.com/photo-1521618755572-156ae0cdd74d?w=600&q=80",
+      "https://images.unsplash.com/photo-1521618755572-156ae0cdd74d?w=600&q=80",
+      "https://images.unsplash.com/photo-1521618755572-156ae0cdd74d?w=600&q=80",
+      "https://images.unsplash.com/photo-1521618755572-156ae0cdd74d?w=600&q=80",
+      "https://images.unsplash.com/photo-1521618755572-156ae0cdd74d?w=600&q=80",
+      "https://images.unsplash.com/photo-1521618755572-156ae0cdd74d?w=600&q=80",
+      "https://images.unsplash.com/photo-1521618755572-156ae0cdd74d?w=600&q=80",
     ],
   },
 
@@ -85,8 +100,10 @@ export const projectDetails: Record<number, ProjectDetail> = {
     id: 2,
     title: "Nhà máy Bao bì Tân Tiến – Bình Dương",
     subtitle: "Giải pháp năng lượng tái tạo cho ngành công nghiệp bao bì",
-    heroImage: "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1400&q=80",
-    overviewImage: "https://images.unsplash.com/photo-1548337138-e87d889cc369?w=1200&q=80",
+    heroImage:
+      "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1400&q=80",
+    overviewImage:
+      "https://images.unsplash.com/photo-1548337138-e87d889cc369?w=1200&q=80",
     location: "Bình Dương",
     capacity: "2 MWp",
     status: "Hoàn thành",
@@ -131,8 +148,10 @@ export const projectDetails: Record<number, ProjectDetail> = {
     id: 3,
     title: "Trường Quốc tế Việt Úc – TP. HCM",
     subtitle: "Điện mặt trời xanh cho môi trường giáo dục hiện đại",
-    heroImage: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1400&q=80",
-    overviewImage: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&q=80",
+    heroImage:
+      "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1400&q=80",
+    overviewImage:
+      "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&q=80",
     location: "TP. Hồ Chí Minh",
     capacity: "560 kWp",
     status: "Hoàn thành",
@@ -176,8 +195,10 @@ export const projectDetails: Record<number, ProjectDetail> = {
     id: 4,
     title: "Nhà máy Cà Phê Chính xác – Đồng Nai",
     subtitle: "Hệ thống năng lượng tái tạo 5 MWp cho ngành chế biến nông sản",
-    heroImage: "https://images.unsplash.com/photo-1548337138-e87d889cc369?w=1400&q=80",
-    overviewImage: "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1200&q=80",
+    heroImage:
+      "https://images.unsplash.com/photo-1548337138-e87d889cc369?w=1400&q=80",
+    overviewImage:
+      "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1200&q=80",
     location: "Đồng Nai",
     capacity: "5 MWp",
     status: "Hoàn thành",
@@ -222,8 +243,10 @@ export const projectDetails: Record<number, ProjectDetail> = {
     id: 5,
     title: "Tòa nhà văn phòng – Hà Nội",
     subtitle: "Điện mặt trời tích hợp cho tòa nhà thương mại hiện đại",
-    heroImage: "https://images.unsplash.com/photo-1521618755572-156ae0cdd74d?w=1400&q=80",
-    overviewImage: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80",
+    heroImage:
+      "https://images.unsplash.com/photo-1521618755572-156ae0cdd74d?w=1400&q=80",
+    overviewImage:
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80",
     location: "Hà Nội",
     capacity: "220 kWp",
     status: "Hoàn thành",
@@ -267,8 +290,10 @@ export const projectDetails: Record<number, ProjectDetail> = {
     id: 6,
     title: "Biệt thự gia đình – Đà Nẵng",
     subtitle: "Hệ thống điện mặt trời kết hợp lưu trữ cho hộ gia đình cao cấp",
-    heroImage: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=80",
-    overviewImage: "https://images.unsplash.com/photo-1521618755572-156ae0cdd74d?w=1200&q=80",
+    heroImage:
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=80",
+    overviewImage:
+      "https://images.unsplash.com/photo-1521618755572-156ae0cdd74d?w=1200&q=80",
     location: "Đà Nẵng",
     capacity: "10 kWp",
     status: "Hoàn thành",
@@ -312,8 +337,10 @@ export const projectDetails: Record<number, ProjectDetail> = {
     id: 7,
     title: "Khu công nghiệp VSIP – Bình Dương",
     subtitle: "Năng lượng xanh quy mô lớn cho khu công nghiệp quốc tế",
-    heroImage: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1400&q=80",
-    overviewImage: "https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?w=1200&q=80",
+    heroImage:
+      "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1400&q=80",
+    overviewImage:
+      "https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?w=1200&q=80",
     location: "Bình Dương",
     capacity: "8 MWp",
     status: "Hoàn thành",
@@ -357,8 +384,10 @@ export const projectDetails: Record<number, ProjectDetail> = {
     id: 8,
     title: "Nhà phố khu dân cư – TP. HCM",
     subtitle: "Điện mặt trời tiết kiệm cho nhà phố đô thị",
-    heroImage: "https://images.unsplash.com/photo-1584622781867-1c5fe959b77b?w=1400&q=80",
-    overviewImage: "https://images.unsplash.com/photo-1548337138-e87d889cc369?w=1200&q=80",
+    heroImage:
+      "https://images.unsplash.com/photo-1584622781867-1c5fe959b77b?w=1400&q=80",
+    overviewImage:
+      "https://images.unsplash.com/photo-1548337138-e87d889cc369?w=1200&q=80",
     location: "TP. Hồ Chí Minh",
     capacity: "6 kWp",
     status: "Hoàn thành",
@@ -401,9 +430,12 @@ export const projectDetails: Record<number, ProjectDetail> = {
   9: {
     id: 9,
     title: "Nhà máy Dệt may Thắng Lợi – Long An",
-    subtitle: "Hệ thống điện mặt trời đang triển khai cho ngành dệt may miền Nam",
-    heroImage: "https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?w=1400&q=80",
-    overviewImage: "https://images.unsplash.com/photo-1584622781867-1c5fe959b77b?w=1200&q=80",
+    subtitle:
+      "Hệ thống điện mặt trời đang triển khai cho ngành dệt may miền Nam",
+    heroImage:
+      "https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?w=1400&q=80",
+    overviewImage:
+      "https://images.unsplash.com/photo-1584622781867-1c5fe959b77b?w=1200&q=80",
     location: "Long An",
     capacity: "3.5 MWp",
     status: "Đang thi công",
