@@ -15,6 +15,9 @@ export const productsPageHeader = {
   description: "Thiết bị điện năng lượng mặt trời chính hãng đến từ các thương hiệu hàng đầu thế giới",
 };
 
+
+
+
 // ---------- PRODUCT ----------
 export interface Product {
   id:          number;
@@ -35,6 +38,60 @@ export interface ProductSection {
   viewAll?: string;
 }
 
+// ---------- BRAND INFO — mô tả từng thương hiệu, hiển thị đầu mỗi dải sản phẩm ----------
+// Key phải khớp CHÍNH XÁC (phân biệt hoa/thường) với field `brand` ở trên.
+export interface ProductBrandInfo {
+  description: string;
+  linkTo?: string;
+}
+
+export const productBrandInfo: Record<string, ProductBrandInfo> = {
+  "Canadian Solar": {
+    description:
+      "Canadian Solar cung cấp giải pháp pin mặt trời chất lượng cao, phù hợp đa dạng điều kiện lắp đặt và quy mô công trình.",
+  },
+  "TCL Solar": {
+    description:
+      "TCL Solar mang công nghệ N-Type TOPCon tiên tiến, tối ưu hiệu suất chuyển đổi cho các dự án quy mô lớn.",
+  },
+  "LONGi": {
+    description:
+      "LONGi là nhà sản xuất tấm pin năng lượng mặt trời hàng đầu thế giới, đi đầu công nghệ HPBC cho hiệu suất và độ bền vượt trội.",
+  },
+  "JA Solar": {
+    description:
+      "JA Solar là thương hiệu tấm pin uy tín toàn cầu, nổi bật với công nghệ N-Type cho hiệu suất chuyển đổi cao.",
+  },
+  "Astronergy": {
+    description:
+      "Astronergy thuộc tập đoàn CHINT, nổi bật với công nghệ TOPCon cho hiệu suất vượt trội và độ bền cao trong mọi điều kiện.",
+  },
+  "Jinko Solar": {
+    description:
+      "Jinko Solar là một trong những nhà sản xuất tấm pin lớn nhất thế giới, công nghệ Tiger Neo N-Type TOPCon hiệu suất cao.",
+  },
+  "Sungrow": {
+    description:
+      "Sungrow là thương hiệu inverter hàng đầu thế giới về sản lượng xuất xưởng, giải pháp đa dạng từ hòa lưới đến hybrid lưu trữ.",
+  },
+  "SMA": {
+    description:
+      "SMA là thương hiệu inverter đến từ Đức, nổi tiếng về độ bền, độ tin cậy và công nghệ tiên tiến trong ngành năng lượng mặt trời.",
+  },
+  "GoodWe": {
+    description:
+      "GoodWe cung cấp giải pháp inverter hybrid thông minh, tối ưu cho hệ thống có tích hợp lưu trữ năng lượng.",
+  },
+  "Pylontech": {
+    description:
+      "Pylontech chuyên sản xuất pin lưu trữ Lithium chất lượng cao, an toàn và có tuổi thọ vận hành dài.",
+  },
+  "Lithium Valley": {
+    description:
+      "Lithium Valley cung cấp giải pháp pin lưu trữ dạng module, linh hoạt mở rộng dung lượng theo nhu cầu sử dụng.",
+  },
+};
+
 export const productSections: ProductSection[] = [
   { id: "tam-pin",     title: "Tấm Pin Năng Lượng Mặt Trời",  viewAll: "/san-pham/tam-pin" },
   { id: "inverter",    title: "Inverter Hòa Lưới & Lưu Trữ",  viewAll: "/san-pham/inverter" },
@@ -46,6 +103,42 @@ export const products: Product[] = [
   // ── Tấm pin — ảnh panel đen nền trắng/xám ────────────────
   {
     id: 1,
+    category: "tam-pin",
+    image: "https://images.unsplash.com/photo-1611365892117-00ac5ef43c90?w=400&q=80",
+    brand: "Canadian Solar",
+    brandColor: "#e63c2f",
+    name: "Canadian Solar HiKu 615W",
+    specs: [
+      { label: "Công suất",  value: "615W" },
+      { label: "Công nghệ",  value: "N-Type TOPCon" },
+    ],
+  },
+  {
+    id: 1.1,
+    category: "tam-pin",
+    image: "https://images.unsplash.com/photo-1611365892117-00ac5ef43c90?w=400&q=80",
+    brand: "Canadian Solar",
+    brandColor: "#e63c2f",
+    name: "Canadian Solar HiKu 615W",
+    specs: [
+      { label: "Công suất",  value: "615W" },
+      { label: "Công nghệ",  value: "N-Type TOPCon" },
+    ],
+  },
+  {
+    id: 1.3,
+    category: "tam-pin",
+    image: "https://images.unsplash.com/photo-1611365892117-00ac5ef43c90?w=400&q=80",
+    brand: "Canadian Solar",
+    brandColor: "#e63c2f",
+    name: "Canadian Solar HiKu 615W",
+    specs: [
+      { label: "Công suất",  value: "615W" },
+      { label: "Công nghệ",  value: "N-Type TOPCon" },
+    ],
+  },
+  {
+    id: 1.4,
     category: "tam-pin",
     image: "https://images.unsplash.com/photo-1611365892117-00ac5ef43c90?w=400&q=80",
     brand: "Canadian Solar",

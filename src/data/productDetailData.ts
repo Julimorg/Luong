@@ -22,6 +22,8 @@ export interface ProductDetail {
   documents: ProductDocument[]; // tài liệu / datasheet
   warranty: string;           // thông tin bảo hành
   origin: string;             // xuất xứ
+  tags?: string[];          // VD: ["N-Type TOPCon", "Bifacial", "Double Glass"]
+  applications?: string[];
 }
 
 export const productDetails: ProductDetail[] = [

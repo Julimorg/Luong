@@ -19,6 +19,7 @@ import {
   type AboutField,
 } from "../../data/aboutUsData";
 import { useScrollReveal } from "../../hooks/useScrollReveal";
+import { CompanyFlipbook } from "./components/companyFlipBook";
 
 // ─── Brand colors ─────────────────────────────────────────────
 const GOLD = "#f5a623";
@@ -62,14 +63,15 @@ function RevealSection({
 export default function AboutUsPage() {
   return (
     <div className="pt-[72px]">
-
       {/* ══════════════════ BREADCRUMB ══════════════════ */}
       <div className="bg-gray-50 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <nav className="flex items-center gap-1 text-sm">
             {aboutBreadcrumb.map((crumb, i) => (
               <span key={crumb.to} className="flex items-center gap-1">
-                {i > 0 && <NavigateNextIcon sx={{ fontSize: 16, color: "#9ca3af" }} />}
+                {i > 0 && (
+                  <NavigateNextIcon sx={{ fontSize: 16, color: "#9ca3af" }} />
+                )}
                 {i < aboutBreadcrumb.length - 1 ? (
                   <Link
                     to={crumb.to}
@@ -78,7 +80,9 @@ export default function AboutUsPage() {
                     {crumb.label}
                   </Link>
                 ) : (
-                  <span className="text-[#0d2137] font-medium">{crumb.label}</span>
+                  <span className="text-[#0d2137] font-medium">
+                    {crumb.label}
+                  </span>
                 )}
               </span>
             ))}
@@ -90,12 +94,14 @@ export default function AboutUsPage() {
       <section className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-
             {/* Left — text */}
             <RevealSection>
               <div className="flex items-center gap-2 mb-3">
                 <span className="w-6 h-0.5" style={{ backgroundColor: GOLD }} />
-                <span className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: GOLD }}>
+                <span
+                  className="text-xs font-bold uppercase tracking-[0.2em]"
+                  style={{ color: GOLD }}
+                >
                   {aboutIntro.eyebrow}
                 </span>
               </div>
@@ -104,7 +110,10 @@ export default function AboutUsPage() {
               </h1>
               <div className="flex flex-col gap-4">
                 {aboutIntro.paragraphs.map((p, i) => (
-                  <p key={i} className="text-gray-500 text-base leading-relaxed">
+                  <p
+                    key={i}
+                    className="text-gray-500 text-base leading-relaxed"
+                  >
                     {p}
                   </p>
                 ))}
@@ -122,7 +131,6 @@ export default function AboutUsPage() {
                 <div className="absolute inset-0 bg-gradient-to-tr from-[#0d2137]/25 to-transparent" />
               </div>
             </RevealSection>
-
           </div>
         </div>
       </section>
@@ -163,13 +171,19 @@ export default function AboutUsPage() {
             <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0d2137]">
               {aboutWhySection.headline}
             </h2>
-            <div className="w-10 h-1 rounded-full mt-3" style={{ backgroundColor: GOLD }} />
+            <div
+              className="w-10 h-1 rounded-full mt-3"
+              style={{ backgroundColor: GOLD }}
+            />
           </RevealSection>
 
           <RevealSection>
             <div className="rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
               {/* Header */}
-              <div className="grid grid-cols-1 sm:grid-cols-2" style={{ backgroundColor: NAVY }}>
+              <div
+                className="grid grid-cols-1 sm:grid-cols-2"
+                style={{ backgroundColor: NAVY }}
+              >
                 <div className="px-5 sm:px-6 py-3.5 text-white text-xs font-bold uppercase tracking-wide">
                   {aboutWhySection.colCommit}
                 </div>
@@ -188,14 +202,23 @@ export default function AboutUsPage() {
                 >
                   {/* Commit */}
                   <div className="flex items-start gap-2.5 px-5 sm:px-6 py-4">
-                    <CheckCircleIcon sx={{ fontSize: 18, color: GREEN, mt: "1px", flexShrink: 0 }} />
+                    <CheckCircleIcon
+                      sx={{
+                        fontSize: 18,
+                        color: GREEN,
+                        mt: "1px",
+                        flexShrink: 0,
+                      }}
+                    />
                     <span className="text-[#0d2137] font-semibold text-sm leading-snug">
                       {row.commit}
                     </span>
                   </div>
                   {/* Value */}
                   <div className="px-5 sm:px-6 pb-4 sm:py-4 sm:border-l border-gray-100 pl-[2.65rem] sm:pl-6">
-                    <span className="text-gray-500 text-sm leading-relaxed">{row.value}</span>
+                    <span className="text-gray-500 text-sm leading-relaxed">
+                      {row.value}
+                    </span>
                   </div>
                 </div>
               ))}
@@ -204,6 +227,33 @@ export default function AboutUsPage() {
         </div>
       </section>
 
+      {/* ══════════════════ HỒ SƠ NĂNG LỰC — FLIPBOOK ══════════════════ */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <RevealSection className="mb-10 text-center">
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <span className="w-6 h-0.5" style={{ backgroundColor: GOLD }} />
+              <span
+                className="text-xs font-bold uppercase tracking-[0.2em]"
+                style={{ color: GOLD }}
+              >
+                Tài liệu công ty
+              </span>
+              <span className="w-6 h-0.5" style={{ backgroundColor: GOLD }} />
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0d2137]">
+              Hồ sơ năng lực VIETHUNGSOLAR
+            </h2>
+          </RevealSection>
+
+          <RevealSection delay={100}>
+            <CompanyFlipbook />
+          </RevealSection>
+        </div>
+      </section>
+
+      {/* ══════════════════ VÌ SAO CHỌN ══════════════════ */}
+      {/* ...giữ nguyên phần này và các phần sau như cũ... */}
       {/* ══════════════════ CTA BANNER ══════════════════ */}
       <section className="relative overflow-hidden flex items-center">
         <div
@@ -222,7 +272,10 @@ export default function AboutUsPage() {
                 </p>
                 <div className="flex flex-wrap gap-x-6 gap-y-2">
                   {aboutCta.tags.map((tag) => (
-                    <span key={tag} className="flex items-center gap-1.5 text-white/85 text-sm font-medium">
+                    <span
+                      key={tag}
+                      className="flex items-center gap-1.5 text-white/85 text-sm font-medium"
+                    >
                       <CheckCircleIcon sx={{ fontSize: 16, color: GOLD }} />
                       {tag}
                     </span>
@@ -262,7 +315,6 @@ export default function AboutUsPage() {
           </div>
         </div>
       </section>
-
     </div>
   );
 }
