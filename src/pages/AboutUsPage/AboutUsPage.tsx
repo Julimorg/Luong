@@ -90,7 +90,7 @@ export default function AboutUsPage() {
         </div>
       </div>
 
-      {/* ══════════════════ INTRO + IMAGE ══════════════════ */}
+      {/* ══════════════════ INTRO + FLIPBOOK ══════════════════ */}
       <section className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
@@ -120,16 +120,9 @@ export default function AboutUsPage() {
               </div>
             </RevealSection>
 
-            {/* Right — image */}
-            <RevealSection delay={150} className="relative">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <img
-                  src={aboutIntro.image}
-                  alt={aboutIntro.imageAlt}
-                  className="w-full h-[300px] sm:h-[380px] lg:h-[440px] object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-tr from-[#0d2137]/25 to-transparent" />
-              </div>
+            {/* Right — flipbook hồ sơ năng lực, thay cho ảnh cũ */}
+            <RevealSection delay={150} className="flex justify-center lg:justify-end">
+              <CompanyFlipbook />
             </RevealSection>
           </div>
         </div>
@@ -227,33 +220,6 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      {/* ══════════════════ HỒ SƠ NĂNG LỰC — FLIPBOOK ══════════════════ */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <RevealSection className="mb-10 text-center">
-            <div className="flex items-center justify-center gap-2 mb-3">
-              <span className="w-6 h-0.5" style={{ backgroundColor: GOLD }} />
-              <span
-                className="text-xs font-bold uppercase tracking-[0.2em]"
-                style={{ color: GOLD }}
-              >
-                Tài liệu công ty
-              </span>
-              <span className="w-6 h-0.5" style={{ backgroundColor: GOLD }} />
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0d2137]">
-              Hồ sơ năng lực VIETHUNGSOLAR
-            </h2>
-          </RevealSection>
-
-          <RevealSection delay={100}>
-            <CompanyFlipbook />
-          </RevealSection>
-        </div>
-      </section>
-
-      {/* ══════════════════ VÌ SAO CHỌN ══════════════════ */}
-      {/* ...giữ nguyên phần này và các phần sau như cũ... */}
       {/* ══════════════════ CTA BANNER ══════════════════ */}
       <section className="relative overflow-hidden flex items-center">
         <div

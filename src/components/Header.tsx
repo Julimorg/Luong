@@ -19,59 +19,31 @@ const NAVY = "#1c2f5c";
 
 const DARK_HERO_ROUTES = ["/"];
 
-// ─── Text cho hiệu ứng gõ chữ của logo ─────────────────────────
-const LOGO_MAIN = "VIETHUNG";
-const LOGO_SUB = "Solar Energy";
+// ─── 2 ảnh logo dạng chữ — crossfade theo trạng thái nền header ───
+const LOGO_SRC_WHITE = "/logo/logo_text_white.png";
+const LOGO_SRC_BLUE = "/logo/logo_text_blue.png";
+
+// Kích thước logo desktop (>= md, 900px) — giữ nguyên như cấu hình gốc
+const LOGO_HEIGHT_DESKTOP = 60;
+const LOGO_WIDTH_DESKTOP = 230;
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(() => window.scrollY > 60);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
+  // ── Breakpoints dùng chung để đồng bộ logo/button/nav cùng lúc đổi ──
+  const isXs = useMediaQuery(theme.breakpoints.down("sm")); // < 600px: điện thoại nhỏ
+  const isMobile = useMediaQuery(theme.breakpoints.down("md")); // < 900px: hamburger thay cho nav ngang
   const { pathname } = useLocation();
 
   const hasDarkHero = DARK_HERO_ROUTES.includes(pathname);
   const isTransparent = hasDarkHero && !scrolled;
   const isDark = isTransparent;
 
-  // ── Hiệu ứng gõ chữ "VIETHUNG" -> "Solar Energy", chạy 1 lần khi mount ──
-  const [typedMain, setTypedMain] = useState("");
-  const [typedSub, setTypedSub] = useState("");
-  const [showCursor, setShowCursor] = useState(true);
-
-  useEffect(() => {
-    let mainIdx = 0;
-    let subIdx = 0;
-    let subTimeout: ReturnType<typeof setTimeout> | undefined;
-    let subInterval: ReturnType<typeof setInterval> | undefined;
-
-    const mainInterval = setInterval(() => {
-      mainIdx += 1;
-      setTypedMain(LOGO_MAIN.slice(0, mainIdx));
-      if (mainIdx >= LOGO_MAIN.length) {
-        clearInterval(mainInterval);
-        subTimeout = setTimeout(() => {
-          subInterval = setInterval(() => {
-            subIdx += 1;
-            setTypedSub(LOGO_SUB.slice(0, subIdx));
-            if (subIdx >= LOGO_SUB.length) clearInterval(subInterval);
-          }, 60);
-        }, 150);
-      }
-    }, 90);
-
-    const cursorInterval = setInterval(() => setShowCursor((c) => !c), 500);
-
-    return () => {
-      clearInterval(mainInterval);
-      clearInterval(subInterval);
-      clearInterval(cursorInterval);
-      clearTimeout(subTimeout);
-    };
-  }, []);
-
-  const mainTyping = typedMain.length < LOGO_MAIN.length;
-  const subTyping = !mainTyping && typedSub.length < LOGO_SUB.length;
+  // Kích thước logo theo đúng breakpoint dùng cho hamburger — tránh lệch ngưỡng
+  const logoHeight = isXs ? 32 : isMobile ? 46 : LOGO_HEIGHT_DESKTOP;
+  const logoWidth = isXs ? 130 : isMobile ? 180 : LOGO_WIDTH_DESKTOP;
 
   useEffect(() => {
     const reset = () => setScrolled(window.scrollY > 60);
@@ -101,54 +73,50 @@ export default function Header() {
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        {/* ── Logo chỉ còn chữ: VIETHUNG / Solar Energy xếp chồng ── */}
+        {/* ── Logo: 2 ảnh chồng lên nhau, crossfade bằng opacity, co giãn theo breakpoint ── */}
         <Link
           to="/"
           className="flex items-center no-underline flex-shrink-0"
-          style={{ height: 55 }}
+          style={{ minHeight: 40 }}
         >
           <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              lineHeight: 1,
-              minWidth: 150,
-            }}
+            className="relative flex-shrink-0 transition-[height,width] duration-300 ease-out"
+            style={{ height: logoHeight, width: logoWidth }}
           >
-            <span
+            <img
+              src={LOGO_SRC_WHITE}
+              alt="VIETHUNG Solar Energy"
               style={{
-                fontWeight: 800,
-                fontSize: "1.4rem",
-                letterSpacing: "0.5px",
-                textTransform: "uppercase",
-                color: isDark ? "#ffffff" : NAVY,
-                whiteSpace: "nowrap",
-                transition: "color 0.35s ease",
+                position: "absolute",
+                inset: 0,
+                height: "100%",
+                width: "100%",
+                objectFit: "contain",
+                objectPosition: "left center",
+                transition: "opacity 0.35s ease",
+                opacity: isDark ? 1 : 0,
               }}
-            >
-              {typedMain}
-              {mainTyping && showCursor && <span style={{ opacity: 0.6 }}>|</span>}
-            </span>
-            <span
+            />
+            <img
+              src={LOGO_SRC_BLUE}
+              alt="VIETHUNG Solar Energy"
               style={{
-                fontWeight: 600,
-                fontSize: "0.8rem",
-                letterSpacing: "0.5px",
-                color: GOLD,
-                whiteSpace: "nowrap",
-                marginTop: "2px",
+                position: "absolute",
+                inset: 0,
+                height: "100%",
+                width: "100%",
+                objectFit: "contain",
+                objectPosition: "left center",
+                transition: "opacity 0.35s ease",
+                opacity: isDark ? 0 : 1,
               }}
-            >
-              {typedSub}
-              {subTyping && showCursor && <span style={{ opacity: 0.6 }}>|</span>}
-            </span>
+            />
           </div>
         </Link>
 
-        {/* ── Desktop nav ── */}
+        {/* ── Desktop nav (>= 900px) ── */}
         {!isMobile && (
-          <nav className="flex items-center gap-6">
+          <nav className="flex items-center gap-4 lg:gap-6">
             {navLinks.map((link) => (
               <NavLink
                 key={link.label}
@@ -156,7 +124,7 @@ export default function Header() {
                 end={link.to === "/"}
                 className={({ isActive }) =>
                   [
-                    "text-sm font-medium transition-colors duration-300 no-underline relative group",
+                    "text-sm font-medium transition-colors duration-300 no-underline relative group whitespace-nowrap",
                     isDark
                       ? isActive
                         ? "text-[#f6b918]"
@@ -184,7 +152,7 @@ export default function Header() {
         )}
 
         {/* ── Right side ── */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           <Button
             component={Link}
             to="/lien-he"
@@ -194,11 +162,13 @@ export default function Header() {
               backgroundColor: GOLD,
               color: "#fff",
               fontWeight: 700,
-              fontSize: "0.75rem",
+              fontSize: { xs: "0.68rem", sm: "0.75rem" },
               textTransform: "none",
               borderRadius: "6px",
-              px: 2,
-              py: 0.8,
+              px: { xs: 1.3, sm: 2 },
+              py: { xs: 0.6, sm: 0.8 },
+              minWidth: 0,
+              whiteSpace: "nowrap",
               boxShadow: "none",
               "&:hover": {
                 backgroundColor: GOLD_DARK,
@@ -206,13 +176,13 @@ export default function Header() {
               },
             }}
           >
-            Nhận tư vấn
+            {isXs ? "Tư vấn" : "Nhận tư vấn"}
           </Button>
 
           {isMobile && (
             <IconButton
               onClick={() => setDrawerOpen(true)}
-              sx={{ color: isDark ? "#fff" : NAVY }}
+              sx={{ color: isDark ? "#fff" : NAVY, p: { xs: 0.75, sm: 1 } }}
             >
               <MenuIcon />
             </IconButton>
@@ -220,42 +190,31 @@ export default function Header() {
         </div>
       </div>
 
-      {/* ── Mobile Drawer ── */}
+      {/* ── Mobile / Tablet Drawer ── */}
       <Drawer
         anchor="right"
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
         PaperProps={{
-          sx: { width: 280, backgroundColor: NAVY, color: "#fff" },
+          sx: {
+            width: { xs: 260, sm: 320 },
+            backgroundColor: NAVY,
+            color: "#fff",
+          },
         }}
       >
-        <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
+        <div className="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-white/10">
           <Link
             to="/"
             onClick={() => setDrawerOpen(false)}
-            className="no-underline flex flex-col leading-none"
+            className="no-underline"
           >
-            <span
-              style={{
-                fontWeight: 800,
-                fontSize: "1.25rem",
-                letterSpacing: "0.5px",
-                textTransform: "uppercase",
-                color: "#ffffff",
-              }}
-            >
-              {LOGO_MAIN}
-            </span>
-            <span
-              style={{
-                fontWeight: 600,
-                fontSize: "0.75rem",
-                color: GOLD,
-                marginTop: "2px",
-              }}
-            >
-              {LOGO_SUB}
-            </span>
+            {/* Nền drawer là NAVY -> luôn dùng bản logo trắng */}
+            <img
+              src={LOGO_SRC_WHITE}
+              alt="VIETHUNG Solar Energy"
+              className="h-8 sm:h-10 w-auto object-contain"
+            />
           </Link>
           <IconButton
             onClick={() => setDrawerOpen(false)}
@@ -265,7 +224,7 @@ export default function Header() {
           </IconButton>
         </div>
 
-        <nav className="flex flex-col px-5 py-6 gap-1">
+        <nav className="flex flex-col px-5 sm:px-6 py-6 gap-1">
           {navLinks.map((link) => (
             <NavLink
               key={link.label}
@@ -286,7 +245,7 @@ export default function Header() {
           ))}
         </nav>
 
-        <div className="px-5 mt-2">
+        <div className="px-5 sm:px-6 mt-2">
           <a
             href={`tel:${headerPhone}`}
             className="flex items-center gap-2 text-white/70 text-sm no-underline mb-4"
@@ -306,6 +265,7 @@ export default function Header() {
               fontWeight: 700,
               textTransform: "none",
               borderRadius: "6px",
+              py: 1.2,
               "&:hover": { backgroundColor: GOLD_DARK },
             }}
           >

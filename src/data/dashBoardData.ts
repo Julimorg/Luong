@@ -81,7 +81,7 @@ export const solutionAudiences: SolutionAudience[] = [
   {
     id: 1,
     icon: "home",
-    image: "https://images.unsplash.com/photo-1613665813446-82a78c468a1d?w=600&q=80",
+    image: "/background/dashboard/solution_1.webp",
     title: "Hộ gia đình",
     description: "Giảm hóa đơn tiền điện hàng tháng và tăng giá trị cho ngôi nhà của bạn.",
     checklist: [
@@ -93,7 +93,7 @@ export const solutionAudiences: SolutionAudience[] = [
   {
     id: 2,
     icon: "apartment",
-    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80",
+    image: "/background/dashboard/solution_4.webp",
     title: "Doanh nghiệp",
     description: "Kiểm soát chi phí điện và hướng tới phát triển bền vững.",
     checklist: [
@@ -105,7 +105,7 @@ export const solutionAudiences: SolutionAudience[] = [
   {
     id: 3,
     icon: "warehouse",
-    image: "https://images.unsplash.com/photo-1613665813446-82a78c468a1d?w=600&q=80",
+    image: "/background/dashboard/solution_2.webp",
     title: "Nhà máy",
     description: "Tối ưu chi phí điện cho sản xuất và nâng cao năng lực cạnh tranh.",
     checklist: [
@@ -117,7 +117,7 @@ export const solutionAudiences: SolutionAudience[] = [
   {
     id: 4,
     icon: "factory",
-    image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600&q=80",
+    image: "/background/dashboard/solution_3.webp",
     title: "Công nghiệp",
     description: "Giải pháp năng lượng tối ưu cho hệ thống sản xuất lớn.",
     checklist: [
