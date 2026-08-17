@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import Home from "@mui/icons-material/Home";
 import Apartment from "@mui/icons-material/Apartment";
@@ -20,14 +21,13 @@ import InsightsOutlined from "@mui/icons-material/InsightsOutlined";
 import HubOutlined from "@mui/icons-material/HubOutlined";
 import ElectricCarOutlined from "@mui/icons-material/ElectricCarOutlined";
 import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import type { SvgIconComponent } from "@mui/icons-material";
 import {
   type SubType,
-  type MainSolution,
   solutionHeader,
   solutionHighlights,
-  mainSolutions,
   solutions,
   trustItems,
 } from "../../data/solutionData";
@@ -47,6 +47,13 @@ const iconMap: Record<string, SvgIconComponent> = {
   utility: HubOutlined, ev: ElectricCarOutlined,
 };
 
+// ─── Màu theo icon — dùng chung cho cả card lẫn modal ──────────
+function getSubTypeColor(icon: string) {
+  return icon === "battery" || icon === "bess" ? "#1d4ed8"
+    : icon === "offgrid" || icon === "utility" ? NAVY
+    : GOLD;
+}
+
 // ─── Reveal ───────────────────────────────────────────────────
 function Reveal({ children, delay = 0, className = "" }: {
   children: React.ReactNode; delay?: number; className?: string;
@@ -64,11 +71,17 @@ function Reveal({ children, delay = 0, className = "" }: {
 }
 
 // ─── Sub-type card ────────────────────────────────────────────
-function SubTypeCard({ sub, index }: { sub: SubType; index: number }) {
+function SubTypeCard({
+  sub,
+  index,
+  onViewMore,
+}: {
+  sub: SubType;
+  index: number;
+  onViewMore: (sub: SubType) => void;
+}) {
   const Icon = iconMap[sub.icon];
-  const color = sub.icon === "battery" || sub.icon === "bess" ? "#1d4ed8"
-    : sub.icon === "offgrid" || sub.icon === "utility" ? NAVY
-    : GOLD;
+  const color = getSubTypeColor(sub.icon);
   return (
     <div className="flex flex-col rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden h-full">
       <div className="flex items-center gap-3 px-5 py-4 border-b border-gray-50">
@@ -91,47 +104,186 @@ function SubTypeCard({ sub, index }: { sub: SubType; index: number }) {
             </li>
           ))}
         </ul>
-        <div className="mt-auto rounded-xl overflow-hidden bg-gray-50">
-          <img src={sub.image} alt={sub.name} loading="lazy" className="w-full h-32 object-cover" />
+        <div className="mt-auto rounded-xl overflow-hidden bg-gray-50 p-3">
+          <img
+            src={sub.image}
+            alt={sub.name}
+            loading="lazy"
+            className="w-full h-32 object-contain"
+          />
         </div>
+
+        {/* Nút "Hiện thêm" -> mở modal chi tiết */}
+        <button
+          onClick={() => onViewMore(sub)}
+          className="self-start inline-flex items-center gap-1 text-xs font-bold transition-all duration-200 hover:gap-1.5"
+          style={{ color }}
+        >
+          Hiện thêm
+          <ArrowForwardIcon sx={{ fontSize: 13 }} />
+        </button>
       </div>
     </div>
   );
 }
 
-// ─── Main solution card (On-grid / Hybrid) ────────────────────
-function MainSolutionCard({ ms }: { ms: MainSolution }) {
-  const Icon = iconMap[ms.icon];
-  const isHybrid = ms.id === "hybrid";
-  const color = isHybrid ? "#1d4ed8" : GOLD;
-  return (
-    <div className="rounded-2xl border border-gray-100 bg-white shadow-sm p-6">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
-          <span className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ backgroundColor: `${color}1A`, color }}>
-            <Icon sx={{ fontSize: 22 }} />
-          </span>
-          <h3 className="text-lg font-extrabold" style={{ color: NAVY }}>{ms.title}</h3>
+// ─── Modal chi tiết sub-type — kiểu Ant Design: header / body / footer ─────
+function SubTypeDetailModal({
+  sub,
+  visible,
+  onClose,
+}: {
+  sub: SubType;
+  visible: boolean;
+  onClose: () => void;
+}) {
+  const navigate = useNavigate();
+  const color = getSubTypeColor(sub.icon);
+  const Icon = iconMap[sub.icon];
+
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [onClose]);
+
+  return createPortal(
+    <div
+      onClick={onClose}
+      className={`fixed inset-0 z-[999] flex items-center justify-center p-4 sm:p-8 transition-opacity duration-300 ease-out ${
+        visible ? "opacity-100" : "opacity-0"
+      }`}
+      style={{ backgroundColor: "rgba(13,33,55,0.7)" }}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className={`relative w-full max-w-4xl xl:max-w-5xl bg-white rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 ease-out max-h-[90vh] flex flex-col ${
+          visible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 translate-y-4"
+        }`}
+      >
+        {/* ── Header ── */}
+        <div className="flex items-center justify-between gap-4 px-6 sm:px-8 py-5 border-b border-gray-100 flex-shrink-0">
+          <div className="flex items-center gap-3 min-w-0">
+            <span
+              className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
+              style={{ backgroundColor: `${color}1A`, color }}
+            >
+              <Icon sx={{ fontSize: 22 }} />
+            </span>
+            <div className="min-w-0">
+              <h3 className="text-lg sm:text-xl font-extrabold uppercase leading-tight truncate" style={{ color: NAVY }}>
+                {sub.name}
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-400">{sub.subtitle}</p>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="w-9 h-9 rounded-full flex-shrink-0 flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+            aria-label="Đóng"
+          >
+            <CloseIcon sx={{ fontSize: 22 }} />
+          </button>
         </div>
-        <span className="text-[10px] font-extrabold px-2.5 py-1 rounded-full text-white" style={{ backgroundColor: color }}>{ms.tag}</span>
-      </div>
-      <p className="text-sm text-gray-500 leading-relaxed mb-5">{ms.description}</p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 items-center">
-        <ul className="flex flex-col gap-2.5">
-          {ms.features.map((f) => (
-            <li key={f} className="flex items-center gap-2">
-              <span className="flex-shrink-0 w-4 h-4 rounded-full flex items-center justify-center" style={{ backgroundColor: color }}>
-                <CheckIcon sx={{ fontSize: 10, color: "#fff" }} />
-              </span>
-              <span className="text-sm text-gray-600">{f}</span>
-            </li>
-          ))}
-        </ul>
-        <div className="rounded-xl overflow-hidden bg-gray-50">
-          <img src={ms.image} alt={ms.title} loading="lazy" className="w-full h-40 object-cover" />
+
+        {/* ── Body — flex (không phải grid) để mỗi cột tự quản lý overflow riêng ── */}
+        <div className="flex flex-col sm:flex-row flex-1 min-h-0">
+          {/* Ảnh — CỐ ĐỊNH, không cuộn theo, hiện trọn vẹn (object-contain vì có thể là ảnh chụp hoặc sơ đồ có chữ) */}
+          <div className="relative bg-gray-50 flex items-center justify-center p-5 sm:p-6 h-56 sm:h-auto flex-shrink-0 sm:w-1/2">
+            <img
+              src={sub.image}
+              alt={sub.name}
+              className="max-w-full max-h-full object-contain"
+            />
+          </div>
+
+          {/* Thông tin — CUỘN RIÊNG khi nội dung dài, ảnh bên trái không bị ảnh hưởng */}
+          <div className="sm:w-1/2 min-h-0 overflow-y-auto p-6 sm:p-8 flex flex-col gap-7">
+            {/* Mô tả chi tiết — dùng solution.description nếu có, fallback về subtitle */}
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wide text-gray-400 mb-2">Mô tả</p>
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                {sub.solution?.description ?? sub.subtitle}
+              </p>
+            </div>
+
+            {/* Đặc điểm nổi bật */}
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wide text-gray-400 mb-3">Đặc điểm nổi bật</p>
+              <ul className="flex flex-col gap-3">
+                {sub.features.map((f) => (
+                  <li key={f} className="flex items-start gap-3">
+                    <span
+                      className="flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center mt-0.5"
+                      style={{ backgroundColor: color }}
+                    >
+                      <CheckIcon sx={{ fontSize: 12, color: "#fff" }} />
+                    </span>
+                    <span className="text-sm sm:text-base text-gray-600 leading-snug">{f}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Thông số bổ sung — dạng bảng key-value, chỉ hiện khi solution.specs có data */}
+            {sub.solution?.specs && sub.solution.specs.length > 0 && (
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wide text-gray-400 mb-3">Thông số kỹ thuật</p>
+                <div className="rounded-xl border border-gray-100 overflow-hidden">
+                  {sub.solution.specs.map((s, i) => (
+                    <div
+                      key={s.label}
+                      className={`flex items-center justify-between px-4 py-2.5 text-sm ${
+                        i !== sub.solution!.specs!.length - 1 ? "border-b border-gray-100" : ""
+                      } ${i % 2 === 1 ? "bg-gray-50/60" : "bg-white"}`}
+                    >
+                      <span className="text-gray-400">{s.label}</span>
+                      <span className="font-bold text-right" style={{ color: NAVY }}>{s.value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Ghi chú / lưu ý — chỉ hiện khi solution.note có data */}
+            {sub.solution?.note && (
+              <div
+                className="rounded-xl px-4 py-3.5 text-sm leading-relaxed"
+                style={{ backgroundColor: `${color}0D`, color: NAVY }}
+              >
+                {sub.solution.note}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* ── Footer ── */}
+        <div className="flex items-center justify-end gap-3 px-6 sm:px-8 py-4 border-t border-gray-100 flex-shrink-0">
+          <button
+            onClick={onClose}
+            className="px-5 py-2.5 rounded-lg text-sm font-bold text-gray-500 hover:bg-gray-100 transition-colors duration-200"
+          >
+            Đóng
+          </button>
+          <button
+            onClick={() => navigate("/lien-he")}
+            className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg text-sm font-bold text-white transition-all duration-200 hover:-translate-y-0.5"
+            style={{ backgroundColor: color, boxShadow: `0 4px 16px ${color}55` }}
+          >
+            Nhận tư vấn miễn phí
+            <ArrowForwardIcon sx={{ fontSize: 16 }} />
+          </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
@@ -141,6 +293,19 @@ export default function SolutionPage() {
   const [active, setActive] = useState(0);
   const model = solutions[active];
   const nextModel = solutions[(active + 1) % solutions.length];
+
+  // ─── Modal chi tiết sub-type ─────────────────────────────────
+  const [detailSub, setDetailSub] = useState<SubType | null>(null);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const openDetail = (sub: SubType) => {
+    setDetailSub(sub);
+    requestAnimationFrame(() => setModalVisible(true));
+  };
+  const closeDetail = () => {
+    setModalVisible(false);
+    setTimeout(() => setDetailSub(null), 300); // đợi transition thoát xong mới gỡ khỏi DOM
+  };
 
   return (
     <div className="pt-[72px]">
@@ -205,23 +370,6 @@ export default function SolutionPage() {
         </div>
       </div>
 
-      {/* ══ 2 GIẢI PHÁP CHÍNH ══ */}
-      <section className="py-14 sm:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Reveal className="mb-8">
-            <p className="text-[11px] font-bold uppercase tracking-widest mb-1" style={{ color: GOLD }}>Giải pháp chính</p>
-            <h2 className="text-2xl sm:text-3xl font-extrabold" style={{ color: NAVY }}>2 giải pháp tổng quát cho mọi nhu cầu</h2>
-          </Reveal>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {mainSolutions.map((ms, i) => (
-              <Reveal key={ms.id} delay={i * 100}>
-                <MainSolutionCard ms={ms} />
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ══ GIẢI PHÁP THEO MÔ HÌNH (TABS) ══ */}
       <section className="py-14 sm:py-20 bg-[#f3f4f6]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -283,7 +431,7 @@ export default function SolutionPage() {
             >
               {model.subTypes.map((sub, i) => (
                 <Reveal key={sub.id} delay={i * 80}>
-                  <SubTypeCard sub={sub} index={i} />
+                  <SubTypeCard sub={sub} index={i} onViewMore={openDetail} />
                 </Reveal>
               ))}
             </div>
@@ -329,6 +477,11 @@ export default function SolutionPage() {
           </Reveal>
         </div>
       </div>
+
+      {/* ══ MODAL CHI TIẾT SUB-TYPE ══ */}
+      {detailSub && (
+        <SubTypeDetailModal sub={detailSub} visible={modalVisible} onClose={closeDetail} />
+      )}
 
     </div>
   );
