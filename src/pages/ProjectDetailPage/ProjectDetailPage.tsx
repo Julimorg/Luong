@@ -136,7 +136,7 @@ export default function ProjectDetailPage() {
         </div>
       </div>
 
-      {/* ══════════════ HERO — ảnh full-bleed + card kính mờ, đẩy về phía phải ══════════════ */}
+      {/* ══════════════ HERO — ảnh full-bleed + card kính mờ, THẲNG HÀNG với container bên dưới ══════════════ */}
       <div className="relative h-[560px] sm:h-[600px] lg:h-[620px] overflow-hidden bg-[#0d2137]">
         <img
           key={activeImgIdx}
@@ -173,89 +173,92 @@ export default function ProjectDetailPage() {
           </div>
         )}
 
-        {/* Wrapper full-width; ml tăng dần theo breakpoint để card lùi dần về phía phải */}
+        {/* Wrapper full-width; dùng ĐÚNG container max-w-7xl mx-auto px-... giống breadcrumb/equipment/overview
+            bên dưới -> mép trái card luôn thẳng hàng với mọi section khác trong trang */}
         <div className="absolute inset-0 z-10 flex items-start pointer-events-none">
-          <div className="pointer-events-auto ml-4 sm:ml-16 lg:ml-28 xl:ml-40 mt-20 sm:mt-24 w-full max-w-[calc(100%-2rem)] sm:max-w-[440px]">
-            <Reveal>
-              <div className="rounded-2xl border border-white/15 bg-black/35 backdrop-blur-md p-5 sm:p-7 shadow-2xl">
-                <span
-                  className="inline-block rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider mb-3"
-                  style={{ backgroundColor: GOLD, color: "#fff" }}
-                >
-                  {categoryLabels[project.category]}
-                </span>
-
-                <h1
-                  className="text-2xl sm:text-3xl font-extrabold text-white leading-tight mb-2"
-                  style={{ textShadow: "0 2px 10px rgba(0,0,0,0.5)" }}
-                >
-                  {detail.title}
-                </h1>
-
-                <div className="flex items-center gap-1.5 text-white/75 text-sm mb-3">
-                  <LocationOnIcon sx={{ fontSize: 16, color: GOLD }} />
-                  {detail.location}
-                </div>
-
-                <p className="text-white/65 text-sm leading-relaxed mb-4">
-                  {detail.subtitle}
-                </p>
-
-                <div className="flex items-center gap-2 mb-5">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="pointer-events-auto mt-20 sm:mt-24 max-w-[calc(100%-2rem)] sm:max-w-[440px]">
+              <Reveal>
+                <div className="rounded-2xl border border-white/15 bg-black/35 backdrop-blur-md p-5 sm:p-7 shadow-2xl">
                   <span
-                    className="px-2.5 py-1 rounded-full text-[11px] font-bold text-white"
-                    style={{
-                      background:
-                        detail.status === "Hoàn thành" ? "#22c55e" : "#f59e0b",
-                    }}
+                    className="inline-block rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider mb-3"
+                    style={{ backgroundColor: GOLD, color: "#fff" }}
                   >
-                    {detail.status}
+                    {categoryLabels[project.category]}
                   </span>
-                  {detail.completedAt && (
-                    <span className="text-white/50 text-xs font-medium">
-                      {detail.completedAt}
+
+                  <h1
+                    className="text-2xl sm:text-3xl font-extrabold text-white leading-tight mb-2"
+                    style={{ textShadow: "0 2px 10px rgba(0,0,0,0.5)" }}
+                  >
+                    {detail.title}
+                  </h1>
+
+                  <div className="flex items-center gap-1.5 text-white/75 text-sm mb-3">
+                    <LocationOnIcon sx={{ fontSize: 16, color: GOLD }} />
+                    {detail.location}
+                  </div>
+
+                  <p className="text-white/65 text-sm leading-relaxed mb-4">
+                    {detail.subtitle}
+                  </p>
+
+                  <div className="flex items-center gap-2 mb-5">
+                    <span
+                      className="px-2.5 py-1 rounded-full text-[11px] font-bold text-white"
+                      style={{
+                        background:
+                          detail.status === "Hoàn thành" ? "#22c55e" : "#f59e0b",
+                      }}
+                    >
+                      {detail.status}
                     </span>
-                  )}
-                </div>
-
-                <div className="flex flex-wrap gap-x-6 gap-y-3 pt-4 border-t border-white/15 mb-5">
-                  {detail.stats.map((stat, i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      <span className="flex-shrink-0" style={{ color: GOLD }}>
-                        {pickStatIcon(stat.label)}
+                    {detail.completedAt && (
+                      <span className="text-white/50 text-xs font-medium">
+                        {detail.completedAt}
                       </span>
-                      <div className="leading-tight">
-                        <div className="flex items-baseline gap-1">
-                          <span className="text-white font-extrabold text-base">
-                            {stat.value}
-                          </span>
-                          {stat.unit && (
-                            <span
-                              className="text-[11px] font-bold"
-                              style={{ color: GOLD }}
-                            >
-                              {stat.unit}
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-white/45 text-[10px] whitespace-nowrap">
-                          {stat.label}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                    )}
+                  </div>
 
-                <Link
-                  to="/lien-he"
-                  className="inline-flex items-center gap-1.5 w-fit rounded-lg px-4 py-2.5 text-sm font-bold no-underline transition-all duration-200 hover:gap-2.5"
-                  style={{ backgroundColor: GOLD, color: "#fff" }}
-                >
-                  Liên hệ nhận giải pháp
-                  <ArrowForwardIcon sx={{ fontSize: 15 }} />
-                </Link>
-              </div>
-            </Reveal>
+                  <div className="flex flex-wrap gap-x-6 gap-y-3 pt-4 border-t border-white/15 mb-5">
+                    {detail.stats.map((stat, i) => (
+                      <div key={i} className="flex items-center gap-2">
+                        <span className="flex-shrink-0" style={{ color: GOLD }}>
+                          {pickStatIcon(stat.label)}
+                        </span>
+                        <div className="leading-tight">
+                          <div className="flex items-baseline gap-1">
+                            <span className="text-white font-extrabold text-base">
+                              {stat.value}
+                            </span>
+                            {stat.unit && (
+                              <span
+                                className="text-[11px] font-bold"
+                                style={{ color: GOLD }}
+                              >
+                                {stat.unit}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-white/45 text-[10px] whitespace-nowrap">
+                            {stat.label}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <Link
+                    to="/lien-he"
+                    className="inline-flex items-center gap-1.5 w-fit rounded-lg px-4 py-2.5 text-sm font-bold no-underline transition-all duration-200 hover:gap-2.5"
+                    style={{ backgroundColor: GOLD, color: "#fff" }}
+                  >
+                    Liên hệ nhận giải pháp
+                    <ArrowForwardIcon sx={{ fontSize: 15 }} />
+                  </Link>
+                </div>
+              </Reveal>
+            </div>
           </div>
         </div>
       </div>
