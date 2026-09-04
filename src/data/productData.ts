@@ -47,6 +47,91 @@ export interface ProductBrandInfo {
   linkTo?: string;
 }
 
+// ---------- COMBO NỔI BẬT ----------
+export type ComboSegment = "residential" | "business" | "agriculture";
+
+export interface ComboIncludedItem {
+  category: ProductCategory;
+  quantity: string; // VD: "8 tấm pin 615W", "1 inverter hoà lưới"
+}
+
+export interface ComboItem {
+  id: string;
+  segment: ComboSegment;
+  name: string;
+  tagline: string;
+  capacity: string;
+  // TODO: nhập giá thật khi có báo giá chính thức — hiện đang là số tham khảo
+  priceFrom: string;
+  priceNote?: string;
+  image: string;
+  badge?: string;
+  highlights: string[];
+  includedItems: ComboIncludedItem[];
+}
+
+export const combos: ComboItem[] = [
+  {
+    id: "combo-residential",
+    segment: "residential",
+    name: "Combo Hộ Gia Đình",
+    tagline: "Tiết kiệm điện, tối ưu chi phí đầu tư",
+    capacity: "5 kWp",
+    priceFrom: "65.000.000đ", // TODO: cập nhật giá thật
+    priceNote: "Đã bao gồm thiết bị chính, chưa gồm chi phí thi công & vận chuyển",
+    image: "https://images.unsplash.com/photo-1613665813446-82a78c468a1d?w=900&q=80",
+    badge: "Phổ biến nhất",
+    highlights: [
+      "Tiết kiệm đến 90% hoá đơn tiền điện",
+      "Lắp đặt nhanh chỉ 3 – 5 ngày",
+      "Bảo hành 12 năm sản phẩm, 25 năm công suất",
+    ],
+    includedItems: [
+      { category: "tam-pin", quantity: "8 tấm pin 615W" },
+      { category: "inverter", quantity: "1 inverter hoà lưới" },
+    ],
+  },
+  {
+    id: "combo-business",
+    segment: "business",
+    name: "Combo Doanh Nghiệp",
+    tagline: "Ổn định vận hành, chủ động nguồn điện",
+    capacity: "30 kWp",
+    priceFrom: "320.000.000đ", // TODO: cập nhật giá thật
+    priceNote: "Đã bao gồm thiết bị chính, chưa gồm chi phí thi công & vận chuyển",
+    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=80",
+    highlights: [
+      "Giảm đáng kể chi phí điện vận hành hàng tháng",
+      "Dự phòng điện khi mất lưới với bản Hybrid",
+      "Đội ngũ kỹ thuật khảo sát & thiết kế miễn phí",
+    ],
+    includedItems: [
+      { category: "tam-pin", quantity: "48 tấm pin 620W" },
+      { category: "inverter", quantity: "1 inverter Hybrid" },
+      { category: "pin-luu-tru", quantity: "1 bộ pin lưu trữ" },
+    ],
+  },
+  {
+    id: "combo-agriculture",
+    segment: "agriculture",
+    name: "Combo Nông Nghiệp",
+    tagline: "Chủ động năng lượng cho trang trại, nhà kính",
+    capacity: "15 kWp",
+    priceFrom: "165.000.000đ", // TODO: cập nhật giá thật
+    priceNote: "Đã bao gồm thiết bị chính, chưa gồm chi phí thi công & vận chuyển",
+    image: "https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=900&q=80",
+    highlights: [
+      "Phù hợp trang trại, nhà kính, khu chăn nuôi",
+      "Giảm chi phí điện bơm tưới, vận hành máy móc",
+      "Thiết kế chịu được điều kiện ngoài trời khắc nghiệt",
+    ],
+    includedItems: [
+      { category: "tam-pin", quantity: "24 tấm pin 610W" },
+      { category: "inverter", quantity: "1 inverter hoà lưới" },
+    ],
+  },
+];
+
 export const productBrandInfo: Record<string, ProductBrandInfo> = {
   "Canadian Solar": {
     description:

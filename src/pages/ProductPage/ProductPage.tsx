@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import WbSunnyRoundedIcon from "@mui/icons-material/WbSunnyRounded";
 import MemoryRoundedIcon from "@mui/icons-material/MemoryRounded";
@@ -15,6 +16,7 @@ import {
   type Product,
 } from "../../data/productData";
 import { ProductCard } from "./components/ProductCard";
+import { ComboSection } from "./components/ComboSection";
 
 const GOLD = "#f6b918";
 const NAVY = "#1c2f5c";
@@ -23,7 +25,7 @@ const HEADER_BG = "#121b45";
 // ─── Icon theo danh mục ───
 const categoryIconMap: Record<string, React.ReactNode> = {
   "tam-pin": <WbSunnyRoundedIcon sx={{ fontSize: 20 }} />,
-  "inverter": <MemoryRoundedIcon sx={{ fontSize: 20 }} />,
+  inverter: <MemoryRoundedIcon sx={{ fontSize: 20 }} />,
   "pin-luu-tru": <BatteryChargingFullRoundedIcon sx={{ fontSize: 20 }} />,
 };
 function pickCategoryIcon(id: string) {
@@ -50,8 +52,14 @@ function limitBrandsToAstronergy(brands: { name: string; color: string }[]) {
 }
 
 // ─── Reveal wrapper ───────────────────────────────────────────
-function Reveal({ children, delay = 0, className = "" }: {
-  children: React.ReactNode; delay?: number; className?: string;
+function Reveal({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
 }) {
   const { ref, isVisible } = useScrollReveal({ threshold: 0.06 });
   return (
@@ -67,68 +75,122 @@ function Reveal({ children, delay = 0, className = "" }: {
   );
 }
 
-// ─── Sidebar thương hiệu — giãn đều theo chiều cao lưới sản phẩm ───
-function BrandSidebar({
+// ─── Pill lọc thương hiệu — nền active trượt mượt bằng framer-motion layoutId ───
+function FilterPill({
+  label,
+  isActive,
+  color,
+  layoutGroupId,
+  onClick,
+}: {
+  label: string;
+  isActive: boolean;
+  color: string;
+  layoutGroupId: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className="relative overflow-hidden rounded-full px-4 py-2 text-sm font-bold transition-colors duration-200"
+      style={{
+        color: isActive ? "#fff" : color,
+        border: isActive ? "1px solid transparent" : `1px solid ${color}40`,
+      }}
+    >
+      {isActive && (
+        <motion.span
+          layoutId={`pill-bg-${layoutGroupId}`}
+          className="absolute inset-0"
+          style={{ backgroundColor: color }}
+          transition={{ type: "spring", stiffness: 500, damping: 32 }}
+        />
+      )}
+      <span className="relative z-10">{label}</span>
+    </button>
+  );
+}
+
+// ─── Hàng lọc thương hiệu nằm ngang, phía trên lưới sản phẩm ───
+function BrandFilterBar({
   brands,
   selected,
   onSelect,
+  layoutGroupId,
 }: {
   brands: { name: string; color: string }[];
   selected: string | null;
   onSelect: (brand: string | null) => void;
+  layoutGroupId: string;
 }) {
   return (
-    <div className="flex h-full flex-col">
-      <p className="mb-1 text-xs font-bold uppercase tracking-widest" style={{ color: NAVY }}>
-        Thương hiệu
-      </p>
-      <p className="mb-4 text-[11px] leading-relaxed text-gray-400">
-        Sản phẩm nổi bật đến từ các thương hiệu hàng đầu
-      </p>
-
-      {/* justify-between + h-full: giãn đều các nút đúng bằng chiều cao lưới card kế bên */}
-      <div className="flex h-full flex-col justify-between">
-        {brands.map((b) => {
-          const isActive = selected === b.name;
-          return (
-            <button
-              key={b.name}
-              onClick={() => onSelect(isActive ? null : b.name)}
-              className="flex items-center justify-center rounded-xl border bg-white px-4 py-4 transition-all duration-200"
-              style={{
-                borderColor: isActive ? b.color : "#f1f1f1",
-                boxShadow: isActive ? `0 0 0 1px ${b.color}` : undefined,
-              }}
-            >
-              <span
-                className="text-lg font-black uppercase tracking-wide"
-                style={{ color: b.color, opacity: isActive ? 1 : 0.85 }}
-              >
-                {b.name}
-              </span>
-            </button>
-          );
-        })}
-      </div>
+    <div className="mb-7 flex flex-wrap items-center gap-2.5">
+      <FilterPill
+        label="Tất cả"
+        isActive={selected === null}
+        color={NAVY}
+        layoutGroupId={layoutGroupId}
+        onClick={() => onSelect(null)}
+      />
+      {brands.map((b) => (
+        <FilterPill
+          key={b.name}
+          label={b.name}
+          isActive={selected === b.name}
+          color={b.color}
+          layoutGroupId={layoutGroupId}
+          onClick={() => onSelect(selected === b.name ? null : b.name)}
+        />
+      ))}
     </div>
   );
 }
 
+// ─── Variants cho lưới sản phẩm — stagger khi mount + khi đổi filter ───
+const gridVariants: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.05 } },
+};
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
+  },
+  exit: { opacity: 0, scale: 0.92, transition: { duration: 0.2 } },
+};
+
 // ─── Category Section ─────────────────────────────────────────
-function CategorySection({ section }: { section: typeof productSections[number] }) {
-  const items = useMemo(() => products.filter((p) => p.category === section.id), [section.id]);
-  const brands = useMemo(() => limitBrandsToAstronergy(uniqueBrands(items)), [items]);
+function CategorySection({
+  section,
+}: {
+  section: (typeof productSections)[number];
+}) {
+  const items = useMemo(
+    () => products.filter((p) => p.category === section.id),
+    [section.id],
+  );
+  const brands = useMemo(
+    () => limitBrandsToAstronergy(uniqueBrands(items)),
+    [items],
+  );
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
 
-  const filteredItems = selectedBrand ? items.filter((p) => p.brand === selectedBrand) : items;
+  const filteredItems = selectedBrand
+    ? items.filter((p) => p.brand === selectedBrand)
+    : items;
 
   return (
-    <div className="mb-16">
+    <div>
       {/* Header danh mục */}
-      <Reveal className="mb-8">
+      <Reveal className="mb-6">
         <div className="mb-2 flex items-center gap-2">
           <span style={{ color: GOLD }}>{pickCategoryIcon(section.id)}</span>
-          <h2 className="text-base sm:text-lg font-extrabold uppercase tracking-wide" style={{ color: GOLD }}>
+          <h2
+            className="text-base sm:text-lg font-extrabold uppercase tracking-wide"
+            style={{ color: GOLD }}
+          >
             {section.title}
           </h2>
         </div>
@@ -140,37 +202,51 @@ function CategorySection({ section }: { section: typeof productSections[number] 
         )}
       </Reveal>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-6 lg:gap-8 items-stretch">
-        {/* Sidebar thương hiệu */}
-        <Reveal delay={60}>
-          <BrandSidebar brands={brands} selected={selectedBrand} onSelect={setSelectedBrand} />
-        </Reveal>
+      {/* Hàng lọc thương hiệu — nằm NGANG phía trên, thay cho sidebar dọc cũ */}
+      <Reveal delay={60}>
+        <BrandFilterBar
+          brands={brands}
+          selected={selectedBrand}
+          onSelect={setSelectedBrand}
+          layoutGroupId={section.id}
+        />
+      </Reveal>
 
-        {/* Lưới sản phẩm — 2 hàng cố định, cuộn ngang */}
-        <div>
-          <div className="grid grid-rows-2 grid-flow-col auto-cols-[220px] gap-4 overflow-x-auto pb-2">
-            {filteredItems.map((product, i) => (
-              <Reveal key={product.id} delay={80 + i * 40}>
-                <ProductCard product={product} />
-              </Reveal>
-            ))}
-          </div>
+      {/* Lưới sản phẩm — wrapping grid chuẩn, KHÔNG còn cuộn ngang */}
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={gridVariants}
+        className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4"
+      >
+        <AnimatePresence mode="popLayout">
+          {filteredItems.map((product) => (
+            <motion.div
+              key={product.id}
+              layout
+              variants={cardVariants}
+              exit="exit"
+            >
+              <ProductCard product={product} />
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </motion.div>
 
-          {filteredItems.length === 0 && (
-            <p className="py-10 text-center text-sm text-gray-400">
-              Chưa có sản phẩm nào của thương hiệu này trong danh mục.
-            </p>
-          )}
+      {filteredItems.length === 0 && (
+        <p className="py-10 text-center text-sm text-gray-400">
+          Chưa có sản phẩm nào của thương hiệu này trong danh mục.
+        </p>
+      )}
 
-          {/* Ghi chú cập nhật */}
-          <Reveal delay={200}>
-            <div className="mt-6 flex items-center justify-center gap-1.5 text-xs text-gray-400">
-              <InfoOutlinedIcon sx={{ fontSize: 15 }} />
-              Các sản phẩm khác đang được cập nhật. Vui lòng liên hệ để được tư vấn chi tiết.
-            </div>
-          </Reveal>
+      {/* Ghi chú cập nhật */}
+      <Reveal delay={200}>
+        <div className="mt-6 flex items-center justify-center gap-1.5 text-xs text-gray-400">
+          <InfoOutlinedIcon sx={{ fontSize: 15 }} />
+          Các sản phẩm khác đang được cập nhật. Vui lòng liên hệ để được tư vấn
+          chi tiết.
         </div>
-      </div>
+      </Reveal>
     </div>
   );
 }
@@ -178,17 +254,27 @@ function CategorySection({ section }: { section: typeof productSections[number] 
 // ─── MAIN ─────────────────────────────────────────────────────
 export default function ProductsPage() {
   const navigate = useNavigate();
-  const { ref: ctaRef, isVisible: ctaVisible } = useScrollReveal({ threshold: 0.1 });
+  const { ref: ctaRef, isVisible: ctaVisible } = useScrollReveal({
+    threshold: 0.1,
+  });
 
   return (
-    <div className="min-h-screen bg-white" style={{ fontFamily: "'Roboto', sans-serif" }}>
-
+    <div
+      className="min-h-screen bg-white overflow-x-hidden"
+      style={{ fontFamily: "'Roboto', sans-serif" }}
+    >
       {/* ══ HEADER — nền màu đặc, không ảnh, căn trái ══ */}
-      <div className="relative pt-[72px]" style={{ backgroundColor: HEADER_BG }}>
+      <div
+        className="relative pt-[72px]"
+        style={{ backgroundColor: HEADER_BG }}
+      >
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 text-left">
           <div className="flex items-center gap-2 mb-4">
             <span className="w-6 h-0.5" style={{ backgroundColor: GOLD }} />
-            <span className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: GOLD }}>
+            <span
+              className="text-xs font-bold uppercase tracking-[0.2em]"
+              style={{ color: GOLD }}
+            >
               {productsPageHeader.badge}
             </span>
           </div>
@@ -201,10 +287,17 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      {/* ══ CATEGORY SECTIONS ══ */}
+      <ComboSection />
+
+      {/* ══ CATEGORY SECTIONS — có gạch ngang phân cách giữa các danh mục ══ */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
-        {productSections.map((section) => (
-          <CategorySection key={section.id} section={section} />
+        {productSections.map((section, i) => (
+          <div key={section.id}>
+            {i > 0 && (
+              <div className="my-14 h-px w-full bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+            )}
+            <CategorySection section={section} />
+          </div>
         ))}
       </div>
 
@@ -229,12 +322,17 @@ export default function ProductsPage() {
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white mb-2 leading-snug">
                 {productCtaBanner.headline}
               </h2>
-              <p className="text-white/60 text-base max-w-xl">{productCtaBanner.description}</p>
+              <p className="text-white/60 text-base max-w-xl">
+                {productCtaBanner.description}
+              </p>
             </div>
             <button
               onClick={() => navigate("/lien-he")}
               className="flex-shrink-0 inline-flex items-center gap-2 px-7 py-3.5 rounded-lg text-sm font-bold text-white transition-all duration-200 hover:-translate-y-0.5"
-              style={{ backgroundColor: GOLD, boxShadow: `0 4px 20px ${GOLD}55` }}
+              style={{
+                backgroundColor: GOLD,
+                boxShadow: `0 4px 20px ${GOLD}55`,
+              }}
             >
               {productCtaBanner.cta.label}
               <ArrowForwardIcon sx={{ fontSize: 18 }} />
@@ -243,6 +341,10 @@ export default function ProductsPage() {
         </div>
       </section>
 
+      {/* Chừa sẵn chỗ cho thanh cuộn dọc -> triệt tiêu hiện tượng "chớp" khi trang đổi chiều cao */}
+      <style>{`
+        html { scrollbar-gutter: stable; }
+      `}</style>
     </div>
   );
 }
