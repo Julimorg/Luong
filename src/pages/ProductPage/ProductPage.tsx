@@ -1,51 +1,52 @@
-import { useRef, useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import WbSunnyRoundedIcon from "@mui/icons-material/WbSunnyRounded";
 import MemoryRoundedIcon from "@mui/icons-material/MemoryRounded";
 import BatteryChargingFullRoundedIcon from "@mui/icons-material/BatteryChargingFullRounded";
 import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { useScrollReveal } from "../../hooks/useScrollReveal";
 import {
   products,
   productSections,
   productsPageHeader,
-  productsBreadcrumb,
   productCtaBanner,
-  productBrandInfo,
   type Product,
 } from "../../data/productData";
 import { ProductCard } from "./components/ProductCard";
 
 const GOLD = "#f6b918";
+const NAVY = "#1c2f5c";
+const HEADER_BG = "#121b45";
 
-
-// ─── Icon theo danh mục — key phải khớp với ProductCategory trong productData.ts ───
+// ─── Icon theo danh mục ───
 const categoryIconMap: Record<string, React.ReactNode> = {
-  "tam-pin": <WbSunnyRoundedIcon sx={{ fontSize: 18 }} />,
-  "inverter": <MemoryRoundedIcon sx={{ fontSize: 18 }} />,
-  "pin-luu-tru": <BatteryChargingFullRoundedIcon sx={{ fontSize: 18 }} />, // đã sửa từ "luu-tru"
+  "tam-pin": <WbSunnyRoundedIcon sx={{ fontSize: 20 }} />,
+  "inverter": <MemoryRoundedIcon sx={{ fontSize: 20 }} />,
+  "pin-luu-tru": <BatteryChargingFullRoundedIcon sx={{ fontSize: 20 }} />,
 };
-
 function pickCategoryIcon(id: string) {
-  return categoryIconMap[id] ?? <GridViewRoundedIcon sx={{ fontSize: 18 }} />;
+  return categoryIconMap[id] ?? <GridViewRoundedIcon sx={{ fontSize: 20 }} />;
 }
 
-// ─── Gom sản phẩm theo brand, giữ đúng thứ tự xuất hiện trong mảng gốc ───
-function groupByBrand(items: Product[]) {
-  const order: string[] = [];
-  const map = new Map<string, Product[]>();
+// ─── Lấy danh sách hãng duy nhất, giữ đúng thứ tự xuất hiện đầu tiên ───
+function uniqueBrands(items: Product[]) {
+  const seen = new Set<string>();
+  const list: { name: string; color: string }[] = [];
   for (const p of items) {
-    if (!map.has(p.brand)) {
-      map.set(p.brand, []);
-      order.push(p.brand);
+    if (!seen.has(p.brand)) {
+      seen.add(p.brand);
+      list.push({ name: p.brand, color: p.brandColor ?? GOLD });
     }
-    map.get(p.brand)!.push(p);
   }
-  return order.map((brand) => ({ brand, items: map.get(brand)! }));
+  return list;
+}
+
+// ─── Chỉ giữ thương hiệu từ đầu danh sách đến Astronergy ───
+function limitBrandsToAstronergy(brands: { name: string; color: string }[]) {
+  const cutoffIndex = brands.findIndex((b) => b.name === "Astronergy");
+  return cutoffIndex === -1 ? brands : brands.slice(0, cutoffIndex + 1);
 }
 
 // ─── Reveal wrapper ───────────────────────────────────────────
@@ -66,122 +67,48 @@ function Reveal({ children, delay = 0, className = "" }: {
   );
 }
 
-// ─── Product Carousel (mũi tên + kéo thả) ─────────────────────
-function ProductCarousel({ items }: { items: Product[] }) {
-  const ref  = useRef<HTMLDivElement>(null);
-  const drag = useRef({ active: false, startX: 0, startLeft: 0, moved: false });
-  const [canLeft, setCanLeft]   = useState(false);
-  const [canRight, setCanRight] = useState(false);
-
-  const update = () => {
-    const el = ref.current;
-    if (!el) return;
-    setCanLeft(el.scrollLeft > 4);
-    setCanRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
-  };
-
-  useEffect(() => {
-    update();
-    const onResize = () => update();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items]);
-
-  const scrollByDir = (dir: number) => {
-    const el = ref.current;
-    if (!el) return;
-    el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: "smooth" });
-  };
-
-  const onMouseDown = (e: React.MouseEvent) => {
-    const el = ref.current;
-    if (!el) return;
-    drag.current = { active: true, startX: e.pageX, startLeft: el.scrollLeft, moved: false };
-  };
-  const onMouseMove = (e: React.MouseEvent) => {
-    const el = ref.current;
-    if (!el || !drag.current.active) return;
-    const dx = e.pageX - drag.current.startX;
-    if (Math.abs(dx) > 5) drag.current.moved = true;
-    el.scrollLeft = drag.current.startLeft - dx;
-  };
-  const stop = () => { drag.current.active = false; };
-
-  // Mũi tên chỉ hiện từ lg trở lên — mobile/tablet dùng vuốt cảm ứng tự nhiên
-  const arrowBase =
-    "hidden lg:flex absolute top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-[#1c2f5c] hover:bg-[#f6b918] text-white shadow-lg items-center justify-center transition-colors duration-200";
-
+// ─── Sidebar thương hiệu — giãn đều theo chiều cao lưới sản phẩm ───
+function BrandSidebar({
+  brands,
+  selected,
+  onSelect,
+}: {
+  brands: { name: string; color: string }[];
+  selected: string | null;
+  onSelect: (brand: string | null) => void;
+}) {
   return (
-    <div className="relative min-w-0">
-      {canLeft && (
-        <button aria-label="Trước" onClick={() => scrollByDir(-1)} className={`${arrowBase} left-0 -translate-x-1/2`}>
-          <ChevronLeftIcon sx={{ fontSize: 20 }} />
-        </button>
-      )}
+    <div className="flex h-full flex-col">
+      <p className="mb-1 text-xs font-bold uppercase tracking-widest" style={{ color: NAVY }}>
+        Thương hiệu
+      </p>
+      <p className="mb-4 text-[11px] leading-relaxed text-gray-400">
+        Sản phẩm nổi bật đến từ các thương hiệu hàng đầu
+      </p>
 
-      <div
-        ref={ref}
-        onScroll={update}
-        onMouseDown={onMouseDown}
-        onMouseMove={onMouseMove}
-        onMouseUp={stop}
-        onMouseLeave={stop}
-        onClickCapture={(e) => {
-          if (drag.current.moved) {
-            e.stopPropagation();
-            drag.current.moved = false;
-          }
-        }}
-        className="flex gap-4 sm:gap-5 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-1 cursor-grab active:cursor-grabbing lg:cursor-default"
-        style={{ scrollbarWidth: "none" }}
-      >
-        {items.map((product) => (
-          <div key={product.id} className="snap-start">
-            <ProductCard product={product} />
-          </div>
-        ))}
-      </div>
-
-      {canRight && (
-        <button aria-label="Sau" onClick={() => scrollByDir(1)} className={`${arrowBase} right-0 translate-x-1/2`}>
-          <ChevronRightIcon sx={{ fontSize: 20 }} />
-        </button>
-      )}
-    </div>
-  );
-}
-
-// ─── Brand Row: khối mô tả hãng bên trái + dải sản phẩm bên phải ──────
-function BrandRow({ brand, items }: { brand: string; items: Product[] }) {
-  const info = productBrandInfo[brand];
-  const brandColor = items[0]?.brandColor ?? GOLD;
-
-  return (
-    <div className="grid grid-cols-1 lg:grid-cols-[210px_1fr] gap-4 lg:gap-8 py-7 border-b border-gray-100 last:border-b-0">
-      {/* Trái: tên hãng + mô tả ngắn + link */}
-      <div className="lg:pr-2">
-        <h3 className="text-xl sm:text-2xl font-extrabold tracking-tight mb-2" style={{ color: brandColor }}>
-          {brand}
-        </h3>
-        {info?.description && (
-          <p className="text-gray-500 text-xs leading-relaxed mb-3 max-w-[220px]">
-            {info.description}
-          </p>
-        )}
-        <Link
-          to={info?.linkTo ?? `/san-pham?brand=${encodeURIComponent(brand)}`}
-          className="inline-flex items-center gap-1 text-xs font-bold no-underline transition-all duration-200 hover:gap-2"
-          style={{ color: GOLD }}
-        >
-          Tìm hiểu về {brand}
-          <ArrowForwardIcon sx={{ fontSize: 13 }} />
-        </Link>
-      </div>
-
-      {/* Phải: dải sản phẩm — min-w-0 BẮT BUỘC để grid track không bị content đẩy rộng ra */}
-      <div className="min-w-0">
-        <ProductCarousel items={items} />
+      {/* justify-between + h-full: giãn đều các nút đúng bằng chiều cao lưới card kế bên */}
+      <div className="flex h-full flex-col justify-between">
+        {brands.map((b) => {
+          const isActive = selected === b.name;
+          return (
+            <button
+              key={b.name}
+              onClick={() => onSelect(isActive ? null : b.name)}
+              className="flex items-center justify-center rounded-xl border bg-white px-4 py-4 transition-all duration-200"
+              style={{
+                borderColor: isActive ? b.color : "#f1f1f1",
+                boxShadow: isActive ? `0 0 0 1px ${b.color}` : undefined,
+              }}
+            >
+              <span
+                className="text-lg font-black uppercase tracking-wide"
+                style={{ color: b.color, opacity: isActive ? 1 : 0.85 }}
+              >
+                {b.name}
+              </span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
@@ -189,25 +116,61 @@ function BrandRow({ brand, items }: { brand: string; items: Product[] }) {
 
 // ─── Category Section ─────────────────────────────────────────
 function CategorySection({ section }: { section: typeof productSections[number] }) {
-  const items = products.filter((p) => p.category === section.id);
-  const brandGroups = groupByBrand(items);
+  const items = useMemo(() => products.filter((p) => p.category === section.id), [section.id]);
+  const brands = useMemo(() => limitBrandsToAstronergy(uniqueBrands(items)), [items]);
+  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+
+  const filteredItems = selectedBrand ? items.filter((p) => p.brand === selectedBrand) : items;
 
   return (
-    <div className="mb-12">
-      <Reveal>
-        <div className="flex items-center gap-2 mb-1 pb-3 border-b-2 border-gray-100">
+    <div className="mb-16">
+      {/* Header danh mục */}
+      <Reveal className="mb-8">
+        <div className="mb-2 flex items-center gap-2">
           <span style={{ color: GOLD }}>{pickCategoryIcon(section.id)}</span>
-          <h2 className="text-sm sm:text-base font-extrabold uppercase tracking-wide" style={{ color: GOLD }}>
+          <h2 className="text-base sm:text-lg font-extrabold uppercase tracking-wide" style={{ color: GOLD }}>
             {section.title}
           </h2>
         </div>
+        {section.subtitle && (
+          <p className="text-sm text-gray-500">{section.subtitle}</p>
+        )}
+        {section.tagline && (
+          <p className="text-xs text-gray-400 mt-0.5">{section.tagline}</p>
+        )}
       </Reveal>
 
-      {brandGroups.map(({ brand, items: brandItems }) => (
-        <Reveal key={brand}>
-          <BrandRow brand={brand} items={brandItems} />
+      <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-6 lg:gap-8 items-stretch">
+        {/* Sidebar thương hiệu */}
+        <Reveal delay={60}>
+          <BrandSidebar brands={brands} selected={selectedBrand} onSelect={setSelectedBrand} />
         </Reveal>
-      ))}
+
+        {/* Lưới sản phẩm — 2 hàng cố định, cuộn ngang */}
+        <div>
+          <div className="grid grid-rows-2 grid-flow-col auto-cols-[220px] gap-4 overflow-x-auto pb-2">
+            {filteredItems.map((product, i) => (
+              <Reveal key={product.id} delay={80 + i * 40}>
+                <ProductCard product={product} />
+              </Reveal>
+            ))}
+          </div>
+
+          {filteredItems.length === 0 && (
+            <p className="py-10 text-center text-sm text-gray-400">
+              Chưa có sản phẩm nào của thương hiệu này trong danh mục.
+            </p>
+          )}
+
+          {/* Ghi chú cập nhật */}
+          <Reveal delay={200}>
+            <div className="mt-6 flex items-center justify-center gap-1.5 text-xs text-gray-400">
+              <InfoOutlinedIcon sx={{ fontSize: 15 }} />
+              Các sản phẩm khác đang được cập nhật. Vui lòng liên hệ để được tư vấn chi tiết.
+            </div>
+          </Reveal>
+        </div>
+      </div>
     </div>
   );
 }
@@ -218,59 +181,27 @@ export default function ProductsPage() {
   const { ref: ctaRef, isVisible: ctaVisible } = useScrollReveal({ threshold: 0.1 });
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white" style={{ fontFamily: "'Roboto', sans-serif" }}>
 
-      {/* ══ HERO ══ */}
-      <div className="relative pt-[72px] overflow-hidden">
-        <img
-          src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1600&q=85"
-          alt=""
-          aria-hidden
-          className="absolute inset-0 w-full h-full object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0d2137]/92 via-[#0d2137]/72 to-[#0d2137]/25" />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 text-center">
-          <div className="flex items-center justify-center gap-2 mb-4">
+      {/* ══ HEADER — nền màu đặc, không ảnh, căn trái ══ */}
+      <div className="relative pt-[72px]" style={{ backgroundColor: HEADER_BG }}>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 text-left">
+          <div className="flex items-center gap-2 mb-4">
             <span className="w-6 h-0.5" style={{ backgroundColor: GOLD }} />
             <span className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: GOLD }}>
               {productsPageHeader.badge}
             </span>
-            <span className="w-6 h-0.5" style={{ backgroundColor: GOLD }} />
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-3">
             {productsPageHeader.headline}
           </h1>
-          <p className="text-white/60 text-base max-w-xl mx-auto leading-relaxed">
+          <p className="text-white/60 text-base max-w-xl leading-relaxed">
             {productsPageHeader.description}
           </p>
         </div>
-
-        {/* Breadcrumb */}
-        <div className="relative z-10 border-t border-white/10 bg-white/5 backdrop-blur-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5">
-            <nav className="flex items-center gap-0.5 text-sm">
-              {productsBreadcrumb.map((crumb, i) => (
-                <span key={crumb.to} className="flex items-center gap-0.5">
-                  {i > 0 && <NavigateNextIcon sx={{ fontSize: 16, color: "rgba(255,255,255,0.4)" }} />}
-                  {i < productsBreadcrumb.length - 1 ? (
-                    <Link
-                      to={crumb.to}
-                      className="text-white/50 hover:text-white no-underline transition-colors duration-200"
-                    >
-                      {crumb.label}
-                    </Link>
-                  ) : (
-                    <span className="text-white/90 font-medium">{crumb.label}</span>
-                  )}
-                </span>
-              ))}
-            </nav>
-          </div>
-        </div>
       </div>
 
-      {/* ══ CATEGORY SECTIONS — theo hãng, không còn "Xem tất cả" ══ */}
+      {/* ══ CATEGORY SECTIONS ══ */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
         {productSections.map((section) => (
           <CategorySection key={section.id} section={section} />
@@ -312,10 +243,6 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      <style>{`
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-      `}</style>
     </div>
   );
 }

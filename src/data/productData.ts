@@ -36,6 +36,8 @@ export interface ProductSection {
   id:       ProductCategory;
   title:    string;
   viewAll?: string;
+  subtitle?: string;  
+  tagline?: string;
 }
 
 // ---------- BRAND INFO — mô tả từng thương hiệu, hiển thị đầu mỗi dải sản phẩm ----------
@@ -93,9 +95,15 @@ export const productBrandInfo: Record<string, ProductBrandInfo> = {
 };
 
 export const productSections: ProductSection[] = [
-  { id: "tam-pin",     title: "Tấm Pin Năng Lượng Mặt Trời",  viewAll: "/san-pham/tam-pin" },
-  { id: "inverter",    title: "Inverter Hòa Lưới & Lưu Trữ",  viewAll: "/san-pham/inverter" },
-  { id: "pin-luu-tru", title: "Pin Lưu Trữ Năng Lượng",        viewAll: "/san-pham/pin-luu-tru" },
+  {
+    id: "tam-pin",
+    title: "Tấm Pin Năng Lượng Mặt Trời",
+    viewAll: "/san-pham/tam-pin",
+    subtitle: "Cung cấp tấm pin chính hãng từ các thương hiệu hàng đầu thế giới",
+    tagline: "Hiệu suất cao – Độ bền vượt trội – Bảo hành dài hạn",
+  },
+  { id: "inverter", title: "Inverter Hòa Lưới & Lưu Trữ", viewAll: "/san-pham/inverter" },
+  { id: "pin-luu-tru", title: "Pin Lưu Trữ Năng Lượng", viewAll: "/san-pham/pin-luu-tru" },
 ];
 
 // ---------- PRODUCTS ----------
@@ -108,6 +116,7 @@ export const products: Product[] = [
     brand: "Canadian Solar",
     brandColor: "#e63c2f",
     name: "Canadian Solar HiKu 615W",
+    
     specs: [
       { label: "Công suất",  value: "615W" },
       { label: "Công nghệ",  value: "N-Type TOPCon" },

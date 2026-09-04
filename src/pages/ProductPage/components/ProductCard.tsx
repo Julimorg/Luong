@@ -15,12 +15,12 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
       to={`/san-pham/${product.id}`}
-      className="group flex h-full w-[250px] sm:w-[270px] lg:w-[288px] flex-shrink-0 flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white no-underline shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-gray-200 hover:shadow-xl hover:shadow-gray-200/70"
+      className="group flex h-full w-full flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white no-underline shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-gray-200 hover:shadow-xl hover:shadow-gray-200/70"
     >
-      {/* Ảnh sản phẩm — nền gradient nhạt, object-contain để thấy trọn thiết bị */}
+      {/* Ảnh sản phẩm — nền gần trắng, object-contain để thấy trọn thiết bị */}
       <div
-        className="flex items-center justify-center bg-gradient-to-b from-slate-50 to-slate-100 p-6"
-        style={{ height: 220 }}
+        className="flex items-center justify-center bg-gradient-to-b from-slate-50 to-white p-5"
+        style={{ height: 180 }}
       >
         <img
           src={product.image}
@@ -31,15 +31,23 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
 
       {/* Nội dung */}
-      <div className="flex flex-1 flex-col gap-2 border-t border-gray-50 px-5 py-5">
+      <div className="flex flex-1 flex-col gap-1.5 border-t border-gray-50 px-4 py-4">
+        {/* Thương hiệu — dạng "logo chữ" nhỏ phía trên tên sản phẩm */}
+        <span
+          className="text-xs font-black uppercase tracking-wide"
+          style={{ color: brandColor }}
+        >
+          {product.brand}
+        </span>
+
         <h3
-          className="mb-0.5 min-h-[2.8rem] text-sm font-bold leading-snug line-clamp-2"
+          className="min-h-[2.5rem] text-sm font-bold leading-snug line-clamp-2"
           style={{ color: NAVY }}
         >
           {product.name}
         </h3>
 
-        <div className="flex flex-col gap-1">
+        <div className="mt-1 flex flex-col gap-0.5">
           {product.specs.map((s) => (
             <p key={s.label} className="text-xs text-gray-400">
               {s.label}: <span className="font-semibold text-gray-700">{s.value}</span>
