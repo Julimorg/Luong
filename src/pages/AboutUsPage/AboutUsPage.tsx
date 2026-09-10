@@ -1,21 +1,13 @@
 import { Link } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import HomeIcon from "@mui/icons-material/Home";
-import BusinessIcon from "@mui/icons-material/Business";
-import FactoryIcon from "@mui/icons-material/Factory";
-import AgricultureIcon from "@mui/icons-material/Agriculture";
-import BatteryChargingFullIcon from "@mui/icons-material/BatteryChargingFull";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import {
   aboutBreadcrumb,
   aboutIntro,
-  aboutFieldsSection,
-  aboutFields,
   aboutWhySection,
   aboutCommitments,
   aboutCta,
-  type AboutField,
 } from "../../data/aboutUsData";
 import { useScrollReveal } from "../../hooks/useScrollReveal";
 import { CompanyFlipbook } from "./components/companyFlipBook";
@@ -29,13 +21,7 @@ const GREEN = "#22c55e";
 const WHY_SECTION_BG = "#121b45";
 
 // ─── Icon map ─────────────────────────────────────────────────
-const fieldIconMap: Record<AboutField["icon"], React.ReactNode> = {
-  home: <HomeIcon sx={{ fontSize: 30 }} />,
-  business: <BusinessIcon sx={{ fontSize: 30 }} />,
-  factory: <FactoryIcon sx={{ fontSize: 30 }} />,
-  agriculture: <AgricultureIcon sx={{ fontSize: 30 }} />,
-  battery: <BatteryChargingFullIcon sx={{ fontSize: 30 }} />,
-};
+
 
 // ─── Reveal wrapper ───────────────────────────────────────────
 function RevealSection({
