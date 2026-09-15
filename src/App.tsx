@@ -11,29 +11,28 @@ import SolutionPage from "./pages/SolutionPage/SolutionPage";
 import ScrollToTop from "./hooks/useScrollToTop";
 import ProductDetailPage from "./pages/ProductDetailPage/ProductDetailPage";
 import { ToastContainer } from "react-toastify";
+import { SiteStatusGate } from "./components/SiteStatusGate";
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
-     <ScrollToTop /> 
-      <Routes>
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/gioi-thieu" element={<AboutPage />} />
-          <Route path="/lien-he" element={<ContactPage />} />
-          <Route path="/du-an" element={<ProjectsPage />} />
-          <Route path="/san-pham" element={<ProductPage />} />
-          <Route path="/du-an/:id" element={<ProjectDetailPage />} />
-          <Route path="/giai-phap" element={<SolutionPage />} />
-          <Route path="/san-pham/:id" element={<ProductDetailPage />} />
-          {/* Thêm pages mới vào đây, Header vẫn hiển thị */}
-          {/* <Route path="/du-an" element={<ProjectsPage />} /> */}
-          {/* <Route path="/dich-vu" element={<ServicesPage />} /> */}
-          {/* <Route path="/lien-he" element={<ContactPage />} /> */}
-        </Route>
-      </Routes>
-      <ToastContainer position="top-right" />
-    </BrowserRouter>
+    <SiteStatusGate>
+      <BrowserRouter>
+        <ScrollToTop />
+        <Routes>
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/gioi-thieu" element={<AboutPage />} />
+            <Route path="/lien-he" element={<ContactPage />} />
+            <Route path="/du-an" element={<ProjectsPage />} />
+            <Route path="/san-pham" element={<ProductPage />} />
+            <Route path="/du-an/:id" element={<ProjectDetailPage />} />
+            <Route path="/giai-phap" element={<SolutionPage />} />
+            <Route path="/san-pham/:id" element={<ProductDetailPage />} />
+          </Route>
+        </Routes>
+        <ToastContainer position="top-right" />
+      </BrowserRouter>
+    </SiteStatusGate>
   );
 };
 

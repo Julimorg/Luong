@@ -1,103 +1,66 @@
-import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { footerData } from "../data/dashBoardData";
+
+// ─── Icon Zalo — MUI không có sẵn, tự vẽ SVG đơn giản theo màu thương hiệu Zalo ───
+function ZaloIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M24 4C12.95 4 4 12.06 4 22c0 5.7 2.93 10.78 7.5 14.09V44l7.02-3.86c1.75.44 3.6.68 5.48.68 11.05 0 20-8.06 20-18S35.05 4 24 4z"
+        fill="#0068FF"
+      />
+      <path
+        d="M14 26.5h6.2v-1.9h-3.6l3.5-4.8v-1.4h-5.9v1.9h3.4l-3.6 4.9v1.3zM22 18.4h2v8.1h-2v-8.1zM26 20.3c.7-1 1.9-1.6 3.2-1.6 2.2 0 3.7 1.6 3.7 3.9s-1.5 3.9-3.7 3.9c-1.3 0-2.5-.6-3.2-1.6v1.6h-2v-11h2v4.8zm2.9 4.4c1.1 0 2-.9 2-2.1s-.9-2.1-2-2.1-2 .9-2 2.1.9 2.1 2 2.1z"
+        fill="#fff"
+      />
+    </svg>
+  );
+}
 
 const socialIconMap: Record<string, React.ReactNode> = {
   facebook: <FacebookIcon sx={{ fontSize: 20 }} />,
-  youtube: <YouTubeIcon sx={{ fontSize: 20 }} />,
-  linkedin: <LinkedInIcon sx={{ fontSize: 20 }} />,
+  zalo: <ZaloIcon />,
 };
 
-// ─── Brand colors (đồng bộ với Header) ─────────────────────────────
-const GOLD = "#f6b918";
+// ─── Logo dạng chữ — ảnh tĩnh, đứng riêng phía trên ─────────────────
+const LOGO_SRC = "/logo/logo_text_white.png";
+// File PNG thường có khoảng trong suốt thừa bên trái/trên (baked-in padding),
+// khiến chữ trong ảnh không thẳng hàng với các đoạn text khác dù layout code đã đúng.
+// Chỉnh 2 số dưới đây (số âm = kéo ảnh sang trái/lên) cho tới khi khớp mắt.
+const LOGO_OFFSET_X = -22; // px
+const LOGO_OFFSET_Y = -6; // px
 
-const LOGO_MAIN = "VIETHUNG";
-const LOGO_SUB = "Solar Energy";
-
-// ─── Animation variants: từng chữ cái của "VIETHUNG" bay lên tuần tự ──
-const letterContainerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.06,
-    },
-  },
-};
-
-const letterVariants = {
-  hidden: { opacity: 0, y: 14 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as any },
-  },
-};
-
-function AnimatedBrandLogo() {
-  return (
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.6 }}
-      className="mb-3"
-    >
-      {/* VIETHUNG — từng chữ cái bay lên tuần tự */}
-      <motion.span
-        variants={letterContainerVariants}
-        className="flex font-extrabold text-2xl tracking-wide text-white uppercase"
-        aria-label={LOGO_MAIN}
-      >
-        {LOGO_MAIN.split("").map((char, i) => (
-          <motion.span key={i} variants={letterVariants} className="inline-block">
-            {char}
-          </motion.span>
-        ))}
-      </motion.span>
-
-      {/* Solar Energy — hiệu ứng shimmer ánh vàng lướt qua liên tục */}
-      <motion.span
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, amount: 0.6 }}
-        transition={{ delay: LOGO_MAIN.length * 0.06 + 0.1, duration: 0.5 }}
-        className="block font-semibold text-sm tracking-[0.05em] mt-0.5"
-        style={{
-          backgroundImage: `linear-gradient(90deg, ${GOLD} 0%, #fff2cc 50%, ${GOLD} 100%)`,
-          backgroundSize: "200% auto",
-          WebkitBackgroundClip: "text",
-          backgroundClip: "text",
-          color: "transparent",
-          animation: "footerShimmer 3s linear infinite",
-        }}
-      >
-        {LOGO_SUB}
-      </motion.span>
-
-      {/* Keyframes cho shimmer — nằm inline vì component này không phải global CSS */}
-      <style>{`
-        @keyframes footerShimmer {
-          0% { background-position: 0% center; }
-          100% { background-position: 200% center; }
-        }
-      `}</style>
-    </motion.div>
-  );
-}
+// ─── Cột giữa "VỀ VIETHUNGSOLAR" — 4 link điều hướng nội bộ ───────────
+const aboutLinks = [
+  { label: "Dự án", to: "/du-an" },
+  { label: "Giới thiệu", to: "/gioi-thieu" },
+  { label: "Giải pháp", to: "/giai-phap" },
+];
 
 export default function Footer() {
   return (
     <footer className="bg-[#1c2f5c] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
 
-          {/* ── Brand ── */}
+        {/* ── Logo — đứng riêng 1 hàng phía trên ── */}
+        <img
+          src={LOGO_SRC}
+          alt="VIETHUNG Solar Energy"
+          className="h-16 sm:h-20 w-auto object-contain block mb-6"
+          style={{ marginLeft: LOGO_OFFSET_X, marginTop: LOGO_OFFSET_Y }}
+        />
+
+        {/* ── 3 cột: Brand (trái) | Về VIETHUNGSOLAR (giữa) | Liên hệ (phải) ──
+             Bố cục tự nhiên: mỗi cột chỉ xếp nội dung theo dòng, khoảng cách cố định
+             nhỏ gọn — KHÔNG ép các cột cao bằng nhau, tránh bị giãn cách quá rộng. */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
+
+          {/* Trái: tagline -> icon social, khoảng cách gọn gàng như bản gốc */}
           <div>
-            <AnimatedBrandLogo />
             <p className="text-white/55 text-sm leading-relaxed mb-5 max-w-xs">
               {footerData.brand.tagline}
             </p>
@@ -106,7 +69,7 @@ export default function Footer() {
                 <a
                   key={s}
                   href="#"
-                  className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:bg-[#f5a623] hover:border-[#f5a623] hover:text-white transition-all duration-200 no-underline"
+                  className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:border-[#f5a623] transition-all duration-200 no-underline overflow-hidden"
                 >
                   {socialIconMap[s]}
                 </a>
@@ -114,7 +77,26 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* ── Contact ── */}
+          {/* Giữa: VỀ VIETHUNGSOLAR — 4 link điều hướng */}
+          <div>
+            <h4 className="text-white font-semibold text-sm uppercase tracking-widest mb-4">
+              Về VIETHUNGSOLAR
+            </h4>
+            <ul className="flex flex-col gap-3">
+              {aboutLinks.map((link) => (
+                <li key={link.to}>
+                  <Link
+                    to={link.to}
+                    className="text-white/55 hover:text-[#f5a623] text-sm no-underline transition-colors duration-200"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Phải: LIÊN HỆ — khoảng cách gọn gàng như bản gốc */}
           <div>
             <h4 className="text-white font-semibold text-sm uppercase tracking-widest mb-4">
               {footerData.contact.title}

@@ -250,7 +250,7 @@ export const ctaBanner = {
 export const footerData = {
   brand: {
     name: "SOLARTECH",
-    tagline: "Giải pháp năng lượng mặt trời toàn diện cho doanh nghiệp và hộ gia đình.",
+    tagline: "Thương hiệu của CÔNG TY TNHH XÂY DỰNG VÀ THƯƠNG MẠI HƯNG VIỆT HÙNG",
   },
   columns: [
     {
@@ -286,6 +286,6 @@ export const footerData = {
     phone: "1800 1234",
     email: "info@solartech.vn",
   },
-  socials: ["facebook", "youtube", "linkedin"],
-  copyright: "© 2024 Solartech. All rights reserved.",
+  socials: ["facebook", "zalo"],
+  copyright: "© 2026 Solartech. All rights reserved.",
 };
