@@ -10,4 +10,4 @@ export type SiteStatus = "running" | "maintenance" | "updating";
 // "running"     -> website hoạt động bình thường, hiện đúng route đang truy cập
 // "maintenance" -> toàn site hiện trang "Website đang bảo trì"
 // "updating"    -> toàn site hiện trang "Đang cập nhật dữ liệu"
-export const SITE_STATUS: SiteStatus = "updating";
+export const SITE_STATUS: SiteStatus = "running";
