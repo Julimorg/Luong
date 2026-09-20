@@ -7,9 +7,11 @@ const NAVY = "#1c2f5c";
 
 interface ProductCardProps {
   product: Product;
+  /** Hiện nhãn nhóm thiết bị — chỉ cần khi danh mục có nhiều nhóm. */
+  showGroup?: boolean;
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product, showGroup = false }: ProductCardProps) {
   const brandColor = product.brandColor ?? GOLD;
 
   return (
@@ -19,9 +21,18 @@ export function ProductCard({ product }: ProductCardProps) {
     >
       {/* Ảnh sản phẩm — nền gần trắng, object-contain để thấy trọn thiết bị */}
       <div
-        className="flex items-center justify-center bg-gradient-to-b from-slate-50 to-white p-5"
+        className="relative flex items-center justify-center bg-gradient-to-b from-slate-50 to-white p-5"
         style={{ height: 180 }}
       >
+        {/* Nhóm thiết bị — nhãn nhỏ góc trên để phân biệt Hybrid / Hòa lưới / Pin… */}
+        {showGroup && (
+          <span
+            className="absolute left-3 top-3 rounded-full bg-white/85 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide backdrop-blur-sm"
+            style={{ color: brandColor }}
+          >
+            {product.group}
+          </span>
+        )}
         <img
           src={product.image}
           alt={product.name}
@@ -46,6 +57,11 @@ export function ProductCard({ product }: ProductCardProps) {
         >
           {product.name}
         </h3>
+
+        {/* Mã model chính hãng */}
+        <span className="w-fit rounded bg-gray-50 px-1.5 py-0.5 font-mono text-[10px] tracking-tight text-gray-500">
+          {product.model}
+        </span>
 
         <div className="mt-1 flex flex-col gap-0.5">
           {product.specs.map((s) => (

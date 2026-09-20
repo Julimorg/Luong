@@ -7,6 +7,7 @@ import MemoryRoundedIcon from "@mui/icons-material/MemoryRounded";
 import BatteryChargingFullRoundedIcon from "@mui/icons-material/BatteryChargingFullRounded";
 import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useScrollReveal } from "../../hooks/useScrollReveal";
 import {
   products,
@@ -21,6 +22,9 @@ import { ComboSection } from "./components/ComboSection";
 const GOLD = "#f6b918";
 const NAVY = "#1c2f5c";
 const HEADER_BG = "#121b45";
+
+// Số sản phẩm hiển thị trước khi bấm "Xem thêm" trong mỗi danh mục.
+const PAGE_SIZE = 15;
 
 // ─── Icon theo danh mục ───
 const categoryIconMap: Record<string, React.ReactNode> = {
@@ -45,10 +49,17 @@ function uniqueBrands(items: Product[]) {
   return list;
 }
 
-// ─── Chỉ giữ thương hiệu từ đầu danh sách đến Astronergy ───
-function limitBrandsToAstronergy(brands: { name: string; color: string }[]) {
-  const cutoffIndex = brands.findIndex((b) => b.name === "Astronergy");
-  return cutoffIndex === -1 ? brands : brands.slice(0, cutoffIndex + 1);
+// ─── Lấy danh sách nhóm thiết bị duy nhất trong một danh mục ───
+function uniqueGroups(items: Product[]) {
+  const seen = new Set<string>();
+  const list: string[] = [];
+  for (const p of items) {
+    if (!seen.has(p.group)) {
+      seen.add(p.group);
+      list.push(p.group);
+    }
+  }
+  return list;
 }
 
 // ─── Reveal wrapper ───────────────────────────────────────────
@@ -124,7 +135,7 @@ function BrandFilterBar({
   layoutGroupId: string;
 }) {
   return (
-    <div className="mb-7 flex flex-wrap items-center gap-2.5">
+    <div className="flex flex-wrap items-center gap-2.5">
       <FilterPill
         label="Tất cả"
         isActive={selected === null}
@@ -140,6 +151,43 @@ function BrandFilterBar({
           color={b.color}
           layoutGroupId={layoutGroupId}
           onClick={() => onSelect(selected === b.name ? null : b.name)}
+        />
+      ))}
+    </div>
+  );
+}
+
+// ─── Hàng lọc nhóm thiết bị (Hybrid / Hòa lưới / Pin áp cao…) ───
+function GroupFilterBar({
+  groups,
+  selected,
+  onSelect,
+  layoutGroupId,
+  counts,
+}: {
+  groups: string[];
+  selected: string | null;
+  onSelect: (group: string | null) => void;
+  layoutGroupId: string;
+  counts: Record<string, number>;
+}) {
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <FilterPill
+        label="Tất cả loại"
+        isActive={selected === null}
+        color={GOLD}
+        layoutGroupId={layoutGroupId}
+        onClick={() => onSelect(null)}
+      />
+      {groups.map((g) => (
+        <FilterPill
+          key={g}
+          label={`${g} (${counts[g] ?? 0})`}
+          isActive={selected === g}
+          color={GOLD}
+          layoutGroupId={layoutGroupId}
+          onClick={() => onSelect(selected === g ? null : g)}
         />
       ))}
     </div>
@@ -171,15 +219,36 @@ function CategorySection({
     () => products.filter((p) => p.category === section.id),
     [section.id],
   );
-  const brands = useMemo(
-    () => limitBrandsToAstronergy(uniqueBrands(items)),
-    [items],
-  );
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+  const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
 
-  const filteredItems = selectedBrand
-    ? items.filter((p) => p.brand === selectedBrand)
-    : items;
+  const groups = useMemo(() => uniqueGroups(items), [items]);
+
+  // Lọc theo nhóm trước, rồi mới tính danh sách hãng còn lại -> hai bộ lọc luôn khớp nhau.
+  const groupItems = useMemo(
+    () => (selectedGroup ? items.filter((p) => p.group === selectedGroup) : items),
+    [items, selectedGroup],
+  );
+  const brands = useMemo(() => uniqueBrands(groupItems), [groupItems]);
+
+  const groupCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const p of items) counts[p.group] = (counts[p.group] ?? 0) + 1;
+    return counts;
+  }, [items]);
+
+  // Nếu hãng đang chọn không còn sản phẩm nào trong nhóm mới thì bỏ chọn hãng.
+  const activeBrand =
+    selectedBrand && brands.some((b) => b.name === selectedBrand) ? selectedBrand : null;
+
+  const filteredItems = activeBrand
+    ? groupItems.filter((p) => p.brand === activeBrand)
+    : groupItems;
+
+  // Danh mục Inverter có tới hàng chục model — hiển thị dần để trang không quá dài.
+  const [expanded, setExpanded] = useState(false);
+  const visibleItems = expanded ? filteredItems : filteredItems.slice(0, PAGE_SIZE);
+  const hiddenCount = filteredItems.length - visibleItems.length;
 
   return (
     <div>
@@ -202,11 +271,20 @@ function CategorySection({
         )}
       </Reveal>
 
-      {/* Hàng lọc thương hiệu — nằm NGANG phía trên, thay cho sidebar dọc cũ */}
-      <Reveal delay={60}>
+      {/* Bộ lọc — nhóm thiết bị (nếu danh mục có nhiều nhóm) + thương hiệu */}
+      <Reveal delay={60} className="mb-7 flex flex-col gap-3">
+        {groups.length > 1 && (
+          <GroupFilterBar
+            groups={groups}
+            selected={selectedGroup}
+            onSelect={setSelectedGroup}
+            layoutGroupId={`${section.id}-group`}
+            counts={groupCounts}
+          />
+        )}
         <BrandFilterBar
           brands={brands}
-          selected={selectedBrand}
+          selected={activeBrand}
           onSelect={setSelectedBrand}
           layoutGroupId={section.id}
         />
@@ -220,14 +298,14 @@ function CategorySection({
         className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4"
       >
         <AnimatePresence mode="popLayout">
-          {filteredItems.map((product) => (
+          {visibleItems.map((product) => (
             <motion.div
               key={product.id}
               layout
               variants={cardVariants}
               exit="exit"
             >
-              <ProductCard product={product} />
+              <ProductCard product={product} showGroup={groups.length > 1} />
             </motion.div>
           ))}
         </AnimatePresence>
@@ -237,6 +315,23 @@ function CategorySection({
         <p className="py-10 text-center text-sm text-gray-400">
           Chưa có sản phẩm nào của thương hiệu này trong danh mục.
         </p>
+      )}
+
+      {/* Xem thêm / thu gọn */}
+      {(hiddenCount > 0 || expanded) && filteredItems.length > PAGE_SIZE && (
+        <div className="mt-7 flex justify-center">
+          <button
+            onClick={() => setExpanded((v) => !v)}
+            className="inline-flex items-center gap-1.5 rounded-full border px-5 py-2.5 text-sm font-bold transition-all duration-200 hover:-translate-y-0.5"
+            style={{ borderColor: `${NAVY}25`, color: NAVY }}
+          >
+            {expanded ? "Thu gọn danh sách" : `Xem thêm ${hiddenCount} sản phẩm`}
+            <ExpandMoreIcon
+              sx={{ fontSize: 18 }}
+              className={`transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
+            />
+          </button>
+        </div>
       )}
 
       {/* Ghi chú cập nhật */}

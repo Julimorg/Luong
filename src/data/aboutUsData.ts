@@ -122,15 +122,16 @@ export const aboutTrustBand = {
   partnersHeading: "Đối tác thương hiệu uy tín",
 };
 
+// Danh sách thương hiệu đang phân phối — khớp với dữ liệu trang Sản phẩm.
 export const aboutBrandLogos: { name: string; color: string }[] = [
-  { name: "Canadian Solar", color: "#e63c2f" },
   { name: "LONGi", color: "#d93c1c" },
   { name: "JA Solar", color: "#003087" },
   { name: "TCL Solar", color: "#cc0000" },
-  { name: "Astronergy", color: "#0b6623" },
-  { name: "Jinko Solar", color: "#1a6fb5" },
-  { name: "Sungrow", color: "#f6b918" },
   { name: "GoodWe", color: "#e8001c" },
+  { name: "Sungrow", color: "#f6b918" },
+  { name: "SolaX", color: "#00a0e9" },
+  { name: "INVT", color: "#005bac" },
+  { name: "Lithium Valley", color: "#2a9d8f" },
 ];
 
 // ---------- CTA CUỐI TRANG ----------
@@ -140,3 +141,125 @@ export const aboutFinalCta = {
   ctaLabel: "Nhận tư vấn miễn phí",
   ctaTo: "/lien-he",
 };
+
+// ---------- NĂNG LỰC — dải số liệu chạy số khi cuộn tới ----------
+export interface AboutCapability {
+  /** Giá trị số dùng cho hiệu ứng đếm. */
+  value: number;
+  /** Ký tự đứng trước / sau con số, VD "+", "%". */
+  suffix?: string;
+  prefix?: string;
+  label: string;
+  note: string;
+}
+export const aboutCapabilitySection = {
+  eyebrow: "NĂNG LỰC",
+  headline: "Những con số nói thay lời giới thiệu",
+  description:
+    "Tất cả thiết bị VIETHUNGSOLAR phân phối đều có hồ sơ kỹ thuật, datasheet và chính sách bảo hành rõ ràng từ hãng.",
+};
+export const aboutCapabilities: AboutCapability[] = [
+  { value: 500, suffix: "+", label: "Dự án đã triển khai", note: "Hộ gia đình, nhà xưởng, trang trại trên khắp cả nước" },
+  { value: 8, suffix: "", label: "Thương hiệu phân phối", note: "LONGi, JA Solar, TCL, GoodWe, Sungrow, SolaX, INVT, Lithium Valley" },
+  { value: 100, suffix: "%", label: "Thiết bị chính hãng", note: "Đầy đủ CO, CQ và datasheet kỹ thuật kèm theo" },
+  { value: 30, suffix: " năm", label: "Bảo hành công suất", note: "Tấm pin N-Type bảo hành hiệu suất tuyến tính tới 30 năm" },
+];
+
+// ---------- QUY TRÌNH TRIỂN KHAI ----------
+export interface AboutProcessStep {
+  step: string;
+  title: string;
+  description: string;
+  duration: string;
+}
+export const aboutProcessSection = {
+  eyebrow: "QUY TRÌNH",
+  headline: "5 bước từ khảo sát đến vận hành",
+  description:
+    "Một quy trình rõ ràng giúp khách hàng biết chính xác mình đang ở đâu và bước tiếp theo là gì.",
+};
+export const aboutProcessSteps: AboutProcessStep[] = [
+  {
+    step: "01",
+    title: "Khảo sát thực tế",
+    description:
+      "Kỹ thuật viên đến tận nơi đo đạc diện tích mái, hướng nắng, hiện trạng tủ điện và thói quen sử dụng điện của gia đình hoặc nhà xưởng.",
+    duration: "1 – 2 ngày",
+  },
+  {
+    step: "02",
+    title: "Thiết kế & mô phỏng sản lượng",
+    description:
+      "Lên phương án bố trí tấm pin, chọn inverter và dung lượng lưu trữ phù hợp, kèm dự tính sản lượng và thời gian hoàn vốn.",
+    duration: "2 – 3 ngày",
+  },
+  {
+    step: "03",
+    title: "Báo giá minh bạch",
+    description:
+      "Báo giá liệt kê rõ từng thiết bị theo đúng mã model, kèm chính sách bảo hành của hãng — không có chi phí ẩn.",
+    duration: "1 ngày",
+  },
+  {
+    step: "04",
+    title: "Thi công & đấu nối",
+    description:
+      "Đội thi công lắp khung, tấm pin, inverter và hệ lưu trữ theo đúng tiêu chuẩn kỹ thuật, an toàn điện và chống thấm mái.",
+    duration: "3 – 7 ngày",
+  },
+  {
+    step: "05",
+    title: "Nghiệm thu & đồng hành",
+    description:
+      "Bàn giao hệ thống, hướng dẫn theo dõi sản lượng trên app, bảo trì định kỳ và hỗ trợ bảo hành trong suốt vòng đời hệ thống.",
+    duration: "Dài hạn",
+  },
+];
+
+// ---------- HỆ SINH THÁI THIẾT BỊ ----------
+export const aboutEcosystemSection = {
+  eyebrow: "HỆ SINH THÁI THIẾT BỊ",
+  headline: "Đầy đủ thiết bị cho một hệ thống hoàn chỉnh",
+  description:
+    "Từ tấm pin, inverter đến pin lưu trữ và các bộ quản lý — tất cả đều có hồ sơ kỹ thuật đầy đủ trên trang Sản phẩm.",
+  ctaLabel: "Xem toàn bộ sản phẩm",
+  ctaTo: "/san-pham",
+};
+
+// ---------- CÂU HỎI THƯỜNG GẶP ----------
+export interface AboutFaq {
+  question: string;
+  answer: string;
+}
+export const aboutFaqSection = {
+  eyebrow: "GIẢI ĐÁP",
+  headline: "Câu hỏi khách hàng thường đặt ra",
+  description: "Nếu chưa tìm thấy câu trả lời, hãy liên hệ để đội ngũ kỹ thuật tư vấn trực tiếp.",
+};
+export const aboutFaqs: AboutFaq[] = [
+  {
+    question: "Hệ thống điện mặt trời bao lâu thì hoàn vốn?",
+    answer:
+      "Tuỳ mức tiêu thụ điện và tỉ lệ tự dùng, phần lớn hệ hộ gia đình hoàn vốn trong khoảng 4 – 6 năm. Khi khảo sát, chúng tôi mô phỏng sản lượng theo hoá đơn điện thực tế của bạn để đưa ra con số sát nhất.",
+  },
+  {
+    question: "Có bắt buộc phải lắp pin lưu trữ không?",
+    answer:
+      "Không bắt buộc. Nếu bạn dùng điện chủ yếu ban ngày, hệ hoà lưới đã đủ hiệu quả. Pin lưu trữ phù hợp khi bạn cần dự phòng lúc mất điện hoặc muốn dùng điện mặt trời vào buổi tối.",
+  },
+  {
+    question: "Lắp trên mái tôn hoặc mái ngói có bị thấm dột không?",
+    answer:
+      "Hệ khung được thiết kế riêng cho từng loại mái, các điểm bắt vít đều được xử lý chống thấm. Đội thi công kiểm tra lại toàn bộ điểm tiếp xúc trước khi nghiệm thu.",
+  },
+  {
+    question: "Bảo hành được tính như thế nào?",
+    answer:
+      "Bảo hành theo đúng chính sách của từng hãng và được ghi rõ trong báo giá: tấm pin thường 12 – 15 năm sản phẩm và tới 30 năm hiệu suất, inverter 5 năm (có gói gia hạn), pin lưu trữ theo chính sách sản phẩm và hiệu suất riêng của hãng.",
+  },
+  {
+    question: "Sau khi lắp xong có được hỗ trợ tiếp không?",
+    answer:
+      "Có. Chúng tôi hướng dẫn bạn theo dõi sản lượng trên app của hãng, bảo trì định kỳ và xử lý sự cố trong suốt vòng đời hệ thống.",
+  },
+];

@@ -85,13 +85,15 @@ const DEFAULT_APPLICATIONS: { label: string; icon: React.ReactNode }[] = [
 const APPLICATION_ICONS = DEFAULT_APPLICATIONS.map((a) => a.icon);
 
 function buildQuickStats(product: Product, detail: ProductDetail) {
-  const stats: { icon: React.ReactNode; value: string; label: string }[] = [];
+  // Ưu tiên bộ "6 ô thông số nổi bật" lấy từ hồ sơ kỹ thuật của hãng.
+  const source = detail.quickSpecs.length > 0 ? detail.quickSpecs : product.specs;
+  const stats = source.map((s) => ({
+    icon: pickStatIcon(s.label),
+    value: s.value,
+    label: s.label,
+  }));
 
-  product.specs.forEach((s) => {
-    stats.push({ icon: pickStatIcon(s.label), value: s.value, label: s.label });
-  });
-
-  const keywords = ["hiệu suất", "nhiệt độ", "điện áp", "bảo hành công suất", "kính", "bảo hành"];
+  const keywords = ["hiệu suất", "nhiệt độ", "điện áp", "bảo hành công suất", "bảo hành"];
   for (const kw of keywords) {
     if (stats.length >= 6) break;
     const found = detail.fullSpecs.find(
@@ -294,6 +296,13 @@ export default function ProductDetailPage() {
               {product.name}
             </h1>
 
+            <p className="mb-3 flex items-center gap-2 text-sm text-gray-400">
+              Model:
+              <span className="rounded bg-gray-100 px-2 py-0.5 font-mono text-xs font-semibold text-gray-700">
+                {product.model}
+              </span>
+            </p>
+
             {detail.tags && detail.tags.length > 0 && (
               <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-gray-700 mb-4">
                 {detail.tags.map((tag, i) => (
@@ -396,11 +405,14 @@ export default function ProductDetailPage() {
             <div className="grid sm:grid-cols-2 gap-3">
               {detail.highlights.map((h) => (
                 <div
-                  key={h}
-                  className="flex flex-col gap-2 rounded-xl border border-gray-100 bg-gray-50/60 px-4 py-4"
+                  key={h.title}
+                  className="flex flex-col gap-2 rounded-xl border border-gray-100 bg-gray-50/60 px-4 py-4 transition-colors duration-200 hover:border-gray-200 hover:bg-white"
                 >
-                  <span style={{ color: brandColor }}>{pickHighlightIcon(h)}</span>
-                  <p className="text-xs text-gray-600 leading-relaxed">{h}</p>
+                  <span style={{ color: brandColor }}>{pickHighlightIcon(h.title)}</span>
+                  <p className="text-sm font-bold leading-snug" style={{ color: NAVY }}>{h.title}</p>
+                  {h.description && (
+                    <p className="text-xs text-gray-500 leading-relaxed">{h.description}</p>
+                  )}
                 </div>
               ))}
             </div>
