@@ -12,17 +12,18 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import InfoIcon from "@mui/icons-material/Info";
-import NatureIcon from "@mui/icons-material/Nature";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import SearchIcon from "@mui/icons-material/Search";
-import DesignServicesOutlinedIcon from "@mui/icons-material/DesignServicesOutlined";
-import BuildIcon from "@mui/icons-material/Build";
-import ShieldIcon from "@mui/icons-material/Shield";
 import { useNavigate } from "react-router-dom";
 import { RevealSection } from "../common/Reveal";
 import { SectionEyebrow } from "../common/SectionEyebrow";
 import { GOLD, NAVY, GOLD_DARK } from "../../themes/colors";
 import { useGetProvinces } from "../../../../hooks/useGetQueryProvince";
+import {
+  CALC_DISCLAIMER,
+  calculateSolar,
+  type CustomerType,
+  type SolarCalcResult,
+} from "../../../../data/solarCalculatorConfig";
 import type { IProvince } from "../../../../interface/IProvince";
 
 type LoaiCongTrinh = "nha_o" | "nha_xuong" | "van_phong" | "trang_trai";
@@ -81,51 +82,57 @@ function formatVNDShort(n: number) {
 function formatInputNumber(n: number) {
   return n.toLocaleString("vi-VN");
 }
-function getGiaDien(loai: LoaiCongTrinh, tienDien: number): number {
-  switch (loai) {
-    case "nha_o":
-      if (tienDien < 2_000_000) return 3100;
-      if (tienDien <= 6_000_000) return 3400;
-      return 3650;
-    case "van_phong": return 3200;
-    case "nha_xuong": return 2850;
-    case "trang_trai": return 2750;
-  }
+// Loại công trình trên giao diện -> nhóm biểu giá trong solarCalculatorConfig.
+const CUSTOMER_TYPE_BY_CONG_TRINH: Record<LoaiCongTrinh, CustomerType> = {
+  nha_o: "household",
+  nha_xuong: "production",
+  trang_trai: "production",
+  van_phong: "business",
+};
+
+function formatPayback(years: number) {
+  if (!Number.isFinite(years) || years <= 0) return "—";
+  return `${years.toLocaleString("vi-VN", { maximumFractionDigits: 1 })} năm`;
 }
 
-function useSolarResult(tienDien: number, loaiCongTrinh: LoaiCongTrinh, dienTichMai: DienTichMai) {
-  return useMemo(() => {
-    const giaDien = getGiaDien(loaiCongTrinh, tienDien);
-    const dienNangTieuThu = tienDien / giaDien;
-    const congSuatCanThiet = dienNangTieuThu / 120;
-    const congSuatDeXuatRaw = congSuatCanThiet * 0.85;
-    const congSuatDeXuat = Math.max(0.5, Math.round(congSuatDeXuatRaw * 2) / 2);
+interface CalcOutput extends SolarCalcResult {
+  roofStatus: { type: "success" | "warning" | "danger" | "info"; message: string };
+}
 
-    const tietKiem = tienDien * 0.85;
-    const hoanVon = congSuatDeXuat < 10 ? "4 - 5 năm" : congSuatDeXuat <= 30 ? "3.5 - 4 năm" : "3 - 4 năm";
-    const co2 = congSuatDeXuat * 0.85;
+function useSolarResult(
+  tienDien: number,
+  loaiCongTrinh: LoaiCongTrinh,
+  dienTichMai: DienTichMai,
+): CalcOutput {
+  return useMemo(() => {
+    const calc = calculateSolar({
+      customerType: CUSTOMER_TYPE_BY_CONG_TRINH[loaiCongTrinh],
+      monthlyBill: tienDien,
+    });
 
     const roofArea = DIEN_TICH_AREA_MAP[dienTichMai];
-    let roofStatus: { type: "success" | "warning" | "danger" | "info"; message: string };
+    let roofStatus: CalcOutput["roofStatus"];
 
     if (roofArea === null) {
       roofStatus = {
         type: "info",
-        message: "Công suất được ước tính dựa trên mức tiêu thụ điện. Kỹ sư sẽ khảo sát thực tế để xác định công suất phù hợp.",
+        message:
+          "Công suất được ước tính dựa trên mức tiêu thụ điện. Kỹ sư sẽ khảo sát thực tế để xác định công suất phù hợp.",
       };
     } else {
       const congSuatMaiToiDa = roofArea / 6.8;
-      if (congSuatMaiToiDa >= congSuatDeXuat) {
+      if (congSuatMaiToiDa >= calc.recommendedPower) {
         roofStatus = { type: "success", message: "Diện tích mái phù hợp để lắp đặt hệ thống đề xuất." };
       } else {
-        const chenhLech = (congSuatDeXuat - congSuatMaiToiDa) / congSuatDeXuat;
-        roofStatus = chenhLech <= 0.2
-          ? { type: "warning", message: "Diện tích mái có thể chưa đủ cho công suất đề xuất. Kỹ sư VIETHUNGSOLAR sẽ khảo sát và tối ưu phương án phù hợp." }
-          : { type: "danger", message: "Diện tích mái hiện tại chưa đáp ứng công suất đề xuất. Chúng tôi sẽ tư vấn phương án tối ưu theo diện tích thực tế hoặc nhu cầu sử dụng." };
+        const chenhLech = (calc.recommendedPower - congSuatMaiToiDa) / calc.recommendedPower;
+        roofStatus =
+          chenhLech <= 0.2
+            ? { type: "warning", message: "Diện tích mái có thể chưa đủ cho công suất đề xuất. Kỹ sư VIETHUNGSOLAR sẽ khảo sát và tối ưu phương án phù hợp." }
+            : { type: "danger", message: "Diện tích mái hiện tại chưa đáp ứng công suất đề xuất. Chúng tôi sẽ tư vấn phương án tối ưu theo diện tích thực tế hoặc nhu cầu sử dụng." };
       }
     }
 
-    return { congSuatDeXuat, tietKiem, hoanVon, co2, roofStatus };
+    return { ...calc, roofStatus };
   }, [tienDien, loaiCongTrinh, dienTichMai]);
 }
 
@@ -427,7 +434,9 @@ export function SolarCalculator() {
                   <div>
                     <p className="text-gray-500 text-xs mb-1">Công suất hệ thống đề xuất</p>
                     <div className="flex items-end gap-2">
-                      <span className="text-5xl font-extrabold" style={{ color: NAVY }}>{result.congSuatDeXuat}</span>
+                      <span className="text-5xl font-extrabold" style={{ color: NAVY }}>
+                        {result.recommendedPower.toLocaleString("vi-VN", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
+                      </span>
                       <span className="text-xl font-bold pb-1" style={{ color: GOLD }}>kWp</span>
                     </div>
                     <p className="text-gray-400 text-xs mt-1">
@@ -440,19 +449,13 @@ export function SolarCalculator() {
                       <span className="flex items-center gap-1.5 text-gray-500 text-xs">
                         <SavingsIcon sx={{ fontSize: 15, color: GOLD }} /> Tiết kiệm mỗi tháng
                       </span>
-                      <span className="font-bold text-sm" style={{ color: NAVY }}>{formatVNDShort(result.tietKiem)}</span>
+                      <span className="font-bold text-sm" style={{ color: NAVY }}>≈ {formatVNDShort(result.monthlySaving)}</span>
                     </div>
                     <div className="flex items-center justify-between px-4 py-3">
                       <span className="flex items-center gap-1.5 text-gray-500 text-xs">
                         <AccessTimeIcon sx={{ fontSize: 15, color: GOLD }} /> Thời gian hoàn vốn
                       </span>
-                      <span className="font-bold text-sm" style={{ color: NAVY }}>≈ {result.hoanVon}</span>
-                    </div>
-                    <div className="flex items-center justify-between px-4 py-3">
-                      <span className="flex items-center gap-1.5 text-gray-500 text-xs">
-                        <NatureIcon sx={{ fontSize: 15, color: GOLD }} /> Giảm phát thải CO₂
-                      </span>
-                      <span className="font-bold text-sm" style={{ color: NAVY }}>≈ {result.co2.toFixed(1)} tấn/năm</span>
+                      <span className="font-bold text-sm" style={{ color: NAVY }}>≈ {formatPayback(result.paybackYears)}</span>
                     </div>
                   </div>
                 </div>
@@ -460,6 +463,12 @@ export function SolarCalculator() {
                 <div className="mt-6">
                   <RoofStatusBanner status={result.roofStatus} />
                 </div>
+
+                {/* Ghi chú bắt buộc: đây chỉ là con số ước tính */}
+                <p className="mt-4 flex items-start gap-2 text-[11px] leading-relaxed text-gray-400">
+                  <InfoIcon sx={{ fontSize: 14, mt: "1px", flexShrink: 0 }} />
+                  {CALC_DISCLAIMER}
+                </p>
               </div>
             )}
 
@@ -538,24 +547,6 @@ export function SolarCalculator() {
           </div>
         </RevealSection>
 
-        <RevealSection className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
-          {[
-            { icon: <SearchIcon sx={{ fontSize: 22 }} />, title: "Khảo sát miễn phí", desc: "Đội ngũ kỹ thuật đến tận nơi khảo sát và tư vấn miễn phí." },
-            { icon: <DesignServicesOutlinedIcon sx={{ fontSize: 22 }} />, title: "Thiết kế tối ưu", desc: "Giải pháp được thiết kế riêng, đảm bảo hiệu quả cao nhất." },
-            { icon: <BuildIcon sx={{ fontSize: 22 }} />, title: "Thi công chuyên nghiệp", desc: "Đội ngũ giàu kinh nghiệm, thi công nhanh chóng, an toàn." },
-            { icon: <ShieldIcon sx={{ fontSize: 22 }} />, title: "Bảo hành dài hạn", desc: "Hỗ trợ kỹ thuật 24/7, bảo hành thiết bị lên đến 10 năm." },
-          ].map((f, i) => (
-            <div key={i} className="flex items-start gap-3 rounded-xl bg-white border border-gray-100 p-4">
-              <span className="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${GOLD}1A`, color: GOLD }}>
-                {f.icon}
-              </span>
-              <div>
-                <p className="font-semibold text-xs mb-0.5" style={{ color: NAVY }}>{f.title}</p>
-                <p className="text-gray-500 text-[11px] leading-snug">{f.desc}</p>
-              </div>
-            </div>
-          ))}
-        </RevealSection>
       </div>
     </section>
   );

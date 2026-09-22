@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useNavigate } from "react-router-dom";
 import { RevealSection } from "../common/Reveal";
-import { ctaBanner } from "../../../../data/dashBoardData";
+import { ctaBanner, heroData } from "../../../../data/dashBoardData";
 import { GOLD, GOLD_DARK } from "../../themes/colors";
 
 export function CtaBannerSection() {
@@ -12,7 +12,8 @@ export function CtaBannerSection() {
     <section className="relative overflow-hidden" style={{ minHeight: 180 }}>
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url(https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1600&q=80)" }}
+        // Dùng chung ảnh với hero đầu trang cho đồng bộ nhận diện
+        style={{ backgroundImage: `url(${heroData.backgroundImage})` }}
       />
       <div className="absolute inset-0 bg-gradient-to-r from-[#0d2137]/92 via-[#0d2137]/72 to-[#0d2137]/25" />
 

@@ -193,48 +193,19 @@ export const featuredBrandsSection = {
 export interface FeaturedBrand {
   id: number;
   name: string;
-  logo: string; // đặt logo vào /public/brands/... — nếu thiếu sẽ hiện tên hãng
+  logo: string; // file trong public/brands/ — cùng domain nên không bị adblock chặn
 }
 
-// ⚠️ VÌ SAO LOGO QUA URL HAY KHÔNG HIỆN:
-//  • net::ERR_BLOCKED_BY_CLIENT  → trình chặn quảng cáo/extension chặn request
-//    (clearbit, logo.dev... nằm trong blocklist tracker). Khách có adblock cũng sẽ KHÔNG thấy.
-//  • logo.clearbit.com đã NGỪNG hoạt động từ 01/12/2025 → luôn lỗi.
-//
-// ✅ CÁCH CHẮC ĂN: tải logo về thư mục public/brands/ rồi trỏ "/brands/<ten>.png".
-//    Ảnh cùng domain với web nên KHÔNG bao giờ bị adblock/hotlink/CORS chặn.
-//
-// (Muốn xem tạm bằng URL ít bị adblock chặn nhất — chỉ ra icon nhỏ — đổi sang Google favicon:
-//    const logoUrl = (d: string) => `https://www.google.com/s2/favicons?domain=${d}&sz=128`;
-//    rồi dùng  logo: logoUrl("jasolar.com")  )
+// Logo chính hãng do VIETHUNGSOLAR cung cấp (documents/dashboard-documents/logo),
+// đã cắt viền trắng thừa và nén sang .webp trước khi đưa vào public/brands/.
 export const featuredBrands: FeaturedBrand[] = [
-  // ── Tấm pin (Solar panels) ──
-  { id: 1,  name: "JA Solar",        logo: "/logo/hello.png" },
-  { id: 2,  name: "JinkoSolar",      logo: "/logo/hello.png" },
-  { id: 3,  name: "Trina Solar",     logo: "/logo/hello.png" },
-  { id: 4,  name: "Canadian Solar",  logo: "/logo/hello.png" },
-  { id: 5,  name: "LONGi Solar",     logo: "/logo/hello.png" },
-  { id: 6,  name: "Hanwha Q CELLS",  logo: "/logo/hello.png" },
-  { id: 7,  name: "REC Group",       logo: "/logo/hello.png" },
-  { id: 8,  name: "SunPower",        logo: "/logo/hello.png" },
-  { id: 9,  name: "First Solar",     logo: "/logo/hello.png" },
-  { id: 10, name: "Risen Energy",    logo: "/logo/hello.png" },
-
-  // ── Inverter (Biến tần) ──
-  { id: 11, name: "Huawei FusionSolar", logo: "/logo/hello.png" },
-  { id: 12, name: "Sungrow",         logo: "/logo/hello.png" },
-  { id: 13, name: "SMA",             logo: "/logo/hello.png" },
-  { id: 14, name: "Fronius",         logo: "/logo/hello.png" },
-  { id: 15, name: "GoodWe",          logo: "/logo/hello.png" },
-  { id: 16, name: "Growatt",         logo: "/logo/hello.png" },
-  { id: 17, name: "Solis",           logo: "/logo/hello.png" },
-  { id: 18, name: "Schneider Electric", logo: "/logo/hello.png" },
-
-  // ── Lưu trữ (Battery / ESS) ──
-  { id: 19, name: "BYD",             logo: "/logo/hello.png" },
-  { id: 20, name: "LG Energy Solution", logo: "/logo/hello.png" },
-  { id: 21, name: "Victron Energy",  logo: "/logo/hello.png" },
-  { id: 22, name: "Tesla",           logo: "/logo/hello.png" },
+  { id: 1, name: "LONGi",          logo: "/brands/longi.webp" },
+  { id: 2, name: "JA Solar",       logo: "/brands/ja-solar.webp" },
+  { id: 3, name: "GoodWe",         logo: "/brands/goodwe.webp" },
+  { id: 4, name: "SolaX Power",    logo: "/brands/solax.webp" },
+  { id: 5, name: "INVT",           logo: "/brands/invt.webp" },
+  { id: 6, name: "Lithium Valley", logo: "/brands/lithium-valley.webp" },
+  { id: 7, name: "Pylontech",      logo: "/brands/pylontech.webp" },
 ];
 
 
@@ -249,7 +220,7 @@ export const ctaBanner = {
 // ---------- FOOTER ----------
 export const footerData = {
   brand: {
-    name: "SOLARTECH",
+    name: "VIETHUNGSOLAR",
     tagline: "Thương hiệu của CÔNG TY TNHH XÂY DỰNG VÀ THƯƠNG MẠI HƯNG VIỆT HÙNG",
   },
   columns: [
@@ -282,10 +253,10 @@ export const footerData = {
   ],
   contact: {
     title: "Liên hệ",
-    address: "50 LG Đường ABC, P. An Phú, Q. Thủ Đức, TP. HCM",
-    phone: "1800 1234",
-    email: "info@solartech.vn",
+    address: "189/1C, Phường Lái Thiêu, Thành phố Hồ Chí Minh",
+    phone: "0931 227 668",
+    email: "viethungsolarenergy@gmail.com",
   },
   socials: ["facebook", "zalo"],
-  copyright: "© 2026 Solartech. All rights reserved.",
+  copyright: "@2026 VIETHUNGSOLAR. All Rights Reserved.",
 };

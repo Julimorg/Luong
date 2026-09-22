@@ -383,7 +383,7 @@ export default function ProductDetailPage() {
               <table className="w-full text-sm">
                 <tbody>
                   {detail.fullSpecs.map((s, i) => (
-                    <tr key={s.label} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                    <tr key={`${s.label}-${i}`} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
                       <td className="py-3 px-5 text-gray-500 w-1/2 border-r border-gray-100">{s.label}</td>
                       <td className="py-3 px-5 font-semibold text-gray-800">{s.value}</td>
                     </tr>

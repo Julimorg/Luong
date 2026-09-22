@@ -399,7 +399,7 @@ export default function ProductsPage() {
       {/* ══ CTA BANNER (giữ nguyên) ══ */}
       <section className="relative overflow-hidden" style={{ minHeight: 180 }}>
         <img
-          src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1600&q=80"
+          src="/background/dashboard/hero_background.png"
           alt=""
           aria-hidden
           className="absolute inset-0 w-full h-full object-cover object-center"

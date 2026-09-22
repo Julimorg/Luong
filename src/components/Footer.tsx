@@ -5,18 +5,23 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import { footerData } from "../data/dashBoardData";
 
-// ─── Icon Zalo — MUI không có sẵn, tự vẽ SVG đơn giản theo màu thương hiệu Zalo ───
+// ─── Icon Zalo — dựng theo logo chính thức: khối bo tròn xanh + chữ "Zalo" trắng ───
 function ZaloIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M24 4C12.95 4 4 12.06 4 22c0 5.7 2.93 10.78 7.5 14.09V44l7.02-3.86c1.75.44 3.6.68 5.48.68 11.05 0 20-8.06 20-18S35.05 4 24 4z"
-        fill="#0068FF"
-      />
-      <path
-        d="M14 26.5h6.2v-1.9h-3.6l3.5-4.8v-1.4h-5.9v1.9h3.4l-3.6 4.9v1.3zM22 18.4h2v8.1h-2v-8.1zM26 20.3c.7-1 1.9-1.6 3.2-1.6 2.2 0 3.7 1.6 3.7 3.9s-1.5 3.9-3.7 3.9c-1.3 0-2.5-.6-3.2-1.6v1.6h-2v-11h2v4.8zm2.9 4.4c1.1 0 2-.9 2-2.1s-.9-2.1-2-2.1-2 .9-2 2.1.9 2.1 2 2.1z"
+    <svg width="22" height="22" viewBox="0 0 48 48" role="img" aria-label="Zalo" xmlns="http://www.w3.org/2000/svg">
+      <rect width="48" height="48" rx="12" fill="#0068FF" />
+      <text
+        x="24"
+        y="31"
+        textAnchor="middle"
         fill="#fff"
-      />
+        fontFamily="Arial, Helvetica, sans-serif"
+        fontSize="17"
+        fontWeight="700"
+        letterSpacing="-0.5"
+      >
+        Zalo
+      </text>
     </svg>
   );
 }
@@ -35,6 +40,12 @@ const LOGO_OFFSET_X = -22; // px
 const LOGO_OFFSET_Y = -6; // px
 
 // ─── Cột giữa "VỀ VIETHUNGSOLAR" — 4 link điều hướng nội bộ ───────────
+// Link mạng xã hội — Zalo mở thẳng theo số hotline trong footerData.
+const socialHref: Record<string, string> = {
+  facebook: "https://www.facebook.com/",
+  zalo: `https://zalo.me/${footerData.contact.phone.replace(/\D/g, "")}`,
+};
+
 const aboutLinks = [
   { label: "Dự án", to: "/du-an" },
   { label: "Giới thiệu", to: "/gioi-thieu" },
@@ -68,7 +79,10 @@ export default function Footer() {
               {footerData.socials.map((s) => (
                 <a
                   key={s}
-                  href="#"
+                  href={socialHref[s] ?? "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s}
                   className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:border-[#f5a623] transition-all duration-200 no-underline overflow-hidden"
                 >
                   {socialIconMap[s]}
@@ -77,8 +91,8 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Giữa: VỀ VIETHUNGSOLAR — 4 link điều hướng */}
-          <div>
+          {/* Giữa: VỀ VIETHUNGSOLAR — dịch sang phải một chút cho cân với 2 cột còn lại */}
+          <div className="md:pl-10 lg:pl-16">
             <h4 className="text-white font-semibold text-sm uppercase tracking-widest mb-4">
               Về VIETHUNGSOLAR
             </h4>
@@ -108,7 +122,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href={`tel:${footerData.contact.phone}`}
+                  href={`tel:${footerData.contact.phone.replace(/\s/g, "")}`}
                   className="flex gap-2.5 text-white/55 hover:text-[#f5a623] text-sm no-underline transition-colors duration-200"
                 >
                   <PhoneIcon sx={{ fontSize: 17, color: "#f5a623", flexShrink: 0 }} />
