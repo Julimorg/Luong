@@ -1,9 +1,8 @@
-import { animate, utils } from "animejs";
 import { useScrollReveal } from "../../../hooks/useScrollReveal";
-import { useAnimeOnView } from "../../../hooks/useAnimeOnView";
 import { GOLD, NAVY } from "../../../themes/brand";
+import { CountUp } from "../../../components/common/CountUp";
 
-export { GOLD, NAVY };
+export { GOLD, NAVY, CountUp };
 
 
 /** Khối nội dung hiện lên khi cuộn tới (dùng CSS transition, nhẹ và mượt). */
@@ -66,47 +65,5 @@ export function SectionHeading({
         </p>
       )}
     </Reveal>
-  );
-}
-
-/**
- * Con số chạy từ 0 tới giá trị thật bằng anime.js khi cuộn tới.
- * Có fallback: nếu người dùng tắt hiệu ứng, số hiển thị ngay giá trị cuối.
- */
-export function CountUp({
-  value,
-  prefix = "",
-  suffix = "",
-  duration = 1600,
-  className = "",
-  style,
-}: {
-  value: number;
-  prefix?: string;
-  suffix?: string;
-  duration?: number;
-  className?: string;
-  style?: React.CSSProperties;
-}) {
-  const ref = useAnimeOnView<HTMLSpanElement>((el) => {
-    const target = { n: 0 };
-    const anim = animate(target, {
-      n: value,
-      duration,
-      ease: "outExpo",
-      onUpdate: () => {
-        el.textContent = `${prefix}${Math.round(target.n)}${suffix}`;
-      },
-    });
-    return () => {
-      anim.cancel();
-      utils.set(el, {});
-    };
-  });
-
-  return (
-    <span ref={ref} className={className} style={style}>
-      {`${prefix}${value}${suffix}`}
-    </span>
   );
 }

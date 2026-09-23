@@ -1,12 +1,22 @@
 import { useMemo, useState } from "react";
-import { motion, type Variants } from "framer-motion";
-import { projectFilters, projects, projectsPageHeader, type ProjectFilterValue } from "../../data/projectData";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
+import SearchOffRoundedIcon from "@mui/icons-material/SearchOffRounded";
+import {
+  categoryLabels,
+  projectFilters,
+  projects,
+  type ProjectCategory,
+  type ProjectFilterValue,
+} from "../../data/projectData";
 import { useScrollReveal } from "../../hooks/useScrollReveal";
 import { ProjectCard } from "./components/ProjectCard";
+import { ProjectsHero } from "./components/ProjectsHero";
+import { FeaturedProject } from "./components/FeaturedProject";
+import { ProjectAssuranceSection } from "./components/ProjectAssuranceSection";
+import { ProjectCtaSection } from "./components/ProjectCtaSection";
 import { GOLD, NAVY } from "../../themes/brand";
 
-
-// ─── Reveal wrapper (giữ nguyên, dùng cho header/tabs) ──────
+// ─── Reveal wrapper dùng cho tiêu đề / thanh lọc ───────────────
 function Reveal({
   children,
   delay = 0,
@@ -30,116 +40,257 @@ function Reveal({
   );
 }
 
-const listContainerVariants: Variants = {
+const gridVariants: Variants = {
   hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.1, delayChildren: 0.05 },
-  },
+  visible: { transition: { staggerChildren: 0.08 } },
+};
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 22 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
+  exit: { opacity: 0, scale: 0.96, transition: { duration: 0.2 } },
 };
 
-const cardEntranceVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
-  },
-};
+// ─── Nút lọc dùng chung ────────────────────────────────────────
+function FilterChip({
+  label,
+  count,
+  isActive,
+  onClick,
+}: {
+  label: string;
+  count?: number;
+  isActive: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className="rounded-full border px-4 py-2 text-sm font-bold transition-all duration-200"
+      style={{
+        color: isActive ? "#fff" : NAVY,
+        backgroundColor: isActive ? NAVY : "#fff",
+        borderColor: isActive ? NAVY : "rgba(18,27,69,0.15)",
+      }}
+    >
+      {label}
+      {count !== undefined && (
+        <span className={isActive ? "ml-1.5 text-white/60" : "ml-1.5 text-gray-400"}>
+          {count}
+        </span>
+      )}
+    </button>
+  );
+}
 
 export default function ProjectsPage() {
-  const [activeFilter, setActiveFilter] = useState<ProjectFilterValue>("all");
+  const [status, setStatus] = useState<ProjectFilterValue>("all");
+  const [category, setCategory] = useState<ProjectCategory | "all">("all");
 
-  const filtered = useMemo(() => {
-    if (activeFilter === "completed") return projects.filter((p) => p.status === "Hoàn thành");
-    if (activeFilter === "in-progress") return projects.filter((p) => p.status === "Đang thi công");
-    return projects;
-  }, [activeFilter]);
+  // ── Số liệu tổng hợp cho hero: luôn tính từ danh sách dự án thật ──
+  const summary = useMemo(() => {
+    const totalKwp = projects.reduce((sum, p) => sum + p.capacityKwp, 0);
+    const provinces = new Set(projects.map((p) => p.location));
+    // Ước tính sản lượng: 120 kWh/kWp/tháng theo giả định dùng cho calculator.
+    const yearlyKwh = totalKwp * 120 * 12;
+    return {
+      totalMwp: Math.round((totalKwp / 1000) * 10) / 10,
+      projectCount: projects.length,
+      provinceCount: provinces.size,
+      yearlyGwh: Math.round((yearlyKwh / 1_000_000) * 10) / 10,
+    };
+  }, []);
+
+  const featured = useMemo(() => projects.filter((p) => p.featured), []);
+
+  const categoryOptions = useMemo(() => {
+    const counts = new Map<ProjectCategory, number>();
+    for (const p of projects) counts.set(p.category, (counts.get(p.category) ?? 0) + 1);
+    return [...counts.entries()].map(([value, count]) => ({
+      value,
+      label: categoryLabels[value],
+      count,
+    }));
+  }, []);
+
+  const statusCounts = useMemo(
+    () => ({
+      all: projects.length,
+      completed: projects.filter((p) => p.status === "Hoàn thành").length,
+      "in-progress": projects.filter((p) => p.status === "Đang thi công").length,
+    }),
+    [],
+  );
+
+  const filtered = useMemo(
+    () =>
+      projects.filter((p) => {
+        const matchStatus =
+          status === "all" ||
+          (status === "completed" && p.status === "Hoàn thành") ||
+          (status === "in-progress" && p.status === "Đang thi công");
+        const matchCategory = category === "all" || p.category === category;
+        return matchStatus && matchCategory;
+      }),
+    [status, category],
+  );
 
   return (
-    <div className="pt-[72px] bg-[#f3f4f6] min-h-screen">
+    <div className="min-h-screen bg-white pt-[72px]">
+      <ProjectsHero {...summary} />
 
-      {/* ══════════════════════ HEADER — sáng, căn trái, tối giản ══════════════════════ */}
-      <section className="bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-10 sm:pt-8 sm:pb-12">
-          <Reveal>
-            <div className="flex items-center gap-3 mb-4">
-              <span className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: GOLD }}>
-                {projectsPageHeader.eyebrow}
-              </span>
-              <span className="h-px w-10 bg-gray-300" />
+      {/* ══ DỰ ÁN TRỌNG ĐIỂM ══ */}
+      {featured.length > 0 && (
+        <section className="bg-[#f7f8fa] py-16 sm:py-20">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <Reveal className="mb-8 max-w-2xl">
+              <div className="mb-3 flex items-center gap-2">
+                <span className="h-0.5 w-6" style={{ backgroundColor: GOLD }} />
+                <span
+                  className="text-xs font-bold uppercase tracking-[0.25em]"
+                  style={{ color: GOLD }}
+                >
+                  Công trình quy mô lớn
+                </span>
+              </div>
+              <h2
+                className="text-2xl font-extrabold leading-tight sm:text-3xl lg:text-4xl"
+                style={{ color: NAVY }}
+              >
+                Những dự án nói lên năng lực triển khai
+              </h2>
+              <p className="mt-3 text-sm text-gray-500 sm:text-base">
+                Hai công trình quy mô MWp cho thấy khả năng khảo sát, thiết kế và thi công của
+                đội ngũ trên hiện trường công nghiệp.
+              </p>
+            </Reveal>
+
+            <div className="flex flex-col gap-6">
+              {featured.map((p, i) => (
+                <Reveal key={p.id} delay={i * 100}>
+                  <FeaturedProject project={p} flip={i % 2 === 1} />
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ══ TOÀN BỘ DỰ ÁN ══ */}
+      <section className="bg-white py-16 sm:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <Reveal className="mb-8 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-2xl">
+              <div className="mb-3 flex items-center gap-2">
+                <span className="h-0.5 w-6" style={{ backgroundColor: GOLD }} />
+                <span
+                  className="text-xs font-bold uppercase tracking-[0.25em]"
+                  style={{ color: GOLD }}
+                >
+                  Danh mục công trình
+                </span>
+              </div>
+              <h2
+                className="text-2xl font-extrabold leading-tight sm:text-3xl lg:text-4xl"
+                style={{ color: NAVY }}
+              >
+                Toàn bộ dự án đã triển khai
+              </h2>
+              <p className="mt-3 text-sm text-gray-500 sm:text-base">
+                Lọc theo loại công trình hoặc trạng thái để xem dự án gần với nhu cầu của bạn nhất.
+              </p>
             </div>
 
-            <h1
-              className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight mb-4"
-              style={{ color: NAVY, whiteSpace: "pre-line" }}
-            >
-              {projectsPageHeader.headline}
-            </h1>
-
-            <p
-              className="text-gray-500 text-sm sm:text-base leading-relaxed max-w-xl"
-              style={{ whiteSpace: "pre-line" }}
-            >
-              {projectsPageHeader.description}
-            </p>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ══════════════ PROJECT LIST — banner full-width, xếp chồng dọc ══════════════ */}
-      <section className="py-10 sm:py-12 lg:py-14">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-          {/* ── Filter theo trạng thái ── */}
-          <Reveal delay={80} className="mb-8">
+            {/* Lọc theo trạng thái */}
             <div className="flex flex-wrap gap-2">
-              {projectFilters.map((tab) => {
-                const isActive = activeFilter === tab.value;
+              {projectFilters.map((f) => (
+                <FilterChip
+                  key={f.value}
+                  label={f.label}
+                  count={statusCounts[f.value]}
+                  isActive={status === f.value}
+                  onClick={() => setStatus(f.value)}
+                />
+              ))}
+            </div>
+          </Reveal>
+
+          {/* Lọc theo loại công trình */}
+          <Reveal delay={60} className="mb-8">
+            <div className="flex flex-wrap items-center gap-2 border-t border-gray-100 pt-6">
+              <span className="mr-1 text-xs font-bold uppercase tracking-wide text-gray-400">
+                Loại công trình
+              </span>
+              <button
+                onClick={() => setCategory("all")}
+                className="rounded-full border px-3.5 py-1.5 text-xs font-bold transition-all duration-200"
+                style={{
+                  color: category === "all" ? NAVY : "#6b7280",
+                  backgroundColor: category === "all" ? `${GOLD}26` : "#fff",
+                  borderColor: category === "all" ? GOLD : "#e5e7eb",
+                }}
+              >
+                Tất cả
+              </button>
+              {categoryOptions.map((c) => {
+                const isActive = category === c.value;
                 return (
                   <button
-                    key={tab.value}
-                    onClick={() => setActiveFilter(tab.value)}
-                    className={[
-                      "px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 border",
-                      isActive
-                        ? "bg-[#fbae17] border-[#fbae17] text-white shadow-sm"
-                        : "bg-white border-gray-200 text-gray-600 hover:border-[#fbae17] hover:text-[#fbae17]",
-                    ].join(" ")}
+                    key={c.value}
+                    onClick={() => setCategory(c.value)}
+                    className="rounded-full border px-3.5 py-1.5 text-xs font-bold transition-all duration-200"
+                    style={{
+                      color: isActive ? NAVY : "#6b7280",
+                      backgroundColor: isActive ? `${GOLD}26` : "#fff",
+                      borderColor: isActive ? GOLD : "#e5e7eb",
+                    }}
                   >
-                    {tab.label}
+                    {c.label}
+                    <span className="ml-1.5 text-gray-400">{c.count}</span>
                   </button>
                 );
               })}
             </div>
           </Reveal>
 
-          {/* ── Danh sách card, xếp chồng dọc, full width ── */}
+          {/* Lưới dự án */}
           <motion.div
-            key={activeFilter}
             initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.05 }}
-            variants={listContainerVariants}
-            className="flex flex-col gap-5"
+            animate="visible"
+            variants={gridVariants}
+            className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
           >
-            {filtered.map((project, i) => (
-              <motion.div key={project.id} variants={cardEntranceVariants}>
-                <ProjectCard project={project} orderIndex={i} />
-              </motion.div>
-            ))}
+            <AnimatePresence mode="popLayout">
+              {filtered.map((project) => (
+                <motion.div key={project.id} layout variants={cardVariants} exit="exit">
+                  <ProjectCard project={project} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </motion.div>
 
-          {/* Empty state */}
           {filtered.length === 0 && (
-            <div className="text-center py-20 text-gray-400">
-              <div className="text-4xl mb-3">📂</div>
-              <div className="text-base font-medium">Chưa có dự án trong danh mục này.</div>
+            <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-gray-200 py-16 text-center">
+              <SearchOffRoundedIcon sx={{ fontSize: 40, color: "#d1d5db" }} />
+              <p className="text-sm font-bold" style={{ color: NAVY }}>
+                Chưa có dự án phù hợp bộ lọc này
+              </p>
+              <button
+                onClick={() => {
+                  setStatus("all");
+                  setCategory("all");
+                }}
+                className="text-xs font-bold underline"
+                style={{ color: GOLD }}
+              >
+                Xoá bộ lọc
+              </button>
             </div>
           )}
-
         </div>
       </section>
 
+      <ProjectAssuranceSection />
+      <ProjectCtaSection />
     </div>
   );
 }

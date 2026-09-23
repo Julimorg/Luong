@@ -1,19 +1,20 @@
 import { Link } from "react-router-dom";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
+import PlaceRoundedIcon from "@mui/icons-material/PlaceRounded";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import BoltIcon from "@mui/icons-material/Bolt";
-import GridViewIcon from "@mui/icons-material/GridView";
-import EventAvailableIcon from "@mui/icons-material/EventAvailable";
+import BoltRoundedIcon from "@mui/icons-material/BoltRounded";
+import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
+import EventAvailableRoundedIcon from "@mui/icons-material/EventAvailableRounded";
 import { categoryLabels, type Project } from "../../../data/projectData";
-import { GOLD } from "../../../themes/brand";
+import { GOLD, NAVY } from "../../../themes/brand";
+import { ProjectImage } from "./ProjectImage";
 
-
-export const STATUS_DOT: Record<Project["status"], string> = {
-  "Hoàn thành": "#4ade80",
+// Màu chấm trạng thái — chỉ dùng trong file này.
+const STATUS_DOT: Record<Project["status"], string> = {
+  "Hoàn thành": "#22c55e",
   "Đang thi công": GOLD,
 };
 
-function StatItem({
+function CardMetric({
   icon,
   value,
   label,
@@ -23,95 +24,96 @@ function StatItem({
   label: string;
 }) {
   return (
-    <div className="flex items-center gap-2">
-      <span className="flex-shrink-0" style={{ color: GOLD }}>
-        {icon}
+    <div className="min-w-0">
+      <span className="mb-1 flex items-center gap-1.5 text-[11px] text-gray-400">
+        <span style={{ color: GOLD }}>{icon}</span>
+        {label}
       </span>
-      <div className="leading-tight">
-        <p className="text-white font-bold text-sm whitespace-nowrap">
-          {value}
-        </p>
-        <p className="text-white/45 text-[11px] whitespace-nowrap">{label}</p>
-      </div>
+      <p className="truncate text-sm font-bold" style={{ color: NAVY }}>
+        {value}
+      </p>
     </div>
   );
 }
 
-interface ProjectCardProps {
-  project: Project;
-  orderIndex: number;
-}
-
-export function ProjectCard({ project, orderIndex }: ProjectCardProps) {
+/** Thẻ dự án dạng dọc: ảnh trên, thông tin dưới — dùng trong lưới 3 cột. */
+export function ProjectCard({ project }: { project: Project }) {
   return (
     <Link
       to={`/du-an/${project.id}`}
-      className="group relative flex h-auto min-h-[320px] sm:min-h-[360px] w-full overflow-hidden rounded-2xl no-underline shadow-sm transition-shadow duration-300 hover:shadow-xl hover:shadow-gray-300/50"
+      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white no-underline shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-gray-200 hover:shadow-xl hover:shadow-gray-200/70"
     >
-      {/* Ảnh nền — luôn có màu đầy đủ, chỉ zoom nhẹ khi hover */}
-      <img
-        src={project.image}
-        alt={project.title}
-        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-      />
-
-      {/* Gradient trái -> phải: chữ luôn dễ đọc, vẫn thấy ảnh rõ bên phải */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/55 to-black/10" />
-
-      {/* Số thứ tự ghost */}
-      <span
-        className="pointer-events-none absolute top-4 right-5 z-10 select-none font-extrabold text-white"
-        style={{ fontSize: "1.75rem", opacity: 0.12 }}
-      >
-        {String(orderIndex + 1).padStart(2, "0")}
-      </span>
-
-      {/* Badge trạng thái — góc dưới phải, luôn hiện */}
-      <span className="absolute bottom-4 right-5 z-10 flex items-center gap-1.5 whitespace-nowrap rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-semibold text-white backdrop-blur-sm">
-        <span
-          className="h-1.5 w-1.5 flex-shrink-0 rounded-full"
-          style={{ backgroundColor: STATUS_DOT[project.status] }}
+      {/* Ảnh + nhãn */}
+      <div className="relative aspect-[16/10] overflow-hidden">
+        <ProjectImage
+          src={project.image}
+          alt={project.title}
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
-        {project.status}
-      </span>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#121b45]/70 via-transparent to-transparent" />
 
-      {/* Nội dung — luôn hiện đầy đủ, căn trái */}
-      <div className="relative z-10 flex max-w-xl flex-col justify-center gap-4 px-6 py-8 sm:px-10 sm:py-10">
         <span
-          className="w-fit rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider"
-          style={{ backgroundColor: `${GOLD}26`, color: GOLD }}
+          className="absolute left-3 top-3 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide"
+          style={{ backgroundColor: GOLD, color: NAVY }}
         >
           {categoryLabels[project.category]}
         </span>
 
-        <h3 className="text-lg font-bold leading-snug text-white sm:text-xl">
+        <span className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full border border-white/20 bg-black/35 px-2.5 py-1 text-[10px] font-semibold text-white backdrop-blur-sm">
+          <span
+            className="h-1.5 w-1.5 rounded-full"
+            style={{ backgroundColor: STATUS_DOT[project.status] }}
+          />
+          {project.status}
+        </span>
+
+        {/* Công suất in đè lên ảnh — thông tin khách quan tâm nhất */}
+        <span className="absolute bottom-3 left-4 text-xl font-black text-white drop-shadow">
+          {project.capacity}
+        </span>
+      </div>
+
+      {/* Nội dung */}
+      <div className="flex flex-1 flex-col p-5">
+        <span className="mb-2 flex items-center gap-1.5 text-xs text-gray-400">
+          <PlaceRoundedIcon sx={{ fontSize: 14, color: GOLD }} />
+          {project.location}
+        </span>
+
+        <h3
+          className="mb-2 line-clamp-2 min-h-[2.75rem] text-base font-extrabold leading-snug"
+          style={{ color: NAVY }}
+        >
           {project.title}
         </h3>
 
-        <div className="flex items-center gap-1.5 text-xs text-white/60">
-          <LocationOnIcon sx={{ fontSize: 14, color: GOLD }} />
-          {project.location}
-        </div>
+        <p className="mb-4 line-clamp-2 text-xs leading-relaxed text-gray-500">
+          {project.summary}
+        </p>
 
-        <div className="flex flex-wrap items-center gap-x-7 gap-y-2">
-          <StatItem
-            icon={<BoltIcon sx={{ fontSize: 17 }} />}
-            value={project.capacity}
-            label="Công suất"
-          />
-          <StatItem
-            icon={<GridViewIcon sx={{ fontSize: 16 }} />}
+        <div className="mt-auto grid grid-cols-2 gap-3 border-t border-gray-50 pt-4">
+          <CardMetric
+            icon={<GridViewRoundedIcon sx={{ fontSize: 13 }} />}
             value={project.panelCount}
-            label="Số lượng"
+            label="Quy mô"
           />
-          <StatItem
-            icon={<EventAvailableIcon sx={{ fontSize: 16 }} />}
-            value={project.timeline}
-            label={project.status === "Hoàn thành" ? "Hoàn thành" : "Dự kiến"}
+          <CardMetric
+            icon={
+              project.status === "Hoàn thành" ? (
+                <EventAvailableRoundedIcon sx={{ fontSize: 13 }} />
+              ) : (
+                <BoltRoundedIcon sx={{ fontSize: 13 }} />
+              )
+            }
+            value={project.yearlyOutput ?? project.timeline}
+            label={project.yearlyOutput ? "Sản lượng/năm" : "Thời gian"}
           />
         </div>
 
-        <span className="mt-1 inline-flex w-fit items-center gap-1.5 rounded-lg border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold text-white backdrop-blur-sm transition-all duration-200 group-hover:gap-2.5 group-hover:bg-white/20">
+        <span
+          className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold transition-all duration-200 group-hover:gap-2.5"
+          style={{ color: GOLD }}
+        >
           Xem chi tiết dự án
           <ArrowForwardIcon sx={{ fontSize: 14 }} />
         </span>
