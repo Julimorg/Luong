@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import Home from "@mui/icons-material/Home";
 import Apartment from "@mui/icons-material/Apartment";
 import Factory from "@mui/icons-material/Factory";
-import DomainIcon from "@mui/icons-material/Domain";
 import VerifiedUser from "@mui/icons-material/VerifiedUser";
 import WorkspacePremium from "@mui/icons-material/WorkspacePremium";
 import Savings from "@mui/icons-material/Savings";
@@ -15,11 +14,13 @@ import VerifiedOutlined from "@mui/icons-material/VerifiedOutlined";
 import GridOnOutlined from "@mui/icons-material/GridOnOutlined";
 import BatteryChargingFullOutlined from "@mui/icons-material/BatteryChargingFullOutlined";
 import PowerOffOutlined from "@mui/icons-material/PowerOffOutlined";
-import LocalParkingOutlined from "@mui/icons-material/LocalParkingOutlined";
 import Battery6BarOutlined from "@mui/icons-material/Battery6BarOutlined";
 import InsightsOutlined from "@mui/icons-material/InsightsOutlined";
 import HubOutlined from "@mui/icons-material/HubOutlined";
-import ElectricCarOutlined from "@mui/icons-material/ElectricCarOutlined";
+import AgricultureOutlined from "@mui/icons-material/AgricultureOutlined";
+import WaterDropOutlined from "@mui/icons-material/WaterDropOutlined";
+import GrassOutlined from "@mui/icons-material/GrassOutlined";
+import SolarPowerOutlined from "@mui/icons-material/SolarPowerOutlined";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -38,17 +39,19 @@ import { GOLD, NAVY } from "../../themes/brand";
 
 // ─── Icon map ─────────────────────────────────────────────────
 const iconMap: Record<string, SvgIconComponent> = {
-  home: Home, building: Apartment, factory: Factory, industrial: DomainIcon,
+  home: Home, building: Apartment, factory: Factory, agriculture: AgricultureOutlined,
   shield: VerifiedUser, award: WorkspacePremium, coins: Savings, headset: SupportAgent,
   bolt: BoltOutlined, percent: PercentOutlined, verify: VerifiedOutlined,
   grid: GridOnOutlined, battery: BatteryChargingFullOutlined, offgrid: PowerOffOutlined,
-  carport: LocalParkingOutlined, bess: Battery6BarOutlined, ems: InsightsOutlined,
-  utility: HubOutlined, ev: ElectricCarOutlined,
+  bess: Battery6BarOutlined, ems: InsightsOutlined, utility: HubOutlined,
+  pump: WaterDropOutlined, farm: AgricultureOutlined, agrivoltaics: GrassOutlined,
+  solar: SolarPowerOutlined,
 };
 
 // ─── Màu theo icon — dùng chung cho cả card lẫn modal ──────────
 function getSubTypeColor(icon: string) {
-  return icon === "battery" || icon === "bess" ? "#1d4ed8"
+  // Hệ có lưu trữ -> xanh; hệ độc lập / quy mô lớn -> navy; còn lại -> vàng thương hiệu
+  return icon === "battery" || icon === "bess" || icon === "ems" ? "#1d4ed8"
     : icon === "offgrid" || icon === "utility" ? NAVY
     : GOLD;
 }
@@ -103,12 +106,12 @@ function SubTypeCard({
             </li>
           ))}
         </ul>
-        <div className="mt-auto rounded-xl overflow-hidden bg-gray-50 p-3">
+        <div className="mt-auto overflow-hidden rounded-xl border border-gray-100 bg-white p-2">
           <img
             src={sub.image}
-            alt={sub.name}
+            alt={`Sơ đồ nguyên lý ${sub.name}`}
             loading="lazy"
-            className="w-full h-32 object-contain"
+            className="h-40 w-full object-contain"
           />
         </div>
 
@@ -251,13 +254,28 @@ function SubTypeDetailModal({
               </div>
             )}
 
+            {/* Phù hợp nhất — đối tượng khách hàng nên chọn giải pháp này */}
+            {sub.solution?.bestFor && (
+              <div className="rounded-xl border border-gray-100 px-4 py-3.5">
+                <p className="mb-1 text-xs font-bold uppercase tracking-wide text-gray-400">
+                  Phù hợp nhất
+                </p>
+                <p className="text-sm leading-relaxed text-gray-600">{sub.solution.bestFor}</p>
+              </div>
+            )}
+
             {/* Ghi chú / lưu ý — chỉ hiện khi solution.note có data */}
             {sub.solution?.note && (
               <div
-                className="rounded-xl px-4 py-3.5 text-sm leading-relaxed"
-                style={{ backgroundColor: `${color}0D`, color: NAVY }}
+                className="rounded-xl px-4 py-3.5"
+                style={{ backgroundColor: `${color}0D` }}
               >
-                {sub.solution.note}
+                <p className="mb-1 text-xs font-bold uppercase tracking-wide" style={{ color }}>
+                  Lưu ý
+                </p>
+                <p className="text-sm leading-relaxed" style={{ color: NAVY }}>
+                  {sub.solution.note}
+                </p>
               </div>
             )}
           </div>
@@ -312,7 +330,7 @@ export default function SolutionPage() {
       {/* ══ HERO ══ */}
       <div className="relative py-14 sm:py-20 overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1800&q=85"
+          src="/background/dashboard/hero_background.png"
           alt=""
           aria-hidden
           className="absolute inset-0 w-full h-full object-cover object-center"
