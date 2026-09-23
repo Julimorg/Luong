@@ -1,8 +1,7 @@
 import { products } from "../../../data/productData";
 import type { ComboItem } from "../../../data/comboData";
+import { GOLD, NAVY } from "../../../themes/brand";
 
-const GOLD = "#f6b918";
-const NAVY = "#101c3d";
 
 /**
  * Poster combo được dựng hoàn toàn bằng CSS từ dữ liệu trong comboData.ts.
@@ -37,7 +36,7 @@ export function ComboPoster({ combo, compact = false }: { combo: ComboItem; comp
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(120% 90% at 78% 30%, rgba(255,255,255,0.16) 0%, rgba(16,28,61,0) 60%), linear-gradient(115deg, #0b1430 0%, #14224b 55%, #0d1938 100%)",
+            "radial-gradient(120% 90% at 78% 30%, rgba(255,255,255,0.16) 0%, rgba(16,28,61,0) 60%), linear-gradient(115deg, #0b1130 0%, #1b2a63 55%, #0d1938 100%)",
         }}
       />
       <div
@@ -97,7 +96,7 @@ export function ComboPoster({ combo, compact = false }: { combo: ComboItem; comp
             style={{
               right: compact ? (i === 0 ? "22%" : "2%") : i === 0 ? "38%" : "12%",
               height: compact ? (i === 0 ? "30%" : "23%") : i === 0 ? "44%" : "32%",
-              filter: "drop-shadow(0 1.2cqw 1.8cqw rgba(16,28,61,0.3))",
+              filter: "drop-shadow(0 1.2cqw 1.8cqw rgba(18,27,69,0.3))",
               zIndex: 2 - i,
             }}
           />
@@ -213,7 +212,7 @@ export function ComboPoster({ combo, compact = false }: { combo: ComboItem; comp
         style={{
           height: "7.4cqw",
           padding: "0 3.6cqw",
-          backgroundColor: "#0a1330",
+          backgroundColor: "#0b1130",
           borderTop: `0.25cqw solid ${GOLD}`,
         }}
       >

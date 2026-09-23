@@ -5,8 +5,8 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
+import { GOLD } from "../../../themes/brand";
 
-const GOLD = "#f5a623";
 
 // ─── Cấu hình nguồn ảnh — 26 ảnh convert từ PDF ─────────────────────
 const TOTAL_PAGES = 26;
@@ -101,14 +101,14 @@ export function CompanyFlipbook() {
         {/* Mũi tên điều hướng 2 bên */}
         <button
           onClick={goPrev}
-          className="absolute top-1/2 -left-3 sm:-left-4 -translate-y-1/2 w-9 h-9 rounded-full bg-white shadow-lg border border-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-[#f5a623] transition-colors duration-200"
+          className="absolute top-1/2 -left-3 sm:-left-4 -translate-y-1/2 w-9 h-9 rounded-full bg-white shadow-lg border border-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-[#fbae17] transition-colors duration-200"
           aria-label="Trang trước"
         >
           <ChevronLeftIcon sx={{ fontSize: 20 }} />
         </button>
         <button
           onClick={goNext}
-          className="absolute top-1/2 -right-3 sm:-right-4 -translate-y-1/2 w-9 h-9 rounded-full bg-white shadow-lg border border-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-[#f5a623] transition-colors duration-200"
+          className="absolute top-1/2 -right-3 sm:-right-4 -translate-y-1/2 w-9 h-9 rounded-full bg-white shadow-lg border border-gray-100 flex items-center justify-center text-gray-500 hover:text-white hover:bg-[#fbae17] transition-colors duration-200"
           aria-label="Trang sau"
         >
           <ChevronRightIcon sx={{ fontSize: 20 }} />

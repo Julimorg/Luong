@@ -21,8 +21,8 @@ export function HeroSection() {
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${heroData.backgroundImage})` }}
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0d2137]/90 via-[#0d2137]/70 to-[#0d2137]/40" />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0d2137]/80 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#121b45]/90 via-[#121b45]/70 to-[#121b45]/40" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#121b45]/80 via-transparent to-transparent" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 w-full">
         {/* ── Khối nội dung căn giữa hoàn toàn ── */}

@@ -15,7 +15,7 @@ function ZaloIcon() {
         y="31"
         textAnchor="middle"
         fill="#fff"
-        fontFamily="Arial, Helvetica, sans-serif"
+        fontFamily="Roboto, Arial, sans-serif"
         fontSize="17"
         fontWeight="700"
         letterSpacing="-0.5"
@@ -54,7 +54,7 @@ const aboutLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#1c2f5c] text-white">
+    <footer className="bg-[#121b45] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12">
 
         {/* ── Logo — đứng riêng 1 hàng phía trên ── */}
@@ -83,7 +83,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s}
-                  className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:border-[#f5a623] transition-all duration-200 no-underline overflow-hidden"
+                  className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:border-[#fbae17] transition-all duration-200 no-underline overflow-hidden"
                 >
                   {socialIconMap[s]}
                 </a>
@@ -101,7 +101,7 @@ export default function Footer() {
                 <li key={link.to}>
                   <Link
                     to={link.to}
-                    className="text-white/55 hover:text-[#f5a623] text-sm no-underline transition-colors duration-200"
+                    className="text-white/55 hover:text-[#fbae17] text-sm no-underline transition-colors duration-200"
                   >
                     {link.label}
                   </Link>
@@ -117,24 +117,24 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3">
               <li className="flex gap-2.5 text-white/55 text-sm leading-snug">
-                <LocationOnIcon sx={{ fontSize: 17, color: "#f5a623", mt: "1px", flexShrink: 0 }} />
+                <LocationOnIcon sx={{ fontSize: 17, color: "#fbae17", mt: "1px", flexShrink: 0 }} />
                 {footerData.contact.address}
               </li>
               <li>
                 <a
                   href={`tel:${footerData.contact.phone.replace(/\s/g, "")}`}
-                  className="flex gap-2.5 text-white/55 hover:text-[#f5a623] text-sm no-underline transition-colors duration-200"
+                  className="flex gap-2.5 text-white/55 hover:text-[#fbae17] text-sm no-underline transition-colors duration-200"
                 >
-                  <PhoneIcon sx={{ fontSize: 17, color: "#f5a623", flexShrink: 0 }} />
+                  <PhoneIcon sx={{ fontSize: 17, color: "#fbae17", flexShrink: 0 }} />
                   {footerData.contact.phone}
                 </a>
               </li>
               <li>
                 <a
                   href={`mailto:${footerData.contact.email}`}
-                  className="flex gap-2.5 text-white/55 hover:text-[#f5a623] text-sm no-underline transition-colors duration-200"
+                  className="flex gap-2.5 text-white/55 hover:text-[#fbae17] text-sm no-underline transition-colors duration-200"
                 >
-                  <EmailIcon sx={{ fontSize: 17, color: "#f5a623", flexShrink: 0 }} />
+                  <EmailIcon sx={{ fontSize: 17, color: "#fbae17", flexShrink: 0 }} />
                   {footerData.contact.email}
                 </a>
               </li>

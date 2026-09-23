@@ -27,12 +27,12 @@ export default function AboutUsPage() {
                 {i < aboutBreadcrumb.length - 1 ? (
                   <Link
                     to={crumb.to}
-                    className="text-gray-500 hover:text-[#f5a623] no-underline transition-colors duration-200"
+                    className="text-gray-500 hover:text-[#fbae17] no-underline transition-colors duration-200"
                   >
                     {crumb.label}
                   </Link>
                 ) : (
-                  <span className="text-[#0d2137] font-medium">{crumb.label}</span>
+                  <span className="text-[#121b45] font-medium">{crumb.label}</span>
                 )}
               </span>
             ))}
@@ -51,7 +51,7 @@ export default function AboutUsPage() {
                   {aboutIntro.eyebrow}
                 </span>
               </div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0d2137] mb-5 leading-tight tracking-tight">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#121b45] mb-5 leading-tight tracking-tight">
                 {aboutIntro.brand}
               </h1>
               <div className="flex flex-col gap-4">

@@ -18,10 +18,9 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 import { useScrollReveal } from "../../hooks/useScrollReveal";
 import { type ContactItem, contactForm, contactBreadcrumb, contactPageHeader, contactItems, contactMap } from "../../data/contractData";
+import { GOLD, NAVY } from "../../themes/brand";
 
 // ─── Brand colors ─────────────────────────────────────────────
-const GOLD = "#f5a623";
-const NAVY = "#0d2137";
 
 // ─── Env vars ─────────────────────────────────────────────────
 const SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID;
@@ -56,9 +55,9 @@ function Reveal({ children, delay = 0, className = "" }: { children: React.React
 
 // ─── Field input class ────────────────────────────────────────
 const fieldInput =
-  "w-full bg-gray-50 border border-gray-200 text-[#0d2137] text-sm rounded-xl " +
+  "w-full bg-gray-50 border border-gray-200 text-[#121b45] text-sm rounded-xl " +
   "py-3.5 pl-11 pr-4 placeholder:text-gray-400 " +
-  "focus:outline-none focus:ring-2 focus:ring-[#f5a623]/30 focus:border-[#f5a623] " +
+  "focus:outline-none focus:ring-2 focus:ring-[#fbae17]/30 focus:border-[#fbae17] " +
   "transition-all duration-200";
 
 // ─── MAIN ─────────────────────────────────────────────────────
@@ -159,11 +158,11 @@ export default function ContactPage() {
                   {contactItems.map((item) => {
                     const body = (
                       <div className="flex items-start gap-4 px-5 py-4">
-                        <span className="flex-shrink-0 w-11 h-11 rounded-full bg-[#f5a623]/10 text-[#f5a623] flex items-center justify-center">
+                        <span className="flex-shrink-0 w-11 h-11 rounded-full bg-[#fbae17]/10 text-[#fbae17] flex items-center justify-center">
                           {infoIconMap[item.icon]}
                         </span>
                         <div className="min-w-0">
-                          <div className="text-[#0d2137] text-sm font-bold mb-0.5">{item.label}</div>
+                          <div className="text-[#121b45] text-sm font-bold mb-0.5">{item.label}</div>
                           <div
                             className="text-sm font-semibold whitespace-pre-line leading-snug"
                             style={{ color: item.highlight ? GOLD : "#374151" }}
@@ -330,7 +329,7 @@ export default function ContactPage() {
                     onClick={handleSubmit}
                     disabled={status === "sending"}
                     className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-sm tracking-wide transition-all duration-200
-                               bg-[#f5a623] hover:bg-[#e09410] active:bg-[#c97f0e]
+                               bg-[#fbae17] hover:bg-[#e09410] active:bg-[#c97f0e]
                                disabled:opacity-60 disabled:cursor-not-allowed
                                text-white shadow-sm hover:shadow-[0_6px_20px_rgba(245,166,35,0.45)]"
                   >

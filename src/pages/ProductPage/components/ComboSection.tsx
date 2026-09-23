@@ -13,11 +13,13 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useScrollReveal } from "../../../hooks/useScrollReveal";
 import { combos, comboSectionHeader, type ComboItem, type ComboSegment } from "../../../data/comboData";
 import { ComboPoster } from "./ComboPoster";
+import { GOLD, NAVY } from "../../../themes/brand";
 
-const GOLD = "#f6b918";
-const NAVY = "#1c2f5c";
 
 const AUTOPLAY_MS = 6000;
+
+// Số slide hé ra mỗi bên slide giữa (1 -> tổng cộng 3 slide hiển thị).
+const VISIBLE_SIDE_SLIDES = 1;
 
 const segmentTabs: { id: ComboSegment | "all"; label: string; icon: React.ReactNode }[] = [
   { id: "all", label: "Tất cả combo", icon: <GridViewRoundedIcon sx={{ fontSize: 17 }} /> },
@@ -200,12 +202,14 @@ export function ComboSection() {
         if (offset < -count / 2) offset += count;
       }
       const abs = Math.abs(offset);
+      // Chỉ hiện 3 slide: slide giữa + 1 slide hé ra mỗi bên.
+      const visible = abs <= VISIBLE_SIDE_SLIDES;
       return {
         x: offset * metrics.spacing + dragPx,
-        scale: abs === 0 ? 1 : Math.max(0.74, 1 - abs * 0.13),
-        opacity: abs > 2 ? 0 : abs === 0 ? 1 : 0.45,
+        scale: abs === 0 ? 1 : Math.max(0.78, 1 - abs * 0.12),
+        opacity: visible ? (abs === 0 ? 1 : 0.45) : 0,
         zIndex: 20 - Math.round(abs * 2),
-        visible: abs <= 2,
+        visible,
       };
     },
     [count, metrics.spacing],
@@ -412,7 +416,7 @@ export function ComboSection() {
                 )}
 
                 {/* Lớp mờ nhẹ cho slide hai bên để slide giữa nổi lên */}
-                {i !== index && <div className="absolute inset-0 bg-[#0b1430]/25" />}
+                {i !== index && <div className="absolute inset-0 bg-[#0b1130]/25" />}
               </div>
             ))}
           </div>
@@ -423,14 +427,14 @@ export function ComboSection() {
               <button
                 onClick={() => go(-1)}
                 aria-label="Combo trước"
-                className="absolute left-1 top-1/2 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-gray-600 shadow-lg backdrop-blur transition-all duration-200 hover:scale-105 hover:text-[#1c2f5c] sm:left-3 sm:h-12 sm:w-12"
+                className="absolute left-1 top-1/2 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-gray-600 shadow-lg backdrop-blur transition-all duration-200 hover:scale-105 hover:text-[#121b45] sm:left-3 sm:h-12 sm:w-12"
               >
                 <ChevronLeftRoundedIcon sx={{ fontSize: 28 }} />
               </button>
               <button
                 onClick={() => go(1)}
                 aria-label="Combo kế tiếp"
-                className="absolute right-1 top-1/2 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-gray-600 shadow-lg backdrop-blur transition-all duration-200 hover:scale-105 hover:text-[#1c2f5c] sm:right-3 sm:h-12 sm:w-12"
+                className="absolute right-1 top-1/2 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-gray-600 shadow-lg backdrop-blur transition-all duration-200 hover:scale-105 hover:text-[#121b45] sm:right-3 sm:h-12 sm:w-12"
               >
                 <ChevronRightRoundedIcon sx={{ fontSize: 28 }} />
               </button>

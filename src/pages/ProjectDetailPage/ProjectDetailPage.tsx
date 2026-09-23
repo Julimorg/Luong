@@ -16,9 +16,8 @@ import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import { projects, categoryLabels } from "../../data/projectData";
 import { useScrollReveal, revealClasses } from "../../hooks/useScrollReveal";
 import { projectDetails } from "../../data/projectDetailData";
+import { GOLD, NAVY } from "../../themes/brand";
 
-const GOLD = "#f5a623";
-const NAVY = "#0d2137";
 
 // ─── Reveal wrapper (giữ nguyên) ───────────────────────────────
 function Reveal({
@@ -82,7 +81,7 @@ export default function ProjectDetailPage() {
           <p className="text-gray-500 mb-6">Không tìm thấy dự án.</p>
           <Link
             to="/du-an"
-            className="inline-flex items-center gap-2 text-[#f5a623] font-semibold no-underline hover:gap-3 transition-all duration-200"
+            className="inline-flex items-center gap-2 text-[#fbae17] font-semibold no-underline hover:gap-3 transition-all duration-200"
           >
             <ArrowBackIcon sx={{ fontSize: 16 }} />
             Quay lại danh sách dự án
@@ -117,19 +116,19 @@ export default function ProjectDetailPage() {
           <nav className="flex items-center gap-1 text-sm flex-wrap">
             <Link
               to="/"
-              className="text-gray-500 hover:text-[#f5a623] no-underline transition-colors duration-200"
+              className="text-gray-500 hover:text-[#fbae17] no-underline transition-colors duration-200"
             >
               Trang chủ
             </Link>
             <NavigateNextIcon sx={{ fontSize: 16, color: "#9ca3af" }} />
             <Link
               to="/du-an"
-              className="text-gray-500 hover:text-[#f5a623] no-underline transition-colors duration-200"
+              className="text-gray-500 hover:text-[#fbae17] no-underline transition-colors duration-200"
             >
               Dự án
             </Link>
             <NavigateNextIcon sx={{ fontSize: 16, color: "#9ca3af" }} />
-            <span className="text-[#0d2137] font-medium line-clamp-1">
+            <span className="text-[#121b45] font-medium line-clamp-1">
               {detail.title}
             </span>
           </nav>
@@ -137,14 +136,14 @@ export default function ProjectDetailPage() {
       </div>
 
       {/* ══════════════ HERO — ảnh full-bleed + card kính mờ, THẲNG HÀNG với container bên dưới ══════════════ */}
-      <div className="relative h-[560px] sm:h-[600px] lg:h-[620px] overflow-hidden bg-[#0d2137]">
+      <div className="relative h-[560px] sm:h-[600px] lg:h-[620px] overflow-hidden bg-[#121b45]">
         <img
           key={activeImgIdx}
           src={heroImages[activeImgIdx]}
           alt={detail.title}
           className="w-full h-full object-cover transition-opacity duration-500"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0d2137]/70 via-[#0d2137]/10 to-[#0d2137]/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#121b45]/70 via-[#121b45]/10 to-[#121b45]/40" />
 
         <button
           onClick={() => navigate("/du-an")}
@@ -353,7 +352,7 @@ export default function ProjectDetailPage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
           <Reveal className="lg:col-span-2">
-            <h2 className="text-xl font-extrabold text-[#0d2137] mb-4">
+            <h2 className="text-xl font-extrabold text-[#121b45] mb-4">
               Tổng quan dự án
             </h2>
             <p className="text-gray-600 leading-relaxed text-sm mb-6">
@@ -416,7 +415,7 @@ export default function ProjectDetailPage() {
       {/* ══════════════ GALLERY ══════════════ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         <Reveal className="mb-6">
-          <h2 className="text-xl font-extrabold text-[#0d2137]">
+          <h2 className="text-xl font-extrabold text-[#121b45]">
             Hình ảnh dự án
           </h2>
         </Reveal>
@@ -440,7 +439,7 @@ export default function ProjectDetailPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between gap-4">
           <Link
             to="/du-an"
-            className="flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-[#f5a623] no-underline transition-colors duration-200"
+            className="flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-[#fbae17] no-underline transition-colors duration-200"
           >
             <ArrowBackIcon sx={{ fontSize: 16 }} />
             Quay lại danh sách dự án

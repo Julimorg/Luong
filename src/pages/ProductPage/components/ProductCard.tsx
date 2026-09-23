@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import type { Product } from "../../../data/productData";
+import { GOLD, NAVY } from "../../../themes/brand";
 
-const GOLD = "#f6b918";
-const NAVY = "#1c2f5c";
 
 interface ProductCardProps {
   product: Product;

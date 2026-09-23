@@ -1,44 +1,35 @@
 import { createTheme } from "@mui/material/styles";
+import { FONT_FAMILY, GOLD, GOLD_DARK, NAVY, WHITE } from "./brand";
 
-const FONT_FAMILY = [
-  "-apple-system",
-  "BlinkMacSystemFont",
-  "'Segoe UI'",
-  "Roboto",
-  "'Helvetica Neue'",
-  "Arial",
-  "'Noto Sans'",
-  "sans-serif",
-  "'Apple Color Emoji'",
-  "'Segoe UI Emoji'",
-  "'Segoe UI Symbol'",
-  "'Noto Color Emoji'",
-].join(", ");
-
+// MUI dùng chung font Roboto và bảng màu thương hiệu với phần Tailwind.
 const theme = createTheme({
+  palette: {
+    primary: { main: GOLD, dark: GOLD_DARK, contrastText: WHITE },
+    secondary: { main: NAVY, contrastText: WHITE },
+    background: { default: WHITE },
+  },
   typography: {
     fontFamily: FONT_FAMILY,
   },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: { fontFamily: FONT_FAMILY, backgroundColor: WHITE },
+      },
+    },
     MuiButton: {
       styleOverrides: {
-        root: {
-          fontFamily: FONT_FAMILY,
-        },
+        root: { fontFamily: FONT_FAMILY },
       },
     },
     MuiChip: {
       styleOverrides: {
-        root: {
-          fontFamily: FONT_FAMILY,
-        },
+        root: { fontFamily: FONT_FAMILY },
       },
     },
     MuiDrawer: {
       styleOverrides: {
-        paper: {
-          fontFamily: FONT_FAMILY,
-        },
+        paper: { fontFamily: FONT_FAMILY },
       },
     },
   },

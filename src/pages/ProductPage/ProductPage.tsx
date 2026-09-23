@@ -18,9 +18,8 @@ import {
 } from "../../data/productData";
 import { ProductCard } from "./components/ProductCard";
 import { ComboSection } from "./components/ComboSection";
+import { GOLD, NAVY } from "../../themes/brand";
 
-const GOLD = "#f6b918";
-const NAVY = "#1c2f5c";
 const HEADER_BG = "#121b45";
 
 // Số sản phẩm hiển thị trước khi bấm "Xem thêm" trong mỗi danh mục.
@@ -356,7 +355,6 @@ export default function ProductsPage() {
   return (
     <div
       className="min-h-screen bg-white overflow-x-hidden"
-      style={{ fontFamily: "'Roboto', sans-serif" }}
     >
       {/* ══ HEADER — nền màu đặc, không ảnh, căn trái ══ */}
       <div
@@ -404,7 +402,7 @@ export default function ProductsPage() {
           aria-hidden
           className="absolute inset-0 w-full h-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#1c2f5c]/92 via-[#1c2f5c]/75 to-[#1c2f5c]/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#121b45]/92 via-[#121b45]/75 to-[#121b45]/30" />
 
         <div
           ref={ctaRef}

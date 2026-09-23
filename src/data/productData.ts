@@ -342,7 +342,7 @@ export const products: Product[] = [
     group:      "Hybrid áp thấp",
     image:      "/products/inverter/sungrow-inverter-hybrid-sungrow.png",
     brand:      "Sungrow",
-    brandColor: "#f6b918",
+    brandColor: "#fbae17",
     name:       "Inverter Hybrid Sungrow MG10RL 10kW",
     model:      "MG10RL",
     specs:      [
@@ -356,7 +356,7 @@ export const products: Product[] = [
     group:      "Hybrid áp thấp",
     image:      "/products/inverter/sungrow-inverter-hybrid-sungrow.png",
     brand:      "Sungrow",
-    brandColor: "#f6b918",
+    brandColor: "#fbae17",
     name:       "Inverter Hybrid Sungrow MG5RL 5kW",
     model:      "MG5RL",
     specs:      [
@@ -370,7 +370,7 @@ export const products: Product[] = [
     group:      "Hybrid áp thấp",
     image:      "/products/inverter/sungrow-inverter-hybrid-sungrow.png",
     brand:      "Sungrow",
-    brandColor: "#f6b918",
+    brandColor: "#fbae17",
     name:       "Inverter Hybrid Sungrow MG6RL 6kW",
     model:      "MG6RL",
     specs:      [
@@ -384,7 +384,7 @@ export const products: Product[] = [
     group:      "Hybrid áp thấp",
     image:      "/products/inverter/sungrow-inverter-hybrid-sungrow.png",
     brand:      "Sungrow",
-    brandColor: "#f6b918",
+    brandColor: "#fbae17",
     name:       "Inverter Hybrid Sungrow MG8RL 8kW",
     model:      "MG8RL",
     specs:      [
@@ -722,7 +722,7 @@ export const products: Product[] = [
     group:      "Hòa lưới",
     image:      "/products/inverter/sungrow-sg10rs.png",
     brand:      "Sungrow",
-    brandColor: "#f6b918",
+    brandColor: "#fbae17",
     name:       "Inverter hòa lưới Sungrow SG10RS 10kW",
     model:      "SG10RS",
     specs:      [
@@ -736,7 +736,7 @@ export const products: Product[] = [
     group:      "Hòa lưới",
     image:      "/products/inverter/sungrow-sg10rt.webp",
     brand:      "Sungrow",
-    brandColor: "#f6b918",
+    brandColor: "#fbae17",
     name:       "Inverter hòa lưới Sungrow SG10RT 10kW",
     model:      "SG10RT",
     specs:      [
@@ -750,7 +750,7 @@ export const products: Product[] = [
     group:      "Hòa lưới",
     image:      "/products/inverter/sungrow-sg15rt.png",
     brand:      "Sungrow",
-    brandColor: "#f6b918",
+    brandColor: "#fbae17",
     name:       "Inverter hòa lưới Sungrow SG15RT 15kW",
     model:      "SG15RT",
     specs:      [
@@ -764,7 +764,7 @@ export const products: Product[] = [
     group:      "Hòa lưới",
     image:      "/products/inverter/sungrow-sg20rt.png",
     brand:      "Sungrow",
-    brandColor: "#f6b918",
+    brandColor: "#fbae17",
     name:       "Inverter hòa lưới Sungrow SG20RT 20kW",
     model:      "SG20RT",
     specs:      [
@@ -778,7 +778,7 @@ export const products: Product[] = [
     group:      "Hòa lưới",
     image:      "/products/inverter/sungrow-sg33cx-p2.png",
     brand:      "Sungrow",
-    brandColor: "#f6b918",
+    brandColor: "#fbae17",
     name:       "Inverter hòa lưới Sungrow SG33CX-P2 33kW",
     model:      "SG33CX-P2",
     specs:      [
@@ -792,7 +792,7 @@ export const products: Product[] = [
     group:      "Hòa lưới",
     image:      "/products/inverter/sungrow-sg40cx-p2.png",
     brand:      "Sungrow",
-    brandColor: "#f6b918",
+    brandColor: "#fbae17",
     name:       "Inverter hòa lưới Sungrow SG40CX-P2 40kW",
     model:      "SG40CX-P2",
     specs:      [
@@ -806,7 +806,7 @@ export const products: Product[] = [
     group:      "Hòa lưới",
     image:      "/products/inverter/sungrow-sg5-0rs.png",
     brand:      "Sungrow",
-    brandColor: "#f6b918",
+    brandColor: "#fbae17",
     name:       "Inverter hòa lưới Sungrow SG5.0RS 5kW",
     model:      "SG5.0RS",
     specs:      [
@@ -820,7 +820,7 @@ export const products: Product[] = [
     group:      "Hòa lưới",
     image:      "/products/inverter/sungrow-sg50cx-p2.png",
     brand:      "Sungrow",
-    brandColor: "#f6b918",
+    brandColor: "#fbae17",
     name:       "Inverter hòa lưới Sungrow SG50CX-P2 50kW",
     model:      "SG50CX-P2",
     specs:      [
@@ -834,7 +834,7 @@ export const products: Product[] = [
     group:      "Hòa lưới",
     image:      "/products/inverter/sungrow-sg8-0rs.png",
     brand:      "Sungrow",
-    brandColor: "#f6b918",
+    brandColor: "#fbae17",
     name:       "Inverter hòa lưới Sungrow SG8.0RS 8kW",
     model:      "SG8.0RS",
     specs:      [

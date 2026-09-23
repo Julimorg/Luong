@@ -1,4 +1,3 @@
-// ─── Brand color ─────────────────────────────────────────────
-export const GOLD = "#f6b918";
-export const GOLD_DARK = "#d9a210";
-export const NAVY = "#0d2137";
+// Giữ lại đường import cũ của các component trong trang chủ,
+// nhưng nguồn màu thật nằm ở src/themes/brand.ts.
+export { GOLD, GOLD_DARK, NAVY } from "../../../themes/brand";

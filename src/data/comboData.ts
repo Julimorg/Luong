@@ -172,7 +172,7 @@ export const combos: ComboItem[] = [
     title: "COMBO TRANG TRẠI",
     subtitle: "Chủ động nguồn điện cho tưới tiêu, nhà kính, chăn nuôi",
     brand: "SUNGROW",
-    brandColor: "#f6b918",
+    brandColor: "#fbae17",
     warrantyYears: "5",
     warrantyNote: "Biến tần hòa lưới Sungrow",
     capacity: "20 kW",

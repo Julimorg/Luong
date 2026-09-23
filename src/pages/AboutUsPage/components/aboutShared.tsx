@@ -1,9 +1,10 @@
 import { animate, utils } from "animejs";
 import { useScrollReveal } from "../../../hooks/useScrollReveal";
 import { useAnimeOnView } from "../../../hooks/useAnimeOnView";
+import { GOLD, NAVY } from "../../../themes/brand";
 
-export const GOLD = "#f5a623";
-export const NAVY = "#0d2137";
+export { GOLD, NAVY };
+
 
 /** Khối nội dung hiện lên khi cuộn tới (dùng CSS transition, nhẹ và mượt). */
 export function Reveal({

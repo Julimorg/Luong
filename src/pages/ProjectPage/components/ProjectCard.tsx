@@ -5,8 +5,8 @@ import BoltIcon from "@mui/icons-material/Bolt";
 import GridViewIcon from "@mui/icons-material/GridView";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import { categoryLabels, type Project } from "../../../data/projectData";
+import { GOLD } from "../../../themes/brand";
 
-const GOLD = "#f6b918";
 
 export const STATUS_DOT: Record<Project["status"], string> = {
   "Hoàn thành": "#4ade80",

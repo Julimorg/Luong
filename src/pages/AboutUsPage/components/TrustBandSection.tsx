@@ -50,7 +50,7 @@ export function TrustBandSection() {
                 src={aboutTrustBand.certificateImage}
                 alt={aboutTrustBand.certificateAlt}
                 className="max-h-[360px] w-auto rounded-xl object-contain"
-                style={{ boxShadow: "0 25px 60px -15px rgba(13,33,55,0.4)" }}
+                style={{ boxShadow: "0 25px 60px -15px rgba(18,27,69,0.4)" }}
               />
             </div>
             <motion.div

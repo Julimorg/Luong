@@ -536,7 +536,7 @@ export function SolarCalculator() {
                       borderRadius: "8px",
                       px: 2.5,
                       py: 1.4,
-                      "&:hover": { borderColor: NAVY, backgroundColor: "rgba(13,33,55,0.04)" },
+                      "&:hover": { borderColor: NAVY, backgroundColor: "rgba(18,27,69,0.04)" },
                     }}
                   >
                     Tính lại

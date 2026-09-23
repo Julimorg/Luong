@@ -1,9 +1,8 @@
 import type { ReactNode } from "react";
 import PhoneIcon from "@mui/icons-material/Phone";
 import FacebookIcon from "@mui/icons-material/Facebook";
+import { GOLD, NAVY } from "../../themes/brand";
 
-const GOLD = "#f6b918";
-const NAVY = "#1c2f5c";
 
 interface StatusPageProps {
   icon: ReactNode;
@@ -27,7 +26,7 @@ export function StatusPage({
   return (
     <div
       className="min-h-screen flex items-center justify-center px-4 py-16"
-      style={{ background: `linear-gradient(160deg, ${NAVY} 0%, #0d2137 100%)` }}
+      style={{ background: `linear-gradient(160deg, ${NAVY} 0%, #121b45 100%)` }}
     >
       <div className="max-w-xl w-full text-center">
         {/* Icon trang trí */}

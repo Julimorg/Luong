@@ -1,2 +1,35 @@
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap');
+/* Font chung toàn site: Roboto */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap');
 @import "tailwindcss";
+
+/* ── Bảng màu thương hiệu ──────────────────────────────────────
+   Trắng #ffffff · Vàng #fbae17 · Navy đậm #121b45
+   Khai báo ở @theme để dùng được dạng tiện ích Tailwind:
+   text-brand-gold, bg-brand-navy, border-brand-gold…            */
+@theme {
+  --font-sans: "Roboto", "Helvetica Neue", Arial, sans-serif;
+  --color-brand-gold: #fbae17;
+  --color-brand-gold-dark: #dd9612;
+  --color-brand-navy: #121b45;
+  --color-brand-navy-deep: #0b1130;
+}
+
+html {
+  font-family: var(--font-sans);
+}
+
+body {
+  margin: 0;
+  background-color: #ffffff;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* MUI dựng component bằng emotion nên cần ép font ở cấp gốc */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}

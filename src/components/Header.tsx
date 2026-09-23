@@ -11,11 +11,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import PhoneIcon from "@mui/icons-material/Phone";
 import { navLinks, headerPhone } from "../data/dashBoardData";
+import { GOLD, GOLD_DARK, NAVY } from "../themes/brand";
 
 // ─── Brand colors ─────────────────────────────────────────────
-const GOLD = "#f6b918";
-const GOLD_DARK = "#d9a210";
-const NAVY = "#1c2f5c";
 
 const DARK_HERO_ROUTES = ["/"];
 
@@ -127,11 +125,11 @@ export default function Header() {
                     "text-sm font-medium transition-colors duration-300 no-underline relative group whitespace-nowrap",
                     isDark
                       ? isActive
-                        ? "text-[#f6b918]"
+                        ? "text-[#fbae17]"
                         : "text-white/90 hover:text-white"
                       : isActive
-                        ? "text-[#f6b918]"
-                        : "text-gray-700 hover:text-[#f6b918]",
+                        ? "text-[#fbae17]"
+                        : "text-gray-700 hover:text-[#fbae17]",
                   ].join(" ")
                 }
               >
@@ -235,8 +233,8 @@ export default function Header() {
                 [
                   "py-3 text-base font-medium no-underline border-b border-white/5 transition-colors duration-200",
                   isActive
-                    ? "text-[#f6b918]"
-                    : "text-white/80 hover:text-[#f6b918]",
+                    ? "text-[#fbae17]"
+                    : "text-white/80 hover:text-[#fbae17]",
                 ].join(" ")
               }
             >

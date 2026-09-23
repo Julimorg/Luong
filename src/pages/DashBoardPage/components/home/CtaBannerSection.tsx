@@ -15,7 +15,7 @@ export function CtaBannerSection() {
         // Dùng chung ảnh với hero đầu trang cho đồng bộ nhận diện
         style={{ backgroundImage: `url(${heroData.backgroundImage})` }}
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0d2137]/92 via-[#0d2137]/72 to-[#0d2137]/25" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#121b45]/92 via-[#121b45]/72 to-[#121b45]/25" />
 
       <RevealSection>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16">

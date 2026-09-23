@@ -28,9 +28,8 @@ import HomeIcon from "@mui/icons-material/Home";
 import { useScrollReveal } from "../../hooks/useScrollReveal";
 import { products, productsBreadcrumb, productSections, type Product } from "../../data/productData";
 import { productDetails, type ProductDetail } from "../../data/productDetailData";
+import { GOLD, NAVY } from "../../themes/brand";
 
-const GOLD = "#f6b918";
-const NAVY = "#1c2f5c";
 
 const HOTLINE = "+84901234567";
 const HOTLINE_DISPLAY = "0908011931";
@@ -138,14 +137,14 @@ function RelatedCarousel({ items }: { items: Product[] }) {
         <button
           onClick={() => scrollByDir(-1)}
           disabled={!canLeft}
-          className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:border-[#f6b918] hover:text-[#1c2f5c] disabled:opacity-30 disabled:cursor-not-allowed transition-colors duration-200"
+          className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:border-[#fbae17] hover:text-[#121b45] disabled:opacity-30 disabled:cursor-not-allowed transition-colors duration-200"
         >
           <ChevronLeftIcon sx={{ fontSize: 18 }} />
         </button>
         <button
           onClick={() => scrollByDir(1)}
           disabled={!canRight}
-          className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:border-[#f6b918] hover:text-[#1c2f5c] disabled:opacity-30 disabled:cursor-not-allowed transition-colors duration-200"
+          className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:border-[#fbae17] hover:text-[#121b45] disabled:opacity-30 disabled:cursor-not-allowed transition-colors duration-200"
         >
           <ChevronRightIcon sx={{ fontSize: 18 }} />
         </button>
@@ -262,7 +261,7 @@ export default function ProductDetailPage() {
             {productsBreadcrumb.map((crumb, i) => (
               <span key={crumb.to} className="flex items-center gap-0.5">
                 {i > 0 && <NavigateNextIcon sx={{ fontSize: 16, color: "#9ca3af" }} />}
-                <Link to={crumb.to} className="text-gray-400 hover:text-[#f6b918] no-underline transition-colors duration-200">
+                <Link to={crumb.to} className="text-gray-400 hover:text-[#fbae17] no-underline transition-colors duration-200">
                   {crumb.label}
                 </Link>
               </span>
@@ -274,7 +273,7 @@ export default function ProductDetailPage() {
               </>
             )}
             <NavigateNextIcon sx={{ fontSize: 16, color: "#9ca3af" }} />
-            <span className="font-medium text-[#1c2f5c] line-clamp-1 max-w-[240px]">{product.name}</span>
+            <span className="font-medium text-[#121b45] line-clamp-1 max-w-[240px]">{product.name}</span>
           </nav>
         </div>
       </div>
@@ -334,7 +333,7 @@ export default function ProductDetailPage() {
             <div>
               <button
                 onClick={handleRequestQuote}
-                className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-[#1c2f5c] transition-colors duration-200"
+                className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-[#121b45] transition-colors duration-200"
               >
                 <PhoneIcon sx={{ fontSize: 14 }} />
                 Hoặc gọi hotline {HOTLINE_DISPLAY} để nhận báo giá nhanh
@@ -372,8 +371,11 @@ export default function ProductDetailPage() {
           </Reveal>
         )}
 
-        {/* ══ THÔNG SỐ KỸ THUẬT + ĐIỂM NỔI BẬT ══ */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-14">
+        {/* ══ THÔNG SỐ KỸ THUẬT (trái) | ĐIỂM NỔI BẬT → TÀI LIỆU → ỨNG DỤNG (phải) ══
+             Bảng thông số rất dài, nên 3 khối còn lại xếp chồng trong cùng một cột
+             bên phải để không bỏ trống khoảng lớn và luôn thẳng hàng với nhau. */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 mb-14 items-start">
+          {/* ── Cột trái: bảng thông số kỹ thuật ── */}
           <Reveal>
             <h2 className="text-lg font-extrabold uppercase mb-5" style={{ color: NAVY }}>
               Thông số kỹ thuật
@@ -397,78 +399,78 @@ export default function ProductDetailPage() {
             </div>
           </Reveal>
 
-          <Reveal delay={100}>
-            <h2 className="text-lg font-extrabold uppercase mb-5" style={{ color: NAVY }}>
-              Điểm nổi bật
-              <div className="h-[3px] w-10 rounded-full mt-1.5" style={{ backgroundColor: GOLD }} />
-            </h2>
-            <div className="grid sm:grid-cols-2 gap-3">
-              {detail.highlights.map((h) => (
-                <div
-                  key={h.title}
-                  className="flex flex-col gap-2 rounded-xl border border-gray-100 bg-gray-50/60 px-4 py-4 transition-colors duration-200 hover:border-gray-200 hover:bg-white"
-                >
-                  <span style={{ color: brandColor }}>{pickHighlightIcon(h.title)}</span>
-                  <p className="text-sm font-bold leading-snug" style={{ color: NAVY }}>{h.title}</p>
-                  {h.description && (
-                    <p className="text-xs text-gray-500 leading-relaxed">{h.description}</p>
-                  )}
-                </div>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-
-        {/* ══ TÀI LIỆU TẢI VỀ + ỨNG DỤNG PHÙ HỢP ══ */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-14">
-          {detail.documents.length > 0 && (
-            <Reveal>
+          {/* ── Cột phải: điểm nổi bật → tài liệu tải về → ứng dụng phù hợp ── */}
+          <div className="flex flex-col gap-10">
+            <Reveal delay={100}>
               <h2 className="text-lg font-extrabold uppercase mb-5" style={{ color: NAVY }}>
-                Tài liệu tải về
+                Điểm nổi bật
                 <div className="h-[3px] w-10 rounded-full mt-1.5" style={{ backgroundColor: GOLD }} />
               </h2>
-              <div className="rounded-2xl border border-gray-100 overflow-hidden divide-y divide-gray-100">
-                {detail.documents.map((doc) => (
-                  <a
-                    key={doc.label}
-                    href={doc.fileUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between gap-3 px-5 py-3.5 text-sm text-gray-700 font-medium hover:bg-gray-50 hover:text-[#1c2f5c] transition-colors duration-200 no-underline"
+              <div className="grid sm:grid-cols-2 gap-3">
+                {detail.highlights.map((h) => (
+                  <div
+                    key={h.title}
+                    className="flex flex-col gap-2 rounded-xl border border-gray-100 bg-gray-50/60 px-4 py-4 transition-colors duration-200 hover:border-gray-200 hover:bg-white"
                   >
-                    <span className="flex items-center gap-2.5">
-                      <DescriptionIcon sx={{ fontSize: 18, color: GOLD, flexShrink: 0 }} />
-                      {doc.label}
-                    </span>
-                    <DownloadIcon sx={{ fontSize: 17, color: "#9ca3af", flexShrink: 0 }} />
-                  </a>
+                    <span style={{ color: brandColor }}>{pickHighlightIcon(h.title)}</span>
+                    <p className="text-sm font-bold leading-snug" style={{ color: NAVY }}>{h.title}</p>
+                    {h.description && (
+                      <p className="text-xs text-gray-500 leading-relaxed">{h.description}</p>
+                    )}
+                  </div>
                 ))}
               </div>
             </Reveal>
-          )}
 
-          <Reveal delay={100}>
-            <h2 className="text-lg font-extrabold uppercase mb-5" style={{ color: NAVY }}>
-              Ứng dụng phù hợp
-              <div className="h-[3px] w-10 rounded-full mt-1.5" style={{ backgroundColor: GOLD }} />
-            </h2>
-            <div className="grid grid-cols-3 gap-3">
-              {applications.map((app) => (
-                <div
-                  key={app.label}
-                  className="flex flex-col items-center text-center gap-2 rounded-xl border border-gray-100 bg-gray-50/60 px-2 py-4"
-                >
-                  <span
-                    className="w-9 h-9 rounded-lg flex items-center justify-center"
-                    style={{ backgroundColor: `${brandColor}1A`, color: brandColor }}
-                  >
-                    {app.icon}
-                  </span>
-                  <p className="text-[11px] text-gray-500 leading-tight">{app.label}</p>
+            {detail.documents.length > 0 && (
+              <Reveal delay={140}>
+                <h2 className="text-lg font-extrabold uppercase mb-5" style={{ color: NAVY }}>
+                  Tài liệu tải về
+                  <div className="h-[3px] w-10 rounded-full mt-1.5" style={{ backgroundColor: GOLD }} />
+                </h2>
+                <div className="rounded-2xl border border-gray-100 overflow-hidden divide-y divide-gray-100">
+                  {detail.documents.map((doc) => (
+                    <a
+                      key={doc.label}
+                      href={doc.fileUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between gap-3 px-5 py-3.5 text-sm text-gray-700 font-medium hover:bg-gray-50 transition-colors duration-200 no-underline"
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <DescriptionIcon sx={{ fontSize: 18, color: GOLD, flexShrink: 0 }} />
+                        {doc.label}
+                      </span>
+                      <DownloadIcon sx={{ fontSize: 17, color: "#9ca3af", flexShrink: 0 }} />
+                    </a>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </Reveal>
+              </Reveal>
+            )}
+
+            <Reveal delay={180}>
+              <h2 className="text-lg font-extrabold uppercase mb-5" style={{ color: NAVY }}>
+                Ứng dụng phù hợp
+                <div className="h-[3px] w-10 rounded-full mt-1.5" style={{ backgroundColor: GOLD }} />
+              </h2>
+              <div className="grid grid-cols-3 gap-3">
+                {applications.map((app) => (
+                  <div
+                    key={app.label}
+                    className="flex flex-col items-center text-center gap-2 rounded-xl border border-gray-100 bg-gray-50/60 px-2 py-4"
+                  >
+                    <span
+                      className="w-9 h-9 rounded-lg flex items-center justify-center"
+                      style={{ backgroundColor: `${brandColor}1A`, color: brandColor }}
+                    >
+                      {app.icon}
+                    </span>
+                    <p className="text-[11px] text-gray-500 leading-tight">{app.label}</p>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </div>
         </div>
 
         {/* ══ SẢN PHẨM KHÁC CÙNG THƯƠNG HIỆU ══ */}

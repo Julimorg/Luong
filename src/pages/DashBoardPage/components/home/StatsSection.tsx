@@ -83,7 +83,7 @@ export function ProcessSection() {
               <motion.span
                 variants={circleVariants}
                 className="flex items-center justify-center w-14 h-14 rounded-full border-2 font-extrabold text-xl flex-shrink-0 mb-5"
-                style={{ borderColor: GOLD, color: GOLD, backgroundColor: "#0d2137" }}
+                style={{ borderColor: GOLD, color: GOLD, backgroundColor: "#121b45" }}
               >
                 {step.id}
               </motion.span>
@@ -118,7 +118,7 @@ export function ProcessSection() {
               <motion.span
                 variants={circleVariants}
                 className="flex items-center justify-center w-14 h-14 rounded-full border-2 font-extrabold text-xl flex-shrink-0"
-                style={{ borderColor: GOLD, color: GOLD, backgroundColor: "#0d2137" }}
+                style={{ borderColor: GOLD, color: GOLD, backgroundColor: "#121b45" }}
               >
                 {step.id}
               </motion.span>

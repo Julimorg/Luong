@@ -32,10 +32,9 @@ import {
   trustItems,
 } from "../../data/solutionData";
 import { useScrollReveal } from "../../hooks/useScrollReveal";
+import { GOLD, NAVY } from "../../themes/brand";
 
 // ─── Colors ───────────────────────────────────────────────────
-const GOLD = "#f6b918";
-const NAVY = "#1c2f5c";
 
 // ─── Icon map ─────────────────────────────────────────────────
 const iconMap: Record<string, SvgIconComponent> = {
@@ -160,7 +159,7 @@ function SubTypeDetailModal({
       className={`fixed inset-0 z-[999] flex items-center justify-center p-4 sm:p-8 transition-opacity duration-300 ease-out ${
         visible ? "opacity-100" : "opacity-0"
       }`}
-      style={{ backgroundColor: "rgba(13,33,55,0.7)" }}
+      style={{ backgroundColor: "rgba(18,27,69,0.7)" }}
     >
       <div
         onClick={(e) => e.stopPropagation()}
@@ -318,7 +317,7 @@ export default function SolutionPage() {
           aria-hidden
           className="absolute inset-0 w-full h-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0d2137]/95 via-[#0d2137]/85 to-[#0d2137]/55" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#121b45]/95 via-[#121b45]/85 to-[#121b45]/55" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-10 items-center">
@@ -349,7 +348,7 @@ export default function SolutionPage() {
             </Reveal>
 
             <Reveal delay={150}>
-              <div className="rounded-2xl bg-[#0d2137]/60 backdrop-blur-sm border border-white/10 p-6 flex flex-col gap-5">
+              <div className="rounded-2xl bg-[#121b45]/60 backdrop-blur-sm border border-white/10 p-6 flex flex-col gap-5">
                 {solutionHighlights.map((h) => {
                   const Icon = iconMap[h.icon];
                   return (
@@ -389,7 +388,7 @@ export default function SolutionPage() {
                     key={s.id}
                     onClick={() => setActive(i)}
                     className={`flex-1 min-w-[140px] flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-bold transition-all duration-200 ${
-                      isActive ? "text-white shadow-md" : "text-gray-500 hover:text-[#1c2f5c] hover:bg-gray-50"
+                      isActive ? "text-white shadow-md" : "text-gray-500 hover:text-[#121b45] hover:bg-gray-50"
                     }`}
                     style={isActive ? { backgroundColor: NAVY } : undefined}
                   >

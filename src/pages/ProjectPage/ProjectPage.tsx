@@ -3,9 +3,8 @@ import { motion, type Variants } from "framer-motion";
 import { projectFilters, projects, projectsPageHeader, type ProjectFilterValue } from "../../data/projectData";
 import { useScrollReveal } from "../../hooks/useScrollReveal";
 import { ProjectCard } from "./components/ProjectCard";
+import { GOLD, NAVY } from "../../themes/brand";
 
-const GOLD = "#f6b918";
-const NAVY = "#0d2137";
 
 // ─── Reveal wrapper (giữ nguyên, dùng cho header/tabs) ──────
 function Reveal({
@@ -103,8 +102,8 @@ export default function ProjectsPage() {
                     className={[
                       "px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 border",
                       isActive
-                        ? "bg-[#f5a623] border-[#f5a623] text-white shadow-sm"
-                        : "bg-white border-gray-200 text-gray-600 hover:border-[#f5a623] hover:text-[#f5a623]",
+                        ? "bg-[#fbae17] border-[#fbae17] text-white shadow-sm"
+                        : "bg-white border-gray-200 text-gray-600 hover:border-[#fbae17] hover:text-[#fbae17]",
                     ].join(" ")}
                   >
                     {tab.label}
