@@ -458,3 +458,80 @@ export const trustItems: TrustItem[] = [
   { id: "build", icon: "shield", title: "Thi Công Chuyên Nghiệp", desc: "Đúng quy trình – Đúng tiến độ", accent: "navy" },
   { id: "warranty", icon: "coins", title: "Bảo Hành Dài Hạn", desc: "Theo chính sách của từng hãng", accent: "amber" },
 ];
+
+// ---------- SO SÁNH NHANH 4 LOẠI HỆ ----------
+// Bảng dưới đây chỉ tóm tắt lại chính các đặc điểm đã nêu ở 12 giải pháp phía
+// trên (mục `features` và `bestFor`), gom theo loại hệ để khách dễ đối chiếu
+// khi chọn — không bổ sung thông tin nào ngoài tài liệu.
+
+export type CompareValue = "yes" | "no" | "partial" | "na";
+
+export interface CompareColumn {
+  id: string;
+  /** Tên loại hệ. */
+  name: string;
+  /** Một câu định vị ngắn. */
+  tagline: string;
+  icon: string;
+}
+
+export interface CompareRow {
+  label: string;
+  /** Cùng thứ tự với `compareColumns`. */
+  values: (CompareValue | string)[];
+}
+
+export const systemComparisonHeader = {
+  eyebrow: "Chọn đúng loại hệ",
+  headline: "Bốn loại hệ thống khác nhau ở đâu?",
+  description:
+    "Cùng một mái nhà có thể lắp được nhiều loại hệ. Bảng dưới giúp bạn khoanh vùng trước khi đi vào khảo sát chi tiết.",
+};
+
+export const compareColumns: CompareColumn[] = [
+  {
+    id: "ongrid",
+    name: "Hòa lưới",
+    tagline: "Dùng bao nhiêu, phát bấy nhiêu",
+    icon: "grid",
+  },
+  {
+    id: "hybrid",
+    name: "Hybrid",
+    tagline: "Vừa phát, vừa tích điện",
+    icon: "battery",
+  },
+  {
+    id: "offgrid",
+    name: "Off-grid",
+    tagline: "Độc lập, không cần lưới",
+    icon: "offgrid",
+  },
+  {
+    id: "ess",
+    name: "ESS + EMS",
+    tagline: "Lưu trữ kèm điều phối tự động",
+    icon: "ems",
+  },
+];
+
+export const compareRows: CompareRow[] = [
+  { label: "Pin lưu trữ", values: ["no", "yes", "yes", "yes"] },
+  { label: "Có điện khi mất lưới", values: ["no", "yes", "yes", "yes"] },
+  { label: "Cần đấu nối lưới điện", values: ["yes", "yes", "no", "yes"] },
+  { label: "Giảm công suất giờ cao điểm", values: ["no", "yes", "na", "yes"] },
+  { label: "Điều phối năng lượng tự động", values: ["no", "partial", "no", "yes"] },
+  {
+    label: "Chi phí đầu tư ban đầu",
+    values: ["Thấp nhất", "Trung bình", "Cao", "Cao"],
+  },
+  {
+    label: "Hợp nhất với",
+    values: [
+      "Dùng điện nhiều vào giờ nắng",
+      "Dùng điện cả ngày lẫn tối",
+      "Nơi chưa có điện lưới",
+      "Phụ tải lớn, đỉnh rõ rệt",
+    ],
+  },
+];

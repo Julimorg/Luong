@@ -9,6 +9,7 @@ import BoltRoundedIcon from "@mui/icons-material/BoltRounded";
 import { projectsBreadcrumb, projectsHero, projectsStatsNote } from "../../../data/projectData";
 import { useAnimeOnView } from "../../../hooks/useAnimeOnView";
 import { CountUp } from "../../../components/common/CountUp";
+import { SolarFieldCanvas } from "../../../components/three/SolarFieldCanvas";
 import { GOLD, NAVY } from "../../../themes/brand";
 
 export interface HeroStat {
@@ -76,18 +77,19 @@ export function ProjectsHero({
 
   return (
     <section className="relative overflow-hidden" style={{ backgroundColor: NAVY }}>
-      {/* Ảnh nền + lớp phủ để chữ luôn đọc rõ */}
+      {/* Nền: ảnh tĩnh làm lớp đáy, cánh đồng pin 3D phủ lên khi máy chạy được */}
       <div
         aria-hidden
-        className="absolute inset-0 bg-cover bg-center"
+        className="absolute inset-0 bg-cover bg-center opacity-25"
         style={{ backgroundImage: `url(${projectsHero.backgroundImage})` }}
       />
+      <SolarFieldCanvas />
       <div
         aria-hidden
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(100deg, rgba(18,27,69,0.96) 0%, rgba(18,27,69,0.88) 45%, rgba(18,27,69,0.55) 100%)",
+            "linear-gradient(100deg, #0b1130 0%, rgba(11,17,48,0.88) 32%, rgba(11,17,48,0.44) 64%, rgba(11,17,48,0.14) 100%)",
         }}
       />
       <div

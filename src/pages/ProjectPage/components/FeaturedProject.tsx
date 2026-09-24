@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import PlaceRoundedIcon from "@mui/icons-material/PlaceRounded";
-import BoltRoundedIcon from "@mui/icons-material/BoltRounded";
 import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
 import InsightsRoundedIcon from "@mui/icons-material/InsightsRounded";
 import BusinessRoundedIcon from "@mui/icons-material/BusinessRounded";
@@ -34,20 +33,50 @@ function Metric({ icon, value, label }: { icon: React.ReactNode; value: string; 
  */
 export function FeaturedProject({ project, flip = false }: { project: Project; flip?: boolean }) {
   return (
-    <article className="grid overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm lg:grid-cols-2">
-      {/* Ảnh */}
-      <div className={`relative min-h-[260px] lg:min-h-[420px] ${flip ? "lg:order-2" : ""}`}>
+    <article className="group grid overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm transition-shadow duration-500 hover:shadow-2xl hover:shadow-gray-300/60 lg:grid-cols-2">
+      {/* Ảnh — công suất in đè lên góc dưới để con số đập vào mắt trước tiên */}
+      <div
+        className={`relative min-h-[300px] overflow-hidden lg:min-h-[460px] ${
+          flip ? "lg:order-2" : ""
+        }`}
+      >
         <ProjectImage
           src={project.image}
           alt={project.title}
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-105"
+        />
+        {/* Lớp tối dần từ dưới lên để chữ trắng luôn đọc được trên mọi ảnh */}
+        <div
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(11,17,48,0.88) 0%, rgba(11,17,48,0.25) 45%, transparent 75%)",
+          }}
         />
         <span
-          className="absolute left-5 top-5 rounded-full px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide"
+          className="absolute left-5 top-5 z-10 rounded-full px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide"
           style={{ backgroundColor: GOLD, color: NAVY }}
         >
           Dự án trọng điểm
         </span>
+
+        <div className="absolute inset-x-5 bottom-5 z-10 flex items-end justify-between gap-4">
+          <div>
+            <p
+              className="text-4xl font-extrabold leading-none sm:text-5xl"
+              style={{ color: GOLD }}
+            >
+              {project.capacity}
+            </p>
+            <p className="mt-1.5 text-xs font-bold uppercase tracking-wide text-white/65">
+              Công suất lắp đặt
+            </p>
+          </div>
+          <span className="rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[11px] font-semibold text-white backdrop-blur-sm">
+            {project.panelCount}
+          </span>
+        </div>
       </div>
 
       {/* Nội dung */}
@@ -81,12 +110,7 @@ export function FeaturedProject({ project, flip = false }: { project: Project; f
 
         <p className="text-sm leading-relaxed text-gray-500 sm:text-base">{project.summary}</p>
 
-        <div className="grid grid-cols-2 gap-4 border-y border-gray-100 py-5 sm:grid-cols-3">
-          <Metric
-            icon={<BoltRoundedIcon sx={{ fontSize: 17 }} />}
-            value={project.capacity}
-            label="Công suất"
-          />
+        <div className="grid grid-cols-1 gap-4 border-y border-gray-100 py-5 sm:grid-cols-2">
           <Metric
             icon={<GridViewRoundedIcon sx={{ fontSize: 16 }} />}
             value={project.panelCount}
@@ -96,7 +120,7 @@ export function FeaturedProject({ project, flip = false }: { project: Project; f
             <Metric
               icon={<InsightsRoundedIcon sx={{ fontSize: 17 }} />}
               value={project.yearlyOutput}
-              label="Sản lượng ước tính"
+              label="Sản lượng ước tính mỗi năm"
             />
           )}
         </div>
