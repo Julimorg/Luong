@@ -247,7 +247,8 @@ export function ComboSection() {
         if (!el) return;
         const l = layoutOf(i, active, dragPx);
         el.style.zIndex = String(l.zIndex);
-        el.style.pointerEvents = l.visible && l.x === dragPx ? "auto" : "none";
+        // Slide hai bên vẫn nhận click để bấm vào là nhảy tới combo đó.
+        el.style.pointerEvents = l.visible ? "auto" : "none";
         if (animated && !prefersReducedMotion()) {
           animate(el, {
             x: l.x,
@@ -298,25 +299,49 @@ export function ComboSection() {
   }, [index, paused, count, go]);
 
   // ── Kéo/vuốt để chuyển slide ──
-  const drag = useRef({ active: false, startX: 0, dx: 0 });
+  // Quan trọng: KHÔNG gọi setPointerCapture ngay ở pointerdown. Khi khung
+  // carousel bắt pointer, trình duyệt chuyển hướng luôn sự kiện click sang
+  // khung, nên nút mũi tên và việc bấm vào poster hai bên đều mất tác dụng.
+  // Chỉ bắt pointer sau khi người dùng thực sự kéo quá ngưỡng dưới đây.
+  const DRAG_THRESHOLD = 6;
+  const drag = useRef({ active: false, captured: false, startX: 0, dx: 0, pointerId: -1 });
+
   const onPointerDown = (e: React.PointerEvent) => {
     if (count < 2) return;
-    drag.current = { active: true, startX: e.clientX, dx: 0 };
+    // Bấm vào nút điều hướng thì để nút tự xử lý, không tính là thao tác kéo.
+    if ((e.target as HTMLElement).closest("button")) return;
+    drag.current = {
+      active: true,
+      captured: false,
+      startX: e.clientX,
+      dx: 0,
+      pointerId: e.pointerId,
+    };
     setPaused(true);
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   };
+
   const onPointerMove = (e: React.PointerEvent) => {
     if (!drag.current.active) return;
     drag.current.dx = e.clientX - drag.current.startX;
+    if (!drag.current.captured) {
+      if (Math.abs(drag.current.dx) <= DRAG_THRESHOLD) return;
+      drag.current.captured = true;
+      e.currentTarget.setPointerCapture(drag.current.pointerId);
+    }
     applyLayout(index, drag.current.dx, false);
   };
+
   const endDrag = () => {
     if (!drag.current.active) return;
-    const { dx } = drag.current;
+    const { dx, captured } = drag.current;
     drag.current.active = false;
-    const threshold = Math.min(90, metrics.slideW * 0.16);
-    if (Math.abs(dx) > threshold) go(dx < 0 ? 1 : -1);
-    else applyLayout(index, 0, true);
+    drag.current.captured = false;
+    // Chưa kéo quá ngưỡng -> coi như một cú bấm, không đụng tới layout.
+    if (captured) {
+      const threshold = Math.min(90, metrics.slideW * 0.16);
+      if (Math.abs(dx) > threshold) go(dx < 0 ? 1 : -1);
+      else applyLayout(index, 0, true);
+    }
     setPaused(false);
   };
 
