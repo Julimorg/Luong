@@ -242,8 +242,8 @@ export const projectDetails: Record<number, ProjectDetail> = {
     id: 7,
     title: "Tòa nhà văn phòng TP.HCM 85 kWp",
     subtitle: "Giải pháp điện mặt trời cho tòa nhà văn phòng",
-    heroImage: "/du-an/toa-nha-van-phong-tp-hcm/tong.webp",
-    overviewImage: "/du-an/toa-nha-van-phong-tp-hcm/phu-1.webp",
+    heroImage: "/du-an/toa-nha-van-phong-tp-hcm-85-kwp/tong.webp",
+    overviewImage: "/du-an/toa-nha-van-phong-tp-hcm-85-kwp/phu-1.webp",
     location: "TP.HCM",
     capacity: "85 kWp",
     status: "Đang thi công",
@@ -265,8 +265,8 @@ export const projectDetails: Record<number, ProjectDetail> = {
       "Khoảng 132 tấm pin TCL Solar 645Wp",
     ],
     gallery: [
-      "/du-an/toa-nha-van-phong-tp-hcm/phu-1.webp",
-      "/du-an/toa-nha-van-phong-tp-hcm/phu-2.webp",
+      "/du-an/toa-nha-van-phong-tp-hcm-85-kwp/phu-1.webp",
+      "/du-an/toa-nha-van-phong-tp-hcm-85-kwp/phu-2.webp",
     ],
   },
 
@@ -274,8 +274,8 @@ export const projectDetails: Record<number, ProjectDetail> = {
     id: 8,
     title: "Tòa nhà văn phòng TP.HCM 40 kWp",
     subtitle: "Giải pháp điện mặt trời cho tòa nhà văn phòng",
-    heroImage: "/du-an/toa-nha-van-phong-tp-hcm/tong.webp",
-    overviewImage: "/du-an/toa-nha-van-phong-tp-hcm/phu-1.webp",
+    heroImage: "/du-an/toa-nha-van-phong-tp-hcm-40-kwp/tong.webp",
+    overviewImage: "/du-an/toa-nha-van-phong-tp-hcm-40-kwp/phu-1.webp",
     location: "TP.HCM",
     capacity: "40 kWp",
     status: "Đang thi công",
@@ -297,8 +297,8 @@ export const projectDetails: Record<number, ProjectDetail> = {
       "Khoảng 62 tấm pin TCL Solar 645Wp",
     ],
     gallery: [
-      "/du-an/toa-nha-van-phong-tp-hcm/phu-1.webp",
-      "/du-an/toa-nha-van-phong-tp-hcm/phu-2.webp",
+      "/du-an/toa-nha-van-phong-tp-hcm-40-kwp/phu-1.webp",
+      "/du-an/toa-nha-van-phong-tp-hcm-40-kwp/phu-2.webp",
     ],
   },
 

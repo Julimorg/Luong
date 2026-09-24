@@ -65,6 +65,8 @@ export interface Project {
 
 
 
+
+
 export const projects: Project[] = [
   {
     id: 1,
@@ -161,7 +163,7 @@ export const projects: Project[] = [
   {
     id: 7,
     category: "doanh-nghiep",
-    image: "/du-an/toa-nha-van-phong-tp-hcm/tong.webp",
+    image: "/du-an/toa-nha-van-phong-tp-hcm-85-kwp/tong.webp",
     title: "Tòa nhà văn phòng TP.HCM 85 kWp",
     summary:
       "Tận dụng không gian mái, tối ưu nguồn điện sử dụng ban ngày và nâng cao hiệu quả vận hành",
@@ -176,7 +178,7 @@ export const projects: Project[] = [
   {
     id: 8,
     category: "doanh-nghiep",
-    image: "/du-an/toa-nha-van-phong-tp-hcm/tong.webp",
+    image: "/du-an/toa-nha-van-phong-tp-hcm-40-kwp/tong.webp",
     title: "Tòa nhà văn phòng TP.HCM 40 kWp",
     summary:
       "Tận dụng diện tích mái, tối ưu nguồn điện sử dụng ban ngày và nâng cao hiệu quả vận hành",
@@ -205,7 +207,7 @@ export const projectAssuranceSection = {
   eyebrow: "Cam kết trong mọi dự án",
   headline: "Cùng một tiêu chuẩn cho mọi quy mô công trình",
   description:
-    "Dù là hệ 6 kWp cho nhà phố hay 8 MWp cho khu công nghiệp, quy trình và tiêu chuẩn kỹ thuật đều không thay đổi.",
+    "Dù là hệ 10 kWp cho hộ gia đình hay 1,5 MWp cho nhà xưởng, quy trình và tiêu chuẩn kỹ thuật đều không thay đổi.",
 };
 
 export const projectAssurances: ProjectAssurance[] = [

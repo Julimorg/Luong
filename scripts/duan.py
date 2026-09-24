@@ -292,9 +292,17 @@ def main():
     names = [short_title(p['title'], p['caseHints']) for p in projects]
     dup = {n for n in names if names.count(n) > 1}
 
-    rows, details, pending = [], [], []
+    rows, details, pending, used_slugs = [], [], [], set()
     for i, p in enumerate(projects, start=1):
-        slug = slugify(short_title(p['title'], p['caseHints']))
+        name = short_title(p['title'], p['caseHints'])
+        if name in dup:
+            name = f"{name} {clean_capacity(p['capacity'])}"
+
+        slug = slugify(name)
+        if slug in used_slugs:          # chốt chặn cuối, không để ảnh đè nhau
+            slug = f'{slug}-{i}'
+        used_slugs.add(slug)
+
         dest = os.path.join(IMG_DIR, slug)
         os.makedirs(dest, exist_ok=True)
 
@@ -307,9 +315,6 @@ def main():
         gallery = [copy(n, f'phu-{k}') for k, n in enumerate(p['galleryImages'], start=1)]
         pending.append((image, gallery))
 
-        name = short_title(p['title'], p['caseHints'])
-        if name in dup:
-            name = f"{name} {clean_capacity(p['capacity'])}"
         title = f"{name} – {p['location']}" if p['location'] and p['location'] not in name else name
         summary = p['highlight'][1] if len(p['highlight']) > 1 else (
             p['overview'][0] if p['overview'] else '')
