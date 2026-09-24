@@ -76,7 +76,7 @@ export function SubTypeDetailModal({
         {/* ── Body — flex (không phải grid) để mỗi cột tự quản lý overflow riêng ── */}
         <div className="flex flex-col sm:flex-row flex-1 min-h-0">
           {/* Ảnh — CỐ ĐỊNH, không cuộn theo, hiện trọn vẹn (object-contain vì có thể là ảnh chụp hoặc sơ đồ có chữ) */}
-          <div className="relative bg-gray-50 flex items-center justify-center p-5 sm:p-6 h-56 sm:h-auto flex-shrink-0 sm:w-1/2">
+          <div className="relative bg-white flex items-center justify-center p-5 sm:p-6 h-56 sm:h-auto flex-shrink-0 sm:w-1/2">
             <img
               src={sub.image}
               alt={sub.name}

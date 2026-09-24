@@ -27,7 +27,7 @@ export interface AboutStat {
   label: string;
 }
 export const aboutStats: AboutStat[] = [
-  { value: "500+", label: "Dự án đã triển khai" },
+  { value: "50+", label: "Dự án đã triển khai" },
   { value: "100%", label: "Thiết bị chính hãng" },
   { value: "Đồng hành", label: "Dài hạn cùng khách hàng" },
 ];
@@ -152,7 +152,7 @@ export const aboutCapabilitySection = {
     "Tất cả thiết bị VIETHUNGSOLAR phân phối đều có hồ sơ kỹ thuật, datasheet và chính sách bảo hành rõ ràng từ hãng.",
 };
 export const aboutCapabilities: AboutCapability[] = [
-  { value: 500, suffix: "+", label: "Dự án đã triển khai", note: "Hộ gia đình, nhà xưởng, trang trại trên khắp cả nước" },
+  { value: 50, suffix: "+", label: "Dự án đã triển khai", note: "Hộ gia đình, nhà xưởng, trang trại trên khắp cả nước" },
   { value: 8, suffix: "", label: "Thương hiệu phân phối", note: "LONGi, JA Solar, TCL, GoodWe, Sungrow, SolaX, INVT, Lithium Valley" },
   { value: 100, suffix: "%", label: "Thiết bị chính hãng", note: "Đầy đủ CO, CQ và datasheet kỹ thuật kèm theo" },
   { value: 30, suffix: " năm", label: "Bảo hành công suất", note: "Tấm pin N-Type bảo hành hiệu suất tuyến tính tới 30 năm" },

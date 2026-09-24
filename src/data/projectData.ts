@@ -69,6 +69,7 @@ export interface Project {
 
 
 
+
 export const projects: Project[] = [
   {
     id: 1,
@@ -197,44 +198,3 @@ export const projects: Project[] = [
 // ---------- DẢI SỐ LIỆU DƯỚI HERO ----------
 export const projectsStatsNote =
   "Số liệu tổng hợp từ các công trình đã bàn giao và đang triển khai.";
-
-// ---------- VÌ SAO CHỦ ĐẦU TƯ CHỌN VIETHUNGSOLAR ----------
-export interface ProjectAssurance {
-  icon: "survey" | "engineering" | "shield" | "support";
-  title: string;
-  description: string;
-}
-
-export const projectAssuranceSection = {
-  eyebrow: "Cam kết trong mọi dự án",
-  headline: "Cùng một tiêu chuẩn cho mọi quy mô công trình",
-  description:
-    "Dù là hệ 10 kWp cho hộ gia đình hay 1,5 MWp cho nhà xưởng, quy trình và tiêu chuẩn kỹ thuật đều không thay đổi.",
-};
-
-export const projectAssurances: ProjectAssurance[] = [
-  {
-    icon: "survey",
-    title: "Khảo sát và mô phỏng trước khi báo giá",
-    description:
-      "Đo đạc hiện trạng mái, hướng nắng và tủ điện, mô phỏng sản lượng theo hoá đơn điện thực tế của chủ đầu tư.",
-  },
-  {
-    icon: "engineering",
-    title: "Thi công không gián đoạn sản xuất",
-    description:
-      "Tiến độ được sắp theo lịch vận hành của nhà máy, đấu nối vào khung giờ đã thống nhất với bộ phận kỹ thuật.",
-  },
-  {
-    icon: "shield",
-    title: "Thiết bị chính hãng, hồ sơ đầy đủ",
-    description:
-      "Tấm pin, inverter và pin lưu trữ đều có CO, CQ, datasheet và chính sách bảo hành của hãng kèm theo hợp đồng.",
-  },
-  {
-    icon: "support",
-    title: "Theo dõi sản lượng sau nghiệm thu",
-    description:
-      "Bàn giao kèm hướng dẫn giám sát trên app, bảo trì định kỳ và hỗ trợ kỹ thuật trong suốt vòng đời hệ thống.",
-  },
-];

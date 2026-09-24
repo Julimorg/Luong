@@ -12,7 +12,6 @@ import { useScrollReveal } from "../../hooks/useScrollReveal";
 import { ProjectCard } from "./components/ProjectCard";
 import { ProjectsHero } from "./components/ProjectsHero";
 import { FeaturedProject } from "./components/FeaturedProject";
-import { ProjectAssuranceSection } from "./components/ProjectAssuranceSection";
 import { GOLD, NAVY } from "../../themes/brand";
 
 // ─── Reveal wrapper dùng cho tiêu đề / thanh lọc ───────────────
@@ -292,7 +291,6 @@ export default function ProjectsPage() {
         </div>
       </section>
 
-      <ProjectAssuranceSection />
     </div>
   );
 }
