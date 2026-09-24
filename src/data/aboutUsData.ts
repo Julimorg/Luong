@@ -134,13 +134,6 @@ export const aboutBrandLogos: { name: string; color: string }[] = [
   { name: "Lithium Valley", color: "#2a9d8f" },
 ];
 
-// ---------- CTA CUỐI TRANG ----------
-export const aboutFinalCta = {
-  headline: "Sẵn sàng chuyển đổi sang năng lượng sạch?",
-  description: "Liên hệ với đội ngũ VIETHUNGSOLAR để được khảo sát và tư vấn giải pháp phù hợp nhất cho công trình của bạn.",
-  ctaLabel: "Nhận tư vấn miễn phí",
-  ctaTo: "/lien-he",
-};
 
 // ---------- NĂNG LỰC — dải số liệu chạy số khi cuộn tới ----------
 export interface AboutCapability {

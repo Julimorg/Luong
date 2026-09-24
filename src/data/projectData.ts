@@ -254,12 +254,3 @@ export const projectAssurances: ProjectAssurance[] = [
       "Bàn giao kèm hướng dẫn giám sát trên app, bảo trì định kỳ và hỗ trợ kỹ thuật trong suốt vòng đời hệ thống.",
   },
 ];
-
-// ---------- CTA CUỐI TRANG ----------
-export const projectsCta = {
-  headline: "Công trình của bạn sẽ là dự án tiếp theo?",
-  description:
-    "Gửi thông tin mái và hoá đơn điện hàng tháng, đội kỹ thuật sẽ khảo sát và gửi phương án kèm dự tính hoàn vốn.",
-  primary: { label: "Đặt lịch khảo sát", to: "/lien-he" },
-  secondary: { label: "Tính thử sản lượng", to: "/" },
-};

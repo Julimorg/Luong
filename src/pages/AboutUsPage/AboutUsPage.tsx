@@ -11,7 +11,6 @@ import { EcosystemSection } from "./components/EcosystemSection";
 import { WhyChooseBento } from "./components/WhyChooseBento";
 import { TrustBandSection } from "./components/TrustBandSection";
 import { FaqSection } from "./components/FaqSection";
-import { FinalCtaSection } from "./components/FinalCtaSection";
 
 // ─── MAIN ─────────────────────────────────────────────────────
 export default function AboutUsPage() {
@@ -92,7 +91,6 @@ export default function AboutUsPage() {
       <WhyChooseBento />
       <TrustBandSection />
       <FaqSection />
-      <FinalCtaSection />
     </div>
   );
 }

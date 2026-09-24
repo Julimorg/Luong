@@ -13,7 +13,6 @@ import { ProjectCard } from "./components/ProjectCard";
 import { ProjectsHero } from "./components/ProjectsHero";
 import { FeaturedProject } from "./components/FeaturedProject";
 import { ProjectAssuranceSection } from "./components/ProjectAssuranceSection";
-import { ProjectCtaSection } from "./components/ProjectCtaSection";
 import { GOLD, NAVY } from "../../themes/brand";
 
 // ─── Reveal wrapper dùng cho tiêu đề / thanh lọc ───────────────
@@ -290,7 +289,6 @@ export default function ProjectsPage() {
       </section>
 
       <ProjectAssuranceSection />
-      <ProjectCtaSection />
     </div>
   );
 }

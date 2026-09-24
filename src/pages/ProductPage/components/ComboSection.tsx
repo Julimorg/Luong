@@ -1,17 +1,13 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { animate, utils } from "animejs";
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import ApartmentRoundedIcon from "@mui/icons-material/ApartmentRounded";
-import AgricultureRoundedIcon from "@mui/icons-material/Agriculture";
-import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import BoltRoundedIcon from "@mui/icons-material/BoltRounded";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useScrollReveal } from "../../../hooks/useScrollReveal";
-import { combos, comboSectionHeader, type ComboItem, type ComboSegment } from "../../../data/comboData";
+import { combos, comboSectionHeader, type ComboItem } from "../../../data/comboData";
 import { ComboPoster } from "./ComboPoster";
 import { GOLD, NAVY } from "../../../themes/brand";
 
@@ -21,12 +17,6 @@ const AUTOPLAY_MS = 6000;
 // Số slide hé ra mỗi bên slide giữa (1 -> tổng cộng 3 slide hiển thị).
 const VISIBLE_SIDE_SLIDES = 1;
 
-const segmentTabs: { id: ComboSegment | "all"; label: string; icon: React.ReactNode }[] = [
-  { id: "all", label: "Tất cả combo", icon: <GridViewRoundedIcon sx={{ fontSize: 17 }} /> },
-  { id: "residential", label: "Hộ gia đình", icon: <HomeRoundedIcon sx={{ fontSize: 17 }} /> },
-  { id: "business", label: "Doanh nghiệp", icon: <ApartmentRoundedIcon sx={{ fontSize: 17 }} /> },
-  { id: "agriculture", label: "Nông nghiệp", icon: <AgricultureRoundedIcon sx={{ fontSize: 17 }} /> },
-];
 
 function prefersReducedMotion() {
   return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -161,11 +151,7 @@ function ComboDetailPanel({ combo }: { combo: ComboItem }) {
 }
 
 export function ComboSection() {
-  const [segment, setSegment] = useState<ComboSegment | "all">("all");
-  const list = useMemo(
-    () => (segment === "all" ? combos : combos.filter((c) => c.segment === segment)),
-    [segment],
-  );
+  const list = combos;
 
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -309,8 +295,8 @@ export function ComboSection() {
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* ── Tiêu đề + bộ lọc phân khúc ── */}
-        <Reveal className="mb-7 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-          <div>
+        <Reveal className="mb-7">
+          <div className="max-w-3xl">
             <div className="mb-2 flex items-center gap-2">
               <span className="h-0.5 w-6" style={{ backgroundColor: GOLD }} />
               <span className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: GOLD }}>
@@ -323,33 +309,6 @@ export function ComboSection() {
             <p className="mt-1.5 max-w-2xl text-sm text-gray-500">{comboSectionHeader.description}</p>
           </div>
 
-          <div className="flex flex-wrap gap-2">
-            {segmentTabs.map((t) => {
-              const isActive = segment === t.id;
-              const disabled =
-                t.id !== "all" && !combos.some((c) => c.segment === t.id);
-              return (
-                <button
-                  key={t.id}
-                  disabled={disabled}
-                  onClick={() => {
-                    // Đổi bộ lọc -> quay lại slide đầu tiên của nhóm mới.
-                    setSegment(t.id);
-                    setIndex(0);
-                  }}
-                  className="inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-bold transition-all duration-200 disabled:opacity-40"
-                  style={{
-                    color: isActive ? "#fff" : NAVY,
-                    backgroundColor: isActive ? NAVY : "transparent",
-                    borderColor: isActive ? NAVY : `${NAVY}22`,
-                  }}
-                >
-                  {t.icon}
-                  {t.label}
-                </button>
-              );
-            })}
-          </div>
         </Reveal>
 
         {/* ── Sân khấu carousel ── */}

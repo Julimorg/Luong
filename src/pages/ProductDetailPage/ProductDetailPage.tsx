@@ -8,6 +8,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import PhoneIcon from "@mui/icons-material/Phone";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import BoltIcon from "@mui/icons-material/Bolt";
@@ -30,6 +31,10 @@ import { products, productsBreadcrumb, productSections, type Product } from "../
 import { productDetails, type ProductDetail } from "../../data/productDetailData";
 import { GOLD, NAVY } from "../../themes/brand";
 
+
+// Chiều cao bảng thông số khi chưa mở rộng — xấp xỉ chiều cao cột bên phải
+// (Điểm nổi bật + Ứng dụng phù hợp), để hai cột kết thúc gần nhau.
+const SPECS_COLLAPSED_HEIGHT = 770;
 
 const HOTLINE = "+84901234567";
 const HOTLINE_DISPLAY = "0908011931";
@@ -195,6 +200,11 @@ export default function ProductDetailPage() {
 
   const product = products.find((p) => p.id === productId);
   const detail = productDetails.find((d) => d.productId === productId);
+
+  // Bảng thông số: mặc định thu gọn, bấm nút để xem đầy đủ
+  const [specsExpanded, setSpecsExpanded] = useState(false);
+  const totalSpecRows = (detail?.fullSpecs.length ?? 0) + 1; // +1 cho dòng "Xuất xứ"
+  const isSpecsLong = totalSpecRows > 18;
 
   const related = useMemo(() => {
     if (!product) return [];
@@ -371,7 +381,7 @@ export default function ProductDetailPage() {
           </Reveal>
         )}
 
-        {/* ══ THÔNG SỐ KỸ THUẬT (trái) | ĐIỂM NỔI BẬT → TÀI LIỆU → ỨNG DỤNG (phải) ══
+        {/* ══ THÔNG SỐ KỸ THUẬT (trái) | ĐIỂM NỔI BẬT → ỨNG DỤNG → TÀI LIỆU (phải) ══
              Bảng thông số rất dài, nên 3 khối còn lại xếp chồng trong cùng một cột
              bên phải để không bỏ trống khoảng lớn và luôn thẳng hàng với nhau. */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 mb-14 items-start">
@@ -381,22 +391,59 @@ export default function ProductDetailPage() {
               Thông số kỹ thuật
               <div className="h-[3px] w-10 rounded-full mt-1.5" style={{ backgroundColor: GOLD }} />
             </h2>
-            <div className="rounded-2xl border border-gray-100 overflow-hidden">
-              <table className="w-full text-sm">
-                <tbody>
-                  {detail.fullSpecs.map((s, i) => (
-                    <tr key={`${s.label}-${i}`} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                      <td className="py-3 px-5 text-gray-500 w-1/2 border-r border-gray-100">{s.label}</td>
-                      <td className="py-3 px-5 font-semibold text-gray-800">{s.value}</td>
+
+            {/* Bảng dài hơn cột bên phải rất nhiều -> giới hạn chiều cao cho cân với
+                cột phải; trong khung vẫn cuộn được, hoặc bấm nút để mở toàn bộ. */}
+            <div className="relative">
+              <div
+                className="rounded-2xl border border-gray-100 overflow-hidden"
+                style={
+                  specsExpanded
+                    ? undefined
+                    : { maxHeight: SPECS_COLLAPSED_HEIGHT, overflowY: "auto" }
+                }
+              >
+                <table className="w-full text-sm">
+                  <tbody>
+                    {detail.fullSpecs.map((s, i) => (
+                      <tr key={`${s.label}-${i}`} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                        <td className="py-3 px-5 text-gray-500 w-1/2 border-r border-gray-100">{s.label}</td>
+                        <td className="py-3 px-5 font-semibold text-gray-800">{s.value}</td>
+                      </tr>
+                    ))}
+                    <tr className={detail.fullSpecs.length % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                      <td className="py-3 px-5 text-gray-500 w-1/2 border-r border-gray-100">Xuất xứ</td>
+                      <td className="py-3 px-5 font-semibold text-gray-800">{detail.origin}</td>
                     </tr>
-                  ))}
-                  <tr className={detail.fullSpecs.length % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                    <td className="py-3 px-5 text-gray-500 w-1/2 border-r border-gray-100">Xuất xứ</td>
-                    <td className="py-3 px-5 font-semibold text-gray-800">{detail.origin}</td>
-                  </tr>
-                </tbody>
-              </table>
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Vệt mờ báo hiệu bảng còn nội dung bên dưới */}
+              {!specsExpanded && isSpecsLong && (
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-x-0 bottom-0 h-16 rounded-b-2xl"
+                  style={{ background: "linear-gradient(to top, #fff 20%, rgba(255,255,255,0))" }}
+                />
+              )}
             </div>
+
+            {isSpecsLong && (
+              <button
+                onClick={() => setSpecsExpanded((v) => !v)}
+                className="mt-4 inline-flex items-center gap-1.5 rounded-lg border px-5 py-2.5 text-sm font-bold transition-all duration-200 hover:-translate-y-0.5"
+                style={{ borderColor: `${NAVY}25`, color: NAVY }}
+              >
+                {specsExpanded
+                  ? "Thu gọn bảng thông số"
+                  : `Xem đầy đủ ${totalSpecRows} thông số`}
+                <ExpandMoreIcon
+                  sx={{ fontSize: 18 }}
+                  className={`transition-transform duration-300 ${specsExpanded ? "rotate-180" : ""}`}
+                />
+              </button>
+            )}
           </Reveal>
 
           {/* ── Cột phải: điểm nổi bật → tài liệu tải về → ứng dụng phù hợp ── */}
@@ -422,8 +469,30 @@ export default function ProductDetailPage() {
               </div>
             </Reveal>
 
+            <Reveal delay={140}>
+              <h2 className="text-lg font-extrabold uppercase mb-5" style={{ color: NAVY }}>
+                Ứng dụng phù hợp
+                <div className="h-[3px] w-10 rounded-full mt-1.5" style={{ backgroundColor: GOLD }} />
+              </h2>
+              <div className="grid grid-cols-3 gap-3">
+                {applications.map((app) => (
+                  <div
+                    key={app.label}
+                    className="flex flex-col items-center text-center gap-2 rounded-xl border border-gray-100 bg-gray-50/60 px-2 py-4"
+                  >
+                    <span
+                      className="w-9 h-9 rounded-lg flex items-center justify-center"
+                      style={{ backgroundColor: `${brandColor}1A`, color: brandColor }}
+                    >
+                      {app.icon}
+                    </span>
+                    <p className="text-[11px] text-gray-500 leading-tight">{app.label}</p>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
             {detail.documents.length > 0 && (
-              <Reveal delay={140}>
+              <Reveal delay={180}>
                 <h2 className="text-lg font-extrabold uppercase mb-5" style={{ color: NAVY }}>
                   Tài liệu tải về
                   <div className="h-[3px] w-10 rounded-full mt-1.5" style={{ backgroundColor: GOLD }} />
@@ -448,28 +517,6 @@ export default function ProductDetailPage() {
               </Reveal>
             )}
 
-            <Reveal delay={180}>
-              <h2 className="text-lg font-extrabold uppercase mb-5" style={{ color: NAVY }}>
-                Ứng dụng phù hợp
-                <div className="h-[3px] w-10 rounded-full mt-1.5" style={{ backgroundColor: GOLD }} />
-              </h2>
-              <div className="grid grid-cols-3 gap-3">
-                {applications.map((app) => (
-                  <div
-                    key={app.label}
-                    className="flex flex-col items-center text-center gap-2 rounded-xl border border-gray-100 bg-gray-50/60 px-2 py-4"
-                  >
-                    <span
-                      className="w-9 h-9 rounded-lg flex items-center justify-center"
-                      style={{ backgroundColor: `${brandColor}1A`, color: brandColor }}
-                    >
-                      {app.icon}
-                    </span>
-                    <p className="text-[11px] text-gray-500 leading-tight">{app.label}</p>
-                  </div>
-                ))}
-              </div>
-            </Reveal>
           </div>
         </div>
 
