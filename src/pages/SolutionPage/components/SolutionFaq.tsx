@@ -1,10 +1,18 @@
 import { useEffect, useRef, useState } from "react";
-import { animate } from "animejs";
+import { Link } from "react-router-dom";
+import { animate, stagger } from "animejs";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import SupportAgentRoundedIcon from "@mui/icons-material/SupportAgentRounded";
-import { Link } from "react-router-dom";
-import { aboutFaqSection, aboutFaqs } from "../../../data/aboutUsData";
-import { GOLD, NAVY, Reveal, SectionHeading } from "./aboutShared";
+import { solutionFaqGroups, solutionFaqSection } from "../../../data/solutionData";
+import { Reveal, SectionHeading } from "./solutionShared";
+import { GOLD, NAVY } from "./solutionTheme";
+
+function prefersReducedMotion() {
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
 
 /** Một dòng câu hỏi — phần trả lời mở/đóng mượt bằng anime.js. */
 function FaqRow({
@@ -21,30 +29,28 @@ function FaqRow({
   const bodyRef = useRef<HTMLDivElement>(null);
   const mounted = useRef(false);
 
-  // Mở/đóng bằng cách animate chiều cao thật của nội dung -> không giật, không cần max-height ước lượng.
-  // Chạy theo `isOpen` nên khi mở câu khác, câu đang mở cũng tự đóng lại.
+  // Animate theo chiều cao thật của nội dung nên không cần ước lượng max-height
+  // và không bị giật khi câu trả lời dài ngắn khác nhau.
   useEffect(() => {
     const el = bodyRef.current;
     if (!el) return;
     if (!mounted.current) {
       mounted.current = true;
-      if (!isOpen) return; // trạng thái ban đầu đã đóng sẵn
+      if (!isOpen) return; // ban đầu đã đóng sẵn
     }
-    const open = isOpen;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      el.style.height = open ? "auto" : "0px";
-      el.style.opacity = open ? "1" : "0";
+    if (prefersReducedMotion()) {
+      el.style.height = isOpen ? "auto" : "0px";
+      el.style.opacity = isOpen ? "1" : "0";
       return;
     }
     const from = el.getBoundingClientRect().height;
-    const target = open ? el.scrollHeight : 0;
     const anim = animate(el, {
-      height: [from, target],
-      opacity: open ? [0, 1] : [1, 0],
+      height: [from, isOpen ? el.scrollHeight : 0],
+      opacity: isOpen ? [0, 1] : [1, 0],
       duration: 420,
       ease: "outQuart",
       onComplete: () => {
-        if (open) el.style.height = "auto";
+        if (isOpen) el.style.height = "auto";
       },
     });
     return () => {
@@ -79,27 +85,85 @@ function FaqRow({
         style={{ height: 0, opacity: 0, overflow: "hidden" }}
         aria-hidden={!isOpen}
       >
-        <p className="px-5 pb-5 text-sm leading-relaxed text-gray-500 sm:px-6 sm:pb-6">{answer}</p>
+        <p className="px-5 pb-5 text-sm leading-relaxed text-gray-500 sm:px-6 sm:pb-6">
+          {answer}
+        </p>
       </div>
     </div>
   );
 }
 
-/** Câu hỏi thường gặp + ô liên hệ nhanh. */
-export function FaqSection() {
+export function SolutionFaq() {
+  const [group, setGroup] = useState(0);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  const items = solutionFaqGroups[group].items;
+
+  // Đổi nhóm -> câu hỏi mới bay lên so le để thấy rõ nội dung vừa thay.
+  useEffect(() => {
+    const el = listRef.current;
+    if (!el || prefersReducedMotion()) return;
+    const rows = el.querySelectorAll<HTMLElement>("[data-faq]");
+    const anim = animate(rows, {
+      opacity: [0, 1],
+      y: [14, 0],
+      duration: 520,
+      delay: stagger(55),
+      ease: "outExpo",
+    });
+    return () => {
+      anim.cancel();
+    };
+  }, [group]);
 
   return (
     <section className="bg-white py-16 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
+          {/* Cột trái: tiêu đề, chuyển nhóm và ô liên hệ */}
           <div>
             <SectionHeading
-              eyebrow={aboutFaqSection.eyebrow}
-              headline={aboutFaqSection.headline}
-              description={aboutFaqSection.description}
+              eyebrow={solutionFaqSection.eyebrow}
+              headline={solutionFaqSection.headline}
+              description={solutionFaqSection.description}
             />
-            <Reveal delay={120} className="mt-6">
+
+            <Reveal delay={80} className="mt-6">
+              <div
+                role="tablist"
+                aria-label="Nhóm câu hỏi"
+                className="flex flex-wrap gap-2"
+              >
+                {solutionFaqGroups.map((g, i) => {
+                  const active = i === group;
+                  return (
+                    <button
+                      key={g.id}
+                      role="tab"
+                      aria-selected={active}
+                      onClick={() => {
+                        setGroup(i);
+                        setOpenIndex(null);
+                      }}
+                      className="rounded-full border px-4 py-2 text-sm font-bold transition-all duration-200"
+                      style={{
+                        color: active ? "#fff" : NAVY,
+                        backgroundColor: active ? NAVY : "#fff",
+                        borderColor: active ? NAVY : "rgba(18,27,69,0.14)",
+                      }}
+                    >
+                      {g.label}
+                      <span className={active ? "ml-1.5 text-white/55" : "ml-1.5 text-gray-400"}>
+                        {g.items.length}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </Reveal>
+
+            <Reveal delay={140} className="mt-6">
               <Link
                 to="/lien-he"
                 className="inline-flex items-center gap-2.5 rounded-2xl border border-gray-100 bg-[#fbfbfd] px-5 py-4 no-underline transition-all duration-200 hover:-translate-y-0.5 hover:bg-white hover:shadow-lg"
@@ -122,16 +186,17 @@ export function FaqSection() {
             </Reveal>
           </div>
 
-          <div className="flex flex-col gap-3">
-            {aboutFaqs.map((f, i) => (
-              <Reveal key={f.question} delay={i * 70}>
+          {/* Cột phải: danh sách câu hỏi của nhóm đang chọn */}
+          <div ref={listRef} key={solutionFaqGroups[group].id} className="flex flex-col gap-3">
+            {items.map((f, i) => (
+              <div data-faq key={f.question}>
                 <FaqRow
                   question={f.question}
                   answer={f.answer}
                   isOpen={openIndex === i}
                   onToggle={() => setOpenIndex(openIndex === i ? null : i)}
                 />
-              </Reveal>
+              </div>
             ))}
           </div>
         </div>

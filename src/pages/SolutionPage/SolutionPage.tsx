@@ -3,6 +3,7 @@ import type { SubType } from "../../data/solutionData";
 import { SolutionHero } from "./components/SolutionHero";
 import { SolutionExplorer } from "./components/SolutionExplorer";
 import { SystemComparison } from "./components/SystemComparison";
+import { SolutionFaq } from "./components/SolutionFaq";
 import { SubTypeDetailModal } from "./components/SubTypeDetailModal";
 
 export default function SolutionPage() {
@@ -24,6 +25,7 @@ export default function SolutionPage() {
       <SolutionHero />
       <SolutionExplorer onOpen={openDetail} />
       <SystemComparison />
+      <SolutionFaq />
 
       {detailSub && (
         <SubTypeDetailModal sub={detailSub} visible={modalVisible} onClose={closeDetail} />

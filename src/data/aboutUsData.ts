@@ -220,39 +220,3 @@ export const aboutEcosystemSection = {
 };
 
 // ---------- CÂU HỎI THƯỜNG GẶP ----------
-export interface AboutFaq {
-  question: string;
-  answer: string;
-}
-export const aboutFaqSection = {
-  eyebrow: "GIẢI ĐÁP",
-  headline: "Câu hỏi khách hàng thường đặt ra",
-  description: "Nếu chưa tìm thấy câu trả lời, hãy liên hệ để đội ngũ kỹ thuật tư vấn trực tiếp.",
-};
-export const aboutFaqs: AboutFaq[] = [
-  {
-    question: "Hệ thống điện mặt trời bao lâu thì hoàn vốn?",
-    answer:
-      "Tuỳ mức tiêu thụ điện và tỉ lệ tự dùng, phần lớn hệ hộ gia đình hoàn vốn trong khoảng 4 – 6 năm. Khi khảo sát, chúng tôi mô phỏng sản lượng theo hoá đơn điện thực tế của bạn để đưa ra con số sát nhất.",
-  },
-  {
-    question: "Có bắt buộc phải lắp pin lưu trữ không?",
-    answer:
-      "Không bắt buộc. Nếu bạn dùng điện chủ yếu ban ngày, hệ hoà lưới đã đủ hiệu quả. Pin lưu trữ phù hợp khi bạn cần dự phòng lúc mất điện hoặc muốn dùng điện mặt trời vào buổi tối.",
-  },
-  {
-    question: "Lắp trên mái tôn hoặc mái ngói có bị thấm dột không?",
-    answer:
-      "Hệ khung được thiết kế riêng cho từng loại mái, các điểm bắt vít đều được xử lý chống thấm. Đội thi công kiểm tra lại toàn bộ điểm tiếp xúc trước khi nghiệm thu.",
-  },
-  {
-    question: "Bảo hành được tính như thế nào?",
-    answer:
-      "Bảo hành theo đúng chính sách của từng hãng và được ghi rõ trong báo giá: tấm pin thường 12 – 15 năm sản phẩm và tới 30 năm hiệu suất, inverter 5 năm (có gói gia hạn), pin lưu trữ theo chính sách sản phẩm và hiệu suất riêng của hãng.",
-  },
-  {
-    question: "Sau khi lắp xong có được hỗ trợ tiếp không?",
-    answer:
-      "Có. Chúng tôi hướng dẫn bạn theo dõi sản lượng trên app của hãng, bảo trì định kỳ và xử lý sự cố trong suốt vòng đời hệ thống.",
-  },
-];

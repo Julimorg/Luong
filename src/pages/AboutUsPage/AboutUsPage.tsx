@@ -10,7 +10,6 @@ import { ProcessSection } from "./components/ProcessSection";
 import { EcosystemSection } from "./components/EcosystemSection";
 import { WhyChooseBento } from "./components/WhyChooseBento";
 import { TrustBandSection } from "./components/TrustBandSection";
-import { FaqSection } from "./components/FaqSection";
 
 // ─── MAIN ─────────────────────────────────────────────────────
 export default function AboutUsPage() {
@@ -90,7 +89,6 @@ export default function AboutUsPage() {
       <EcosystemSection />
       <WhyChooseBento />
       <TrustBandSection />
-      <FaqSection />
     </div>
   );
 }
