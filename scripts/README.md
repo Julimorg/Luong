@@ -58,3 +58,19 @@ Xem hàm `classify()` trong `generate.py` nếu cần chỉnh.
 `id` sản phẩm được đánh lại mỗi lần chạy `generate.py`, nên `productId` trong
 `src/data/comboData.ts` có thể trỏ nhầm sau khi thêm/bớt hồ sơ. `emit.py` sẽ
 in cảnh báo ở cuối nếu phát hiện lệch — sửa lại `productId` theo cảnh báo đó.
+
+## Combo trên trang Sản phẩm
+
+Nội dung combo nằm trong `src/data/comboData.ts`, chép tay từ hồ sơ
+`documents/product-new-docu/combo-section/COMBO ĐẦU TRANG/`:
+
+- `nội dung cho từng combo/*.docx` → chữ (thông số, lợi ích, danh sách thiết bị)
+- `ảnh combo/1..4.webp` → 4 ảnh poster, đã nén và đặt trong `public/combo/`
+
+Khi có poster mới, chép vào `public/combo/` rồi nén lại bằng:
+
+```bash
+node scripts/optimize-images.mjs public/combo --no-trim --max=1400 --quality=0.84
+```
+
+`--no-trim` để giữ nguyên bố cục poster (không cắt viền như ảnh sản phẩm).

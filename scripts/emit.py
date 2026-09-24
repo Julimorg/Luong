@@ -244,12 +244,20 @@ def check_combo_links():
         return
     by_id = {p['id']: p for p in products}
     bad = []
-    for label, pid in re.findall(r'label:\s*"([^"]*)",\s*productId:\s*(\d+)', combo):
+    # label và productId có thể nằm trên cùng dòng hoặc cách nhau vài dòng.
+    pattern = r'label:\s*"([^"]*)",\s*\n?\s*productId:\s*(\d+)'
+    for label, pid in re.findall(pattern, combo):
         p = by_id.get(int(pid))
+        if not p:
+            bad.append((label, pid, 'KHÔNG TỒN TẠI'))
+            continue
+        # Nhãn trong combo có thể là dải công suất ("GoodWe 5–10 kW") nên chỉ
+        # cần khớp một phần với model hoặc tên sản phẩm là đủ.
         low = label.lower()
-        if not p or not (low in p['model'].lower() or low in p['name'].lower()
-                         or p['model'].lower() in low):
-            bad.append((label, pid, p['name'] if p else 'KHÔNG TỒN TẠI'))
+        words = {w for w in re.split(r'[^0-9a-zA-Z.\-/]+', low) if len(w) > 2}
+        target = (p['model'] + ' ' + p['name'] + ' ' + p['brand']).lower()
+        if not (words & set(re.split(r'[^0-9a-zA-Z.\-/]+', target))):
+            bad.append((label, pid, p['name']))
     if bad:
         print('\nCẢNH BÁO — comboData.ts trỏ sai sản phẩm, cần sửa productId:')
         for label, pid, actual in bad:

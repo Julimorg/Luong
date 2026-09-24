@@ -1,10 +1,16 @@
 /**
- * Nén ảnh sản phẩm trong public/products: cắt viền thừa, thu nhỏ và xuất .webp.
+ * Nén ảnh sang .webp: cắt viền thừa, thu nhỏ và giảm dung lượng.
  *
- *   node scripts/optimize-images.mjs
+ *   node scripts/optimize-images.mjs                            # ảnh sản phẩm
+ *   node scripts/optimize-images.mjs public/combo --no-trim --max=1400 --quality=0.82
  *
- * Chạy sau scripts/generate.py. Ảnh .png/.jpg gốc được thay bằng .webp cùng tên,
- * nên chạy tiếp scripts/emit.py để đường dẫn trong file TS trỏ đúng đuôi mới.
+ * Mặc định xử lý public/products sau khi chạy scripts/generate.py: ảnh gốc được
+ * thay bằng .webp cùng tên và đường dẫn trong scripts/.build/generated.json được
+ * cập nhật theo, nên chạy tiếp scripts/emit.py là file TS trỏ đúng đuôi mới.
+ *
+ * Với ảnh poster đã thiết kế sẵn (nền tràn viền) thì thêm --no-trim để giữ
+ * nguyên bố cục, chỉ thu nhỏ và nén lại.
+ *
  * Dùng Chromium có sẵn của Playwright (không cần cài thêm thư viện xử lý ảnh).
  */
 import { execFileSync } from "node:child_process";
@@ -24,10 +30,20 @@ async function loadPlaywright() {
 const pw = await loadPlaywright();
 const chromium = pw.chromium ?? pw.default?.chromium;
 
-const ROOT = "public/products";
-const MAX_EDGE = 900;   // cạnh dài nhất sau khi thu nhỏ (px)
-const QUALITY = 0.86;   // chất lượng webp
-const SRC_EXT = new Set([".png", ".jpg", ".jpeg"]);
+const args = process.argv.slice(2);
+const flag = (name, fallback) => {
+  const hit = args.find((a) => a.startsWith(`--${name}=`));
+  return hit ? Number(hit.split("=")[1]) : fallback;
+};
+const ROOT = args.find((a) => !a.startsWith("--")) ?? "public/products";
+const TRIM = !args.includes("--no-trim");   // cắt viền trắng quanh sản phẩm
+const MAX_EDGE = flag("max", 900);          // cạnh dài nhất sau khi thu nhỏ (px)
+const QUALITY = flag("quality", 0.86);      // chất lượng webp
+// Ảnh .webp cũng được nén lại khi không cắt viền (poster xuất từ phần mềm thiết
+// kế thường rất nặng); ở chế độ cắt viền thì chỉ nhận ảnh gốc png/jpg.
+const SRC_EXT = TRIM
+  ? new Set([".png", ".jpg", ".jpeg"])
+  : new Set([".png", ".jpg", ".jpeg", ".webp"]);
 
 function walk(dir) {
   const out = [];
@@ -55,11 +71,12 @@ let after = 0;
 for (const file of files) {
   const raw = readFileSync(file);
   before += raw.length;
-  const mime = extname(file).toLowerCase() === ".png" ? "image/png" : "image/jpeg";
+  const ext = extname(file).toLowerCase();
+  const mime = ext === ".png" ? "image/png" : ext === ".webp" ? "image/webp" : "image/jpeg";
   const dataUrl = `data:${mime};base64,${raw.toString("base64")}`;
 
   const result = await page.evaluate(
-    async ({ dataUrl, maxEdge, quality }) => {
+    async ({ dataUrl, maxEdge, quality, trim }) => {
       const img = new Image();
       img.src = dataUrl;
       await img.decode();
@@ -74,26 +91,29 @@ for (const file of files) {
       fctx.drawImage(img, 0, 0);
 
       // Cắt bỏ viền trắng thừa quanh sản phẩm.
-      const { data } = fctx.getImageData(0, 0, full.width, full.height);
-      let top = full.height, left = full.width, right = -1, bottom = -1;
-      for (let y = 0; y < full.height; y++) {
-        for (let x = 0; x < full.width; x++) {
-          const i = (y * full.width + x) * 4;
-          if (data[i] > 247 && data[i + 1] > 247 && data[i + 2] > 247) continue;
-          if (y < top) top = y;
-          if (y > bottom) bottom = y;
-          if (x < left) left = x;
-          if (x > right) right = x;
+      let top = 0, left = 0, right = full.width - 1, bottom = full.height - 1;
+      if (trim) {
+        const { data } = fctx.getImageData(0, 0, full.width, full.height);
+        top = full.height; left = full.width; right = -1; bottom = -1;
+        for (let y = 0; y < full.height; y++) {
+          for (let x = 0; x < full.width; x++) {
+            const i = (y * full.width + x) * 4;
+            if (data[i] > 247 && data[i + 1] > 247 && data[i + 2] > 247) continue;
+            if (y < top) top = y;
+            if (y > bottom) bottom = y;
+            if (x < left) left = x;
+            if (x > right) right = x;
+          }
         }
+        if (right < 0) {                    // ảnh trắng hoàn toàn -> giữ nguyên
+          top = 0; left = 0; right = full.width - 1; bottom = full.height - 1;
+        }
+        const pad = Math.round(Math.max(right - left, bottom - top) * 0.02);
+        left = Math.max(0, left - pad);
+        top = Math.max(0, top - pad);
+        right = Math.min(full.width - 1, right + pad);
+        bottom = Math.min(full.height - 1, bottom + pad);
       }
-      if (right < 0) {                      // ảnh trắng hoàn toàn -> giữ nguyên
-        top = 0; left = 0; right = full.width - 1; bottom = full.height - 1;
-      }
-      const pad = Math.round(Math.max(right - left, bottom - top) * 0.02);
-      left = Math.max(0, left - pad);
-      top = Math.max(0, top - pad);
-      right = Math.min(full.width - 1, right + pad);
-      bottom = Math.min(full.height - 1, bottom + pad);
 
       const cw = right - left + 1;
       const ch = bottom - top + 1;
@@ -114,7 +134,7 @@ for (const file of files) {
         from: `${img.naturalWidth}x${img.naturalHeight}`,
       };
     },
-    { dataUrl, maxEdge: MAX_EDGE, quality: QUALITY },
+    { dataUrl, maxEdge: MAX_EDGE, quality: QUALITY, trim: TRIM },
   );
 
   const dest = join(dirname(file), file.split("/").pop().replace(/\.[^.]+$/, ".webp"));
@@ -133,6 +153,7 @@ await browser.close();
 // Cập nhật lại đường dẫn ảnh trong dữ liệu đã sinh để emit.py ghi đúng đuôi .webp.
 const BUILD = "scripts/.build/generated.json";
 try {
+  if (ROOT !== "public/products") throw new Error("không phải ảnh sản phẩm, bỏ qua");
   const data = JSON.parse(readFileSync(BUILD, "utf8"));
   const toWebp = (src) => (src ? src.replace(/\.(png|jpe?g)$/i, ".webp") : src);
   for (const p of data.products) p.image = toWebp(p.image);
@@ -140,7 +161,7 @@ try {
   writeFileSync(BUILD, JSON.stringify(data, null, 1));
   console.log(`\nĐã cập nhật đường dẫn ảnh trong ${BUILD}`);
 } catch (err) {
-  console.warn(`Bỏ qua ${BUILD}: ${err.message}`);
+  console.log(`Không cập nhật ${BUILD}: ${err.message}`);
 }
 
 console.log(

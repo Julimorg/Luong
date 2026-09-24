@@ -64,38 +64,70 @@ function ComboDetailPanel({ combo }: { combo: ComboItem }) {
       ref={ref}
       className="grid grid-cols-1 gap-6 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm lg:grid-cols-[1.15fr_1fr] lg:gap-10 lg:p-8"
     >
-      {/* Điểm nổi bật */}
+      {/* Cột trái: thương hiệu, các con số chính và lợi ích của combo */}
       <div>
-        <div data-stagger className="mb-4 flex flex-wrap items-center gap-3">
+        <div data-stagger className="mb-3 flex flex-wrap items-center gap-2">
           <span
             className="rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white"
             style={{ backgroundColor: combo.brandColor }}
           >
             {combo.brand}
           </span>
-          <span className="flex items-center gap-1.5 text-sm font-extrabold" style={{ color: NAVY }}>
-            <BoltRoundedIcon sx={{ fontSize: 17, color: GOLD }} />
-            {combo.capacity}
-          </span>
-          <span className="text-sm text-gray-400">
-            Bảo hành đồng bộ{" "}
-            <span className="font-bold" style={{ color: NAVY }}>{combo.warrantyYears} năm</span>
-          </span>
+          {combo.specs.map((spec, i) => (
+            <span
+              key={spec}
+              className="flex items-center gap-1.5 rounded-full border border-gray-100 bg-gray-50 px-3 py-1 text-xs font-bold"
+              style={{ color: NAVY }}
+            >
+              {i === 0 && <BoltRoundedIcon sx={{ fontSize: 15, color: GOLD }} />}
+              {spec}
+            </span>
+          ))}
         </div>
 
-        <ul className="flex flex-col gap-2.5">
+        <p data-stagger className="mb-4 text-sm text-gray-400">
+          Bảo hành đồng bộ{" "}
+          <span className="font-bold" style={{ color: NAVY }}>
+            {combo.warrantyYears} năm
+          </span>{" "}
+          — {combo.warrantyNote}
+          {combo.warrantyFootnote && <span className="align-super text-[10px]">*</span>}
+        </p>
+
+        {combo.intro && (
+          <p data-stagger className="mb-4 text-sm leading-relaxed text-gray-500">
+            {combo.intro}
+          </p>
+        )}
+
+        <ul className="flex flex-col gap-3">
           {combo.highlights.map((h) => (
-            <li key={h} data-stagger className="flex items-start gap-2.5">
+            <li key={h.title} data-stagger className="flex items-start gap-2.5">
               <span
                 className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full"
                 style={{ backgroundColor: `${GOLD}1F`, color: GOLD }}
               >
                 <CheckRoundedIcon sx={{ fontSize: 13 }} />
               </span>
-              <span className="text-sm leading-snug text-gray-600">{h}</span>
+              <span className="min-w-0">
+                <span className="block text-sm font-bold leading-snug" style={{ color: NAVY }}>
+                  {h.title}
+                </span>
+                {h.description && (
+                  <span className="mt-0.5 block text-sm leading-snug text-gray-500">
+                    {h.description}
+                  </span>
+                )}
+              </span>
             </li>
           ))}
         </ul>
+
+        {combo.warrantyFootnote && (
+          <p data-stagger className="mt-4 text-xs italic text-gray-400">
+            * {combo.warrantyFootnote}
+          </p>
+        )}
       </div>
 
       {/* Thiết bị trong combo — bấm vào để mở trang sản phẩm */}
@@ -109,10 +141,17 @@ function ComboDetailPanel({ combo }: { combo: ComboItem }) {
               <>
                 <span className="min-w-0">
                   <span className="block text-[11px] uppercase tracking-wide text-gray-400">{d.role}</span>
-                  <span className="block truncate text-sm font-bold" style={{ color: NAVY }}>{d.label}</span>
+                  <span className="block text-sm font-bold leading-snug" style={{ color: NAVY }}>
+                    {d.label}
+                  </span>
+                  {d.note && (
+                    <span className="mt-0.5 block text-xs leading-snug text-gray-400">{d.note}</span>
+                  )}
                 </span>
                 <span className="flex flex-shrink-0 items-center gap-2">
-                  {d.quantity && <span className="text-xs text-gray-400">{d.quantity}</span>}
+                  {d.quantity && (
+                    <span className="text-right text-xs text-gray-400">{d.quantity}</span>
+                  )}
                   {d.productId && (
                     <ArrowForwardIcon
                       sx={{ fontSize: 15, color: GOLD }}
@@ -123,7 +162,7 @@ function ComboDetailPanel({ combo }: { combo: ComboItem }) {
               </>
             );
             const className =
-              "group flex items-center justify-between gap-3 rounded-xl border border-gray-100 px-4 py-3 no-underline transition-colors duration-200 hover:border-gray-200 hover:bg-gray-50";
+              "group flex items-start justify-between gap-3 rounded-xl border border-gray-100 px-4 py-3 no-underline transition-colors duration-200 hover:border-gray-200 hover:bg-gray-50";
             return d.productId ? (
               <Link key={d.role + d.label} data-stagger to={`/san-pham/${d.productId}`} className={className}>
                 {row}
@@ -282,6 +321,16 @@ export function ComboSection() {
   };
 
   const active = list[Math.min(index, count - 1)];
+
+  // Poster do hãng thiết kế có tỉ lệ 3:2 — dùng đúng tỉ lệ đó để chữ hai bên
+  // không bị cắt. Nếu còn combo chưa có ảnh poster thì giữ tỉ lệ cũ của poster
+  // dựng bằng CSS (cao hơn trên màn hẹp để chữ vẫn đọc được).
+  const slideRatio = list.every((c) => c.poster)
+    ? 3 / 2
+    : metrics.compact
+      ? 4 / 3
+      : 16 / 10;
+
   if (!active) return null;
 
   return (
@@ -316,7 +365,7 @@ export function ComboSection() {
           ref={stageRef}
           className="relative mb-6 select-none"
           style={{
-            height: metrics.slideW * (metrics.compact ? 0.75 : 0.625) + 24,
+            height: metrics.slideW / slideRatio + 24,
             touchAction: "pan-y",
           }}
           onMouseEnter={() => setPaused(true)}
@@ -347,7 +396,7 @@ export function ComboSection() {
                 className="absolute overflow-hidden rounded-2xl bg-white shadow-xl ring-1 ring-black/5"
                 style={{
                   width: metrics.slideW,
-                  aspectRatio: metrics.compact ? "4 / 3" : "16 / 10",
+                  aspectRatio: slideRatio,
                   willChange: "transform, opacity",
                   cursor: i === index ? "grab" : "pointer",
                 }}
