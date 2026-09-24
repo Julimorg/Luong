@@ -14,7 +14,7 @@ export const projectsHero = {
   headlineAccent: "VIETHUNGSOLAR đã bàn giao",
   description:
     "Từ nhà xưởng hàng MWp đến hệ áp mái hộ gia đình — mỗi dự án đều được khảo sát, thiết kế và thi công theo cùng một tiêu chuẩn kỹ thuật.",
-  backgroundImage: "/background/dashboard/hero_background.png",
+  backgroundImage: "/du-an/15-toan-canh-mai-nha-hang.webp",
   primaryCta: { label: "Nhận khảo sát miễn phí", to: "/lien-he" },
   secondaryCta: { label: "Xem thiết bị sử dụng", to: "/san-pham" },
 };
@@ -65,7 +65,7 @@ export const projects: Project[] = [
   {
     id: 7,
     category: "cong-nghiep",
-    image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1400&q=80",
+    image: "/du-an/09-ap-mai-khu-cong-nghiep.webp",
     title: "Khu công nghiệp VSIP – Bình Dương",
     summary:
       "Hệ áp mái quy mô lớn trải trên nhiều nhà xưởng trong khu công nghiệp, vận hành đồng bộ qua một hệ giám sát chung.",
@@ -82,7 +82,7 @@ export const projects: Project[] = [
   {
     id: 4,
     category: "cong-nghiep",
-    image: "https://images.unsplash.com/photo-1548337138-e87d889cc369?w=1400&q=80",
+    image: "/du-an/16-doi-thi-cong-tren-mai.webp",
     title: "Nhà máy Cà Phê Chính xác – Đồng Nai",
     summary:
       "Hệ 5 MWp cấp điện trực tiếp cho dây chuyền rang xay hoạt động liên tục, giảm mạnh chi phí điện giờ cao điểm.",
@@ -99,7 +99,7 @@ export const projects: Project[] = [
   {
     id: 2,
     category: "nha-may",
-    image: "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1000&q=80",
+    image: "/du-an/07-ap-mai-nha-xuong.webp",
     title: "Nhà máy Bao bì Tân Tiến – Bình Dương",
     summary:
       "Toàn bộ diện tích mái nhà xưởng được tận dụng, hệ thống đấu nối không làm gián đoạn sản xuất.",
@@ -115,7 +115,7 @@ export const projects: Project[] = [
   {
     id: 1,
     category: "nha-may",
-    image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1000&q=80",
+    image: "/du-an/10-phong-inverter.webp",
     title: "Nhà máy May Việt Tân – Hưng Yên",
     summary:
       "Hệ hoà lưới 1,2 MWp cho nhà máy may, bù phần lớn lượng điện tiêu thụ trong giờ hành chính.",
@@ -131,7 +131,7 @@ export const projects: Project[] = [
   {
     id: 3,
     category: "doanh-nghiep",
-    image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1000&q=80",
+    image: "/du-an/01-thi-cong-ap-mai.webp",
     title: "Trường Quốc tế Việt Úc – TP. HCM",
     summary:
       "Thi công theo tiến độ nghỉ hè để không ảnh hưởng việc dạy và học, kết hợp mái che sân trường.",
@@ -147,7 +147,7 @@ export const projects: Project[] = [
   {
     id: 5,
     category: "doanh-nghiep",
-    image: "https://images.unsplash.com/photo-1521618755572-156ae0cdd74d?w=1000&q=80",
+    image: "/du-an/14-khao-sat-san-thuong.webp",
     title: "Tòa nhà văn phòng – Hà Nội",
     summary:
       "Hệ áp mái cho toà văn phòng, ưu tiên phần tải điều hoà vận hành ban ngày.",
@@ -163,7 +163,7 @@ export const projects: Project[] = [
   {
     id: 6,
     category: "ho-gia-dinh",
-    image: "https://images.unsplash.com/photo-1613665813446-82a78c468a1d?w=1000&q=80",
+    image: "/du-an/04-tu-dien-hybrid-goodwe.webp",
     title: "Biệt thự gia đình – Đà Nẵng",
     summary:
       "Hệ hybrid 10 kWp kèm pin lưu trữ, duy trì các tải quan trọng khi lưới điện gặp sự cố.",
@@ -179,7 +179,7 @@ export const projects: Project[] = [
   {
     id: 8,
     category: "ho-gia-dinh",
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1000&q=80",
+    image: "/du-an/11-ap-mai-nha-pho.webp",
     title: "Nhà phố khu dân cư – TP. HCM",
     summary:
       "Giải pháp gọn cho mái nhà phố diện tích hạn chế, lắp đặt và nghiệm thu trong 3 ngày.",
@@ -195,7 +195,7 @@ export const projects: Project[] = [
   {
     id: 9,
     category: "nha-may",
-    image: "https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?w=1000&q=80",
+    image: "/du-an/13-nha-xuong-dang-xay.webp",
     title: "Nhà máy Dệt may Thắng Lợi – Long An",
     summary:
       "Dự án 3,5 MWp đang trong giai đoạn lắp đặt khung và tấm pin trên mái nhà xưởng dệt.",

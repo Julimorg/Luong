@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
 import SearchOffRoundedIcon from "@mui/icons-material/SearchOffRounded";
 import {
   categoryLabels,
@@ -8,7 +9,7 @@ import {
   type ProjectFilterValue,
 } from "../../data/projectData";
 import { useScrollReveal } from "../../hooks/useScrollReveal";
-import { ProjectIndex } from "./components/ProjectIndex";
+import { ProjectCard } from "./components/ProjectCard";
 import { ProjectsHero } from "./components/ProjectsHero";
 import { FeaturedProject } from "./components/FeaturedProject";
 import { ProjectAssuranceSection } from "./components/ProjectAssuranceSection";
@@ -37,6 +38,16 @@ function Reveal({
     </div>
   );
 }
+
+const gridVariants: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08 } },
+};
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 22 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
+  exit: { opacity: 0, scale: 0.96, transition: { duration: 0.2 } },
+};
 
 // ─── Nút lọc dùng chung ────────────────────────────────────────
 function FilterChip({
@@ -240,10 +251,21 @@ export default function ProjectsPage() {
             </div>
           </Reveal>
 
-          {/* Danh mục công trình — dạng hồ sơ năng lực, đọc theo hàng */}
-          {filtered.length > 0 && (
-            <ProjectIndex key={`${status}-${category}`} projects={filtered} />
-          )}
+          {/* Lưới dự án */}
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={gridVariants}
+            className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
+          >
+            <AnimatePresence mode="popLayout">
+              {filtered.map((project) => (
+                <motion.div key={project.id} layout variants={cardVariants} exit="exit">
+                  <ProjectCard project={project} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
 
           {filtered.length === 0 && (
             <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-gray-200 py-16 text-center">
