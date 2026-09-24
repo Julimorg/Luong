@@ -117,7 +117,7 @@ export const combos: ComboItem[] = [
     ],
     devices: [
       { role: "Biến tần", label: "X1-HYB-6.0-LV-EU", productId: 14, quantity: "01 bộ" },
-      { role: "Pin lưu trữ", label: "T-BAT-SYS-LV D150", productId: 61, quantity: "01 bộ" },
+      { role: "Pin lưu trữ", label: "T-BAT-SYS-LV D150", productId: 60, quantity: "01 bộ" },
       { role: "Tấm pin", label: "TCL Solar N-Type TOPCon 615W", productId: 4, quantity: "12 tấm" },
     ],
   },

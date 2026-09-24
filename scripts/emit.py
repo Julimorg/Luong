@@ -231,3 +231,31 @@ with open('src/data/productDetailData.ts', 'w', encoding='utf-8') as f:
     f.write(dhead + '\n'.join(dlines) + '\n];\n')
 
 print('wrote src/data/productData.ts and src/data/productDetailData.ts')
+
+
+# ── Kiểm tra combo còn trỏ đúng sản phẩm không ──────────────────────
+# ID sản phẩm được đánh lại mỗi lần sinh dữ liệu, nên comboData.ts có thể trỏ
+# nhầm sau khi thêm/bớt hồ sơ. In cảnh báo để sửa tay thay vì để lỗi âm thầm.
+def check_combo_links():
+    import re
+    try:
+        combo = open('src/data/comboData.ts', encoding='utf-8').read()
+    except FileNotFoundError:
+        return
+    by_id = {p['id']: p for p in products}
+    bad = []
+    for label, pid in re.findall(r'label:\s*"([^"]*)",\s*productId:\s*(\d+)', combo):
+        p = by_id.get(int(pid))
+        low = label.lower()
+        if not p or not (low in p['model'].lower() or low in p['name'].lower()
+                         or p['model'].lower() in low):
+            bad.append((label, pid, p['name'] if p else 'KHÔNG TỒN TẠI'))
+    if bad:
+        print('\nCẢNH BÁO — comboData.ts trỏ sai sản phẩm, cần sửa productId:')
+        for label, pid, actual in bad:
+            print(f'  "{label}" -> productId {pid} hiện là "{actual}"')
+    else:
+        print('comboData.ts: tất cả productId đều khớp.')
+
+
+check_combo_links()

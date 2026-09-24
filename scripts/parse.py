@@ -1,4 +1,4 @@
-"""Parse the .docx spec sheets under documents/product-data-documents into JSON."""
+"""Parse the .docx spec sheets under documents/product-new-docu into JSON."""
 import json
 import os
 import re
@@ -9,7 +9,7 @@ W = '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
 R = '{http://schemas.openxmlformats.org/officeDocument/2006/relationships}'
 RELNS = '{http://schemas.openxmlformats.org/package/2006/relationships}'
 
-ROOT = 'documents/product-data-documents'
+ROOT = 'documents/product-new-docu'
 
 SECTION_ALIASES = {
     'mô tả tổng quan': 'description',
@@ -21,6 +21,7 @@ SECTION_ALIASES = {
     'điểm nổi bật': 'highlights',
     'bảo hành chính hãng': 'warranty',
     'tài liệu tải về': 'documents',
+    'tài liệu tham khảo': 'documents',
     'ứng dụng phù hợp': 'applications',
     'thông tin đầu trang': 'header',
 }
@@ -97,21 +98,54 @@ def is_noise(text):
     return 'viethungsolar' in low and ('nên ghi' in low or 'khuyên' in low or 'đề xuất' in low)
 
 
+def group_runs(runs):
+    """Gom các run liên tiếp cùng kiểu đậm/thường thành từng khối."""
+    groups = []
+    for bold, text in runs:
+        if groups and groups[-1][0] == bold:
+            groups[-1][1] += text
+        else:
+            groups.append([bold, text])
+    return groups
+
+
 def split_highlight_runs(runs, fallback_text):
-    """Title = leading bold run(s); description = the rest."""
-    if runs and runs[0][0]:
-        title, rest, in_title = [], [], True
-        for bold, text in runs:
-            if in_title and bold:
-                title.append(text)
-            else:
-                in_title = False
-                rest.append(text)
-        t = re.sub(r'\s+', ' ', ''.join(title)).strip(' :–—-')
-        d = re.sub(r'\s+', ' ', ''.join(rest)).strip(' :–—-')
+    """Trả về [(tiêu đề, mô tả)…] cho một đoạn văn.
+
+    Một số hồ sơ gộp cả 6 điểm nổi bật vào chung một đoạn, mỗi điểm là một
+    run in đậm kết thúc bằng dấu ":" rồi tới phần mô tả không in đậm. Khi
+    nhận ra đúng khuôn đó thì tách thành nhiều điểm; còn lại giữ nguyên
+    cách cũ (khối in đậm đầu tiên là tiêu đề, phần sau là mô tả).
+    """
+    groups = group_runs(runs)
+    bolds = [g for g in groups if g[0]]
+    if (len(bolds) > 1 and groups and groups[0][0]
+            and all(g[1].strip().endswith(':') for g in bolds)):
+        out, i = [], 0
+        while i < len(groups):
+            if not groups[i][0]:
+                i += 1
+                continue
+            t = re.sub(r'\s+', ' ', groups[i][1]).strip(' :–—-')
+            d = ''
+            if i + 1 < len(groups) and not groups[i + 1][0]:
+                d = re.sub(r'\s+', ' ', groups[i + 1][1]).strip(' :–—-')
+                i += 1
+            if t:
+                out.append((t, d))
+            i += 1
+        if out:
+            return out
+
+    if groups and groups[0][0]:
+        t = re.sub(r'\s+', ' ', groups[0][1]).strip(' :–—-')
+        d = re.sub(r'\s+', ' ', ''.join(g[1] for g in groups[1:])).strip(' :–—-')
+        # Cả đoạn đều in đậm -> chưa tách được mô tả, thử tách bằng dấu gạch.
+        if t and not d:
+            return [split_highlight(t)]
         if t:
-            return t, d
-    return split_highlight(fallback_text)
+            return [(t, d)]
+    return [split_highlight(fallback_text)]
 
 
 def split_highlight(text):
@@ -152,9 +186,9 @@ def parse(path):
                 if is_noise(payload):
                     doc['notes'].append(payload)
                     continue
-                title, desc = split_highlight_runs(runs, payload)
-                if title:
-                    doc['highlights'].append({'title': title, 'description': desc})
+                for title, desc in split_highlight_runs(runs, payload):
+                    if title:
+                        doc['highlights'].append({'title': title, 'description': desc})
             elif section == 'warranty':
                 doc['warranty'].append(payload)
             elif section == 'documents':
@@ -182,10 +216,11 @@ def parse(path):
                 doc['specs'].append({'label': label, 'value': value})
 
     head_lines = [h for h in head_lines if not re.match(r'^\s*\d+[.)]\s*$', h)]
-    if head_lines:
-        doc['brandRaw'] = head_lines[0]
     if len(head_lines) > 1:
-        doc['title'] = head_lines[1]
+        doc['brandRaw'], doc['title'] = head_lines[0], head_lines[1]
+    elif head_lines:
+        # Thiếu dòng thương hiệu ở đầu trang -> lấy thương hiệu từ bảng thông số.
+        doc['title'] = head_lines[0]
     return doc
 
 

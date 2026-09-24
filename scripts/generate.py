@@ -11,16 +11,30 @@ from parse import parse, ROOT  # noqa: E402
 
 OUT_IMG_DIR = 'public/products'
 
+# Chuẩn hoá tên thương hiệu: khoá viết thường (hồ sơ ghi hoa/thường lẫn lộn,
+# và có file gõ thiếu chữ - ví dụ "NVT" thay vì "INVT").
 BRAND_NAMES = {
-    'GoodWe': 'GoodWe',
-    'SolaX Power': 'SolaX',
-    'Sungrow': 'Sungrow',
-    'INVT': 'INVT',
-    'Lithium Valley': 'Lithium Valley',
-    'TCL Solar': 'TCL Solar',
-    'JA Solar': 'JA Solar',
-    'LONGi': 'LONGi',
+    'goodwe': 'GoodWe',
+    'solax power': 'SolaX',
+    'solax': 'SolaX',
+    'sungrow': 'Sungrow',
+    'invt': 'INVT',
+    'nvt': 'INVT',
+    'lithium valley': 'Lithium Valley',
+    'lithium': 'Lithium Valley',
+    'tcl solar': 'TCL Solar',
+    'tcl': 'TCL Solar',
+    'ja solar': 'JA Solar',
+    'longi': 'LONGi',
 }
+
+
+def brand_name(*candidates):
+    for c in candidates:
+        hit = BRAND_NAMES.get((c or '').strip().lower())
+        if hit:
+            return hit
+    return ''
 BRAND_COLORS = {
     'GoodWe': '#e8001c',
     'SolaX': '#00a0e9',
@@ -70,32 +84,54 @@ def spec_of(doc, *keys):
     return ''
 
 
-def classify(doc):
-    brand = BRAND_NAMES.get(doc['brandRaw'].strip(), '') or BRAND_NAMES.get(spec_of(doc, 'thương hiệu'), '')
-    text = ' '.join([
-        spec_of(doc, 'loại sản phẩm', 'loại thiết bị', 'loại inverter', 'loại pin'),
-        doc['title'],
-        doc['brandRaw'],
-        os.path.basename(doc['file']),
-    ]).lower()
+def strip_accents(text):
+    text = text.replace('Đ', 'D').replace('đ', 'd')
+    return ''.join(c for c in unicodedata.normalize('NFD', text)
+                   if unicodedata.category(c) != 'Mn').lower()
 
-    if brand in ('TCL Solar', 'JA Solar', 'LONGi'):
+
+def classify(doc):
+    """Phân loại theo đúng cây thư mục hồ sơ, kèm vài ngoại lệ về phụ kiện.
+
+    documents/product-new-docu/
+      TẤM PIN NĂNG LƯỢNG/<hãng>/                      -> tấm pin
+      HÒA LƯỚI, HYBRID ÁP THẤP/INVERTER/<hãng>/       -> inverter hybrid áp thấp
+      HÒA LƯỚI, HYBRID ÁP THẤP/BATTERY ÁP THẤP/…      -> pin áp thấp
+      HOÀ LƯỚI, HYBRID ÁP CAO/INVERTER/HYBRID …/      -> inverter hybrid áp cao
+      HOÀ LƯỚI, HYBRID ÁP CAO/INVERTER/HÒA LƯỚI …/    -> inverter hòa lưới
+      HOÀ LƯỚI, HYBRID ÁP CAO/BATTERY ÁP CAO/…        -> pin áp cao
+    """
+    parts = [strip_accents(p) for p in
+             os.path.relpath(doc['file'], ROOT).split(os.sep)]
+    seg = parts[0] if parts else ''
+    sub = parts[1] if len(parts) > 1 else ''
+    kind = parts[2] if len(parts) > 2 else ''
+    high_voltage = 'ap cao' in seg
+
+    text = strip_accents(' '.join([
+        doc['title'],
+        spec_of(doc, 'loại sản phẩm', 'loại thiết bị', 'loại inverter', 'loại pin'),
+        os.path.basename(doc['file']),
+    ]))
+
+    # Bộ chuyển mạch tĩnh (STS) nằm chung thư mục inverter hybrid nhưng là
+    # thiết bị riêng, tách ra để khách không nhầm với inverter.
+    if 'bo chuyen mach' in text or 'transfer switch' in text or re.search(r'\bsts\b', text):
+        return 'inverter', G_SWITCH
+
+    if 'tam pin' in seg:
         return 'tam-pin', G_PANEL
 
-    is_battery = bool(re.search(r'pin lưu trữ|battery|bms|lfp|module pin|khung|bệ đỡ|pcu|pack|t-bat|tb-hr|flex16|lv-bat|lv-bst|bat-lv', text))
-    if is_battery:
-        if re.search(r'bms|pcu|khung|bệ đỡ|hbox|rack|quản lý', text):
+    if sub.startswith('battery'):
+        # BMS, hộp điều khiển, khung rack… là phụ kiện của hệ pin.
+        if re.search(r'bms|pcu|hbox|rack|khung do|bo quan ly', text):
             return 'pin-luu-tru', G_BAT_ACC
-        if re.search(r'cao áp|high voltage|\bhv\b|điện áp cao|stackable|c&i', text):
-            return 'pin-luu-tru', G_BAT_HV
-        return 'pin-luu-tru', G_BAT_LV
+        return 'pin-luu-tru', G_BAT_HV if high_voltage else G_BAT_LV
 
-    if 'transfer switch' in text or re.search(r'\bsts\b', text):
-        return 'inverter', G_SWITCH
-    if 'hybrid' in text:
-        if re.search(r'high voltage|\bhv\b|điện áp cao|áp cao|c&i', text):
-            return 'inverter', G_HYBRID_HV
-        return 'inverter', G_HYBRID_LV
+    if 'hoa luoi' in kind:
+        return 'inverter', G_ONGRID
+    if 'hybrid' in kind or 'hybrid' in text:
+        return 'inverter', G_HYBRID_HV if high_voltage else G_HYBRID_LV
     return 'inverter', G_ONGRID
 
 
@@ -194,8 +230,9 @@ def main():
 
     records = []
     for doc in docs:
-        brand_raw = doc['brandRaw'].strip()
-        brand = BRAND_NAMES.get(brand_raw) or BRAND_NAMES.get(spec_of(doc, 'thương hiệu'), spec_of(doc, 'thương hiệu'))
+        folder_brand = os.path.relpath(doc['file'], ROOT).split(os.sep)
+        brand = (brand_name(doc['brandRaw'], spec_of(doc, 'thương hiệu'), *folder_brand)
+                 or spec_of(doc, 'thương hiệu'))
         title = doc['title'] or doc['brandRaw']
         model = (spec_of(doc, 'model chính thức', 'model thương mại', 'model')
                  or os.path.splitext(os.path.basename(doc['file']))[0])
@@ -212,6 +249,17 @@ def main():
         category, group = classify(doc)
         records.append({'doc': doc, 'brand': brand, 'model': model, 'name': name,
                         'category': category, 'group': group})
+
+    # Hai biến thể cùng công suất (ví dụ X1-HYB-6.0-LV và X1-HYB-6.0-LV-EU) rút
+    # gọn ra cùng một tên -> ghép thêm mã model để khách phân biệt được.
+    by_name = {}
+    for r in records:
+        by_name.setdefault((r['brand'], r['name'].lower()), []).append(r)
+    for group in by_name.values():
+        if len(group) > 1:
+            for r in group:
+                if slugify(r['model']) not in slugify(r['name']):
+                    r['name'] = f"{r['name']} – {r['model']}"
 
     records.sort(key=lambda r: (CATEGORY_ORDER.index(r['category']),
                                 GROUP_ORDER.get(r['group'], 9),

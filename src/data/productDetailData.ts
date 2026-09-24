@@ -769,7 +769,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 8,
     images: [
-      "/products/inverter/goodwe-goodwe.png",
+      "/products/inverter/goodwe-goodwe.webp",
     ],
     description:
       "GoodWe GW10K-ES-C10 là inverter Hybrid 1 pha công suất 10kW, thiết kế cho hệ thống điện mặt trời dân dụng công suất lớn kết hợp lưu trữ điện áp thấp 48V. Inverter hỗ trợ tối đa 20kWp PV, 2 MPPT với tổng cộng 4 string, dòng sạc/xả pin liên tục 200A và công suất xả pin tối đa 11kW. Thiết bị còn hỗ trợ nguồn dự phòng, máy phát điện, Smart Load, vận hành microgrid và ghép song song tối đa 6 inverter.",
@@ -897,7 +897,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 9,
     images: [
-      "/products/inverter/goodwe-goodwe.png",
+      "/products/inverter/goodwe-goodwe.webp",
     ],
     description:
       "GoodWe GW5000-ES-C10 thuộc dòng ES Uniq, là inverter Hybrid 1 pha công suất 5kW sử dụng pin lưu trữ điện áp thấp 48V. Thiết bị hỗ trợ tối đa 10kWp PV, 2 MPPT độc lập, dòng sạc/xả pin liên tục tới 120A và khả năng Backup chuyển mạch dưới 4ms. ES Uniq còn hỗ trợ kết nối máy phát điện, tải thông minh, vận hành microgrid và ghép song song tối đa 6 inverter, phù hợp cho hệ thống điện mặt trời Hybrid dân dụng cần khả năng dự phòng và mở rộng linh hoạt.",
@@ -1019,7 +1019,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 10,
     images: [
-      "/products/inverter/goodwe-goodwe.png",
+      "/products/inverter/goodwe-goodwe.webp",
     ],
     description:
       "GoodWe GW6000-ES-C10 là inverter Hybrid 1 pha công suất 6kW, sử dụng hệ pin lưu trữ điện áp thấp 48V. Thiết bị hỗ trợ công suất PV đầu vào tối đa 12kWp, 2 MPPT độc lập, dòng sạc/xả pin liên tục tới 140A, đồng thời cung cấp nguồn Backup với công suất đỉnh tới 12kVA trong 10 giây. ES Uniq còn hỗ trợ máy phát điện, tải thông minh, vận hành microgrid và ghép song song tối đa 6 inverter, phù hợp cho hệ thống điện mặt trời Hybrid dân dụng có nhu cầu tải và lưu trữ lớn.",
@@ -1144,7 +1144,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 11,
     images: [
-      "/products/inverter/goodwe-goodwe.png",
+      "/products/inverter/goodwe-goodwe.webp",
     ],
     description:
       "GoodWe GW8000-ES-C10 là inverter Hybrid 1 pha công suất 8kW dành cho hệ thống điện mặt trời dân dụng kết hợp lưu trữ áp thấp 48V. Thiết bị hỗ trợ đầu vào PV tối đa 16kWp, 2 MPPT, dòng sạc/xả pin liên tục tới 160A và công suất xả pin tối đa 8,8kW. Inverter hỗ trợ nguồn dự phòng với công suất đỉnh 16kVA trong 10 giây, chuyển mạch Backup dưới 4ms, đồng thời tích hợp cổng 3 trong 1 cho máy phát điện, Smart Load hoặc inverter hòa lưới.",
@@ -1267,139 +1267,11 @@ export const productDetails: ProductDetail[] = [
       "Hệ thống Microgrid dân dụng",
     ],
   },
-  // ── GoodWe · Inverter Hybrid GoodWe GW10KN-ET 10kW 3 Pha ──
+  // ── SolaX · Inverter Hybrid SolaX X1-HYB 5kW ──
   {
     productId: 12,
     images: [
-      "/products/inverter/goodwe-gw10kn-et.png",
-    ],
-    description:
-      "GoodWe GW10KN-ET là biến tần Hybrid 3 pha công suất 10kW, thuộc dòng ET PLUS+ Series 16A, được thiết kế cho hệ thống điện mặt trời kết hợp pin lưu trữ cao áp. Inverter hỗ trợ công suất PV đầu vào tối đa 15kW, 2 MPPT với dòng vào tối đa 16A/MPPT, kết nối pin Li-ion điện áp 180–600V và công suất sạc/xả tối đa 10kW. Đây là dòng phù hợp cho hộ gia đình 3 pha, biệt thự và các cơ sở dịch vụ cần vừa hòa lưới, vừa lưu trữ và có nguồn dự phòng khi mất điện. Lưu ý model: GW10KN-ET là phiên bản ET PLUS+ 16A. Không nên nhầm với GW10K-ET đời trước, vì GoodWe công bố GW10KN-ET hỗ trợ 16A/MPPT, trong khi GW10K-ET là 12,5A/MPPT.",
-    quickSpecs: [
-      { label: "Công suất inverter", value: "10 kW – 3 pha" },
-      { label: "Công suất PV tối đa", value: "15 kWp" },
-      { label: "Điện áp pin lưu trữ", value: "180 – 600 V" },
-      { label: "MPPT", value: "2 MPPT – 16 A/MPPT" },
-      { label: "Hiệu suất tối đa", value: "98,2%" },
-      { label: "Cấp bảo vệ", value: "IP66" },
-    ],
-    highlights: [
-      {
-        title: "Vượt công suất DC đến 150%",
-        description:
-          "GW10KN-ET cho phép đấu tối đa 15kWp PV trên inverter AC 10kW, giúp tăng khả năng khai thác sản lượng vào những thời điểm bức xạ thấp. GoodWe công bố ET PLUS+ hỗ trợ 150% DC oversizing.",
-      },
-      {
-        title: "Dòng PV 16A – phù hợp module công suất lớn",
-        description:
-          "phiên bản GW10KN-ET được nâng dòng đầu vào lên 16A cho mỗi MPPT, thuận lợi hơn khi kết hợp các tấm pin thế hệ mới có dòng làm việc cao.",
-      },
-      {
-        title: "Pin lưu trữ cao áp 180–600V",
-        description:
-          "hỗ trợ pin Li-ion HV với dòng sạc/xả liên tục 25A và công suất sạc/xả tối đa 10kW.",
-      },
-      {
-        title: "Backup mạnh tới 16,5kVA trong 60 giây",
-        description:
-          "đầu ra dự phòng danh định đạt 10kVA và có khả năng chịu công suất ngắn hạn cao khi PV và battery đáp ứng đủ năng lượng.",
-      },
-      {
-        title: "Chuyển mạch UPS dưới 10ms",
-        description:
-          "GoodWe công bố ET PLUS+ hỗ trợ chuyển sang nguồn Backup ở cấp UPS <10ms, phù hợp cho các tải cần duy trì liên tục.",
-      },
-      {
-        title: "Đầu ra không cân bằng 100%",
-        description:
-          "hỗ trợ tải giữa các pha không đồng đều trong cả chế độ tự tiêu thụ và Backup, đặc biệt hữu ích cho nhà ở 3 pha.",
-      },
-      {
-        title: "Peak Shaving & Smart Load Control",
-        description:
-          "hỗ trợ cắt giảm phụ tải đỉnh và điều khiển tải thông minh, giúp ưu tiên sử dụng năng lượng mặt trời và pin lưu trữ vào thời điểm phù hợp.",
-      },
-      {
-        title: "Không quạt – vận hành êm",
-        description:
-          "inverter sử dụng đối lưu tự nhiên, phù hợp lắp đặt tại khu vực dân dụng; manual GoodWe công bố mức tiếng ồn dưới 30dB.",
-      },
-    ],
-    fullSpecs: [
-      { label: "Thương hiệu", value: "GoodWe" },
-      { label: "Model", value: "GW10KN-ET" },
-      { label: "Dòng sản phẩm", value: "ET PLUS+ Series 16A" },
-      { label: "Loại sản phẩm", value: "Inverter Hybrid 3 pha" },
-      { label: "Công suất đầu ra danh định", value: "10.000 W" },
-      { label: "Công suất biểu kiến tối đa lên lưới", value: "11.000 VA" },
-      { label: "Điện áp AC danh định", value: "380 / 400 V, 3L/N/PE" },
-      { label: "Tần số lưới", value: "50 / 60 Hz" },
-      { label: "Dòng AC tối đa phát lên lưới", value: "16,5 A" },
-      { label: "Công suất PV đầu vào tối đa", value: "15.000 W" },
-      { label: "Điện áp PV tối đa", value: "1.000 V*" },
-      { label: "Điện áp PV danh định", value: "620 V" },
-      { label: "Điện áp khởi động PV", value: "180 V" },
-      { label: "Dải điện áp MPPT", value: "200 – 850 V" },
-      { label: "Số MPPT", value: "2" },
-      { label: "Số string / MPPT", value: "1 / 1" },
-      { label: "Dòng đầu vào tối đa / MPPT", value: "16 A" },
-      { label: "Dòng ngắn mạch tối đa / MPPT", value: "21,2 A" },
-      { label: "Loại pin lưu trữ", value: "Li-ion" },
-      { label: "Điện áp pin danh định", value: "500 V" },
-      { label: "Dải điện áp pin", value: "180 – 600 V" },
-      { label: "Số đầu vào pin", value: "1" },
-      { label: "Dòng sạc liên tục tối đa", value: "25 A" },
-      { label: "Dòng xả liên tục tối đa", value: "25 A" },
-      { label: "Công suất sạc tối đa", value: "10.000 W" },
-      { label: "Công suất xả tối đa", value: "10.000 W" },
-      { label: "Công suất Backup danh định", value: "10.000 VA" },
-      { label: "Công suất Backup tối đa khi mất lưới", value: "10.000 VA; 16.500 VA trong 60 giây **" },
-      { label: "Dòng Backup tối đa", value: "16,5 A" },
-      { label: "Hiệu suất tối đa", value: "98,2%" },
-      { label: "Hiệu suất Châu Âu", value: "97,5%" },
-      { label: "Hiệu suất Battery → AC tối đa", value: "97,5%" },
-      { label: "Hiệu suất MPPT", value: "99,9%" },
-      { label: "THD đầu ra", value: "<3%" },
-      { label: "Giao tiếp BMS", value: "CAN / RS485" },
-      { label: "Giao tiếp Smart Meter", value: "RS485" },
-      { label: "Giám sát", value: "WiFi; WiFi + LAN / 4G tùy chọn" },
-      { label: "Giao diện", value: "LED, APP" },
-      { label: "Làm mát", value: "Đối lưu tự nhiên – không quạt" },
-      { label: "Nhiệt độ hoạt động", value: "-35°C đến +60°C" },
-      { label: "Độ ẩm tương đối", value: "0 – 95%" },
-      { label: "Độ cao hoạt động tối đa", value: "4.000 m" },
-      { label: "Tự tiêu thụ ban đêm", value: "<15 W" },
-      { label: "Cấp bảo vệ", value: "IP66" },
-      { label: "Kiểu lắp đặt", value: "Treo tường" },
-    ],
-    documents: [
-      { label: "Datasheet GoodWe ET PLUS+ 16A – Tiếng Việt PDF", fileUrl: "https://vn.goodwe.com/Ftp/Downloads/Datasheet/VN/GW_ET%20PLUS%2B%2016A_Datasheet_VN.pdf" },
-      { label: "Trang sản phẩm ET PLUS+ chính hãng GoodWe Việt Nam", fileUrl: "https://vn.goodwe.com/et-plus-series-three-phase-hybrid-solar-inverter" },
-      { label: "Trang sản phẩm GW10KN-ET tại DAT Solar", fileUrl: "https://datsolar.com/p/inverter-hybrid-goodwe-et-plus-16a-10kw/" },
-      { label: "Chính sách bảo hành GoodWe Việt Nam", fileUrl: "https://vn.goodwe.com/warranty" },
-    ],
-    warranty: "Bảo hành chính hãng: 5 năm – hỗ trợ gia hạn theo chính sách GoodWe.",
-    origin:   "Đang cập nhật",
-    tags: [
-      "ET PLUS+ Series 16A",
-      "Hybrid áp thấp",
-    ],
-    applications: [
-      "Hộ gia đình sử dụng điện 3 pha",
-      "Biệt thự",
-      "Văn phòng",
-      "Showroom",
-      "Cơ sở dịch vụ",
-      "Hệ Hybrid có lưu trữ",
-      "Backup khi mất điện",
-      "Peak Shaving",
-    ],
-  },
-  // ── SolaX · Inverter Hybrid SolaX X1-HYB 5kW ──
-  {
-    productId: 13,
-    images: [
-      "/products/inverter/solax-solax.png",
+      "/products/inverter/solax-x1-hyb-5kw-x1-hyb-5-0-lv-eu-5-6.webp",
     ],
     description:
       "SolaX X1-HYB-5.0-LV-EU là inverter Hybrid 1 pha công suất 5kW, sử dụng hệ pin lưu trữ áp thấp 40–60V. Thiết bị hỗ trợ công suất PV khuyến nghị tới 10kWp, 2 MPPT độc lập, dòng sạc/xả pin tối đa 120A và công suất EPS đỉnh tới 10kVA trong 10 giây. Inverter còn hỗ trợ kết nối song song, Microgrid, máy phát điện và quản lý tải thông minh, phù hợp cho hệ thống điện mặt trời lưu trữ dân dụng.",
@@ -1510,123 +1382,11 @@ export const productDetails: ProductDetail[] = [
       "Tối ưu điện mặt trời tự dùng",
     ],
   },
-  // ── SolaX · Inverter Hybrid SolaX X1-HYB 6kW ──
+  // ── SolaX · Inverter Hybrid SolaX X1-HYB 6kW – X1-HYB-6.0-LV ──
   {
-    productId: 14,
+    productId: 13,
     images: [
-      "/products/inverter/solax-solax.png",
-    ],
-    description:
-      "SolaX X1-HYB-6.0-LV-EU là inverter Hybrid 1 pha áp thấp công suất 6kW, thiết kế cho hệ thống điện mặt trời dân dụng kết hợp pin lưu trữ. Thiết bị hỗ trợ mảng PV khuyến nghị tối đa 12kWp, 2 MPPT độc lập, pin Lithium hoặc ắc quy chì trong dải 40–60V và dòng sạc/xả tối đa 120A. Ngõ EPS có khả năng đạt công suất đỉnh 12kVA trong 10 giây, thời gian chuyển mạch dưới 4ms, đồng thời hỗ trợ Microgrid, máy phát điện và ghép song song tối đa 3 inverter.",
-    quickSpecs: [
-      { label: "Công suất AC", value: "6 kW" },
-      { label: "Loại inverter", value: "Hybrid 1 pha – LV" },
-      { label: "PV tối đa khuyến nghị", value: "12 kWp" },
-      { label: "Số MPPT", value: "2 MPPT" },
-      { label: "Dòng sạc/xả pin", value: "120 A" },
-      { label: "Chuyển mạch EPS", value: "<4 ms" },
-    ],
-    highlights: [
-      {
-        title: "PV oversizing 200%",
-        description:
-          "Inverter 6kW hỗ trợ mảng PV khuyến nghị tới 12kWp, giúp tăng khả năng khai thác điện mặt trời vào sáng, chiều và những thời điểm bức xạ chưa đạt cực đại.",
-      },
-      {
-        title: "2 MPPT độc lập",
-        description:
-          "Hai MPPT với dòng tối đa 16A mỗi ngõ, thuận tiện khi bố trí hai hướng mái khác nhau và tương thích với nhiều module công suất cao.",
-      },
-      {
-        title: "Pin áp thấp 40–60V",
-        description:
-          "Hỗ trợ cả pin Lithium và ắc quy chì, dòng sạc/xả tối đa 120A, phù hợp với nhiều giải pháp lưu trữ LV.",
-      },
-      {
-        title: "EPS 200% trong 10 giây",
-        description:
-          "Công suất dự phòng định mức 6kVA và đạt tới 12kVA trong 10 giây, hỗ trợ tốt các tải có dòng khởi động cao.",
-      },
-      {
-        title: "Chuyển mạch <4ms",
-        description:
-          "Thời gian chuyển từ lưới sang nguồn EPS rất nhanh, giúp hạn chế gián đoạn khi mất điện.",
-      },
-      {
-        title: "Microgrid + Generator + ghép song song",
-        description:
-          "Hỗ trợ kết nối máy phát điện, chức năng Microgrid và ghép tối đa 3 inverter cho cả hòa lưới và độc lập.",
-      },
-    ],
-    fullSpecs: [
-      { label: "Thương hiệu", value: "SolaX Power" },
-      { label: "Model", value: "X1-HYB-6.0-LV-EU" },
-      { label: "Dòng sản phẩm", value: "X1-HYB-LV-EU" },
-      { label: "Loại inverter", value: "Hybrid – 1 pha – áp thấp" },
-      { label: "Công suất AC định mức", value: "6.000 W" },
-      { label: "Công suất biểu kiến định mức", value: "6.000 VA" },
-      { label: "PV tối đa khuyến nghị", value: "12.000 Wp" },
-      { label: "Điện áp PV tối đa", value: "550 V" },
-      { label: "Điện áp PV danh định", value: "360 V" },
-      { label: "Điện áp khởi động", value: "110 V" },
-      { label: "Dải điện áp MPPT", value: "80 – 520 V" },
-      { label: "Số MPPT / String", value: "2 / (1+1)" },
-      { label: "Dòng PV tối đa / MPPT", value: "16 A / 16 A" },
-      { label: "Dòng ngắn mạch / MPPT", value: "20 A / 20 A" },
-      { label: "Điện áp AC", value: "220 / 230 / 240 V" },
-      { label: "Dòng AC định mức @230V", value: "26,1 A" },
-      { label: "Dòng AC đầu vào tối đa", value: "40 A" },
-      { label: "Công suất AC đầu vào tối đa", value: "9.200 VA" },
-      { label: "Tần số", value: "50 / 60 Hz" },
-      { label: "THDi", value: "<3%" },
-      { label: "Loại pin", value: "Lithium / Acid-chì" },
-      { label: "Dải điện áp pin", value: "40 – 60 V" },
-      { label: "Dòng sạc/xả tối đa", value: "120 A" },
-      { label: "Công suất EPS định mức", value: "6.000 VA" },
-      { label: "Công suất EPS đỉnh", value: "12.000 VA / 10 giây" },
-      { label: "Điện áp EPS", value: "230 V, 50 / 60 Hz" },
-      { label: "Thời gian chuyển mạch", value: "<4 ms" },
-      { label: "Hiệu suất tối đa", value: "97,6%" },
-      { label: "Hiệu suất Châu Âu", value: "97,0%" },
-      { label: "Cấp bảo vệ", value: "IP65" },
-      { label: "SPD DC", value: "Type II" },
-      { label: "SPD AC", value: "Type II" },
-      { label: "AFCI", value: "Tùy chọn" },
-      { label: "Nhiệt độ hoạt động", value: "-25°C ~ +60°C" },
-      { label: "Độ cao hoạt động tối đa", value: "3.000 m" },
-      { label: "Độ ẩm", value: "4 – 100% RH" },
-      { label: "Kích thước (R × C × S)", value: "397 × 490 × 201 mm" },
-      { label: "Khối lượng theo datasheet VN", value: "18,8 kg" },
-      { label: "Làm mát", value: "Quạt" },
-      { label: "Giao tiếp", value: "CAN, RS485, CT, Meter, NTC, WiFi, WiFi+LAN" },
-      { label: "Ghép song song", value: "Tối đa 3 inverter" },
-      { label: "Bảo hành tại Việt Nam", value: "7 năm / lên 10 năm khi kết hợp pin SolaX" },
-    ],
-    documents: [
-      { label: "Datasheet X1-HYB-LV-EU tiếng Việt – DAT Solar", fileUrl: "https://datsolar.com/wp-content/uploads/2025/09/202509.-DAT-SolaX-X1-Hybrid-LV-Datasheet-VN.pdf" },
-      { label: "Trang sản phẩm X1-HYB-LV-EU – DAT Solar", fileUrl: "https://datsolar.com/p/solax-x1-hyb-lv-eu/" },
-      { label: "Trang sản phẩm SolaX X1-HYB-LV chính hãng", fileUrl: "https://www.solaxpower.com/our-products/x1-hyb-lv.html" },
-    ],
-    warranty: "Bảo hành chính hãng: 7 nămLên đến 10 năm khi kết hợp pin lưu trữ SolaX theo chính sách hãng.",
-    origin:   "Đang cập nhật",
-    tags: [
-      "X1-HYB-LV-EU",
-      "Hybrid áp thấp",
-    ],
-    applications: [
-      "Hộ gia đình",
-      "Nhà phố",
-      "Biệt thự",
-      "Hệ thống Hybrid",
-      "Điện dự phòng EPS",
-      "Tối ưu điện mặt trời tự dùng",
-    ],
-  },
-  // ── SolaX · Inverter Hybrid SolaX X1-HYB 6kW ──
-  {
-    productId: 15,
-    images: [
-      "/products/inverter/solax-solax.png",
+      "/products/inverter/solax-x1-hyb-5kw-x1-hyb-5-0-lv-eu-5-6.webp",
     ],
     description:
       "SolaX X1-HYB-6.0-LV là inverter Hybrid 1 pha công suất 6kW, sử dụng hệ pin lưu trữ áp thấp 40–60V. Thiết bị hỗ trợ công suất PV khuyến nghị tối đa 12kWp, 2 MPPT độc lập, dòng sạc/xả pin tối đa 120A và công suất EPS đỉnh lên tới 12kVA trong 10 giây. Inverter còn hỗ trợ ghép song song tối đa 3 thiết bị, tích hợp Microgrid, máy phát điện và quản lý tải thông minh, phù hợp cho các hệ thống lưu trữ dân dụng có nhu cầu công suất tương đối lớn.",
@@ -1738,11 +1498,123 @@ export const productDetails: ProductDetail[] = [
       "Tối ưu điện mặt trời tự dùng",
     ],
   },
+  // ── SolaX · Inverter Hybrid SolaX X1-HYB 6kW – X1-HYB-6.0-LV-EU ──
+  {
+    productId: 14,
+    images: [
+      "/products/inverter/solax-x1-hyb-5kw-x1-hyb-5-0-lv-eu-5-6.webp",
+    ],
+    description:
+      "SolaX X1-HYB-6.0-LV-EU là inverter Hybrid 1 pha áp thấp công suất 6kW, thiết kế cho hệ thống điện mặt trời dân dụng kết hợp pin lưu trữ. Thiết bị hỗ trợ mảng PV khuyến nghị tối đa 12kWp, 2 MPPT độc lập, pin Lithium hoặc ắc quy chì trong dải 40–60V và dòng sạc/xả tối đa 120A. Ngõ EPS có khả năng đạt công suất đỉnh 12kVA trong 10 giây, thời gian chuyển mạch dưới 4ms, đồng thời hỗ trợ Microgrid, máy phát điện và ghép song song tối đa 3 inverter.",
+    quickSpecs: [
+      { label: "Công suất AC", value: "6 kW" },
+      { label: "Loại inverter", value: "Hybrid 1 pha – LV" },
+      { label: "PV tối đa khuyến nghị", value: "12 kWp" },
+      { label: "Số MPPT", value: "2 MPPT" },
+      { label: "Dòng sạc/xả pin", value: "120 A" },
+      { label: "Chuyển mạch EPS", value: "<4 ms" },
+    ],
+    highlights: [
+      {
+        title: "PV oversizing 200%",
+        description:
+          "Inverter 6kW hỗ trợ mảng PV khuyến nghị tới 12kWp, giúp tăng khả năng khai thác điện mặt trời vào sáng, chiều và những thời điểm bức xạ chưa đạt cực đại.",
+      },
+      {
+        title: "2 MPPT độc lập",
+        description:
+          "Hai MPPT với dòng tối đa 16A mỗi ngõ, thuận tiện khi bố trí hai hướng mái khác nhau và tương thích với nhiều module công suất cao.",
+      },
+      {
+        title: "Pin áp thấp 40–60V",
+        description:
+          "Hỗ trợ cả pin Lithium và ắc quy chì, dòng sạc/xả tối đa 120A, phù hợp với nhiều giải pháp lưu trữ LV.",
+      },
+      {
+        title: "EPS 200% trong 10 giây",
+        description:
+          "Công suất dự phòng định mức 6kVA và đạt tới 12kVA trong 10 giây, hỗ trợ tốt các tải có dòng khởi động cao.",
+      },
+      {
+        title: "Chuyển mạch <4ms",
+        description:
+          "Thời gian chuyển từ lưới sang nguồn EPS rất nhanh, giúp hạn chế gián đoạn khi mất điện.",
+      },
+      {
+        title: "Microgrid + Generator + ghép song song",
+        description:
+          "Hỗ trợ kết nối máy phát điện, chức năng Microgrid và ghép tối đa 3 inverter cho cả hòa lưới và độc lập.",
+      },
+    ],
+    fullSpecs: [
+      { label: "Thương hiệu", value: "SolaX Power" },
+      { label: "Model", value: "X1-HYB-6.0-LV-EU" },
+      { label: "Dòng sản phẩm", value: "X1-HYB-LV-EU" },
+      { label: "Loại inverter", value: "Hybrid – 1 pha – áp thấp" },
+      { label: "Công suất AC định mức", value: "6.000 W" },
+      { label: "Công suất biểu kiến định mức", value: "6.000 VA" },
+      { label: "PV tối đa khuyến nghị", value: "12.000 Wp" },
+      { label: "Điện áp PV tối đa", value: "550 V" },
+      { label: "Điện áp PV danh định", value: "360 V" },
+      { label: "Điện áp khởi động", value: "110 V" },
+      { label: "Dải điện áp MPPT", value: "80 – 520 V" },
+      { label: "Số MPPT / String", value: "2 / (1+1)" },
+      { label: "Dòng PV tối đa / MPPT", value: "16 A / 16 A" },
+      { label: "Dòng ngắn mạch / MPPT", value: "20 A / 20 A" },
+      { label: "Điện áp AC", value: "220 / 230 / 240 V" },
+      { label: "Dòng AC định mức @230V", value: "26,1 A" },
+      { label: "Dòng AC đầu vào tối đa", value: "40 A" },
+      { label: "Công suất AC đầu vào tối đa", value: "9.200 VA" },
+      { label: "Tần số", value: "50 / 60 Hz" },
+      { label: "THDi", value: "<3%" },
+      { label: "Loại pin", value: "Lithium / Acid-chì" },
+      { label: "Dải điện áp pin", value: "40 – 60 V" },
+      { label: "Dòng sạc/xả tối đa", value: "120 A" },
+      { label: "Công suất EPS định mức", value: "6.000 VA" },
+      { label: "Công suất EPS đỉnh", value: "12.000 VA / 10 giây" },
+      { label: "Điện áp EPS", value: "230 V, 50 / 60 Hz" },
+      { label: "Thời gian chuyển mạch", value: "<4 ms" },
+      { label: "Hiệu suất tối đa", value: "97,6%" },
+      { label: "Hiệu suất Châu Âu", value: "97,0%" },
+      { label: "Cấp bảo vệ", value: "IP65" },
+      { label: "SPD DC", value: "Type II" },
+      { label: "SPD AC", value: "Type II" },
+      { label: "AFCI", value: "Tùy chọn" },
+      { label: "Nhiệt độ hoạt động", value: "-25°C ~ +60°C" },
+      { label: "Độ cao hoạt động tối đa", value: "3.000 m" },
+      { label: "Độ ẩm", value: "4 – 100% RH" },
+      { label: "Kích thước (R × C × S)", value: "397 × 490 × 201 mm" },
+      { label: "Khối lượng theo datasheet VN", value: "18,8 kg" },
+      { label: "Làm mát", value: "Quạt" },
+      { label: "Giao tiếp", value: "CAN, RS485, CT, Meter, NTC, WiFi, WiFi+LAN" },
+      { label: "Ghép song song", value: "Tối đa 3 inverter" },
+      { label: "Bảo hành tại Việt Nam", value: "7 năm / lên 10 năm khi kết hợp pin SolaX" },
+    ],
+    documents: [
+      { label: "Datasheet X1-HYB-LV-EU tiếng Việt – DAT Solar", fileUrl: "https://datsolar.com/wp-content/uploads/2025/09/202509.-DAT-SolaX-X1-Hybrid-LV-Datasheet-VN.pdf" },
+      { label: "Trang sản phẩm X1-HYB-LV-EU – DAT Solar", fileUrl: "https://datsolar.com/p/solax-x1-hyb-lv-eu/" },
+      { label: "Trang sản phẩm SolaX X1-HYB-LV chính hãng", fileUrl: "https://www.solaxpower.com/our-products/x1-hyb-lv.html" },
+    ],
+    warranty: "Bảo hành chính hãng: 7 nămLên đến 10 năm khi kết hợp pin lưu trữ SolaX theo chính sách hãng.",
+    origin:   "Đang cập nhật",
+    tags: [
+      "X1-HYB-LV-EU",
+      "Hybrid áp thấp",
+    ],
+    applications: [
+      "Hộ gia đình",
+      "Nhà phố",
+      "Biệt thự",
+      "Hệ thống Hybrid",
+      "Điện dự phòng EPS",
+      "Tối ưu điện mặt trời tự dùng",
+    ],
+  },
   // ── SolaX · Inverter Hybrid SolaX X1-RENO 8kW ──
   {
-    productId: 16,
+    productId: 15,
     images: [
-      "/products/inverter/solax-x1-reno-8-0-lv.png",
+      "/products/inverter/solax-x1-reno-8kw-x1-reno-8-0-lv.webp",
     ],
     description:
       "SolaX X1-RENO-8.0-LV là inverter Hybrid 1 pha công suất 8kW, sử dụng hệ pin lưu trữ áp thấp 40–60V. Thiết bị hỗ trợ công suất PV khuyến nghị tối đa 16kWp, 2 MPPT với tổng cộng 4 string PV, dòng đầu vào lên tới 36A mỗi MPPT và dòng sạc/xả pin tối đa 190A. Inverter hỗ trợ EPS công suất đỉnh 16kVA trong 10 giây, chuyển mạch dưới 4ms, kết nối song song tối đa 5 inverter và hỗ trợ Microgrid, máy phát điện.",
@@ -1859,9 +1731,9 @@ export const productDetails: ProductDetail[] = [
   },
   // ── Sungrow · Inverter Hybrid Sungrow MG10RL 10kW ──
   {
-    productId: 17,
+    productId: 16,
     images: [
-      "/products/inverter/sungrow-inverter-hybrid-sungrow.png",
+      "/products/inverter/sungrow-mg6rl-6-8-10.webp",
     ],
     description:
       "Sungrow MG10RL là inverter Hybrid 1 pha công suất 10kW, thiết kế cho hệ thống điện mặt trời dân dụng công suất lớn kết hợp lưu trữ. Thiết bị hỗ trợ công suất PV khuyến nghị tới 20kWp, 3 MPPT độc lập, dòng đầu vào 20A/string và pin lưu trữ áp thấp 40–60V. MG10RL có công suất sạc/xả pin tối đa 10kW, chuyển mạch Backup ≤4ms và khả năng chịu tải đỉnh tới 200% công suất định mức trong 10 giây.",
@@ -1985,9 +1857,9 @@ export const productDetails: ProductDetail[] = [
   },
   // ── Sungrow · Inverter Hybrid Sungrow MG5RL 5kW ──
   {
-    productId: 18,
+    productId: 17,
     images: [
-      "/products/inverter/sungrow-inverter-hybrid-sungrow.png",
+      "/products/inverter/sungrow-mg5rl.webp",
     ],
     description:
       "Sungrow MG5RL là inverter Hybrid 1 pha công suất 5kW dành cho hệ thống điện mặt trời dân dụng có lưu trữ. Thiết bị hỗ trợ pin Lithium-ion điện áp thấp 40–60V, 2 MPPT độc lập với dòng PV lên tới 20A mỗi MPPT, chuyển sang nguồn dự phòng trong ≤4ms và có khả năng cấp công suất đỉnh tới 200% trong 10 giây. Inverter tích hợp màn hình cảm ứng LCD 4,3 inch, bảo vệ IP65 và quản lý hệ thống qua nền tảng Sungrow.",
@@ -2100,9 +1972,9 @@ export const productDetails: ProductDetail[] = [
   },
   // ── Sungrow · Inverter Hybrid Sungrow MG6RL 6kW ──
   {
-    productId: 19,
+    productId: 18,
     images: [
-      "/products/inverter/sungrow-inverter-hybrid-sungrow.png",
+      "/products/inverter/sungrow-mg6rl-6-8-10.webp",
     ],
     description:
       "Sungrow MG6RL là inverter Hybrid 1 pha công suất 6kW, thiết kế cho hệ thống điện mặt trời dân dụng kết hợp lưu trữ. Inverter hỗ trợ pin Lithium-ion áp thấp 40–60V, 2 MPPT độc lập với dòng đầu vào PV tối đa 20A mỗi MPPT, công suất PV khuyến nghị tới 12kWp và công suất PV khả dụng tối đa 9,6kWp. Thiết bị hỗ trợ chuyển sang nguồn dự phòng trong ≤4ms, công suất Backup đỉnh đạt 200% trong 10 giây, phù hợp cho gia đình cần vừa tiết kiệm điện vừa duy trì nguồn điện khi mất lưới.",
@@ -2220,9 +2092,9 @@ export const productDetails: ProductDetail[] = [
   },
   // ── Sungrow · Inverter Hybrid Sungrow MG8RL 8kW ──
   {
-    productId: 20,
+    productId: 19,
     images: [
-      "/products/inverter/sungrow-inverter-hybrid-sungrow.png",
+      "/products/inverter/sungrow-mg6rl-6-8-10.webp",
     ],
     description:
       "Sungrow MG8RL là inverter Hybrid 1 pha công suất 8kW, thiết kế cho hệ thống điện mặt trời dân dụng kết hợp lưu trữ. Thiết bị hỗ trợ công suất PV khuyến nghị tối đa 16kWp, 3 MPPT độc lập với dòng đầu vào tối đa 20A mỗi string, pin lưu trữ áp thấp 40–60V và công suất sạc/xả tới 8kW. MG8RL hỗ trợ backup toàn nhà, chuyển mạch ≤4ms và chịu tải đỉnh tới 200% công suất định mức trong 10 giây.",
@@ -2341,11 +2213,139 @@ export const productDetails: ProductDetail[] = [
       "Hệ lưu trữ pin áp thấp",
     ],
   },
+  // ── GoodWe · Inverter Hybrid GoodWe GW10KN-ET 10kW 3 Pha ──
+  {
+    productId: 20,
+    images: [
+      "/products/inverter/goodwe-gw10kn-et.webp",
+    ],
+    description:
+      "GoodWe GW10KN-ET là biến tần Hybrid 3 pha công suất 10kW, thuộc dòng ET PLUS+ Series 16A, được thiết kế cho hệ thống điện mặt trời kết hợp pin lưu trữ cao áp. Inverter hỗ trợ công suất PV đầu vào tối đa 15kW, 2 MPPT với dòng vào tối đa 16A/MPPT, kết nối pin Li-ion điện áp 180–600V và công suất sạc/xả tối đa 10kW. Đây là dòng phù hợp cho hộ gia đình 3 pha, biệt thự và các cơ sở dịch vụ cần vừa hòa lưới, vừa lưu trữ và có nguồn dự phòng khi mất điện. Lưu ý model: GW10KN-ET là phiên bản ET PLUS+ 16A. Không nên nhầm với GW10K-ET đời trước, vì GoodWe công bố GW10KN-ET hỗ trợ 16A/MPPT, trong khi GW10K-ET là 12,5A/MPPT.",
+    quickSpecs: [
+      { label: "Công suất inverter", value: "10 kW – 3 pha" },
+      { label: "Công suất PV tối đa", value: "15 kWp" },
+      { label: "Điện áp pin lưu trữ", value: "180 – 600 V" },
+      { label: "MPPT", value: "2 MPPT – 16 A/MPPT" },
+      { label: "Hiệu suất tối đa", value: "98,2%" },
+      { label: "Cấp bảo vệ", value: "IP66" },
+    ],
+    highlights: [
+      {
+        title: "Vượt công suất DC đến 150%",
+        description:
+          "GW10KN-ET cho phép đấu tối đa 15kWp PV trên inverter AC 10kW, giúp tăng khả năng khai thác sản lượng vào những thời điểm bức xạ thấp. GoodWe công bố ET PLUS+ hỗ trợ 150% DC oversizing.",
+      },
+      {
+        title: "Dòng PV 16A – phù hợp module công suất lớn",
+        description:
+          "phiên bản GW10KN-ET được nâng dòng đầu vào lên 16A cho mỗi MPPT, thuận lợi hơn khi kết hợp các tấm pin thế hệ mới có dòng làm việc cao.",
+      },
+      {
+        title: "Pin lưu trữ cao áp 180–600V",
+        description:
+          "hỗ trợ pin Li-ion HV với dòng sạc/xả liên tục 25A và công suất sạc/xả tối đa 10kW.",
+      },
+      {
+        title: "Backup mạnh tới 16,5kVA trong 60 giây",
+        description:
+          "đầu ra dự phòng danh định đạt 10kVA và có khả năng chịu công suất ngắn hạn cao khi PV và battery đáp ứng đủ năng lượng.",
+      },
+      {
+        title: "Chuyển mạch UPS dưới 10ms",
+        description:
+          "GoodWe công bố ET PLUS+ hỗ trợ chuyển sang nguồn Backup ở cấp UPS <10ms, phù hợp cho các tải cần duy trì liên tục.",
+      },
+      {
+        title: "Đầu ra không cân bằng 100%",
+        description:
+          "hỗ trợ tải giữa các pha không đồng đều trong cả chế độ tự tiêu thụ và Backup, đặc biệt hữu ích cho nhà ở 3 pha.",
+      },
+      {
+        title: "Peak Shaving & Smart Load Control",
+        description:
+          "hỗ trợ cắt giảm phụ tải đỉnh và điều khiển tải thông minh, giúp ưu tiên sử dụng năng lượng mặt trời và pin lưu trữ vào thời điểm phù hợp.",
+      },
+      {
+        title: "Không quạt – vận hành êm",
+        description:
+          "inverter sử dụng đối lưu tự nhiên, phù hợp lắp đặt tại khu vực dân dụng; manual GoodWe công bố mức tiếng ồn dưới 30dB.",
+      },
+    ],
+    fullSpecs: [
+      { label: "Thương hiệu", value: "GoodWe" },
+      { label: "Model", value: "GW10KN-ET" },
+      { label: "Dòng sản phẩm", value: "ET PLUS+ Series 16A" },
+      { label: "Loại sản phẩm", value: "Inverter Hybrid 3 pha" },
+      { label: "Công suất đầu ra danh định", value: "10.000 W" },
+      { label: "Công suất biểu kiến tối đa lên lưới", value: "11.000 VA" },
+      { label: "Điện áp AC danh định", value: "380 / 400 V, 3L/N/PE" },
+      { label: "Tần số lưới", value: "50 / 60 Hz" },
+      { label: "Dòng AC tối đa phát lên lưới", value: "16,5 A" },
+      { label: "Công suất PV đầu vào tối đa", value: "15.000 W" },
+      { label: "Điện áp PV tối đa", value: "1.000 V*" },
+      { label: "Điện áp PV danh định", value: "620 V" },
+      { label: "Điện áp khởi động PV", value: "180 V" },
+      { label: "Dải điện áp MPPT", value: "200 – 850 V" },
+      { label: "Số MPPT", value: "2" },
+      { label: "Số string / MPPT", value: "1 / 1" },
+      { label: "Dòng đầu vào tối đa / MPPT", value: "16 A" },
+      { label: "Dòng ngắn mạch tối đa / MPPT", value: "21,2 A" },
+      { label: "Loại pin lưu trữ", value: "Li-ion" },
+      { label: "Điện áp pin danh định", value: "500 V" },
+      { label: "Dải điện áp pin", value: "180 – 600 V" },
+      { label: "Số đầu vào pin", value: "1" },
+      { label: "Dòng sạc liên tục tối đa", value: "25 A" },
+      { label: "Dòng xả liên tục tối đa", value: "25 A" },
+      { label: "Công suất sạc tối đa", value: "10.000 W" },
+      { label: "Công suất xả tối đa", value: "10.000 W" },
+      { label: "Công suất Backup danh định", value: "10.000 VA" },
+      { label: "Công suất Backup tối đa khi mất lưới", value: "10.000 VA; 16.500 VA trong 60 giây **" },
+      { label: "Dòng Backup tối đa", value: "16,5 A" },
+      { label: "Hiệu suất tối đa", value: "98,2%" },
+      { label: "Hiệu suất Châu Âu", value: "97,5%" },
+      { label: "Hiệu suất Battery → AC tối đa", value: "97,5%" },
+      { label: "Hiệu suất MPPT", value: "99,9%" },
+      { label: "THD đầu ra", value: "<3%" },
+      { label: "Giao tiếp BMS", value: "CAN / RS485" },
+      { label: "Giao tiếp Smart Meter", value: "RS485" },
+      { label: "Giám sát", value: "WiFi; WiFi + LAN / 4G tùy chọn" },
+      { label: "Giao diện", value: "LED, APP" },
+      { label: "Làm mát", value: "Đối lưu tự nhiên – không quạt" },
+      { label: "Nhiệt độ hoạt động", value: "-35°C đến +60°C" },
+      { label: "Độ ẩm tương đối", value: "0 – 95%" },
+      { label: "Độ cao hoạt động tối đa", value: "4.000 m" },
+      { label: "Tự tiêu thụ ban đêm", value: "<15 W" },
+      { label: "Cấp bảo vệ", value: "IP66" },
+      { label: "Kiểu lắp đặt", value: "Treo tường" },
+    ],
+    documents: [
+      { label: "Datasheet GoodWe ET PLUS+ 16A – Tiếng Việt PDF", fileUrl: "https://vn.goodwe.com/Ftp/Downloads/Datasheet/VN/GW_ET%20PLUS%2B%2016A_Datasheet_VN.pdf" },
+      { label: "Trang sản phẩm ET PLUS+ chính hãng GoodWe Việt Nam", fileUrl: "https://vn.goodwe.com/et-plus-series-three-phase-hybrid-solar-inverter" },
+      { label: "Trang sản phẩm GW10KN-ET tại DAT Solar", fileUrl: "https://datsolar.com/p/inverter-hybrid-goodwe-et-plus-16a-10kw/" },
+      { label: "Chính sách bảo hành GoodWe Việt Nam", fileUrl: "https://vn.goodwe.com/warranty" },
+    ],
+    warranty: "Bảo hành chính hãng: 5 năm – hỗ trợ gia hạn theo chính sách GoodWe.",
+    origin:   "Đang cập nhật",
+    tags: [
+      "ET PLUS+ Series 16A",
+      "Hybrid áp cao",
+    ],
+    applications: [
+      "Hộ gia đình sử dụng điện 3 pha",
+      "Biệt thự",
+      "Văn phòng",
+      "Showroom",
+      "Cơ sở dịch vụ",
+      "Hệ Hybrid có lưu trữ",
+      "Backup khi mất điện",
+      "Peak Shaving",
+    ],
+  },
   // ── GoodWe · Inverter Hybrid GoodWe GW20K-ET 20kW 3 Pha ──
   {
     productId: 21,
     images: [
-      "/products/inverter/goodwe-gw20k-et.png",
+      "/products/inverter/goodwe-f7cd7958-85f3-42b7-b8d6-46a39d3498dc.webp",
     ],
     description:
       "GoodWe GW20K-ET là biến tần Hybrid 3 pha công suất 20kW, thuộc dòng ET 15–30kW sử dụng hệ pin lưu trữ điện áp cao. Inverter hỗ trợ công suất PV đầu vào tối đa 30kWp, 2 MPPT, dải điện áp pin 200–800V và công suất sạc/xả tối đa 20kW. Thiết bị được GoodWe định hướng cho các hệ dân dụng công suất lớn và ứng dụng thương mại – công nghiệp quy mô nhỏ, hỗ trợ lưu trữ năng lượng, Backup và tiết giảm phụ tải đỉnh. Lưu ý model: GW20K-ET là phiên bản điện áp cao HV 200–800V. Không nhầm với GW20K-ET-L-G10 thuộc ET LV sử dụng pin 40–60V và cấu trúc PV/battery hoàn toàn khác.",
@@ -2357,7 +2357,48 @@ export const productDetails: ProductDetail[] = [
       { label: "Công suất sạc/xả", value: "20 kW" },
       { label: "Cấp bảo vệ", value: "IP66" },
     ],
-    highlights: [],
+    highlights: [
+      {
+        title: "Vượt công suất PV đến 150%",
+        description:
+          "inverter 20kW cho phép công suất đầu vào PV tối đa 30kWp, giúp tăng khả năng khai thác điện mặt trời trong các thời điểm bức xạ không đạt đỉnh.",
+      },
+      {
+        title: "4 string PV – 2 MPPT",
+        description:
+          "GW20K-ET có 2 MPPT, mỗi MPPT đấu 2 string, dòng tối đa 30A/MPPT. GoodWe công bố dòng đầu vào tối đa 15A/string, phù hợp với nhiều module PV công suất cao.",
+      },
+      {
+        title: "Pin lưu trữ cao áp 200–800V",
+        description:
+          "hỗ trợ pin Li-ion HV với dòng sạc/xả liên tục 50A và công suất sạc/xả tối đa 20kW, phù hợp các hệ lưu trữ công suất lớn hơn dòng ET PLUS+ dân dụng.",
+      },
+      {
+        title: "Backup 20kVA – chịu tải mạnh",
+        description:
+          "công suất dự phòng danh định đạt 20kVA, đồng thời có thể đạt 24kVA trong 60 giây hoặc 32kVA trong 3 giây khi nguồn PV và battery đáp ứng đủ công suất.",
+      },
+      {
+        title: "Chuyển mạch UPS dưới 10ms",
+        description:
+          "GoodWe công bố ET 20–30kW hỗ trợ chuyển sang nguồn dự phòng ở cấp UPS <10ms, giúp giảm thời gian gián đoạn khi điện lưới gặp sự cố.",
+      },
+      {
+        title: "Hỗ trợ tải 3 pha không cân bằng 100%",
+        description:
+          "giúp inverter linh hoạt hơn trong các công trình mà mức tiêu thụ của từng pha không đồng đều.",
+      },
+      {
+        title: "Peak Shaving – tiết giảm phụ tải đỉnh",
+        description:
+          "inverter hỗ trợ điều khiển và quản lý năng lượng nhằm giảm lượng điện lấy từ lưới vào các thời điểm phụ tải cao. Đây là tính năng đặc biệt phù hợp với văn phòng, showroom, cơ sở dịch vụ và doanh nghiệp có biểu giá điện theo thời gian.",
+      },
+      {
+        title: "Tiếp điểm khô điều khiển tải ngoài",
+        description:
+          "GoodWe tích hợp dry contact để điều khiển các tải như bơm nhiệt hoặc các thiết bị bên ngoài theo chiến lược quản lý năng lượng.",
+      },
+    ],
     fullSpecs: [
       { label: "Thương hiệu", value: "GoodWe" },
       { label: "Model", value: "GW20K-ET" },
@@ -2436,7 +2477,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 22,
     images: [
-      "/products/inverter/goodwe-gw30k-et.png",
+      "/products/inverter/goodwe-f7cd7958-85f3-42b7-b8d6-46a39d3498dc.webp",
     ],
     description:
       "GoodWe GW30K-ET là biến tần Hybrid 3 pha công suất 30kW, thuộc dòng ET 15–30kW sử dụng pin lưu trữ điện áp cao. Model này hỗ trợ công suất PV đầu vào tối đa 45kWp, 3 MPPT – 6 string, 2 đầu vào pin độc lập với dải điện áp 200–800V, cùng công suất sạc/xả tối đa 30kW. GoodWe định hướng dòng ET này cho hệ dân dụng công suất lớn và các ứng dụng thương mại – công nghiệp quy mô nhỏ, đặc biệt khi cần lưu trữ năng lượng, Backup và tiết giảm phụ tải đỉnh. Lưu ý model: GW30K-ET là phiên bản HV – điện áp cao 200–800V, thuộc ET 15–30kW. Không nhầm với các dòng ET LV sử dụng hệ pin điện áp thấp.",
@@ -2564,7 +2605,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 23,
     images: [
-      "/products/inverter/goodwe-gw50k-et-10.png",
+      "/products/inverter/goodwe-f7cd7958-85f3-42b7-b8d6-46a39d3498dc.webp",
     ],
     description:
       "GoodWe GW50K-ET-10 là biến tần Hybrid 3 pha công suất 50kW, thuộc dòng ET 40–50kW dành cho hệ thống lưu trữ năng lượng thương mại và công nghiệp. Inverter sử dụng pin Li-ion điện áp cao 200–800V, hỗ trợ 4 MPPT – 8 string PV, dòng sạc/xả liên tục tối đa 100A và công suất sạc/xả tối đa tới 55kW. Khi kết hợp với GoodWe STS200-80-10, hệ thống có thể vận hành Backup/off-grid với khả năng chuyển đổi cấp UPS; GoodWe cũng hỗ trợ kết nối máy phát điện và vận hành song song trong các giải pháp C&I phù hợp. Lưu ý model: GW50K-ET-10 là inverter Hybrid HV – điện áp cao, không phải dòng ET LV. Chức năng Backup/off-grid của model này cần STS bổ sung; tài liệu giải pháp GoodWe chỉ định STS200-80-10 cho GW30K/GW40K/GW50K-ET-10.",
@@ -2692,7 +2733,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 24,
     images: [
-      "/products/inverter/goodwe-gw80k-et-g10.png",
+      "/products/inverter/goodwe-6bab4e46-9aa8-4306-9558-affea2cf0ad2.webp",
     ],
     description:
       "GoodWe GW80K-ET-G10 là biến tần Hybrid 3 pha công suất 80kW, thuộc dòng ET Series 75–100kW dành cho hệ thống lưu trữ năng lượng thương mại và công nghiệp. Inverter sử dụng kiến trúc DC-coupled, hỗ trợ công suất PV đầu vào tối đa 160kWp, 8 MPPT – 16 string, 2 đầu vào pin độc lập điện áp cao 300–800V và công suất sạc/xả tối đa 88kW.",
@@ -2829,7 +2870,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 25,
     images: [
-      "/products/inverter/goodwe-gw10kn-et.png",
+      "/products/inverter/goodwe-6bab4e46-9aa8-4306-9558-affea2cf0ad2.webp",
     ],
     description:
       "GoodWe GW99.99K-ET-G10 là biến tần Hybrid 3 pha công suất 99,99kW, thuộc dòng ET Series 80–100kW dành cho hệ thống lưu trữ năng lượng thương mại và công nghiệp. Inverter hỗ trợ tối đa 200kWp PV, 8 MPPT – 16 string, hai đầu vào pin độc lập điện áp cao 300–800V, dòng sạc/xả liên tục tối đa 110A × 2 và công suất sạc/xả tối đa 99,99kW. Dòng ET này hỗ trợ các chế độ tự tiêu thụ, Peak Shaving, Time-of-Use và vận hành Backup khi kết hợp STS phù hợp.",
@@ -2964,7 +3005,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 26,
     images: [
-      "/products/inverter/invt-xd30ktr.jpg",
+      "/products/inverter/invt-ea29ec54-c3c7-48a5-8a68-c37778825578.webp",
     ],
     description:
       "INVT XD30KTR là inverter Hybrid 3 pha công suất 30kW, thiết kế cho hệ thống điện mặt trời có lưu trữ tại doanh nghiệp, nhà xưởng và các công trình C&I. Thiết bị hỗ trợ PV tối đa 45kWp, điện áp PV tối đa 1100V, 3 MPPT / 6 string, đồng thời kết nối pin Lithium điện áp cao trong dải 160–800V. XD30KTR hỗ trợ công suất sạc/xả pin tối đa 33kW, hai cổng battery với dòng tối đa 2 × 100A, ngõ EPS 30kW, công suất đỉnh EPS 150% trong 10 giây và thời gian chuyển mạch dưới 10ms. Thiết bị còn hỗ trợ máy phát điện, Smart Load, tải 3 pha mất cân bằng 100% và vận hành song song nhiều inverter.",
@@ -3095,7 +3136,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 27,
     images: [
-      "/products/inverter/invt-xd40ktr.jpg",
+      "/products/inverter/invt-ea29ec54-c3c7-48a5-8a68-c37778825578.webp",
     ],
     description:
       "INVT XD40KTR là inverter Hybrid 3 pha công suất 40kW, thiết kế cho nhà máy, nhà xưởng và các hệ thống lưu trữ năng lượng C&I. Thiết bị hỗ trợ công suất PV tối đa 60kWp, điện áp PV tối đa 1100V, trang bị 4 MPPT / 8 string, mỗi MPPT chịu dòng tối đa 40A. Phía lưu trữ, XD40KTR hỗ trợ pin Lithium điện áp cao 160–800V, công suất sạc/xả tối đa 44kW và hai đường battery với dòng tối đa 2 × 100A. Ngõ EPS đạt 40kW, chịu quá tải 150% trong 10 giây và chuyển mạch dưới 10ms.",
@@ -3227,7 +3268,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 28,
     images: [
-      "/products/inverter/invt-xd50ktr.jpg",
+      "/products/inverter/invt-ea29ec54-c3c7-48a5-8a68-c37778825578.webp",
     ],
     description:
       "INVT XD50KTR là inverter Hybrid 3 pha công suất 50kW, thiết kế cho các hệ thống điện mặt trời có lưu trữ tại nhà máy, nhà xưởng, khách sạn và công trình thương mại – công nghiệp. Thiết bị hỗ trợ PV tối đa 75kWp, điện áp PV tối đa 1100V, trang bị 4 MPPT / 8 string, dòng tối đa 40A/MPPT và dòng ngắn mạch tới 60A/MPPT. Phía lưu trữ, XD50KTR hỗ trợ pin Lithium cao áp 160–800V, vùng đạt đầy đủ công suất 300–800V, công suất sạc/xả tối đa 55kW và hai cổng battery với dòng tối đa 2 × 100A. Ngõ EPS đạt 50kW, hỗ trợ quá tải 150% trong 10 giây và chuyển nguồn dưới 10ms.",
@@ -3367,7 +3408,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 29,
     images: [
-      "/products/inverter/invt-xd60ktr.jpg",
+      "/products/inverter/invt-ea29ec54-c3c7-48a5-8a68-c37778825578.webp",
     ],
     description:
       "INVT XD60KTR là inverter Hybrid 3 pha công suất 60kW, hướng tới hệ thống lưu trữ năng lượng cho nhà máy, nhà xưởng và các công trình thương mại – công nghiệp. Thiết bị hỗ trợ mảng PV tối đa 90kWp, điện áp PV tối đa 1100V, sử dụng 4 MPPT / 8 string với dòng tối đa 40A trên mỗi MPPT. Phía lưu trữ, XD60KTR hỗ trợ pin Lithium cao áp 160–800V, vùng đạt toàn công suất từ 300–800V, công suất sạc/xả tối đa 66kW và hai cổng battery với dòng tối đa 2 × 100A. Ngõ EPS đạt 60kW, chịu công suất đỉnh 150% trong 10 giây và thời gian chuyển mạch dưới 10ms.",
@@ -3508,7 +3549,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 30,
     images: [
-      "/products/inverter/solax-x3-aelio-49-9k.png",
+      "/products/inverter/solax-0ceae4c9-6f2a-4b8d-be9a-be263058914e.webp",
     ],
     description:
       "SolaX X3-AELIO-49.9K là biến tần Hybrid 3 pha công suất 49,9kW thuộc dòng X3-AELIO dành cho hệ thống lưu trữ năng lượng thương mại và công nghiệp. Model hỗ trợ công suất PV khuyến nghị tối đa 100kWp, 5 MPPT – 10 string, dòng đầu vào tối đa 40A/MPPT, cùng 2 cổng pin độc lập cho hệ pin LFP điện áp cao 180–820V. Thiết bị hỗ trợ vận hành hòa lưới và off-grid, đầu ra EPS danh định 49,9kVA, chuyển mạch dưới 10ms và khả năng quá tải EPS lên tới 75kVA trong 10 giây. X3-AELIO còn hỗ trợ Peak Shaving, quản lý phụ tải, microgrid, máy phát điện và vận hành song song nhiều inverter, phù hợp cho nhà xưởng và doanh nghiệp cần hệ thống PV + lưu trữ quy mô lớn. Lưu ý model: không nhầm X3-AELIO-49.9K với X3-AELIO-49.9K-P. Bản 49.9K tiêu chuẩn có 5 MPPT và PV tối đa 100kWp, trong khi bản 49.9K-P có 6 MPPT và PV tối đa 120kWp.",
@@ -3631,7 +3672,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 31,
     images: [
-      "/products/inverter/solax-x3-aelio-60k.png",
+      "/products/inverter/solax-0ceae4c9-6f2a-4b8d-be9a-be263058914e.webp",
     ],
     description:
       "SolaX X3-AELIO-60K là biến tần Hybrid 3 pha công suất 60kW, thuộc dòng X3-AELIO dành cho hệ thống lưu trữ năng lượng thương mại và công nghiệp. Model hỗ trợ công suất PV khuyến nghị tối đa 120kWp, 6 MPPT – 12 string, dòng đầu vào tối đa 40A/MPPT và hai cổng pin độc lập cho hệ pin LFP cao áp 180–820V. Thiết bị có đầu ra EPS danh định 60kVA, khả năng quá tải tới 90kVA trong 10 giây và thời gian chuyển đổi On-grid/Off-grid <10ms. X3-AELIO cũng hỗ trợ các tính năng quản lý năng lượng như microgrid, VPP, Smart Scene, Wireless Meter và lập lịch vận hành 7×24 giờ.",
@@ -3759,7 +3800,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 32,
     images: [
-      "/products/inverter/invt-xg10ktl.jpg",
+      "/products/inverter/invt-xg10ktl.webp",
     ],
     description:
       "INVT XG10KTL là inverter hòa lưới 1 pha công suất 10kW, phù hợp cho hệ thống điện mặt trời hộ gia đình công suất lớn, biệt thự, cửa hàng và doanh nghiệp nhỏ. Thiết bị hỗ trợ công suất PV tối đa 15kWp, trang bị 2 MPPT độc lập, mỗi MPPT hỗ trợ dòng vào tối đa 20A, điện áp DC tối đa 600V và hiệu suất chuyển đổi tối đa 98,1%. Inverter đạt cấp bảo vệ IP66, tích hợp chống sét Type II phía DC/AC và hỗ trợ giám sát từ xa qua RS485, WiFi hoặc 4G.",
@@ -3879,7 +3920,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 33,
     images: [
-      "/products/inverter/invt-xg10ktr-s.png",
+      "/products/inverter/invt-xg10ktr-s.webp",
     ],
     description:
       "INVT XG10KTR-S là inverter hòa lưới 3 pha công suất 10kW, phù hợp cho hệ thống điện mặt trời hộ gia đình sử dụng điện 3 pha, biệt thự, văn phòng, cửa hàng và công trình thương mại nhỏ. Thiết bị hỗ trợ công suất PV tối đa 16kWp, điện áp DC tối đa 1100V, trang bị 2 MPPT độc lập, mỗi MPPT hỗ trợ dòng tối đa 18A và dải MPPT rộng 180–1000V. Inverter đạt hiệu suất tối đa 98,7%, cấp bảo vệ IP66, SPD Type II và tùy chọn AFCI.",
@@ -3975,7 +4016,11 @@ export const productDetails: ProductDetail[] = [
       { label: "Khối lượng", value: "13,5 kg" },
       { label: "Bảo hành tại DAT", value: "5 năm" },
     ],
-    documents: [],
+    documents: [
+      { label: "Trang sản phẩm XG3–15KTR-S chính hãng INVT", fileUrl: "https://www.invt.com/products/xg3-15kw-three-phase-on-grid-solar-inverter-228" },
+      { label: "INVT On-grid Inverter Catalog PRO V1.2 – bản mới hơn", fileUrl: "https://www.invt.com/uploads/file1/20251219/INVT-On-grid-Inverter-Catalog-PRO_EN_V1.2.pdf" },
+      { label: "Trang XG10KTR-S tại DAT Store Việt Nam", fileUrl: "https://datstore.vn/products/inverter-hoa-luoi-invt-xg-series-3-pha-10kw-15kw" },
+    ],
     warranty: "Bảo hành chính hãng: 5 năm.",
     origin:   "Đang cập nhật",
     tags: [
@@ -4119,7 +4164,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 35,
     images: [
-      "/products/inverter/invt-xg15ktr1-s.png",
+      "/products/inverter/invt-xg15ktr1-s.webp",
     ],
     description:
       "INVT XG15KTR1-S là inverter hòa lưới 3 pha công suất 15kW, phù hợp cho hộ gia đình sử dụng điện 3 pha, cơ sở kinh doanh và các công trình thương mại quy mô nhỏ. Thiết bị hỗ trợ công suất PV đầu vào tối đa 24kWp, điện áp DC tối đa 1100V, trang bị 2 MPPT độc lập, dòng đầu vào tối đa 18A/MPPT và đạt hiệu suất chuyển đổi tối đa 98,7%. Inverter đạt IP66, tích hợp SPD Type II và hỗ trợ AFCI tùy chọn.",
@@ -4215,7 +4260,12 @@ export const productDetails: ProductDetail[] = [
       { label: "Khối lượng", value: "13,5 kg" },
       { label: "Bảo hành tiêu chuẩn", value: "5 năm" },
     ],
-    documents: [],
+    documents: [
+      { label: "Catalogue XG3–15KTR-S chính hãng INVT", fileUrl: "https://www.invt.com/uploads/file1/20231219/INVT_XG3-15KTR-S%20Three%20Phase%20On-Grid%20Solar%20Inverter%20Catalog.pdf" },
+      { label: "INVT On-grid Inverter Catalog PRO V1.2 – bản mới hơn", fileUrl: "https://www.invt.com/uploads/file1/20251219/INVT-On-grid-Inverter-Catalog-PRO_EN_V1.2.pdf" },
+      { label: "Download Center chính hãng INVT Solar", fileUrl: "https://www.invt-solar.com/downloads.html" },
+      { label: "Trang XG6–15kW 3 pha tại INVT Việt Nam", fileUrl: "https://invt.com.vn/san-pham/inverter-invt-xg-series-6-15kw-3-pha/" },
+    ],
     warranty: "Bảo hành chính hãng: 5 nămCó thể mở rộng theo chính sách INVT.",
     origin:   "Đang cập nhật",
     tags: [
@@ -4236,7 +4286,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 36,
     images: [
-      "/products/inverter/invt-xg20ktr.jpg",
+      "/products/inverter/invt-c5345d08-cbff-4b2d-97c4-36916a32f1ee.webp",
     ],
     description:
       "INVT XG20KTR là inverter hòa lưới 3 pha công suất 20kW, phù hợp cho hệ thống điện mặt trời thương mại nhỏ, văn phòng, showroom, cơ sở kinh doanh và nhà xưởng. Thiết bị hỗ trợ công suất PV tối đa 32kWp, điện áp DC tối đa 1100V, trang bị 2 MPPT / 4 string, dòng đầu vào tối đa 32A mỗi MPPT và đạt hiệu suất chuyển đổi tối đa 98,4%. Inverter đạt IP66, tích hợp SPD Type II phía DC/AC và hỗ trợ AFCI tùy chọn.",
@@ -4332,7 +4382,11 @@ export const productDetails: ProductDetail[] = [
       { label: "Khối lượng", value: "24 kg" },
       { label: "Bảo hành tại DAT", value: "5 năm" },
     ],
-    documents: [],
+    documents: [
+      { label: "Catalogue chính hãng INVT XG17–25KTR", fileUrl: "https://www.invt.com/uploads/file1/20231219/INVT_XG17-25KTR%20Three%20Phase%20On-Grid%20Solar%20Inverter%20Catalog.pdf" },
+      { label: "Trang sản phẩm XG17–25KTR chính hãng INVT", fileUrl: "https://www.invt.com/products/xg-15-25kw-solar-inverter-209" },
+      { label: "Trang XG20KTR tại DAT Store Việt Nam", fileUrl: "https://datstore.vn/products/inverter-hoa-luoi-invt-xg-series-3-pha-20kw" },
+    ],
     warranty: "Bảo hành chính hãng: 5 năm.",
     origin:   "Đang cập nhật",
     tags: [
@@ -4352,7 +4406,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 37,
     images: [
-      "/products/inverter/invt-xg25ktr.jpg",
+      "/products/inverter/invt-c5345d08-cbff-4b2d-97c4-36916a32f1ee.webp",
     ],
     description:
       "INVT XG25KTR là inverter hòa lưới 3 pha công suất 25kW, phù hợp cho hệ thống điện mặt trời thương mại, văn phòng, showroom, cơ sở kinh doanh và nhà xưởng. Thiết bị hỗ trợ công suất PV đầu vào tối đa 40kWp, điện áp DC tối đa 1100V, trang bị 2 MPPT với tổng cộng 5 string PV và dải MPPT rộng 200–1000V. Hiệu suất chuyển đổi tối đa đạt 98,4%, cấp bảo vệ IP66, tích hợp SPD Type II cho phía DC/AC và hỗ trợ AFCI tùy chọn.",
@@ -4474,7 +4528,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 38,
     images: [
-      "/products/inverter/invt-xg30ktr.png",
+      "/products/inverter/invt-c5345d08-cbff-4b2d-97c4-36916a32f1ee.webp",
     ],
     description:
       "INVT XG30KTR là inverter hòa lưới 3 pha công suất 30kW, phù hợp cho hệ thống điện mặt trời thương mại, văn phòng, showroom, nhà xưởng và các công trình C&I quy mô vừa. Thiết bị hỗ trợ công suất PV đầu vào tối đa 48kWp, điện áp DC tối đa 1100V, trang bị 3 MPPT với tổng cộng 6 string PV và dòng đầu vào tối đa 26A trên mỗi MPPT. Inverter đạt hiệu suất tối đa 98,6%, cấp bảo vệ IP66, tích hợp chống sét Type II phía DC/AC và hỗ trợ AFCI tùy chọn.",
@@ -4598,7 +4652,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 39,
     images: [
-      "/products/inverter/invt-xg3ktl-s.jpg",
+      "/products/inverter/invt-98848763-a6b5-4d9e-9eed-bb24fd0799fa.webp",
     ],
     description:
       "INVT XG3KTL-S là inverter hòa lưới 1 pha công suất 3kW, phù hợp cho hệ thống điện mặt trời dân dụng. Thiết bị hỗ trợ công suất PV đầu vào tối đa 4,5kWp, điện áp DC tối đa 600V, sử dụng 1 MPPT với dòng đầu vào tới 20A và đạt hiệu suất chuyển đổi tối đa 97,6%. Thiết kế nhỏ gọn, làm mát tự nhiên, cấp bảo vệ IP66 và hỗ trợ giám sát qua RS485/WiFi/4G.",
@@ -4712,7 +4766,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 40,
     images: [
-      "/products/inverter/invt-xg40ktr-afci.png",
+      "/products/inverter/invt-xg40ktr-afci.webp",
     ],
     description:
       "INVT XG40KTR-AFCI là inverter hòa lưới 3 pha công suất 40kW, phù hợp cho hệ thống điện mặt trời nhà xưởng, doanh nghiệp và các công trình thương mại – công nghiệp. Thiết bị hỗ trợ công suất PV tối đa 64kWp, điện áp DC tối đa 1100V, trang bị 4 MPPT với tổng cộng 8 string PV, đạt hiệu suất chuyển đổi tối đa 98,6%. Phiên bản XG40KTR-AFCI được trang bị chức năng AFCI phát hiện hồ quang điện DC, giúp inverter ngắt hoạt động khi phát hiện sự cố hồ quang.",
@@ -4837,7 +4891,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 41,
     images: [
-      "/products/inverter/invt-xg5ktl-s.jpg",
+      "/products/inverter/invt-98848763-a6b5-4d9e-9eed-bb24fd0799fa.webp",
     ],
     description:
       "INVT XG5KTL-S là inverter hòa lưới 1 pha công suất 5kW, phù hợp cho hệ thống điện mặt trời hộ gia đình và công trình dân dụng quy mô nhỏ. Thiết bị hỗ trợ công suất PV đầu vào tối đa 7,5kWp, điện áp DC tối đa 600V, sử dụng 1 MPPT / 1 string với dòng đầu vào tối đa 20A. Inverter đạt hiệu suất chuyển đổi tối đa 97,8%, cấp bảo vệ IP66, làm mát tự nhiên và hỗ trợ giám sát qua RS485/WiFi/4G.",
@@ -4956,7 +5010,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 42,
     images: [
-      "/products/inverter/invt-xg60ktr-afci.png",
+      "/products/inverter/invt-xg60ktr-afci.webp",
     ],
     description:
       "INVT XG60KTR-AFCI là inverter hòa lưới 3 pha công suất 60kW, được thiết kế cho hệ thống điện mặt trời thương mại và công nghiệp. Thiết bị hỗ trợ công suất PV đầu vào tối đa 96kWp, điện áp DC tối đa 1100V, trang bị 4 MPPT với tổng cộng 12 string PV, mỗi MPPT hỗ trợ dòng tối đa 39A. Inverter đạt hiệu suất tối đa 98,8%, cấp bảo vệ IP66, tích hợp SPD Type II phía DC/AC, giám sát dòng từng string và chức năng AFCI trên phiên bản bạn đang sử dụng.",
@@ -5081,7 +5135,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 43,
     images: [
-      "/products/inverter/invt-xg80ktr-pro-afci.jpg",
+      "/products/inverter/invt-xg80ktr-pro-afci.webp",
     ],
     description:
       "INVT XG80KTR-PRO-AFCI là inverter hòa lưới 3 pha công suất 80kW, thiết kế cho hệ thống điện mặt trời thương mại và công nghiệp quy mô lớn. Thiết bị hỗ trợ công suất PV đầu vào tối đa 120kWp, điện áp DC tối đa 1100V, trang bị 6 MPPT với tổng cộng 12 string PV, dòng vào tối đa 40A/MPPT và dải MPPT rộng 180–1000V. Inverter đạt hiệu suất tối đa 98,6%, cấp bảo vệ IP66, tích hợp SPD Type II phía DC/AC, Smart I-V Curve Diagnosis và chức năng AFCI trên phiên bản bạn đang sử dụng.",
@@ -5207,7 +5261,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 44,
     images: [
-      "/products/inverter/sungrow-sg10rs.png",
+      "/products/inverter/sungrow-fb176aad-b65d-4bc5-bb65-e1c34aa052ca.webp",
     ],
     description:
       "Sungrow SG10RS là inverter hòa lưới 1 pha công suất 10kW, thiết kế cho hệ thống điện mặt trời dân dụng công suất lớn và các công trình thương mại nhỏ. Thiết bị hỗ trợ công suất PV khuyến nghị tối đa 15kWp, trang bị 3 MPPT độc lập, điện áp DC tối đa 600V và dải MPPT rộng 40–560V. Inverter đạt hiệu suất tối đa 97,8%, tích hợp PID Zero, chống hồ quang, SPD Type II phía DC và AC, đồng thời hỗ trợ giám sát từ xa qua iSolarCloud.",
@@ -5223,7 +5277,32 @@ export const productDetails: ProductDetail[] = [
       {
         title: "3 MPPT độc lập",
         description:
-          "mỗi MPPT hỗ trợ một string với dòng tối đa 16A, rất phù hợp mái có ba hướng hoặc các vùng bức xạ khác nhau. PV tới 15kWp: inverter 10kW hỗ trợ mảng PV khuyến nghị tối đa 15kWp, tương đương tỷ lệ DC/AC 150%. Dải MPPT 40–560V: kết hợp điện áp khởi động chỉ 50V giúp mở rộng vùng hoạt động của hệ thống. Hiệu suất 97,8%: hiệu suất Châu Âu đạt 97,4%. An toàn cao: PID Zero, AFCI, SPD Type II DC/AC, giám sát string và nhiều lớp bảo vệ điện. IP65 + C5: tản nhiệt tự nhiên, chống ăn mòn C5 và không cần quạt làm mát.",
+          "mỗi MPPT hỗ trợ một string với dòng tối đa 16A, rất phù hợp mái có ba hướng hoặc các vùng bức xạ khác nhau.",
+      },
+      {
+        title: "PV tới 15kWp",
+        description:
+          "inverter 10kW hỗ trợ mảng PV khuyến nghị tối đa 15kWp, tương đương tỷ lệ DC/AC 150%.",
+      },
+      {
+        title: "Dải MPPT 40–560V",
+        description:
+          "kết hợp điện áp khởi động chỉ 50V giúp mở rộng vùng hoạt động của hệ thống.",
+      },
+      {
+        title: "Hiệu suất 97,8%",
+        description:
+          "hiệu suất Châu Âu đạt 97,4%.",
+      },
+      {
+        title: "An toàn cao",
+        description:
+          "PID Zero, AFCI, SPD Type II DC/AC, giám sát string và nhiều lớp bảo vệ điện.",
+      },
+      {
+        title: "IP65 + C5",
+        description:
+          "tản nhiệt tự nhiên, chống ăn mòn C5 và không cần quạt làm mát.",
       },
     ],
     fullSpecs: [
@@ -5288,7 +5367,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 45,
     images: [
-      "/products/inverter/sungrow-sg10rt.webp",
+      "/products/inverter/sungrow-a3820cef-546b-4f4e-979e-330cfab8113f.webp",
     ],
     description:
       "Sungrow SG10RT là inverter hòa lưới 3 pha công suất 10kW, thiết kế cho hệ thống điện mặt trời dân dụng công suất lớn và các công trình thương mại vừa và nhỏ. Thiết bị hỗ trợ công suất PV khuyến nghị tối đa 15kWp, điện áp DC tối đa 1100V, trang bị 2 MPPT với tổng cộng 3 string, dải MPPT rộng 160–1000V và đạt hiệu suất tối đa 98,5%. Inverter tích hợp PID Recovery, AFCI, chống sét Type II phía DC/AC và khả năng giám sát thông minh từ xa.",
@@ -5407,7 +5486,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 46,
     images: [
-      "/products/inverter/sungrow-sg15rt.png",
+      "/products/inverter/sungrow-a3820cef-546b-4f4e-979e-330cfab8113f.webp",
     ],
     description:
       "Sungrow SG15RT là inverter hòa lưới 3 pha công suất 15kW, phù hợp cho hệ thống điện mặt trời dân dụng công suất lớn và các công trình thương mại – doanh nghiệp nhỏ. Thiết bị hỗ trợ công suất PV khuyến nghị tối đa 22,5kWp, điện áp DC tối đa 1100V, trang bị 2 MPPT với tổng cộng 4 string, dòng PV tối đa 25A mỗi MPPT và đạt hiệu suất chuyển đổi tối đa 98,5%. Inverter tích hợp AFCI, PID Recovery, SPD Type II phía DC/AC và khả năng giám sát, cập nhật phần mềm từ xa.",
@@ -5526,7 +5605,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 47,
     images: [
-      "/products/inverter/sungrow-sg20rt.png",
+      "/products/inverter/sungrow-a3820cef-546b-4f4e-979e-330cfab8113f.webp",
     ],
     description:
       "Sungrow SG20RT là inverter hòa lưới 3 pha công suất 20kW, phù hợp cho hệ thống điện mặt trời dân dụng công suất lớn và các công trình thương mại – doanh nghiệp. Thiết bị hỗ trợ mảng PV khuyến nghị tối đa 30kWp, điện áp DC tối đa 1100V, trang bị 2 MPPT với tổng cộng 4 string và đạt hiệu suất chuyển đổi tối đa 98,5%. SG20RT còn tích hợp AFCI, PID Recovery, chống sét Type II phía DC/AC và khả năng giám sát hệ thống từ xa.",
@@ -5538,7 +5617,38 @@ export const productDetails: ProductDetail[] = [
       { label: "Điện áp DC tối đa", value: "1100 V" },
       { label: "Hiệu suất tối đa", value: "98,5%" },
     ],
-    highlights: [],
+    highlights: [
+      {
+        title: "PV đầu vào tới 30kWp",
+        description:
+          "Inverter 20kW hỗ trợ mảng PV khuyến nghị tối đa 30kWp, tương ứng tỷ lệ DC/AC khoảng 150%, giúp tăng khả năng thu năng lượng khi bức xạ không đạt mức cực đại.",
+      },
+      {
+        title: "2 MPPT – 4 string PV",
+        description:
+          "Hai MPPT độc lập, mỗi MPPT hỗ trợ 2 string; cấu hình đang phân phối tại Việt Nam có dòng tối đa 25A/MPPT.",
+      },
+      {
+        title: "Điện áp DC tối đa 1100V",
+        description:
+          "Dải MPPT 160–1000V giúp linh hoạt khi thiết kế số lượng module nối tiếp cho hệ thống công suất lớn.",
+      },
+      {
+        title: "Hiệu suất tối đa 98,5%",
+        description:
+          "Hiệu suất Châu Âu đạt 98,1%, giúp giảm tổn hao chuyển đổi DC sang AC.",
+      },
+      {
+        title: "AFCI + PID Recovery + SPD Type II",
+        description:
+          "Inverter tích hợp bảo vệ hồ quang, chức năng phục hồi PID và chống sét lan truyền Type II cho cả phía DC và AC.",
+      },
+      {
+        title: "IP65 – chống ăn mòn C5",
+        description:
+          "Thiết kế phù hợp môi trường ngoài trời, sử dụng hệ thống làm mát bằng quạt thông minh và có khả năng chống ăn mòn C5.",
+      },
+    ],
     fullSpecs: [
       { label: "Thương hiệu", value: "Sungrow" },
       { label: "Model", value: "SG20RT" },
@@ -5613,7 +5723,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 48,
     images: [
-      "/products/inverter/sungrow-sg33cx-p2.png",
+      "/products/inverter/sungrow-e8a39d95-0032-48d6-89f7-4c40f5b8c236.webp",
     ],
     description:
       "Sungrow SG33CX-P2 là inverter hòa lưới 3 pha công suất 33kW, thiết kế cho hệ thống điện mặt trời thương mại và công nghiệp. Thiết bị hỗ trợ công suất PV khuyến nghị tối đa 46,2kWp, điện áp DC tối đa 1100V, trang bị 3 MPPT với tổng cộng 6 string PV và dòng đầu vào tối đa 30A mỗi MPPT. Inverter đạt hiệu suất tối đa 98,5%, tích hợp PID Recovery, giám sát dòng từng string, AFCI 2.0, SPD Type I+II phía DC và Type II phía AC, đồng thời đạt cấp bảo vệ IP66 và chống ăn mòn C5.",
@@ -5737,7 +5847,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 49,
     images: [
-      "/products/inverter/sungrow-sg40cx-p2.png",
+      "/products/inverter/sungrow-e8a39d95-0032-48d6-89f7-4c40f5b8c236.webp",
     ],
     description:
       "Sungrow SG40CX-P2 là inverter hòa lưới 3 pha công suất 40kW, thiết kế cho hệ thống điện mặt trời thương mại và công nghiệp. Thiết bị hỗ trợ mảng PV khuyến nghị tối đa 56kWp, điện áp DC tối đa 1100V, trang bị 4 MPPT với tổng cộng 8 string PV và dòng đầu vào tối đa 30A mỗi MPPT. Inverter đạt hiệu suất tối đa 98,5%, tích hợp PID Recovery, AFCI 2.0, giám sát dòng từng string, chống sét DC Type I+II và AC Type II, đồng thời đạt chuẩn IP66 và chống ăn mòn C5.",
@@ -5855,7 +5965,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 50,
     images: [
-      "/products/inverter/sungrow-sg5-0rs.png",
+      "/products/inverter/sungrow-fb176aad-b65d-4bc5-bb65-e1c34aa052ca.webp",
     ],
     description:
       "Sungrow SG5.0RS là inverter hòa lưới 1 pha công suất 5kW, thiết kế cho hệ thống điện mặt trời dân dụng. Thiết bị trang bị 2 MPPT độc lập, hỗ trợ công suất PV khuyến nghị tối đa 7,5kWp, điện áp DC tối đa 600V và dải MPPT rộng 40–560V. SG5.0RS đạt hiệu suất tối đa 97,9%, tương thích với module công suất cao và tấm pin Bifacial, đồng thời tích hợp PID Zero, chống sét Type II phía DC/AC và khả năng giám sát qua iSolarCloud.",
@@ -5973,7 +6083,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 51,
     images: [
-      "/products/inverter/sungrow-sg50cx-p2.png",
+      "/products/inverter/sungrow-e8a39d95-0032-48d6-89f7-4c40f5b8c236.webp",
     ],
     description:
       "Sungrow SG50CX-P2 là inverter hòa lưới 3 pha công suất 50kW, thiết kế cho hệ thống điện mặt trời thương mại và công nghiệp. Thiết bị hỗ trợ công suất PV khuyến nghị tối đa 70kWp, điện áp DC tối đa 1100V, trang bị 4 MPPT với tổng cộng 8 string PV và dòng đầu vào tối đa 30A mỗi MPPT. Inverter đạt hiệu suất tối đa 98,5%, tích hợp PID Recovery, AFCI, giám sát dòng từng string, chống sét DC Type I+II và AC Type II, đồng thời đạt chuẩn bảo vệ IP66 và chống ăn mòn C5.",
@@ -6097,7 +6207,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 52,
     images: [
-      "/products/inverter/sungrow-sg8-0rs.png",
+      "/products/inverter/sungrow-fb176aad-b65d-4bc5-bb65-e1c34aa052ca.webp",
     ],
     description:
       "Sungrow SG8.0RS là inverter hòa lưới 1 pha công suất 8kW, thiết kế cho hệ thống điện mặt trời dân dụng và công trình thương mại nhỏ. Thiết bị hỗ trợ công suất PV khuyến nghị tối đa 12kWp, trang bị 3 MPPT độc lập, điện áp DC tối đa 600V và dải MPPT rộng 40–560V. Inverter đạt hiệu suất tối đa 97,8%, tích hợp PID Zero, AFCI, chống sét Type II phía DC/AC và giám sát thông minh qua iSolarCloud.",
@@ -6210,7 +6320,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 53,
     images: [
-      "/products/inverter/goodwe-gw125k-sts-g10.png",
+      "/products/inverter/goodwe-gw125k-sts-g10.webp",
     ],
     description:
       "GoodWe GW125K-STS-G10 là bộ chuyển mạch tĩnh Static Transfer Switch (STS) dành cho hệ thống lưu trữ năng lượng thương mại và công nghiệp. Thiết bị được thiết kế để phối hợp với các inverter Hybrid GoodWe ET công suất lớn như GW80K-ET-G10, GW99.99K-ET-G10 và GW100K-ET-G10, giúp hệ thống chuyển đổi giữa trạng thái hòa lưới và vận hành độc lập khi điện lưới gặp sự cố. GoodWe cũng hỗ trợ điều khiển máy phát điện diesel và các tải công suất lớn trong kiến trúc hệ thống này. Theo datasheet Global mới nhất V2.1 ngày 30/06/2026, STS có công suất danh định 125kW, dòng tối đa 210A, công suất biểu kiến tối đa 137,5kVA và thời gian chuyển đổi On-grid/Off-grid <10ms.",
@@ -6305,7 +6415,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 54,
     images: [
-      "/products/inverter/goodwe-sts200-80-10.png",
+      "/products/inverter/goodwe-sts200-80-10.webp",
     ],
     description:
       "GoodWe STS200-80-10 là bộ chuyển mạch tĩnh (Static Transfer Switch – STS) dành cho hệ thống lưu trữ năng lượng thương mại và công nghiệp. Thiết bị phối hợp với inverter Hybrid GoodWe dòng ET 40–50kW, giúp hệ thống tự động chuyển đổi giữa chế độ hòa lưới và hoạt động độc lập khi điện lưới gặp sự cố. Khi kết hợp với inverter như GW50K-ET-10, STS cho phép cấp điện cho tải Backup từ PV và pin lưu trữ, hỗ trợ chuyển mạch nhanh <10ms, đồng thời tích hợp ngõ kết nối máy phát điện. Khi hệ thống đang có điện lưới, ngõ Backup có thể phục vụ tải lên tới 138kVA / 200A. Lưu ý: STS200-80-10 không phải inverter và cũng không phải ATS cơ khí thông thường. Đây là thiết bị chuyển mạch và điều phối nguồn được GoodWe thiết kế để làm việc cùng hệ Hybrid ET, đặc biệt cho chức năng Backup/off-grid cấp UPS.",
@@ -6412,7 +6522,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 55,
     images: [
-      "/products/pin-luu-tru/goodwe-gw16-1-bat-lv-g10.png",
+      "/products/pin-luu-tru/goodwe-gw16-1-bat-lv-g10.webp",
     ],
     description:
       "GoodWe GW16.1-BAT-LV-G10 thuộc dòng Lynx A G4, là pin lưu trữ điện áp thấp sử dụng cell LFP (LiFePO₄) dung lượng định mức 16,1kWh và dung lượng khả dụng từ 14,9kWh. Pin sử dụng cell 314Ah, hỗ trợ công suất xả liên tục tối đa 10kW, mở rộng đến 30 bộ song song và đạt chuẩn bảo vệ IP65. Sản phẩm được thiết kế cho hệ thống điện mặt trời lưu trữ dân dụng, giúp tăng tỷ lệ tự sử dụng điện mặt trời và duy trì nguồn điện dự phòng khi lưới điện gặp sự cố.",
@@ -6513,7 +6623,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 56,
     images: [
-      "/products/pin-luu-tru/lithium-valley-lv-bat-w10-24ac.png",
+      "/products/pin-luu-tru/lithium-valley-lv-bat-w10-24ac.webp",
     ],
     description:
       "Lithium Valley LV-BAT-W10.24Ac là pin lưu trữ điện áp thấp dạng treo tường, sử dụng cell LiFePO₄ (LFP) với điện áp danh định 51,2V, dung lượng 200Ah và năng lượng lưu trữ 10,24kWh. Pin hỗ trợ dòng sạc/xả liên tục tối đa 200A, dòng xả tức thời 400A trong 3 giây, tuổi thọ 6.000 chu kỳ tại 80% DoD và có thể mở rộng tối đa 15 bộ song song. Thiết kế IP65 cùng giao tiếp CAN/RS485/RS232 giúp sản phẩm phù hợp cho hệ thống Hybrid dân dụng, biệt thự và doanh nghiệp nhỏ.",
@@ -6612,7 +6722,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 57,
     images: [
-      "/products/pin-luu-tru/lithium-valley-lithium.png",
+      "/products/pin-luu-tru/lithium-valley-lv-bat-w5-12ac.webp",
     ],
     description:
       "Lithium Valley LV-BAT-W5.12Ac là pin lưu trữ điện áp thấp dạng treo tường, sử dụng cell Lithium Iron Phosphate (LiFePO₄) với điện áp danh định 51,2V và dung lượng 5,12kWh. Pin tích hợp BMS, hỗ trợ giao tiếp CAN/RS485/RS232, dòng sạc/xả liên tục tối đa 100A và có thể ghép song song để mở rộng dung lượng. Thiết kế nhỏ gọn, chuẩn bảo vệ IP65, phù hợp cho hệ thống điện mặt trời Hybrid dân dụng và doanh nghiệp nhỏ.",
@@ -6709,7 +6819,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 58,
     images: [
-      "/products/pin-luu-tru/lithium-valley-lv-bat-w15-5a.png",
+      "/products/pin-luu-tru/lithium-valley-lv-bat-w15-5a.webp",
     ],
     description:
       "Lithium Valley W15-5A là pin lưu trữ điện áp thấp sử dụng cell LiFePO₄ (LFP), điện áp danh định 51,2V, dung lượng 280Ah và năng lượng lưu trữ 14,336kWh. Pin tích hợp BMS thông minh, hỗ trợ dòng sạc/xả liên tục tối đa 200A, độ sâu xả tới 95%, giao tiếp CAN/RS485/RS232 và khả năng mở rộng nhiều bộ song song. Thiết kế IP65, có thể treo tường hoặc đặt sàn, phù hợp cho hệ thống điện mặt trời Hybrid dân dụng và các công trình có nhu cầu lưu trữ lớn.",
@@ -6808,7 +6918,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 59,
     images: [
-      "/products/pin-luu-tru/lithium-valley-w16-5a.png",
+      "/products/pin-luu-tru/lithium-valley-w16-5a.webp",
     ],
     description:
       "Lithium Valley W16-5A là pin lưu trữ điện áp thấp dành cho hệ thống điện mặt trời dân dụng, sử dụng cell Lithium Iron Phosphate – LiFePO₄ (LFP) dung lượng 314Ah, điện áp danh định 51,2V và năng lượng lưu trữ khoảng 16,076kWh. Pin tích hợp BMS thông minh, giao tiếp CAN/RS485/RS232, hỗ trợ dòng sạc/xả liên tục tới 200A, mở rộng tối đa 20 bộ song song và đạt chuẩn bảo vệ IP65. Phiên bản phân phối mới tại Việt Nam còn tích hợp Wi-Fi và bánh xe tiêu chuẩn, phù hợp cho hệ thống Hybrid dân dụng có nhu cầu lưu trữ lớn.",
@@ -6913,7 +7023,7 @@ export const productDetails: ProductDetail[] = [
   {
     productId: 60,
     images: [
-      "/products/pin-luu-tru/solax-t-bat-sys-lv-d150.png",
+      "/products/pin-luu-tru/solax-t-bat-sys-lv-d150.webp",
     ],
     description:
       "SolaX T-BAT-SYS-LV D150 là pin lưu trữ điện áp thấp sử dụng công nghệ LFP – Lithium Iron Phosphate, dung lượng danh định 15kWh và dung lượng khả dụng 13,5kWh tại 90% DoD. Pin hỗ trợ dòng sạc/xả tối đa 155A, dòng xả đỉnh 310A trong 10 giây và tuổi thọ trên 6.000 chu kỳ. Thiết kế module cho phép mở rộng tối đa 16 bộ song song, phù hợp cho các hệ thống điện mặt trời Hybrid và lưu trữ dân dụng cần khả năng mở rộng linh hoạt.",
@@ -7003,11 +7113,123 @@ export const productDetails: ProductDetail[] = [
       "Mở rộng hệ lưu trữ",
     ],
   },
-  // ── GoodWe · Pin lưu trữ cao áp GoodWe GW5.1-PACK-I-G10 ──
+  // ── SolaX · Pin lưu trữ áp thấp SolaX TSYS-LD160 16kWh ──
   {
     productId: 61,
     images: [
-      "/products/pin-luu-tru/goodwe-gw5-1-pack-i-g10.png",
+      "/products/pin-luu-tru/solax-tsys-ld160.webp",
+    ],
+    description:
+      "SolaX TSYS-LD160 là hệ pin lưu trữ điện áp thấp sử dụng cell LFP (LiFePO₄), với năng lượng danh định 16kWh, điện áp danh định 51,2VDC và năng lượng khả dụng 15,2kWh tại 95% DoD. Model pin bên trong hệ thống được SolaX định danh là TB-LD160. Hệ thống có thể sử dụng một bộ độc lập hoặc mở rộng song song tối đa 16 bộ, nâng tổng dung lượng danh định từ 16kWh lên 256kWh. TSYS-LD160 tích hợp màn hình LCD, quản lý từ xa, thiết kế CTP (Cell-to-Pack), bánh xe hỗ trợ di chuyển và hệ thống chữa cháy Aerosol. Đây là dòng battery thấp áp được SolaX định hướng cho hệ lưu trữ dân dụng và các ứng dụng cần dung lượng lớn hơn thông qua ghép song song.",
+    quickSpecs: [
+      { label: "Dung lượng danh định", value: "16 kWh" },
+      { label: "Dung lượng khả dụng", value: "15,2 kWh @ 95% DoD" },
+      { label: "Điện áp danh định", value: "51,2 VDC" },
+      { label: "Công nghệ pin", value: "LFP – LiFePO₄" },
+      { label: "Dòng sạc / xả tối đa", value: "155 A / 220 A" },
+      { label: "Khả năng mở rộng", value: "Tối đa 16 bộ – 256 kWh" },
+    ],
+    highlights: [
+      {
+        title: "16kWh trong một khối battery",
+        description:
+          "dung lượng danh định 16kWh và khả dụng 15,2kWh giúp giảm số lượng thiết bị cần lắp khi so với các battery thấp áp dung lượng nhỏ hơn.",
+      },
+      {
+        title: "DoD 95%",
+        description:
+          "cho phép khai thác phần lớn năng lượng lưu trữ trong mỗi chu kỳ, với năng lượng khả dụng được hãng công bố là 15,2kWh.",
+      },
+      {
+        title: "Hơn 8.000 chu kỳ",
+        description:
+          "SolaX công bố tuổi thọ trên 8.000 chu kỳ ở điều kiện 95% DoD, 0,5C, 25±2°C và 70% EOL; khi đưa lên website nên giữ điều kiện thử nghiệm này thay vì chỉ ghi riêng “8.000 chu kỳ”.",
+      },
+      {
+        title: "Dòng xả tối đa 220A",
+        description:
+          "hỗ trợ dòng xả cao cho các hệ inverter LV có nhu cầu công suất lớn; dòng sạc tối đa là 155A. Giá trị vận hành thực tế còn phụ thuộc số pin ghép song song, nhiệt độ và SOC.",
+      },
+      {
+        title: "Mở rộng lên tới 256kWh",
+        description:
+          "hỗ trợ tối đa 16 battery song song, phù hợp từ hệ lưu trữ dân dụng dung lượng lớn đến các ứng dụng thương mại nhỏ cần nhiều năng lượng hơn.",
+      },
+      {
+        title: "Thiết kế CTP – Cell-to-Pack",
+        description:
+          "SolaX loại bỏ một số cấu trúc module trung gian để tăng mật độ năng lượng và tối ưu không gian bên trong battery.",
+      },
+      {
+        title: "Tích hợp chữa cháy Aerosol",
+        description:
+          "hệ thống có giải pháp dập lửa Aerosol tích hợp nhằm tăng mức độ an toàn cho battery.",
+      },
+      {
+        title: "Quản lý thông minh",
+        description:
+          "hỗ trợ chẩn đoán lỗi, nâng cấp và bảo trì từ xa, đồng thời có màn hình LCD để theo dõi trạng thái trực tiếp trên thiết bị.",
+      },
+    ],
+    fullSpecs: [
+      { label: "Thương hiệu", value: "SolaX Power" },
+      { label: "Model hệ thống", value: "TSYS-LD160" },
+      { label: "Model battery", value: "TB-LD160" },
+      { label: "Loại sản phẩm", value: "Pin lưu trữ điện áp thấp" },
+      { label: "Công nghệ pin", value: "LFP – LiFePO₄" },
+      { label: "Điện áp danh định", value: "51,2 VDC" },
+      { label: "Dải điện áp hoạt động", value: "42,4 – 57,6 VDC" },
+      { label: "Năng lượng danh định", value: "16 kWh" },
+      { label: "Năng lượng khả dụng", value: "15,2 kWh @95% DoD" },
+      { label: "Công suất danh định", value: "7,9 kW" },
+      { label: "Công suất tối đa", value: "11,2 kW" },
+      { label: "Công suất đỉnh", value: "15,8 kW / 10 giây" },
+      { label: "Dòng sạc/xả khuyến nghị", value: "155 A" },
+      { label: "Dòng sạc tối đa", value: "155 A" },
+      { label: "Dòng xả tối đa", value: "220 A" },
+      { label: "Độ sâu xả – DoD", value: "95%" },
+      { label: "Tuổi thọ chu kỳ", value: ">8.000 chu kỳ" },
+      { label: "Khả năng mở rộng", value: "Tối đa 16 pin song song" },
+      { label: "Dung lượng hệ thống", value: "16 – 256 kWh" },
+      { label: "Nhiệt độ sạc", value: "0 đến +55°C" },
+      { label: "Nhiệt độ xả", value: "-20 đến +55°C" },
+      { label: "Làm mát", value: "Đối lưu tự nhiên" },
+      { label: "Giao tiếp", value: "CAN 2.0 / RS485" },
+      { label: "Hiển thị", value: "Đèn báo / LCD" },
+      { label: "Lắp đặt", value: "Đặt sàn" },
+      { label: "Môi trường", value: "Trong nhà" },
+      { label: "Độ cao hoạt động tối đa", value: "3.000 m" },
+      { label: "Độ ẩm tương đối", value: "5–95%, không ngưng tụ" },
+      { label: "Cấp bảo vệ", value: "IP40" },
+      { label: "Phân loại vận chuyển", value: "Class 9" },
+      { label: "Chứng nhận", value: "IEC 62619 / CE-LVD / CE-EMC / UN38.3" },
+    ],
+    documents: [
+      { label: "Datasheet TSYS-LD160 / TSYS-LD143 – SolaX chính hãng PDF", fileUrl: "https://www.solaxpower.com/uploads/file/solax-tsys-ld143-160-datasheet-en.pdf" },
+      { label: "Trang sản phẩm TSYS-LD160 – SolaX Việt Nam", fileUrl: "https://vn.solaxpower.com/products/tsys-ld160-tsys-ld143.html" },
+      { label: "Trang tài liệu DAT Solar – có Datasheet TSYS-LD160 tiếng Việt", fileUrl: "https://datsolar.com/kien-thuc-tai-lieu/" },
+      { label: "Chính sách bảo hành SolaX Power", fileUrl: "https://www.solaxpower.com/warranty.html" },
+    ],
+    warranty: "Bảo hành sản phẩm tiêu chuẩn: 5 năm. Bảo hành chính hãng: 5 năm; bảo hành hiệu suất battery theo điều kiện SolaX, ngưỡng throughput 70,4MWh tại 70% SOH.",
+    origin:   "Đang cập nhật",
+    tags: [
+      "Pin áp thấp (LV)",
+    ],
+    applications: [
+      "Hộ gia đình",
+      "Biệt thự",
+      "Hệ Hybrid điện áp thấp",
+      "Lưu trữ ban ngày dùng ban đêm",
+      "Backup",
+      "Peak Shaving",
+      "Hệ lưu trữ 16–256kWh",
+    ],
+  },
+  // ── GoodWe · Pin lưu trữ cao áp GoodWe GW5.1-PACK-I-G10 ──
+  {
+    productId: 62,
+    images: [
+      "/products/pin-luu-tru/goodwe-gw5-1-pack-i-g10.webp",
     ],
     description:
       "GoodWe GW5.1-PACK-I-G10 là module pin lưu trữ sử dụng cell LFP (LiFePO₄), dung lượng 100Ah, điện áp danh định 51,2V và năng lượng danh định 5,12kWh/pack. Module được lắp trong hệ BAT-S dạng rack, kết hợp nhiều pack nối tiếp để tạo hệ lưu trữ cao áp cho các ứng dụng thương mại – công nghiệp. GoodWe hiện công bố các cấu hình từ 5 đến 11 pack, tương ứng 25,6–56,3kWh.",
@@ -7113,9 +7335,9 @@ export const productDetails: ProductDetail[] = [
   },
   // ── Lithium Valley · Pin lưu trữ cao áp Lithium Valley FLEX16-UNIT ──
   {
-    productId: 62,
+    productId: 63,
     images: [
-      "/products/pin-luu-tru/lithium-valley-flex16-unit.png",
+      "/products/pin-luu-tru/lithium-valley-flex16-unit.webp",
     ],
     description:
       "Lithium Valley FLEX16-UNIT là module pin lưu trữ LiFePO4 16,076kWh, sử dụng cell 314Ah, điện áp danh định 51,2V. Module được thiết kế dạng xếp tầng Cableless Stacking, hoạt động cùng FLEX16-HBOX và FLEX16-RACK để tạo thành hệ lưu trữ cao áp từ 6–16 module, tương ứng khoảng 96,46–257,22kWh mỗi cụm. Pin tích hợp cân bằng chủ động và hệ thống chữa cháy Aerosol ở cấp module, hướng tới các hệ thống Hybrid/Off-grid và ESS thương mại – công nghiệp.",
@@ -7215,9 +7437,9 @@ export const productDetails: ProductDetail[] = [
   },
   // ── Lithium Valley · Pin lưu trữ điện áp cao Lithium Valley LV-BST-H5.12Aa ──
   {
-    productId: 63,
+    productId: 64,
     images: [
-      "/products/pin-luu-tru/lithium-valley-lv-bst-h5-12aa.png",
+      "/products/pin-luu-tru/lithium-valley-lv-bst-h5-12aa.webp",
     ],
     description:
       "Lithium Valley LV-BST-H5.12Aa là module pin lưu trữ điện áp cao sử dụng công nghệ Lithium Iron Phosphate – LiFePO4, có điện áp danh định 51,2V, dung lượng 100Ah và năng lượng 5,12kWh/module. Hệ thống sử dụng thiết kế xếp tầng modular, hỗ trợ từ 3 đến 6 module mỗi tháp, tương ứng tổng dung lượng 15,36–30,72kWh. Pin hỗ trợ CAN/RS485, cấp bảo vệ IP65 và có thể mở rộng tối đa 4 cụm theo datasheet DAT.",
@@ -7322,9 +7544,9 @@ export const productDetails: ProductDetail[] = [
   },
   // ── SolaX · Module pin lưu trữ SolaX TB-HR140 14.3kWh ──
   {
-    productId: 64,
+    productId: 65,
     images: [
-      "/products/pin-luu-tru/solax-tb-hr140.png",
+      "/products/pin-luu-tru/solax-tb-hr140.webp",
     ],
     description:
       "SolaX TB-HR140 là module pin lưu trữ sử dụng cell LFP (LiFePO₄) 280Ah, năng lượng danh định 14,3kWh, điện áp danh định 51,2V và cấu hình cell 1P16S. Đây không phải pin 14,3kWh dùng độc lập; các module TB-HR140 được mắc nối tiếp trong rack cùng bộ quản lý TBMS-R15 để tạo thành hệ pin cao áp TSYS-HR140 cho giải pháp lưu trữ thương mại – công nghiệp SolaX. Trong cấu hình AELIO + HR140 hiện hành, mỗi nhánh battery có thể sử dụng 7–14 module, tương ứng 100,1–200,2kWh. Với inverter X3-AELIO có hai cổng battery, SolaX công bố cấu hình hệ thống có thể mở rộng tổng dung lượng lên tới 400,4kWh.",
@@ -7420,9 +7642,9 @@ export const productDetails: ProductDetail[] = [
   },
   // ── GoodWe · Bộ quản lý pin lưu trữ GoodWe GW110/750-PCU-I-G10 ──
   {
-    productId: 65,
+    productId: 66,
     images: [
-      "/products/pin-luu-tru/goodwe-gw110-750-pcu-i-g10.png",
+      "/products/pin-luu-tru/goodwe-gw110-750-pcu-i-g10.webp",
     ],
     description:
       "GoodWe GW110/750-PCU-I-G10 là bộ điều khiển công suất và quản lý cụm pin dành cho hệ lưu trữ BAT-S Series. Thiết bị phối hợp hoạt động của các pack GW5.1-PACK-I-G10, quản lý quá trình sạc/xả và truyền thông với inverter thông qua CAN, đồng thời hỗ trợ RS485 tùy chọn. Theo datasheet BAT-S hiện hành, mỗi cụm sử dụng 1 PCU, kết hợp 5–11 pack, tạo hệ lưu trữ từ 25,6 đến 56,3kWh. Hệ hỗ trợ dòng sạc tối đa 100A, dòng xả tối đa 110A và có thể ghép tối đa 6 rack song song.",
@@ -7513,9 +7735,9 @@ export const productDetails: ProductDetail[] = [
   },
   // ── Lithium Valley · Bộ quản lý pin cao áp Lithium Valley FLEX16-HBOX ──
   {
-    productId: 66,
+    productId: 67,
     images: [
-      "/products/pin-luu-tru/lithium-valley-flex16-hbox.png",
+      "/products/pin-luu-tru/lithium-valley-flex16-hbox.webp",
     ],
     description:
       "Lithium Valley FLEX16-HBOX là High Voltage Box dùng trong hệ lưu trữ FLEX16, thực hiện giám sát điện áp, dòng điện và điện trở cách điện của cụm battery, đồng thời điều khiển đóng cắt mạch DC và trao đổi dữ liệu với hệ thống thông qua CAN / RS485 / LAN. Thiết bị có điện áp định mức DC 1000V, dòng định mức 250A, đạt IP20 và được thiết kế để kết hợp với 6–16 module FLEX16-UNIT trong một cụm pin. Mỗi module FLEX16-UNIT có dung lượng 16,076kWh, do đó một cụm hoàn chỉnh có thể đạt khoảng 96,46–257,22kWh.",
@@ -7611,9 +7833,9 @@ export const productDetails: ProductDetail[] = [
   },
   // ── Lithium Valley · Bộ quản lý pin lưu trữ BMS Lithium Valley LV-BST-H5.12Aa-HVBOX ──
   {
-    productId: 67,
+    productId: 68,
     images: [
-      "/products/pin-luu-tru/lithium-valley-lv-bst-h5-12aa-hvbox.png",
+      "/products/pin-luu-tru/lithium-valley-lv-bst-h5-12aa-hvbox.webp",
     ],
     description:
       "Lithium Valley LV-BST-H5.12Aa-HVBOX là bộ quản lý pin áp cao dùng cho hệ thống lưu trữ LV-BST-H5.12Aa. Thiết bị đảm nhiệm việc quản lý, giám sát trạng thái pin, truyền dữ liệu giữa cụm battery và inverter, đồng thời phối hợp các chức năng bảo vệ của hệ thống. BMS hỗ trợ giao tiếp CAN / RS485, hiển thị các thông tin như SOC và điện áp pin, làm việc với cấu hình từ 3 đến 6 module 5,12kWh trên mỗi tháp, tương ứng dung lượng hệ thống 15,36–30,72kWh. Hệ thống LV-BST-H5.12Aa hỗ trợ tối đa 4 cụm/tháp theo datasheet DAT hiện hành.",
@@ -7713,9 +7935,9 @@ export const productDetails: ProductDetail[] = [
   },
   // ── Lithium Valley · Khung đỡ hệ pin lưu trữ Lithium Valley FLEX16-RACK ──
   {
-    productId: 68,
+    productId: 69,
     images: [
-      "/products/pin-luu-tru/lithium-valley-flex16-rack.png",
+      "/products/pin-luu-tru/lithium-valley-flex16-rack.webp",
     ],
     description:
       "Lithium Valley FLEX16-RACK là bộ khung/bệ đỡ chuyên dụng cho hệ pin lưu trữ cao áp FLEX16, dùng để cố định và nâng đỡ các module FLEX16-UNIT cùng bộ quản lý FLEX16-HBOX. Thiết kế rack tạo nền đỡ ổn định cho hệ pin dạng xếp tầng, có chân cân bằng phía dưới và hỗ trợ bố trí một hoặc nhiều tháp pin theo cấu hình dung lượng của hệ thống. FLEX16 sử dụng thiết kế cableless stacking, các module được xếp trực tiếp lên nhau; hệ hoàn chỉnh hỗ trợ từ 6 đến 16 module pin, tương ứng khoảng 96,46–257,22kWh/cụm và có thể bố trí thành 1, 2 hoặc 3 tháp tùy cấu hình.",
@@ -7802,9 +8024,9 @@ export const productDetails: ProductDetail[] = [
   },
   // ── SolaX · Bộ quản lý pin SolaX TBMS-R15 ──
   {
-    productId: 69,
+    productId: 70,
     images: [
-      "/products/pin-luu-tru/solax-tbms-r15.jpg",
+      "/products/pin-luu-tru/solax-tbms-r15.webp",
     ],
     description:
       "SolaX TBMS-R15 là bộ quản lý pin BMS (Battery Management System) chuyên dụng cho hệ lưu trữ cao áp TSYS-HR140, sử dụng các module pin TB-HR140 14,3kWh – LFP 280Ah. Thiết bị đảm nhiệm việc quản lý, giám sát và bảo vệ chuỗi battery, đồng thời giao tiếp với inverter/PCS SolaX thông qua CAN. Trong hệ AELIO + HR140, một TBMS-R15 quản lý cấu hình từ 7 đến 14 module TB-HR140, tương ứng dung lượng hệ từ 100,1 đến 200,2kWh. Đây là BMS/controller của toàn rack, không phải một module pin và không có dung lượng kWh riêng.",
