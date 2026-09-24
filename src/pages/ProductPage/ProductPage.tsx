@@ -22,8 +22,9 @@ import { GOLD, NAVY } from "../../themes/brand";
 
 const HEADER_BG = "#121b45";
 
-// Số sản phẩm hiển thị trước khi bấm "Xem thêm" trong mỗi danh mục.
-const PAGE_SIZE = 15;
+// Lưới giữ 5 cột trên desktop; hiển thị sẵn 2 hàng (10 sản phẩm),
+// phần còn lại mở bằng nút "Xem thêm".
+const PAGE_SIZE = 10;
 
 // ─── Icon theo danh mục ───
 const categoryIconMap: Record<string, React.ReactNode> = {
