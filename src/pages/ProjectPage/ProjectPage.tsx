@@ -88,7 +88,11 @@ export default function ProjectsPage() {
   // ── Số liệu tổng hợp cho hero: luôn tính từ danh sách dự án thật ──
   const summary = useMemo(() => {
     const totalKwp = projects.reduce((sum, p) => sum + p.capacityKwp, 0);
-    const provinces = new Set(projects.map((p) => p.location));
+    // Địa điểm trong hồ sơ ghi cả cấp phường/thành phố ("Dĩ An, TP.HCM"),
+    // nên phải lấy phần cuối mới đếm đúng số tỉnh thành.
+    const provinces = new Set(
+      projects.map((p) => p.location.split(",").pop()!.trim()),
+    );
     // Ước tính sản lượng: 120 kWh/kWp/tháng theo giả định dùng cho calculator.
     const yearlyKwh = totalKwp * 120 * 12;
     return {

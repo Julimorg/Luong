@@ -74,3 +74,45 @@ node scripts/optimize-images.mjs public/combo --no-trim --max=1400 --quality=0.8
 ```
 
 `--no-trim` để giữ nguyên bố cục poster (không cắt viền như ảnh sản phẩm).
+
+## Dự án (trang /du-an)
+
+`src/data/projectData.ts` (mảng `projects`) và `src/data/projectDetailData.ts`
+được sinh từ hồ sơ trong `documents/duAn-documents/`:
+
+```bash
+python3 scripts/duan.py   # đọc .docx, chép + nén ảnh, ghi 2 file data
+```
+
+Script tự gọi `optimize-images.mjs` nên chỉ cần chạy một lệnh.
+
+### Cấu trúc thư mục hồ sơ
+
+```
+documents/duAn-documents/
+  Dự án nói lên năng lực triển khai/        -> dự án trọng điểm (featured)
+    <Tên dự án> (<Danh mục>).docx
+    Ảnh/<Tên dự án>/{ảnh tổng, ảnh phụ…}.png
+  Toàn bộ dự án đã triển khai/
+    Đã hoàn thành/<Tên dự án> (<Danh mục>)/  -> 1 file .docx + ảnh cùng thư mục
+    Đang triển khai/<Tên dự án> (<Danh mục>)/
+```
+
+- Danh mục lấy từ cụm trong ngoặc cuối tên thư mục: `Hộ gia đình`,
+  `Doanh nghiệp`, `Nhà máy`, `Nhà xưởng`.
+- Ảnh tên chứa chữ "tổng" là ảnh chính, các ảnh còn lại vào gallery.
+- Trạng thái suy từ dòng "Ngày hoàn thành": ghi "Dự kiến…" hoặc để trống thì
+  dự án được xếp là **Đang thi công**.
+
+### Các mục trong file Word
+
+| Mục                            | Dùng vào đâu                                  |
+| ------------------------------ | --------------------------------------------- |
+| Dòng `DỰ ÁN ĐIỆN MẶT TRỜI …`   | Tên dự án                                      |
+| `THANH THÔNG TIN NHANH PHÍA TRÊN` | Danh sách thiết bị, số tấm pin, số inverter |
+| `TỔNG QUAN DỰ ÁN`              | `overview`                                     |
+| `BẢNG THÔNG TIN DỰ ÁN`         | Địa điểm, công suất, lưu trữ, ngày, khách hàng |
+| `NỘI DUNG (HIỂN THỊ) TRÊN ẢNH LỚN` | 2 dòng chữ đè lên ảnh lớn + tóm tắt trên thẻ |
+
+Script **chỉ lấy những gì hồ sơ ghi** — không suy đoán sản lượng năm, chi phí
+tiết kiệm hay lượng CO₂. Mục nào hồ sơ không có thì trang chi tiết tự ẩn.

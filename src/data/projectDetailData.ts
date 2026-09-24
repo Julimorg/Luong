@@ -1,5 +1,7 @@
 // ============================================================
 // projectDetailData.ts — Chi tiết từng dự án
+// Sinh tự động từ documents/duAn-documents bằng scripts/duan.py.
+// Sửa hồ sơ Word rồi chạy lại script, không sửa tay file này.
 // ============================================================
 
 export interface ProjectStat {
@@ -13,440 +15,291 @@ export interface ProjectDetail {
   title: string;
   subtitle: string;
   heroImage: string;
-  overviewImage?: string; // ảnh tượng trưng cho phần Tổng quan dự án
+  /** Ảnh minh hoạ cạnh phần Tổng quan dự án. */
+  overviewImage?: string;
   location: string;
   capacity: string;
   status: "Hoàn thành" | "Đang thi công";
-  completedAt?: string; // "Tháng 3, 2023"
+  /** Mốc bàn giao, hoặc "Đang triển khai" khi hồ sơ chưa chốt ngày. */
+  completedAt?: string;
   client: string;
-  stats: ProjectStat[]; // 4 con số nổi bật dưới hero
-  overview: string; // đoạn mô tả tổng quan
-
-  expectedOutput?: string; // VD: "2.700 MWh/năm"
-  roofArea?: string; // VD: "12.000 m²"
-  scope?: string;
-
-  equipmentItems?: { brand: string; spec: string }[]; // VD: { brand: "LONGi", spec: "Tấm pin 480W" }
-  inverterCount?: string; // VD: "18"
-
-  // ── Thông số kỹ thuật ──
-  equipment: string[]; // Thiết bị sử dụng
-  constructionTime: string; // Thời gian thi công
-
-  // ── Thách thức / Giải pháp / Kết quả ──
-  challenge: string; // Thách thức của dự án
-  solutions: string[]; // Giải pháp của VIETHUNGSOLAR
-  results: string[]; // Kết quả
-
-  gallery: string[]; // ảnh gallery cuối trang
+  /** Các con số hồ sơ có nêu — không có thì bỏ trống, không suy đoán. */
+  stats?: ProjectStat[];
+  overview: string;
+  /** Loại hình dự án theo hồ sơ, VD "Điện mặt trời áp mái thương mại". */
+  projectKind?: string;
+  /** Tên công trình khi khác tên khách hàng. */
+  building?: string;
+  storage?: string;
+  /** Hai dòng chữ hồ sơ ghi để hiển thị đè lên ảnh lớn. */
+  highlightTitle?: string;
+  highlightText?: string;
+  equipment?: string[];
+  gallery?: string[];
 }
 
 export const projectDetails: Record<number, ProjectDetail> = {
+
   1: {
     id: 1,
-    title: "Nhà máy May Việt Tân – Hưng Yên",
-    subtitle: "Hệ thống điện mặt trời áp mái quy mô lớn cho ngành dệt may",
-    heroImage: "/du-an/10-phong-inverter.webp",
-    overviewImage: "/du-an/07-ap-mai-nha-xuong.webp",
-    location: "Hưng Yên",
-    capacity: "1.2 MWp",
+    title: "Nhà xưởng Hiếu Linh – Bình Dương",
+    subtitle: "Giải pháp điện mặt trời cho nhà xưởng quy mô lớn",
+    heroImage: "/du-an/nha-xuong-hieu-linh/tong.webp",
+    overviewImage: "/du-an/nha-xuong-hieu-linh/phu-1.webp",
+    location: "Bình Dương",
+    capacity: "1 MWp",
     status: "Hoàn thành",
-    completedAt: "Tháng 3, 2023",
-    client: "Công ty May Việt Tân",
+    completedAt: "Tháng 12/2020",
+    client: "Công ty TNHH Thương Mại Và Xây Dựng Hiếu Linh",
     stats: [
-      { label: "Công suất lắp đặt", value: "1.2", unit: "MWp" },
-      { label: "Sản lượng năm", value: "1,440", unit: "MWh/năm" },
-      { label: "Tiết kiệm điện", value: "2.1", unit: "tỷ đ/năm" },
-      { label: "CO₂ giảm thải", value: "720", unit: "tấn/năm" },
+      { label: "Công suất lắp đặt", value: "1", unit: "MWp" },
+      { label: "Số tấm pin", value: "2.200", unit: "tấm" },
+      { label: "Số inverter", value: "11", unit: "bộ" },
     ],
     overview:
-      "Dự án lắp đặt hệ thống điện mặt trời áp mái 1.2 MWp tại nhà máy may Việt Tân — một trong những nhà máy dệt may lớn nhất tỉnh Hưng Yên. Toàn bộ hệ thống được thiết kế để tối ưu diện tích mái xưởng, giảm tải điện lưới trong giờ cao điểm và đạt công suất phát ổn định quanh năm.",
+      "Dự án điện mặt trời áp mái 1 MWp tại Bình Dương được triển khai trên hệ mái tôn của nhà xưởng quy mô lớn, hướng đến tối ưu nguồn điện sử dụng cho hoạt động sản xuất vào ban ngày. Hệ thống sử dụng 2.200 tấm pin Qcells công suất 450Wp kết hợp 11 inverter SMA Sunny Tripower 60 – STP 60-10, tạo thành giải pháp điện mặt trời công nghiệp đồng bộ, phù hợp với mô hình nhà xưởng có nhu cầu tiêu thụ điện lớn và ổn định trong giờ nắng.",
+    projectKind: "Điện mặt trời áp mái nhà xưởng",
+    highlightTitle: "Giải pháp điện mặt trời cho nhà xưởng quy mô lớn",
+    highlightText: "Tối ưu nguồn điện ban ngày, nâng cao hiệu quả sử dụng năng lượng cho hoạt động sản xuất",
     equipment: [
-      "~2.180 tấm pin JA Solar 550W",
-      "Inverter Huawei trung thế 100kW",
-      "Khung đỡ nhôm chống ăn mòn cho mái tôn sóng",
-      "Hệ thống giám sát thông minh theo thời gian thực",
-    ],
-    constructionTime: "45 ngày",
-    challenge:
-      "Mái xưởng có kết cấu tôn sóng nghiêng nhiều hướng, đòi hỏi giải pháp khung đỡ tùy chỉnh; đồng thời phải thi công khi nhà máy vẫn vận hành sản xuất bình thường.",
-    solutions: [
-      "Khảo sát kết cấu mái chi tiết, tính tải trọng từng vùng",
-      "Thiết kế khung đỡ tùy chỉnh tối ưu góc nghiêng",
-      "Triển khai giám sát thông minh kết hợp inverter trung thế",
-      "Thi công theo ca, đảm bảo an toàn lao động 100%",
-    ],
-    results: [
-      "Hiệu suất vận hành duy trì trên 98% suốt vòng đời dự án",
-      "Sản lượng đạt 1.440 MWh/năm — vượt 8% so với dự toán",
-      "Tiết kiệm ~175 triệu đồng/tháng, hoàn vốn dự kiến ~4.5 năm",
+      "Hệ thống áp mái 1 MWp trên nhà xưởng mái tôn",
+      "11 inverter SMA Sunny Tripower 60 – STP 60-10",
+      "2.200 tấm pin Qcells 450Wp",
     ],
     gallery: [
-      "/du-an/16-doi-thi-cong-tren-mai.webp",
-      "/du-an/01-thi-cong-ap-mai.webp",
-      "/du-an/09-ap-mai-khu-cong-nghiep.webp",
+      "/du-an/nha-xuong-hieu-linh/phu-1.webp",
+      "/du-an/nha-xuong-hieu-linh/phu-2.webp",
+      "/du-an/nha-xuong-hieu-linh/phu-3.webp",
     ],
   },
 
   2: {
     id: 2,
-    title: "Nhà máy Bao bì Tân Tiến – Bình Dương",
-    subtitle: "Giải pháp năng lượng tái tạo cho ngành công nghiệp bao bì",
-    heroImage: "/du-an/07-ap-mai-nha-xuong.webp",
-    overviewImage: "/du-an/16-doi-thi-cong-tren-mai.webp",
+    title: "Nhà hàng Song Phát 2 – Bình Dương",
+    subtitle: "Giải pháp điện mặt trời cho công trình thương mại quy mô lớn",
+    heroImage: "/du-an/nha-hang-song-phat-2/tong.webp",
+    overviewImage: "/du-an/nha-hang-song-phat-2/phu-1.webp",
     location: "Bình Dương",
-    capacity: "2 MWp",
+    capacity: "220 kWp",
     status: "Hoàn thành",
-    completedAt: "Tháng 6, 2023",
-    client: "Công ty TNHH Bao bì Tân Tiến",
+    completedAt: "12/2020",
+    client: "Nhà hàng Song Phát 2",
     stats: [
-      { label: "Công suất lắp đặt", value: "2", unit: "MWp" },
-      { label: "Sản lượng năm", value: "2,400", unit: "MWh/năm" },
-      { label: "Tiết kiệm điện", value: "3.5", unit: "tỷ đ/năm" },
-      { label: "CO₂ giảm thải", value: "1,200", unit: "tấn/năm" },
+      { label: "Công suất lắp đặt", value: "220", unit: "kWp" },
+      { label: "Số tấm pin", value: "518", unit: "tấm" },
+      { label: "Số inverter", value: "02", unit: "bộ" },
     ],
     overview:
-      "Hệ thống điện mặt trời 2 MWp được lắp đặt trên toàn bộ diện tích mái nhà xưởng của Bao bì Tân Tiến, đáp ứng 60% nhu cầu điện năng sản xuất. Đây là một trong những dự án áp mái lớn nhất khu công nghiệp VSIP 2 tính đến thời điểm hoàn thành.",
+      "Dự án điện mặt trời áp mái Nhà hàng Song Phát 2 có quy mô khoảng 220 kWp, được triển khai trên diện tích mái lớn của công trình nhằm tận dụng nguồn năng lượng mặt trời phục vụ nhu cầu sử dụng điện trong quá trình vận hành. Hệ thống sử dụng khoảng 518 tấm pin Qcells công suất 425Wp kết hợp 02 inverter Sungrow SG110CX công suất 110 kW, tạo thành hệ thống điện mặt trời hòa lưới phù hợp cho công trình thương mại có nhu cầu tiêu thụ điện lớn vào ban ngày. Giải pháp giúp khai thác hiệu quả diện tích mái, giảm lượng điện mua từ lưới và tối ưu chi phí vận hành.",
+    projectKind: "Điện mặt trời áp mái thương mại",
+    building: "Nhà hàng Song Phát 2",
+    highlightTitle: "Giải pháp điện mặt trời cho công trình thương mại quy mô lớn",
+    highlightText: "Tận dụng diện tích mái – tối ưu nguồn điện sử dụng ban ngày",
     equipment: [
-      "~3.640 tấm pin mono PERC 550W",
-      "Inverter string công suất lớn",
-      "Khung đỡ nhôm chống ăn mòn",
-      "Nền tảng giám sát từ xa qua cloud",
-    ],
-    constructionTime: "50 ngày",
-    challenge:
-      "Phải tối ưu toàn bộ diện tích mái xưởng và tránh bóng đổ từ thiết bị cơ điện trên mái để đạt sản lượng phát điện cao nhất.",
-    solutions: [
-      "Khảo sát kết cấu mái, phân tích bức xạ theo từng góc phần tư trong ngày",
-      "Mô phỏng 3D toàn bộ hệ thống trước thi công",
-      "Tối ưu số tấm pin, tránh bóng đổ thiết bị cơ điện",
-      "Tích hợp giám sát cloud + báo cáo hiệu suất tự động hàng tuần",
-    ],
-    results: [
-      "Đáp ứng 60% nhu cầu điện năng sản xuất của nhà máy",
-      "Sản lượng 2.400 MWh/năm, giảm 1.200 tấn CO₂/năm",
-      "Một trong những dự án áp mái lớn nhất KCN VSIP 2",
+      "Hệ thống điện mặt trời áp mái 220 kWp",
+      "02 inverter Sungrow SG110CX – 110 kW",
+      "518 tấm pin Qcells 425Wp",
     ],
     gallery: [
-      "/du-an/09-ap-mai-khu-cong-nghiep.webp",
-      "/du-an/01-thi-cong-ap-mai.webp",
-      "/du-an/10-phong-inverter.webp",
+      "/du-an/nha-hang-song-phat-2/phu-1.webp",
+      "/du-an/nha-hang-song-phat-2/phu-2.webp",
     ],
   },
 
   3: {
     id: 3,
-    title: "Trường Quốc tế Việt Úc – TP. HCM",
-    subtitle: "Điện mặt trời xanh cho môi trường giáo dục hiện đại",
-    heroImage: "/du-an/01-thi-cong-ap-mai.webp",
-    overviewImage: "/du-an/14-khao-sat-san-thuong.webp",
-    location: "TP. Hồ Chí Minh",
-    capacity: "560 kWp",
+    title: "Hộ gia đình – Lái Thiêu, TP.HCM",
+    subtitle: "Điện mặt trời áp mái có lưu trữ",
+    heroImage: "/du-an/ho-gia-dinh/tong.webp",
+    overviewImage: "/du-an/ho-gia-dinh/phu-1.webp",
+    location: "Lái Thiêu, TP.HCM",
+    capacity: "10 kWp",
     status: "Hoàn thành",
-    completedAt: "Tháng 9, 2022",
-    client: "Trường Quốc tế Việt Úc (VAS)",
+    completedAt: "Tháng 07/2026",
+    client: "Công trình dân dụng tại Lái Thiêu",
     stats: [
-      { label: "Công suất lắp đặt", value: "560", unit: "kWp" },
-      { label: "Sản lượng năm", value: "672", unit: "MWh/năm" },
-      { label: "Tiết kiệm điện", value: "980", unit: "triệu đ/năm" },
-      { label: "CO₂ giảm thải", value: "336", unit: "tấn/năm" },
+      { label: "Công suất lắp đặt", value: "10", unit: "kWp" },
+      { label: "Số tấm pin", value: "16", unit: "tấm" },
+      { label: "Số inverter", value: "01", unit: "bộ" },
     ],
     overview:
-      "Dự án điện mặt trời áp mái 560 kWp tại hệ thống Trường Quốc tế Việt Úc là ví dụ điển hình của cam kết xanh trong giáo dục. Hệ thống cung cấp điện cho toàn bộ hoạt động chiếu sáng, điều hòa và thiết bị học tập trong giờ cao điểm ban ngày.",
+      "Dự án điện mặt trời áp mái 10 kWp tại Lái Thiêu, TP.HCM được triển khai nhằm tận dụng nguồn điện mặt trời ban ngày, nâng cao hiệu quả sử dụng điện và tăng tính chủ động về năng lượng cho công trình. Hệ thống sử dụng 16 tấm pin TCL Solar công suất 625Wp, kết hợp 01 inverter GoodWe ES Uniq 6 kW và 01 pin lưu trữ GoodWe Lynx A G4 16,1 kWh. Giải pháp giúp tăng tỷ lệ tự sử dụng điện mặt trời, lưu trữ phần điện dư để dùng khi cần và hỗ trợ nguồn điện dự phòng cho các tải phù hợp.",
+    projectKind: "Điện mặt trời áp mái có lưu trữ",
     equipment: [
-      "Tấm pin all-black mono PERC",
-      "Inverter hiệu suất cao cho điều kiện bức xạ thấp",
-      "Màn hình hiển thị dữ liệu phát điện thời gian thực",
-    ],
-    constructionTime: "30 ngày",
-    challenge:
-      "Hệ thống pin phải hài hòa với kiến trúc tổng thể khuôn viên trường, không ảnh hưởng đến thẩm mỹ công trình.",
-    solutions: [
-      "Thiết kế tích hợp kiến trúc, dùng pin all-black đồng bộ",
-      "Tối ưu hiệu suất trong điều kiện bức xạ thấp",
-      "Lắp màn hình hiển thị dữ liệu phát điện tại sảnh chính",
-      "Biến hệ thống thành công cụ giáo dục trực quan cho học sinh",
-    ],
-    results: [
-      "Cấp điện cho chiếu sáng, điều hòa, thiết bị học tập giờ cao điểm",
-      "Sản lượng 672 MWh/năm, giảm 336 tấn CO₂/năm",
-      "Trở thành điểm nhấn cam kết xanh trong giáo dục",
+      "Hệ thống áp mái 10 kWp kết hợp lưu trữ 16,1 kWh",
+      "01 inverter GoodWe ES Uniq 6 kW",
+      "16 tấm pin TCL Solar 625Wp",
+      "01 pin lưu trữ GoodWe Lynx A G4 16,1 kWh",
     ],
     gallery: [
-      "/du-an/16-doi-thi-cong-tren-mai.webp",
-      "/du-an/07-ap-mai-nha-xuong.webp",
-      "/du-an/10-phong-inverter.webp",
+      "/du-an/ho-gia-dinh/phu-1.webp",
     ],
   },
 
   4: {
     id: 4,
-    title: "Nhà máy Cà Phê Chính xác – Đồng Nai",
-    subtitle: "Hệ thống năng lượng tái tạo 5 MWp cho ngành chế biến nông sản",
-    heroImage: "/du-an/16-doi-thi-cong-tren-mai.webp",
-    overviewImage: "/du-an/09-ap-mai-khu-cong-nghiep.webp",
-    location: "Đồng Nai",
-    capacity: "5 MWp",
+    title: "Trung tâm Đào tạo TOIDM Education – Thủ Đức, TP.HCM",
+    subtitle: "Giải pháp điện mặt trời kết hợp lưu trữ trên hệ khung sắt",
+    heroImage: "/du-an/trung-tam-dao-tao-toidm-education/tong.webp",
+    overviewImage: "/du-an/trung-tam-dao-tao-toidm-education/phu-1.webp",
+    location: "Thủ Đức, TP.HCM",
+    capacity: "10 kWp",
     status: "Hoàn thành",
-    completedAt: "Tháng 1, 2024",
-    client: "Công ty CP Cà Phê Chính xác Việt Nam",
+    completedAt: "Tháng 05/2026",
+    client: "Trung tâm Đào tạo TOIDM Education",
     stats: [
-      { label: "Công suất lắp đặt", value: "5", unit: "MWp" },
-      { label: "Sản lượng năm", value: "6,000", unit: "MWh/năm" },
-      { label: "Tiết kiệm điện", value: "8.7", unit: "tỷ đ/năm" },
-      { label: "CO₂ giảm thải", value: "3,000", unit: "tấn/năm" },
+      { label: "Công suất lắp đặt", value: "10", unit: "kWp" },
+      { label: "Số tấm pin", value: "16", unit: "tấm" },
+      { label: "Dung lượng lưu trữ", value: "16", unit: "kWh" },
+      { label: "Số inverter", value: "01", unit: "bộ" },
     ],
     overview:
-      "Với quy mô 5 MWp, đây là một trong những dự án điện mặt trời áp mái công nghiệp lớn nhất tỉnh Đồng Nai. Hệ thống đáp ứng 75% tổng nhu cầu điện của toàn nhà máy chế biến cà phê, giúp doanh nghiệp chủ động nguồn điện và giảm phụ thuộc vào điện lưới trong mùa cao điểm.",
+      "Dự án điện mặt trời 10 kWp tại Trung tâm Đào tạo TOIDM Education – Thủ Đức, TP.HCM được triển khai trên hệ khung sắt riêng biệt, giúp tận dụng không gian phía trên công trình để bố trí hệ thống điện mặt trời mà không lắp trực tiếp lên mái. Hệ thống sử dụng 16 tấm pin TCL Solar công suất 625Wp, kết hợp 01 inverter Hybrid GoodWe 6 kW và 01 pin lưu trữ Lithium Valley 16 kWh. Giải pháp giúp tận dụng nguồn điện mặt trời vào ban ngày, lưu trữ phần điện dư để sử dụng khi cần và tăng khả năng chủ động nguồn điện cho hoạt động của trung tâm.",
+    projectKind: "Điện mặt trời khung sắt có lưu trữ",
+    storage: "16 kWh",
+    highlightTitle: "Giải pháp điện mặt trời kết hợp lưu trữ trên hệ khung sắt",
+    highlightText: "Tận dụng không gian hiệu quả, lưu trữ năng lượng và chủ động nguồn điện cho hoạt động đào tạo",
     equipment: [
-      "Hơn 12.000 tấm pin trên 35.000 m² mái",
-      "Inverter trung thế 10 kV đấu trực tiếp thanh cái nội bộ",
-      "Tích hợp hệ thống SCADA của nhà máy",
-    ],
-    constructionTime: "90 ngày",
-    challenge:
-      "Triển khai quy mô rất lớn trên 8 mái nhà xưởng, cần giảm tổn thất đường dây và tích hợp vào hệ thống điện nội bộ của nhà máy.",
-    solutions: [
-      "Lắp >12.000 tấm pin trên tổng diện tích 35.000 m²",
-      "Inverter trung thế 10 kV đấu trực tiếp vào thanh cái nội bộ",
-      "Tích hợp toàn bộ dữ liệu vận hành vào hệ thống SCADA",
-      "Cảnh báo sự cố gửi đến di động trong vòng 30 giây",
-    ],
-    results: [
-      "Đáp ứng 75% tổng nhu cầu điện của nhà máy",
-      "Hiệu suất tổng thể đạt 98.2%",
-      "Nhận chứng nhận RE100 đầu tiên ngành cà phê Việt Nam",
-      "Giảm 3.000 tấn CO₂/năm ~ trồng 150.000 cây xanh",
+      "Hệ thống điện mặt trời 10 kWp lắp đặt trên khung sắt",
+      "01 inverter GoodWe ES Uniq 6 kW",
+      "01 pin lưu trữ Lithium Valley W16-5A 16 kWh",
+      "16 tấm pin TCL Solar 625Wp",
     ],
     gallery: [
-      "/du-an/07-ap-mai-nha-xuong.webp",
-      "/du-an/01-thi-cong-ap-mai.webp",
-      "/du-an/10-phong-inverter.webp",
+      "/du-an/trung-tam-dao-tao-toidm-education/phu-1.webp",
+      "/du-an/trung-tam-dao-tao-toidm-education/phu-2.webp",
     ],
   },
 
   5: {
     id: 5,
-    title: "Tòa nhà văn phòng – Hà Nội",
-    subtitle: "Điện mặt trời tích hợp cho tòa nhà thương mại hiện đại",
-    heroImage: "/du-an/14-khao-sat-san-thuong.webp",
-    overviewImage: "/du-an/01-thi-cong-ap-mai.webp",
-    location: "Hà Nội",
-    capacity: "220 kWp",
+    title: "Trung tâm Đào tạo Horizon – Dĩ An, TP.HCM",
+    subtitle: "Giải pháp điện mặt trời kết hợp lưu trữ cho trung tâm đào tạo",
+    heroImage: "/du-an/trung-tam-dao-tao-horizon/tong.webp",
+    overviewImage: "/du-an/trung-tam-dao-tao-horizon/phu-1.webp",
+    location: "Dĩ An, TP.HCM",
+    capacity: "10 kWp",
     status: "Hoàn thành",
-    completedAt: "Tháng 5, 2023",
-    client: "Tập đoàn Bất động sản Vinhomes",
+    completedAt: "Tháng 06/2026",
+    client: "Trung tâm Đào tạo Horizon",
     stats: [
-      { label: "Công suất lắp đặt", value: "220", unit: "kWp" },
-      { label: "Sản lượng năm", value: "264", unit: "MWh/năm" },
-      { label: "Tiết kiệm điện", value: "385", unit: "triệu đ/năm" },
-      { label: "CO₂ giảm thải", value: "132", unit: "tấn/năm" },
+      { label: "Công suất lắp đặt", value: "10", unit: "kWp" },
+      { label: "Số tấm pin", value: "16", unit: "tấm" },
+      { label: "Dung lượng lưu trữ", value: "32", unit: "kWh" },
+      { label: "Số inverter", value: "01", unit: "bộ" },
     ],
     overview:
-      "Hệ thống điện mặt trời 220 kWp được tích hợp vào thiết kế mái tòa nhà văn phòng hạng A tại trung tâm Hà Nội. Điện được ưu tiên cấp cho hệ thống chiếu sáng và điều hòa tầng hầm, giảm đáng kể chi phí vận hành của ban quản lý tòa nhà.",
+      "Dự án điện mặt trời áp mái 10 kWp tại Trung tâm Đào tạo Horizon – Dĩ An, TP.HCM được triển khai nhằm tận dụng nguồn điện mặt trời ban ngày và tăng khả năng chủ động năng lượng cho hoạt động của trung tâm. Hệ thống sử dụng 16 tấm pin TCL Solar công suất 625Wp, kết hợp 01 inverter Hybrid GoodWe 10 kW và 02 pin lưu trữ Lithium Valley 16 kWh, cung cấp tổng dung lượng lưu trữ khoảng 32 kWh. Giải pháp giúp tăng tỷ lệ tự sử dụng điện mặt trời, lưu trữ điện dư để sử dụng ngoài giờ nắng và hỗ trợ nguồn điện dự phòng cho các tải phù hợp.",
+    projectKind: "Điện mặt trời áp mái có lưu trữ",
+    storage: "32 kWh",
+    highlightTitle: "Giải pháp điện mặt trời kết hợp lưu trữ cho trung tâm đào tạo",
+    highlightText: "Tận dụng điện mặt trời ban ngày, lưu trữ năng lượng và chủ động nguồn điện khi cần",
     equipment: [
-      "Tấm pin BIPV tích hợp trực tiếp vào vật liệu mái",
-      "Inverter kết nối hệ thống BMS tòa nhà",
-      "Thuật toán dự báo thời tiết tối ưu vận hành",
-    ],
-    constructionTime: "35 ngày",
-    challenge:
-      "Tích hợp hệ thống vào mái tòa nhà hạng A — vừa phát điện vừa đảm bảo thẩm mỹ kiến trúc và tính năng chống thấm.",
-    solutions: [
-      "Áp dụng giải pháp BIPV thay lớp chống thấm thông thường",
-      "Kết nối BMS, ưu tiên các tải có thể dịch chuyển được",
-      "Dùng thuật toán dự báo thời tiết tối ưu lịch vận hành",
-      "Đảm bảo thẩm mỹ kiến trúc và chống thấm công trình",
-    ],
-    results: [
-      "Ưu tiên cấp điện chiếu sáng và điều hòa tầng hầm",
-      "Sản lượng 264 MWh/năm, giảm 132 tấn CO₂/năm",
-      "Giảm đáng kể chi phí vận hành cho ban quản lý tòa nhà",
+      "Hệ thống điện mặt trời áp mái 10 kWp kết hợp lưu trữ 32 kWh",
+      "01 inverter GoodWe ES Uniq 10 kW",
+      "02 pin lưu trữ Lithium Valley W16-5A 16 kWh",
+      "16 tấm pin TCL Solar 625Wp",
     ],
     gallery: [
-      "/du-an/11-ap-mai-nha-pho.webp",
-      "/du-an/08-tu-dien-lithium-valley.webp",
-      "/du-an/10-phong-inverter.webp",
+      "/du-an/trung-tam-dao-tao-horizon/phu-1.webp",
+      "/du-an/trung-tam-dao-tao-horizon/phu-2.webp",
     ],
   },
 
   6: {
     id: 6,
-    title: "Biệt thự gia đình – Đà Nẵng",
-    subtitle: "Hệ thống điện mặt trời kết hợp lưu trữ cho hộ gia đình cao cấp",
-    heroImage: "/du-an/04-tu-dien-hybrid-goodwe.webp",
-    overviewImage: "/du-an/11-ap-mai-nha-pho.webp",
-    location: "Đà Nẵng",
-    capacity: "10 kWp",
-    status: "Hoàn thành",
-    completedAt: "Tháng 7, 2023",
-    client: "Hộ gia đình (bảo mật thông tin)",
+    title: "Nhà xưởng Hiệp Hòa Phát – Đồng Nai",
+    subtitle: "Giải pháp điện mặt trời áp mái quy mô lớn cho nhà xưởng",
+    heroImage: "/du-an/nha-xuong-hiep-hoa-phat/tong.webp",
+    overviewImage: "/du-an/nha-xuong-hiep-hoa-phat/phu-1.webp",
+    location: "Đồng Nai",
+    capacity: "1,5 MWp",
+    status: "Đang thi công",
+    completedAt: "Đang triển khai",
+    client: "Đang cập nhật",
     stats: [
-      { label: "Công suất lắp đặt", value: "10", unit: "kWp" },
-      { label: "Sản lượng năm", value: "14.5", unit: "MWh/năm" },
-      { label: "Tiết kiệm điện", value: "25", unit: "triệu đ/năm" },
-      { label: "Pin lưu trữ", value: "20", unit: "kWh" },
+      { label: "Công suất lắp đặt", value: "1,5", unit: "MWp" },
+      { label: "Số tấm pin", value: "2.290", unit: "tấm" },
+      { label: "Số inverter", value: "15", unit: "bộ" },
     ],
     overview:
-      "Hệ thống 10 kWp kết hợp pin lưu trữ 20 kWh giúp gia đình hoàn toàn độc lập khỏi điện lưới vào ban đêm và các ngày mưa. Đây là giải pháp điện mặt trời toàn diện nhất trong phân khúc hộ gia đình mà chúng tôi đã triển khai tại khu vực miền Trung.",
+      "Dự án điện mặt trời áp mái tại Nhà xưởng CP TTNT Hiệp Hòa Phát – Đồng Nai đang trong quá trình triển khai, với quy mô dự kiến khoảng 1,5 MWp. Hệ thống được thiết kế nhằm tận dụng diện tích mái nhà xưởng, bổ sung nguồn điện phục vụ hoạt động sản xuất ban ngày và hỗ trợ doanh nghiệp tối ưu chi phí điện năng. Theo phương án thiết kế sơ bộ, hệ thống dự kiến sử dụng khoảng 2.290 tấm pin TCL Solar công suất 655Wp kết hợp khoảng 15 inverter GoodWe. Số lượng inverter, cách chia chuỗi và công suất thực tế sẽ được chốt sau khi hoàn tất thiết kế kỹ thuật và khảo sát điều kiện thi công.",
+    projectKind: "Điện mặt trời áp mái nhà xưởng",
+    highlightTitle: "Giải pháp điện mặt trời áp mái quy mô lớn cho nhà xưởng",
+    highlightText: "Dự kiến khai thác hiệu quả diện tích mái, tối ưu nguồn điện ban ngày và nâng cao hiệu quả vận hành",
     equipment: [
-      "Inverter hybrid on-grid / off-grid",
-      "Hệ pin lưu trữ 20 kWh",
-      "Ứng dụng điều khiển thông minh + kết nối nhà thông minh",
-    ],
-    constructionTime: "7 ngày",
-    challenge:
-      "Gia đình cần độc lập hoàn toàn khỏi điện lưới vào ban đêm và ngày mưa, kể cả trong các đợt cắt điện luân phiên.",
-    solutions: [
-      "Lắp inverter hybrid ưu tiên: điện mặt trời → nạp pin → bán/mua lưới",
-      "Tích hợp pin lưu trữ 20 kWh đảm bảo nguồn dự phòng",
-      "Ứng dụng di động theo dõi sản lượng, pin và chi phí",
-      "Kết nối thiết bị nhà thông minh tự bật/tắt theo giá điện",
-    ],
-    results: [
-      "Chủ động hoàn toàn nguồn điện kể cả khi cắt điện luân phiên",
-      "Sản lượng 14.5 MWh/năm",
-      "Giải pháp toàn diện nhất phân khúc hộ gia đình miền Trung",
+      "Hệ thống điện mặt trời áp mái dự kiến khoảng 1,5 MWp",
+      "Khoảng 15 inverter GoodWe – cấu hình đang hoàn thiện",
+      "Khoảng 2.290 tấm pin TCL Solar 655Wp",
     ],
     gallery: [
-      "/du-an/08-tu-dien-lithium-valley.webp",
-      "/du-an/01-thi-cong-ap-mai.webp",
-      "/du-an/11-ap-mai-nha-pho.webp",
+      "/du-an/nha-xuong-hiep-hoa-phat/phu-1.webp",
+      "/du-an/nha-xuong-hiep-hoa-phat/phu-2.webp",
     ],
   },
 
   7: {
     id: 7,
-    title: "Khu công nghiệp VSIP – Bình Dương",
-    subtitle: "Năng lượng xanh quy mô lớn cho khu công nghiệp quốc tế",
-    heroImage: "/du-an/09-ap-mai-khu-cong-nghiep.webp",
-    overviewImage: "/du-an/07-ap-mai-nha-xuong.webp",
-    location: "Bình Dương",
-    capacity: "8 MWp",
-    status: "Hoàn thành",
-    completedAt: "Tháng 11, 2023",
-    client: "Ban Quản lý KCN VSIP Bình Dương",
+    title: "Tòa nhà văn phòng TP.HCM 85 kWp",
+    subtitle: "Giải pháp điện mặt trời cho tòa nhà văn phòng",
+    heroImage: "/du-an/toa-nha-van-phong-tp-hcm/tong.webp",
+    overviewImage: "/du-an/toa-nha-van-phong-tp-hcm/phu-1.webp",
+    location: "TP.HCM",
+    capacity: "85 kWp",
+    status: "Đang thi công",
+    completedAt: "Đang triển khai",
+    client: "Đang cập nhật",
     stats: [
-      { label: "Công suất lắp đặt", value: "8", unit: "MWp" },
-      { label: "Sản lượng năm", value: "9,600", unit: "MWh/năm" },
-      { label: "Tiết kiệm điện", value: "14", unit: "tỷ đ/năm" },
-      { label: "CO₂ giảm thải", value: "4,800", unit: "tấn/năm" },
+      { label: "Công suất lắp đặt", value: "85", unit: "kWp" },
+      { label: "Số tấm pin", value: "132", unit: "tấm" },
+      { label: "Số inverter", value: "01", unit: "bộ" },
     ],
     overview:
-      "Dự án 8 MWp tại VSIP Bình Dương là hệ thống điện mặt trời áp mái lớn nhất trong khu công nghiệp có vốn đầu tư nước ngoài tại Việt Nam tính đến năm 2023. Dự án góp phần giúp các doanh nghiệp trong KCN đáp ứng tiêu chí ESG và mục tiêu phát thải ròng bằng 0.",
+      "Dự án điện mặt trời tại tòa nhà văn phòng TP.HCM đang trong quá trình triển khai, với quy mô dự kiến khoảng 85 kWp. Hệ thống được thiết kế nhằm tận dụng không gian mái tòa nhà để bổ sung nguồn điện phục vụ các phụ tải hoạt động chủ yếu vào ban ngày, góp phần giảm lượng điện mua từ lưới và tối ưu chi phí vận hành. Theo phương án thiết kế sơ bộ, hệ thống dự kiến sử dụng khoảng 132 tấm pin TCL Solar công suất 645Wp kết hợp 01 inverter INVT công suất khoảng 60 kW. Số lượng tấm pin, model inverter và cấu hình chuỗi thực tế sẽ được hoàn thiện sau khi chốt phương án kỹ thuật và điều kiện thi công.",
+    projectKind: "Điện mặt trời áp mái tòa nhà văn phòng",
+    highlightTitle: "Giải pháp điện mặt trời cho tòa nhà văn phòng",
+    highlightText: "Tận dụng không gian mái, tối ưu nguồn điện sử dụng ban ngày và nâng cao hiệu quả vận hành",
     equipment: [
-      "Hệ thống áp mái 8 MWp trên nhiều nhà xưởng",
-      "Hệ thống microgrid chia sẻ điện nội bộ KCN",
-      "Chứng nhận I-REC cho toàn bộ sản lượng",
-    ],
-    constructionTime: "60 ngày (gồm thủ tục cấp phép & đấu nối)",
-    challenge:
-      "Triển khai trong KCN quốc tế đòi hỏi phối hợp chặt chẽ với ban quản lý VSIP, EVN và nhiều doanh nghiệp thuê xưởng.",
-    solutions: [
-      "Đảm nhiệm toàn bộ quy trình xin phép đến đấu nối lưới",
-      "Xây dựng microgrid phân phối điện nội bộ giữa các xưởng",
-      "Tối ưu sử dụng điện theo ca sản xuất của từng doanh nghiệp",
-      "Chứng nhận I-REC hỗ trợ doanh nghiệp báo cáo RE100",
-    ],
-    results: [
-      "Hệ thống áp mái lớn nhất KCN FDI tại Việt Nam (2023)",
-      "Sản lượng 9.600 MWh/năm, giảm 4.800 tấn CO₂/năm",
-      "Giúp doanh nghiệp đáp ứng tiêu chí ESG và net-zero",
+      "Hệ thống điện mặt trời dự kiến khoảng 85 kWp",
+      "Khoảng 01 inverter INVT công suất 60 kW",
+      "Khoảng 132 tấm pin TCL Solar 645Wp",
     ],
     gallery: [
-      "/du-an/16-doi-thi-cong-tren-mai.webp",
-      "/du-an/01-thi-cong-ap-mai.webp",
-      "/du-an/10-phong-inverter.webp",
+      "/du-an/toa-nha-van-phong-tp-hcm/phu-1.webp",
+      "/du-an/toa-nha-van-phong-tp-hcm/phu-2.webp",
     ],
   },
 
   8: {
     id: 8,
-    title: "Nhà phố khu dân cư – TP. HCM",
-    subtitle: "Điện mặt trời tiết kiệm cho nhà phố đô thị",
-    heroImage: "/du-an/11-ap-mai-nha-pho.webp",
-    overviewImage: "/du-an/08-tu-dien-lithium-valley.webp",
-    location: "TP. Hồ Chí Minh",
-    capacity: "6 kWp",
-    status: "Hoàn thành",
-    completedAt: "Tháng 4, 2023",
-    client: "Hộ gia đình (bảo mật thông tin)",
+    title: "Tòa nhà văn phòng TP.HCM 40 kWp",
+    subtitle: "Giải pháp điện mặt trời cho tòa nhà văn phòng",
+    heroImage: "/du-an/toa-nha-van-phong-tp-hcm/tong.webp",
+    overviewImage: "/du-an/toa-nha-van-phong-tp-hcm/phu-1.webp",
+    location: "TP.HCM",
+    capacity: "40 kWp",
+    status: "Đang thi công",
+    completedAt: "Đang triển khai",
+    client: "Tòa nhà văn phòng tại TP.HCM",
     stats: [
-      { label: "Công suất lắp đặt", value: "6", unit: "kWp" },
-      { label: "Sản lượng năm", value: "8.4", unit: "MWh/năm" },
-      { label: "Tiết kiệm điện", value: "14.5", unit: "triệu đ/năm" },
-      { label: "Hoàn vốn", value: "5", unit: "năm" },
+      { label: "Công suất lắp đặt", value: "40", unit: "kWp" },
+      { label: "Số tấm pin", value: "62", unit: "tấm" },
+      { label: "Số inverter", value: "01", unit: "bộ" },
     ],
     overview:
-      "Hệ thống 6 kWp được lắp đặt tối ưu trên mái sân thượng diện tích hạn chế của nhà phố tại quận Bình Thạnh. Thiết kế tập trung vào tối đa công suất trên từng m² mái sử dụng, kết hợp inverter on-grid có tính năng zero-export để đảm bảo tuân thủ quy định điện lực địa phương.",
+      "Dự án điện mặt trời áp mái tại tòa nhà văn phòng TP.HCM đang trong quá trình triển khai, với quy mô dự kiến khoảng 40 kWp. Hệ thống được thiết kế nhằm tận dụng diện tích mái tòa nhà, bổ sung nguồn điện phục vụ các phụ tải hoạt động chủ yếu vào ban ngày và hỗ trợ tối ưu chi phí điện năng. Theo phương án thiết kế sơ bộ, hệ thống dự kiến sử dụng khoảng 62 tấm pin TCL Solar công suất 645Wp kết hợp 01 inverter INVT công suất khoảng 30 kW. Số lượng tấm pin, model inverter, cách chia chuỗi và cấu hình thực tế sẽ được chốt sau khi hoàn thiện phương án kỹ thuật và điều kiện thi công.",
+    projectKind: "Điện mặt trời áp mái tòa nhà văn phòng",
+    highlightTitle: "Giải pháp điện mặt trời cho tòa nhà văn phòng",
+    highlightText: "Tận dụng diện tích mái, tối ưu nguồn điện sử dụng ban ngày và nâng cao hiệu quả vận hành",
     equipment: [
-      "Tấm pin mono half-cell 420Wp hiệu suất cao",
-      "Inverter on-grid tính năng zero-export",
-      "Ứng dụng theo dõi sản lượng trên di động",
-    ],
-    constructionTime: "5 ngày",
-    challenge:
-      "Diện tích mái hữu dụng chỉ 40 m², phải tối đa công suất và tránh bóng đổ từ bồn nước và cột ăng-ten.",
-    solutions: [
-      "Chọn pin 420Wp mono half-cell tối đa công suất trên mỗi m²",
-      "Tính hướng đặt panel riêng theo địa chỉ lắp đặt",
-      "Dùng inverter zero-export tuân thủ quy định điện lực",
-      "Tối ưu bố trí tránh bóng đổ thiết bị trên mái",
-    ],
-    results: [
-      "Hóa đơn điện giảm từ 2.8 triệu xuống ~600.000 đồng/tháng",
-      "Sản lượng 8.4 MWh/năm, hoàn vốn dự kiến ~5 năm",
-      "Gia đình hài lòng, chủ động chia sẻ kinh nghiệm với hàng xóm",
+      "Hệ thống điện mặt trời áp mái dự kiến khoảng 40 kWp",
+      "Khoảng 01 inverter INVT công suất 30 kW",
+      "Khoảng 62 tấm pin TCL Solar 645Wp",
     ],
     gallery: [
-      "/du-an/04-tu-dien-hybrid-goodwe.webp",
-      "/du-an/01-thi-cong-ap-mai.webp",
-      "/du-an/14-khao-sat-san-thuong.webp",
+      "/du-an/toa-nha-van-phong-tp-hcm/phu-1.webp",
+      "/du-an/toa-nha-van-phong-tp-hcm/phu-2.webp",
     ],
   },
 
-  9: {
-    id: 9,
-    title: "Nhà máy Dệt may Thắng Lợi – Long An",
-    subtitle:
-      "Hệ thống điện mặt trời đang triển khai cho ngành dệt may miền Nam",
-    heroImage: "/du-an/13-nha-xuong-dang-xay.webp",
-    overviewImage: "/du-an/16-doi-thi-cong-tren-mai.webp",
-    location: "Long An",
-    capacity: "3.5 MWp",
-    status: "Đang thi công",
-    client: "Tổng Công ty Dệt may Thắng Lợi",
-    stats: [
-      { label: "Công suất lắp đặt", value: "3.5", unit: "MWp" },
-      { label: "Sản lượng dự kiến", value: "4,200", unit: "MWh/năm" },
-      { label: "Tiết kiệm dự kiến", value: "6.1", unit: "tỷ đ/năm" },
-      { label: "Tiến độ", value: "65", unit: "%" },
-    ],
-    overview:
-      "Dự án 3.5 MWp đang trong giai đoạn thi công tại nhà máy dệt may Thắng Lợi — Long An, dự kiến hoàn thành Quý 3/2025. Đây là dự án tiếp nối chuỗi hợp tác giữa chúng tôi và Tổng Công ty Thắng Lợi sau thành công của dự án thí điểm 500 kWp năm 2022.",
-    equipment: [
-      "Tấm pin TOPCon thế hệ mới, hiệu suất 22.5%",
-      "Inverter string 110 kW phân tán tăng độ dự phòng",
-      "Hệ khung đỡ và cáp điện nội bộ trung thế",
-    ],
-    constructionTime: "Đang thi công — dự kiến hòa lưới Q3/2025",
-    challenge:
-      "Thi công nối tiếp chuỗi hợp tác, đảm bảo tiến độ hòa lưới đúng Quý 3/2025 trong khi nhà máy vẫn vận hành.",
-    solutions: [
-      "Hoàn thành 100% hạng mục móng và khung đỡ",
-      "Lắp đặt 65% tổng số tấm pin TOPCon hiệu suất 22.5%",
-      "Phân tán inverter string 110 kW tăng độ dự phòng hệ thống",
-      "Hoàn thiện cáp điện nội bộ và tủ inverter trung thế",
-    ],
-    results: [
-      "Tiến độ thi công hiện tại đạt 65%",
-      "Sản lượng dự kiến 4.200 MWh/năm khi vận hành",
-      "Dự kiến tiết kiệm 6.1 tỷ đồng/năm cho nhà máy",
-    ],
-    gallery: [
-      "/du-an/01-thi-cong-ap-mai.webp",
-      "/du-an/07-ap-mai-nha-xuong.webp",
-      "/du-an/09-ap-mai-khu-cong-nghiep.webp",
-    ],
-  },
 };

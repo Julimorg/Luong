@@ -9,7 +9,6 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import SolarPowerIcon from "@mui/icons-material/SolarPower";
 import GridViewIcon from "@mui/icons-material/GridView";
-import MemoryIcon from "@mui/icons-material/Memory";
 import NatureIcon from "@mui/icons-material/Nature";
 import SavingsIcon from "@mui/icons-material/Savings";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
@@ -91,22 +90,19 @@ export default function ProjectDetailPage() {
     );
   }
 
+  // Chỉ liệt kê những mục hồ sơ dự án có nêu — dòng nào trống thì bỏ hẳn.
   const metaRows: { label: string; value?: string }[] = [
-    { label: "Loại hình dự án", value: categoryLabels[project.category] },
+    { label: "Loại hình dự án", value: detail.projectKind ?? categoryLabels[project.category] },
+    { label: "Công trình", value: detail.building },
     { label: "Địa điểm", value: detail.location },
     { label: "Công suất hệ thống", value: detail.capacity },
-    { label: "Sản lượng dự kiến", value: detail.expectedOutput },
-    { label: "Diện tích mái", value: detail.roofArea },
+    { label: "Dung lượng lưu trữ", value: detail.storage },
     { label: "Ngày hoàn thành", value: detail.completedAt },
-    { label: "Phạm vi thực hiện", value: detail.scope },
     { label: "Khách hàng", value: detail.client },
   ].filter((row) => Boolean(row.value));
 
   const hasEquipmentStrip =
-    (detail.equipmentItems?.length ?? 0) > 0 ||
-    (detail.equipment?.length ?? 0) > 0 ||
-    Boolean(project.panelCount) ||
-    Boolean(detail.inverterCount);
+    (detail.equipment?.length ?? 0) > 0 || Boolean(project.panelCount);
 
   return (
     <div className="pt-[72px] bg-[#f3f4f6] min-h-screen">
@@ -220,7 +216,7 @@ export default function ProjectDetailPage() {
                   </div>
 
                   <div className="flex flex-wrap gap-x-6 gap-y-3 pt-4 border-t border-white/15 mb-5">
-                    {detail.stats.map((stat, i) => (
+                    {detail.stats?.map((stat, i) => (
                       <div key={i} className="flex items-center gap-2">
                         <span className="flex-shrink-0" style={{ color: GOLD }}>
                           {pickStatIcon(stat.label)}
@@ -275,74 +271,38 @@ export default function ProjectDetailPage() {
                 </span>
               </div>
 
-              {/* Thiết bị dạng brand + spec (2 dòng) — ưu tiên dùng nếu có */}
-              {detail.equipmentItems?.map((item, i) => (
+              {/* Thiết bị theo đúng dòng hồ sơ ghi */}
+              {detail.equipment?.map((item, i) => (
                 <div
                   key={`eq-${i}`}
-                  className="flex-shrink-0 lg:min-w-0 flex flex-col justify-center px-6 lg:px-4 py-5"
+                  className="flex-shrink-0 lg:min-w-0 flex items-center px-6 lg:px-4 py-5"
                 >
                   <span
-                    className="font-extrabold text-sm tracking-wide whitespace-nowrap lg:whitespace-normal lg:leading-snug"
+                    className="font-semibold text-sm whitespace-nowrap lg:whitespace-normal lg:leading-snug"
                     style={{ color: NAVY }}
                   >
-                    {item.brand}
-                  </span>
-                  <span className="text-gray-400 text-xs whitespace-nowrap lg:whitespace-normal lg:leading-snug mt-0.5">
-                    {item.spec}
+                    {item}
                   </span>
                 </div>
               ))}
 
-              {/* Fallback: nếu chưa có equipmentItems, dùng equipment: string[] cũ */}
-              {!detail.equipmentItems?.length &&
-                detail.equipment?.map((item, i) => (
-                  <div
-                    key={`eq-legacy-${i}`}
-                    className="flex-shrink-0 lg:min-w-0 flex items-center px-6 lg:px-4 py-5"
-                  >
+              {/* Số lượng tấm pin — chỉ hiện khi dòng thiết bị chưa nói tới,
+                  tránh lặp lại thông tin ngay cạnh nhau. */}
+              {project.panelCount &&
+                !detail.equipment?.some((e) => e.includes("tấm pin")) && (
+                  <div className="flex-shrink-0 lg:min-w-0 flex items-center gap-2.5 px-6 lg:px-4 py-5">
+                    <GridViewIcon
+                      sx={{ fontSize: 20, color: GOLD, flexShrink: 0 }}
+                    />
                     <span
-                      className="font-semibold text-sm whitespace-nowrap lg:whitespace-normal lg:leading-snug"
+                      className="font-extrabold text-sm whitespace-nowrap lg:whitespace-normal lg:leading-snug"
                       style={{ color: NAVY }}
                     >
-                      {item}
+                      {project.panelCount}
                     </span>
                   </div>
-                ))}
+                )}
 
-              {/* Số lượng tấm pin */}
-              {project.panelCount && (
-                <div className="flex-shrink-0 lg:min-w-0 flex items-center gap-2.5 px-6 lg:px-4 py-5">
-                  <GridViewIcon
-                    sx={{ fontSize: 20, color: GOLD, flexShrink: 0 }}
-                  />
-                  <span
-                    className="font-extrabold text-sm whitespace-nowrap lg:whitespace-normal lg:leading-snug"
-                    style={{ color: NAVY }}
-                  >
-                    {project.panelCount}
-                  </span>
-                </div>
-              )}
-
-              {/* Số lượng inverter */}
-              {detail.inverterCount && (
-                <div className="flex-shrink-0 lg:min-w-0 flex items-center gap-2.5 px-6 lg:px-4 py-5">
-                  <MemoryIcon
-                    sx={{ fontSize: 20, color: GOLD, flexShrink: 0 }}
-                  />
-                  <div className="leading-tight">
-                    <span
-                      className="font-extrabold text-sm block whitespace-nowrap lg:whitespace-normal"
-                      style={{ color: NAVY }}
-                    >
-                      {detail.inverterCount}
-                    </span>
-                    <span className="text-gray-400 text-xs whitespace-nowrap lg:whitespace-normal">
-                      Inverter
-                    </span>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
         </div>
@@ -397,13 +357,11 @@ export default function ProjectDetailPage() {
                   <div className="flex items-center gap-2 mb-1.5">
                     <SolarPowerIcon sx={{ fontSize: 17, color: GOLD }} />
                     <h3 className="text-white font-bold text-sm">
-                      Giải pháp tối ưu cho sản xuất xanh
+                      {detail.highlightTitle ?? "Giải pháp điện mặt trời"}
                     </h3>
                   </div>
                   <p className="text-white/70 text-xs leading-relaxed">
-                    {detail.solutions?.[0] ??
-                      detail.challenge ??
-                      detail.overview}
+                    {detail.highlightText ?? detail.overview}
                   </p>
                 </div>
               </div>
@@ -420,7 +378,7 @@ export default function ProjectDetailPage() {
           </h2>
         </Reveal>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-          {detail.gallery.map((src, i) => (
+          {detail.gallery?.map((src, i) => (
             <Reveal key={i} delay={i * 70}>
               <div className="rounded-2xl overflow-hidden aspect-[4/3] border border-gray-200 shadow-sm">
                 <img
