@@ -340,7 +340,7 @@ def main():
         details.append({
             'id': i, 'title': title,
             'subtitle': p['highlight'][0] if p['highlight'] else p['kind'],
-            'heroImage': image, 'overviewImage': gallery[0] if gallery else image,
+            'heroImage': image, 'overviewImage': image,
             'location': p['location'], 'capacity': clean_capacity(p['capacity']), 'status': p['status'],
             'completedAt': p['timeline'], 'client': p['client'], 'stats': stats,
             'overview': ' '.join(p['overview']), 'equipment': p['equipment'],
@@ -355,7 +355,9 @@ def main():
         row['image'] = url_of(image) if image else ''
         det['heroImage'] = row['image']
         det['gallery'] = [url_of(g) for g in gallery]
-        det['overviewImage'] = det['gallery'][0] if det['gallery'] else row['image']
+        # Ảnh cạnh mục "Tổng quan dự án" dùng đúng ảnh tổng (ảnh bìa)
+        # của hồ sơ, không lấy ảnh phụ.
+        det['overviewImage'] = row['image']
 
     # Ảnh nền hero lấy từ dự án trọng điểm đầu tiên để luôn trỏ vào file có thật.
     if rows:
@@ -424,7 +426,7 @@ export interface ProjectDetail {
   title: string;
   subtitle: string;
   heroImage: string;
-  /** Ảnh minh hoạ cạnh phần Tổng quan dự án. */
+  /** Ảnh cạnh phần Tổng quan dự án — dùng "ảnh tổng" của hồ sơ. */
   overviewImage?: string;
   location: string;
   capacity: string;

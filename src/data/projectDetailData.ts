@@ -15,7 +15,7 @@ export interface ProjectDetail {
   title: string;
   subtitle: string;
   heroImage: string;
-  /** Ảnh minh hoạ cạnh phần Tổng quan dự án. */
+  /** Ảnh cạnh phần Tổng quan dự án — dùng "ảnh tổng" của hồ sơ. */
   overviewImage?: string;
   location: string;
   capacity: string;
@@ -45,7 +45,7 @@ export const projectDetails: Record<number, ProjectDetail> = {
     title: "Nhà xưởng Hiếu Linh – Bình Dương",
     subtitle: "Giải pháp điện mặt trời cho nhà xưởng quy mô lớn",
     heroImage: "/du-an/nha-xuong-hieu-linh/tong.webp",
-    overviewImage: "/du-an/nha-xuong-hieu-linh/phu-1.webp",
+    overviewImage: "/du-an/nha-xuong-hieu-linh/tong.webp",
     location: "Bình Dương",
     capacity: "1 MWp",
     status: "Hoàn thành",
@@ -78,7 +78,7 @@ export const projectDetails: Record<number, ProjectDetail> = {
     title: "Nhà hàng Song Phát 2 – Bình Dương",
     subtitle: "Giải pháp điện mặt trời cho công trình thương mại quy mô lớn",
     heroImage: "/du-an/nha-hang-song-phat-2/tong.webp",
-    overviewImage: "/du-an/nha-hang-song-phat-2/phu-1.webp",
+    overviewImage: "/du-an/nha-hang-song-phat-2/tong.webp",
     location: "Bình Dương",
     capacity: "220 kWp",
     status: "Hoàn thành",
@@ -111,7 +111,7 @@ export const projectDetails: Record<number, ProjectDetail> = {
     title: "Hộ gia đình – Lái Thiêu, TP.HCM",
     subtitle: "Điện mặt trời áp mái có lưu trữ",
     heroImage: "/du-an/ho-gia-dinh/tong.webp",
-    overviewImage: "/du-an/ho-gia-dinh/phu-1.webp",
+    overviewImage: "/du-an/ho-gia-dinh/tong.webp",
     location: "Lái Thiêu, TP.HCM",
     capacity: "10 kWp",
     status: "Hoàn thành",
@@ -141,7 +141,7 @@ export const projectDetails: Record<number, ProjectDetail> = {
     title: "Trung tâm Đào tạo TOIDM Education – Thủ Đức, TP.HCM",
     subtitle: "Giải pháp điện mặt trời kết hợp lưu trữ trên hệ khung sắt",
     heroImage: "/du-an/trung-tam-dao-tao-toidm-education/tong.webp",
-    overviewImage: "/du-an/trung-tam-dao-tao-toidm-education/phu-1.webp",
+    overviewImage: "/du-an/trung-tam-dao-tao-toidm-education/tong.webp",
     location: "Thủ Đức, TP.HCM",
     capacity: "10 kWp",
     status: "Hoàn thành",
@@ -176,7 +176,7 @@ export const projectDetails: Record<number, ProjectDetail> = {
     title: "Trung tâm Đào tạo Horizon – Dĩ An, TP.HCM",
     subtitle: "Giải pháp điện mặt trời kết hợp lưu trữ cho trung tâm đào tạo",
     heroImage: "/du-an/trung-tam-dao-tao-horizon/tong.webp",
-    overviewImage: "/du-an/trung-tam-dao-tao-horizon/phu-1.webp",
+    overviewImage: "/du-an/trung-tam-dao-tao-horizon/tong.webp",
     location: "Dĩ An, TP.HCM",
     capacity: "10 kWp",
     status: "Hoàn thành",
@@ -211,7 +211,7 @@ export const projectDetails: Record<number, ProjectDetail> = {
     title: "Nhà xưởng Hiệp Hòa Phát – Đồng Nai",
     subtitle: "Giải pháp điện mặt trời áp mái quy mô lớn cho nhà xưởng",
     heroImage: "/du-an/nha-xuong-hiep-hoa-phat/tong.webp",
-    overviewImage: "/du-an/nha-xuong-hiep-hoa-phat/phu-1.webp",
+    overviewImage: "/du-an/nha-xuong-hiep-hoa-phat/tong.webp",
     location: "Đồng Nai",
     capacity: "1,5 MWp",
     status: "Đang thi công",
@@ -243,7 +243,7 @@ export const projectDetails: Record<number, ProjectDetail> = {
     title: "Tòa nhà văn phòng TP.HCM 85 kWp",
     subtitle: "Giải pháp điện mặt trời cho tòa nhà văn phòng",
     heroImage: "/du-an/toa-nha-van-phong-tp-hcm-85-kwp/tong.webp",
-    overviewImage: "/du-an/toa-nha-van-phong-tp-hcm-85-kwp/phu-1.webp",
+    overviewImage: "/du-an/toa-nha-van-phong-tp-hcm-85-kwp/tong.webp",
     location: "TP.HCM",
     capacity: "85 kWp",
     status: "Đang thi công",
@@ -275,7 +275,7 @@ export const projectDetails: Record<number, ProjectDetail> = {
     title: "Tòa nhà văn phòng TP.HCM 40 kWp",
     subtitle: "Giải pháp điện mặt trời cho tòa nhà văn phòng",
     heroImage: "/du-an/toa-nha-van-phong-tp-hcm-40-kwp/tong.webp",
-    overviewImage: "/du-an/toa-nha-van-phong-tp-hcm-40-kwp/phu-1.webp",
+    overviewImage: "/du-an/toa-nha-van-phong-tp-hcm-40-kwp/tong.webp",
     location: "TP.HCM",
     capacity: "40 kWp",
     status: "Đang thi công",
