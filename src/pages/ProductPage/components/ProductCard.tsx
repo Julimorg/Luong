@@ -23,10 +23,13 @@ export function ProductCard({ product, showGroup = false }: ProductCardProps) {
         className="relative flex items-center justify-center bg-gradient-to-b from-slate-50 to-white p-5"
         style={{ height: 180 }}
       >
-        {/* Nhóm thiết bị — nhãn nhỏ góc trên để phân biệt Hybrid / Hòa lưới / Pin… */}
+        {/* Nhóm thiết bị — nhãn nhỏ góc trên để phân biệt Hybrid / Hòa lưới / Pin…
+            z-10: khi hover, ảnh được scale nên tạo stacking context và đứng cùng
+            lớp vẽ với nhãn; không có z-index thì ảnh (đứng sau trong DOM) sẽ đè
+            lên và che mất chữ. */}
         {showGroup && (
           <span
-            className="absolute left-3 top-3 rounded-full bg-white/85 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide backdrop-blur-sm"
+            className="absolute left-3 top-3 z-10 rounded-full bg-white/85 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide backdrop-blur-sm"
             style={{ color: brandColor }}
           >
             {product.group}
