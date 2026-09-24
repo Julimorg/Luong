@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { animate, stagger } from "animejs";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import SupportAgentRoundedIcon from "@mui/icons-material/SupportAgentRounded";
-import { solutionFaqGroups, solutionFaqSection } from "../../../data/solutionData";
+import { solutionFaqs, solutionFaqSection } from "../../../data/solutionData";
+import { useAnimeOnView } from "../../../hooks/useAnimeOnView";
 import { Reveal, SectionHeading } from "./solutionShared";
 import { GOLD, NAVY } from "./solutionTheme";
 
@@ -94,16 +95,10 @@ function FaqRow({
 }
 
 export function SolutionFaq() {
-  const [group, setGroup] = useState(0);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const listRef = useRef<HTMLDivElement>(null);
 
-  const items = solutionFaqGroups[group].items;
-
-  // Đổi nhóm -> câu hỏi mới bay lên so le để thấy rõ nội dung vừa thay.
-  useEffect(() => {
-    const el = listRef.current;
-    if (!el || prefersReducedMotion()) return;
+  // Các dòng câu hỏi bay lên so le khi cuộn tới.
+  const listRef = useAnimeOnView<HTMLDivElement>((el) => {
     const rows = el.querySelectorAll<HTMLElement>("[data-faq]");
     const anim = animate(rows, {
       opacity: [0, 1],
@@ -115,7 +110,7 @@ export function SolutionFaq() {
     return () => {
       anim.cancel();
     };
-  }, [group]);
+  });
 
   return (
     <section className="bg-white py-16 sm:py-20 lg:py-24">
@@ -129,41 +124,7 @@ export function SolutionFaq() {
               description={solutionFaqSection.description}
             />
 
-            <Reveal delay={80} className="mt-6">
-              <div
-                role="tablist"
-                aria-label="Nhóm câu hỏi"
-                className="flex flex-wrap gap-2"
-              >
-                {solutionFaqGroups.map((g, i) => {
-                  const active = i === group;
-                  return (
-                    <button
-                      key={g.id}
-                      role="tab"
-                      aria-selected={active}
-                      onClick={() => {
-                        setGroup(i);
-                        setOpenIndex(null);
-                      }}
-                      className="rounded-full border px-4 py-2 text-sm font-bold transition-all duration-200"
-                      style={{
-                        color: active ? "#fff" : NAVY,
-                        backgroundColor: active ? NAVY : "#fff",
-                        borderColor: active ? NAVY : "rgba(18,27,69,0.14)",
-                      }}
-                    >
-                      {g.label}
-                      <span className={active ? "ml-1.5 text-white/55" : "ml-1.5 text-gray-400"}>
-                        {g.items.length}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </Reveal>
-
-            <Reveal delay={140} className="mt-6">
+            <Reveal delay={120} className="mt-6">
               <Link
                 to="/lien-he"
                 className="inline-flex items-center gap-2.5 rounded-2xl border border-gray-100 bg-[#fbfbfd] px-5 py-4 no-underline transition-all duration-200 hover:-translate-y-0.5 hover:bg-white hover:shadow-lg"
@@ -187,8 +148,8 @@ export function SolutionFaq() {
           </div>
 
           {/* Cột phải: danh sách câu hỏi của nhóm đang chọn */}
-          <div ref={listRef} key={solutionFaqGroups[group].id} className="flex flex-col gap-3">
-            {items.map((f, i) => (
+          <div ref={listRef} className="flex flex-col gap-3">
+            {solutionFaqs.map((f, i) => (
               <div data-faq key={f.question}>
                 <FaqRow
                   question={f.question}

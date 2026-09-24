@@ -537,113 +537,48 @@ export const compareRows: CompareRow[] = [
 ];
 
 // ---------- HỎI ĐÁP ----------
-// Hai nhóm: kiến thức cơ bản về điện / điện mặt trời để khách đọc hiểu được
-// các con số trên báo giá, và các câu hỏi khách hay đặt ra khi chốt phương án.
+// Một câu giải thích các đơn vị đo khách hay gặp trên báo giá và hoá đơn,
+// bốn câu còn lại là những gì khách hỏi trực tiếp về VIETHUNGSOLAR.
+// Nội dung bám theo dữ liệu đang dùng trên site (quy trình 5 bước ở trang
+// Giới thiệu, 8 thương hiệu phân phối, giả định 120 kWh/kWp/tháng của bảng
+// tính) để các trang không nói khác nhau.
 
 export interface FaqItem {
   question: string;
   answer: string;
 }
 
-export interface FaqGroup {
-  id: string;
-  label: string;
-  items: FaqItem[];
-}
-
 export const solutionFaqSection = {
   eyebrow: "Giải đáp",
   headline: "Câu hỏi khách hàng thường đặt ra",
   description:
-    "Từ cách đọc các đơn vị kW, kWh trên hoá đơn tới việc chọn cấu hình phù hợp — những gì bạn cần biết trước khi quyết định.",
+    "Những điều khách hàng hỏi nhiều nhất trước khi quyết định lắp đặt. Chưa thấy câu trả lời bạn cần, hãy liên hệ để kỹ thuật viên tư vấn trực tiếp.",
 };
 
-export const solutionFaqGroups: FaqGroup[] = [
+export const solutionFaqs: FaqItem[] = [
   {
-    id: "co-ban",
-    label: "Kiến thức cơ bản",
-    items: [
-      {
-        question: "kW và kWh khác nhau thế nào?",
-        answer:
-          "kW là đơn vị công suất — mức điện một thiết bị tiêu thụ hoặc hệ thống phát ra tại một thời điểm. kWh là đơn vị điện năng — lượng điện dùng trong một khoảng thời gian. Một thiết bị 1 kW chạy liên tục 1 giờ sẽ tiêu thụ 1 kWh. Công suất thiết bị ghi theo kW, còn hoá đơn tiền điện tính theo kWh.",
-      },
-      {
-        question: '"Số điện" trên hoá đơn là gì?',
-        answer:
-          "Một số điện chính là 1 kWh. Hoá đơn ghi 400 số nghĩa là tháng đó công trình của bạn dùng hết 400 kWh. Đây cũng là con số chúng tôi dùng để mô phỏng sản lượng khi khảo sát.",
-      },
-      {
-        question: "kWp khác kW ở chỗ nào?",
-        answer:
-          "kWp (kilowatt-peak) là công suất đỉnh của dàn pin, đo ở điều kiện chuẩn STC: bức xạ 1.000 W/m², nhiệt độ tấm pin 25°C. Các hãng ghi công suất tấm pin theo đơn vị này. 1 MWp = 1.000 kWp. Đây là công suất danh định để so sánh giữa các hệ, không phải công suất phát thực tế ở mọi thời điểm.",
-      },
-      {
-        question: "Wp ghi trên tấm pin nghĩa là gì?",
-        answer:
-          "Wp là watt-peak — công suất đỉnh của một tấm pin. Ví dụ 16 tấm loại 625 Wp ghép lại cho dàn 10.000 Wp, tức 10 kWp. Tấm công suất càng cao thì cùng một diện tích mái sẽ lắp được hệ lớn hơn.",
-      },
-      {
-        question: "Vì sao hệ 10 kWp hiếm khi phát đủ 10 kW?",
-        answer:
-          "Công suất đỉnh chỉ đạt được trong điều kiện chuẩn của phòng thí nghiệm. Ngoài thực tế, bức xạ thay đổi trong ngày, nhiệt độ tấm pin cao làm giảm hiệu suất, cộng thêm góc nghiêng mái, bụi bẩn và tổn hao trên dây dẫn lẫn inverter. Hệ phát cao nhất quanh trưa nắng rồi giảm dần về sáng sớm và chiều muộn.",
-      },
-      {
-        question: "1 kWp lắp ở Việt Nam mỗi tháng cho bao nhiêu điện?",
-        answer:
-          "Ước tính khoảng 120 kWh mỗi tháng cho mỗi kWp, tương đương gần 4 kWh/ngày — đây cũng là giả định bảng tính trên website đang dùng. Sản lượng thực tế thay đổi theo vùng miền, hướng và góc nghiêng mái, mức che bóng và thời tiết từng mùa.",
-      },
-      {
-        question: "Inverter làm nhiệm vụ gì?",
-        answer:
-          "Tấm pin phát ra điện một chiều (DC), trong khi thiết bị trong nhà và lưới điện dùng điện xoay chiều (AC). Inverter chuyển DC thành AC, đồng thời dò điểm công suất cực đại của dàn pin, giám sát sản lượng và bảo vệ hệ thống khi có sự cố.",
-      },
-      {
-        question: "Công tơ 2 chiều là gì?",
-        answer:
-          "Là công tơ đo được cả hai chiều: điện mua từ lưới và điện dư từ hệ mặt trời phát ngược lên lưới. Công tơ một chiều thông thường chỉ đo chiều mua, nên hệ hoà lưới cần thay công tơ 2 chiều khi đấu nối với điện lực.",
-      },
-      {
-        question: "Điện 1 pha và 3 pha khác nhau ra sao?",
-        answer:
-          "Điện 1 pha (220V) phổ biến ở hộ gia đình, còn 3 pha (380V) dùng cho phụ tải lớn tại doanh nghiệp và nhà xưởng. Inverter phải chọn đúng loại theo nguồn điện sẵn có của công trình — đây là một trong những nội dung được xác định ngay ở bước khảo sát.",
-      },
-      {
-        question: "Dung lượng pin lưu trữ tính bằng kWh hay Ah?",
-        answer:
-          "Cả hai đều gặp. kWh cho biết lượng điện pin chứa được và dễ so sánh với hoá đơn, còn Ah là dung lượng dòng ứng với một mức điện áp cụ thể. Quy đổi gần đúng: kWh = Ah × điện áp (V) ÷ 1.000. Khi chọn pin nên đối chiếu theo kWh cho thống nhất.",
-      },
-    ],
+    question: "kW, kWh và kWp khác nhau thế nào?",
+    answer:
+      "kW là đơn vị công suất — mức điện thiết bị tiêu thụ hoặc hệ thống phát ra tại một thời điểm. kWh là đơn vị điện năng — lượng điện dùng trong một khoảng thời gian; một thiết bị 1 kW chạy liên tục 1 giờ tiêu thụ 1 kWh, và mỗi \"số điện\" trên hoá đơn chính là 1 kWh. kWp (kilowatt-peak) là công suất đỉnh của dàn pin đo ở điều kiện chuẩn, dùng để gọi tên quy mô hệ thống — ví dụ 16 tấm pin 625 Wp ghép lại thành hệ 10 kWp. Ở Việt Nam, mỗi kWp cho khoảng 120 kWh mỗi tháng tuỳ vùng miền, hướng mái và thời tiết.",
   },
   {
-    id: "thuong-gap",
-    label: "Câu hỏi thường gặp",
-    items: [
-      {
-        question: "Hệ thống điện mặt trời bao lâu thì hoàn vốn?",
-        answer:
-          "Tuỳ mức tiêu thụ điện và tỉ lệ tự dùng, phần lớn hệ hộ gia đình hoàn vốn trong khoảng 4 – 6 năm. Khi khảo sát, chúng tôi mô phỏng sản lượng theo hoá đơn điện thực tế của bạn để đưa ra con số sát nhất.",
-      },
-      {
-        question: "Có bắt buộc phải lắp pin lưu trữ không?",
-        answer:
-          "Không bắt buộc. Nếu bạn dùng điện chủ yếu ban ngày, hệ hoà lưới đã đủ hiệu quả. Pin lưu trữ phù hợp khi bạn cần dự phòng lúc mất điện hoặc muốn dùng điện mặt trời vào buổi tối.",
-      },
-      {
-        question: "Lắp trên mái tôn hoặc mái ngói có bị thấm dột không?",
-        answer:
-          "Hệ khung được thiết kế riêng cho từng loại mái, các điểm bắt vít đều được xử lý chống thấm. Đội thi công kiểm tra lại toàn bộ điểm tiếp xúc trước khi nghiệm thu.",
-      },
-      {
-        question: "Bảo hành được tính như thế nào?",
-        answer:
-          "Bảo hành theo đúng chính sách của từng hãng và được ghi rõ trong báo giá: tấm pin thường 12 – 15 năm sản phẩm và tới 30 năm hiệu suất, inverter 5 năm (có gói gia hạn), pin lưu trữ theo chính sách sản phẩm và hiệu suất riêng của hãng.",
-      },
-      {
-        question: "Sau khi lắp xong có được hỗ trợ tiếp không?",
-        answer:
-          "Có. Chúng tôi hướng dẫn bạn theo dõi sản lượng trên app của hãng, bảo trì định kỳ và xử lý sự cố trong suốt vòng đời hệ thống.",
-      },
-    ],
+    question: "Thiết bị VIETHUNGSOLAR lắp có chính hãng không, nguồn từ đâu?",
+    answer:
+      "Chúng tôi phân phối thiết bị của 8 thương hiệu: tấm pin LONGi, JA Solar, TCL Solar; inverter GoodWe, Sungrow, SolaX, INVT; pin lưu trữ Lithium Valley và GoodWe. Toàn bộ hàng nhập chính ngạch, kèm đầy đủ CO, CQ, datasheet kỹ thuật và phiếu bảo hành của hãng. Báo giá liệt kê rõ từng thiết bị theo đúng mã model để bạn đối chiếu được trước khi ký hợp đồng.",
+  },
+  {
+    question: "Quy trình thi công diễn ra thế nào, mất bao lâu?",
+    answer:
+      "Năm bước: khảo sát thực tế tại công trình (1 – 2 ngày), thiết kế và mô phỏng sản lượng (2 – 3 ngày), báo giá minh bạch (1 ngày), thi công và đấu nối (3 – 7 ngày tuỳ quy mô), cuối cùng là nghiệm thu và bàn giao. Với nhà máy đang vận hành, tiến độ được sắp theo lịch sản xuất và đấu nối vào khung giờ đã thống nhất với bộ phận kỹ thuật, không làm gián đoạn công việc.",
+  },
+  {
+    question: "Lắp trên mái tôn hoặc mái ngói có bị thấm dột không?",
+    answer:
+      "Hệ khung được thiết kế riêng cho từng loại mái, các điểm bắt vít đều được xử lý chống thấm. Đội kỹ thuật khảo sát kết cấu và tính tải trọng mái trước khi chốt phương án, rồi kiểm tra lại toàn bộ điểm tiếp xúc trước khi nghiệm thu.",
+  },
+  {
+    question: "Bảo hành và hỗ trợ sau khi lắp đặt ra sao?",
+    answer:
+      "Bảo hành theo đúng chính sách của từng hãng và ghi rõ trong báo giá: tấm pin thường 12 – 15 năm sản phẩm và tới 30 năm hiệu suất, inverter 5 năm (có gói gia hạn), pin lưu trữ theo chính sách riêng của hãng. Sau nghiệm thu, chúng tôi hướng dẫn bạn theo dõi sản lượng trên app của hãng, bảo trì định kỳ và xử lý sự cố trong suốt vòng đời hệ thống.",
   },
 ];
