@@ -33,7 +33,7 @@ import { GOLD, NAVY } from "../../themes/brand";
 
 
 const HOTLINE = "+84901234567";
-const HOTLINE_DISPLAY = "0908011931";
+const HOTLINE_DISPLAY = "0901234567";
 
 // ─── Reveal (giữ nguyên) ────────────────────────────────────────
 function Reveal({ children, delay = 0, className = "", style }: {
