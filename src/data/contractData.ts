@@ -78,10 +78,15 @@ export const contactItems: ContactItem[] = [
 ];
 
 // ---------- BẢN ĐỒ ----------
+/** Toạ độ văn phòng, dùng cho cả khung nhúng lẫn nút mở Google Maps. */
+export const OFFICE_COORDS = { lat: 10.8954063, lng: 106.7015372 };
+const COORDS = `${OFFICE_COORDS.lat},${OFFICE_COORDS.lng}`;
+
 export const contactMap = {
-  // Dạng nhúng ?output=embed không cần API key, tự tra theo địa chỉ bên dưới.
-  embedSrc: `https://www.google.com/maps?q=${encodeURIComponent(COMPANY_ADDRESS)}&hl=vi&z=16&output=embed`,
-  mapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(COMPANY_ADDRESS)}`,
+  // Dạng nhúng ?output=embed không cần API key; ghim theo toạ độ chính xác
+  // thay vì để Google tự tra theo địa chỉ.
+  embedSrc: `https://www.google.com/maps?q=${COORDS}&hl=vi&z=17&output=embed`,
+  mapsUrl: `https://www.google.com/maps/search/?api=1&query=${COORDS}`,
   buttonLabel: "Xem trên Google Maps",
   label: "VIETHUNGSOLAR",
   address: COMPANY_ADDRESS,

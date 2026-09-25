@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from "react";
 
 export interface BrandStripItem {
   name: string;
-  color: string;
   logo?: string;
+  /** Màu chữ khi hãng chưa có file logo. */
+  color?: string;
 }
 
 // Tốc độ tự cuộn — px mỗi khung hình.
@@ -112,7 +113,7 @@ export function BrandStrip({ items }: { items: BrandStripItem[] }) {
                 // Hãng chưa có file logo -> hiển thị bằng chữ theo màu nhận diện.
                 <span
                   className="whitespace-nowrap text-lg font-black uppercase tracking-wide sm:text-xl"
-                  style={{ color: b.color }}
+                  style={{ color: b.color ?? "#6b7280" }}
                 >
                   {b.name}
                 </span>
