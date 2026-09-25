@@ -10,18 +10,25 @@ export const CALC_CONFIG = {
   /** Thuế VAT áp cho giá điện. */
   vatRate: 0.08,
 
-  /** Tỉ lệ sản lượng điện mặt trời bù được cho nhu cầu tiêu thụ. */
+  /** Tỉ lệ sản lượng điện mặt trời đặt mục tiêu bù cho nhu cầu tiêu thụ. */
   offsetRatio: {
     household: 0.8,
     production: 0.7,
     business: 0.7,
+    farm: 0.7,
   },
 
-  /** Sản lượng giả định của 1 kWp trong 1 tháng. */
-  monthlyYieldPerKwp: 120, // kWh/kWp/tháng
+  /** Sản lượng giả định của 1 kWp trong 1 ngày. */
+  dailyYieldPerKwp: 4, // kWh/kWp/ngày
+  /** Hiệu suất hệ thống (tổn hao dây, inverter, bụi bẩn, nhiệt độ). */
+  systemPerformanceRatio: 0.9,
+  daysPerMonth: 30,
+
+  /** 1 kWp = 4 × 90% × 30 = 108 kWh/tháng. */
+  monthlyYieldPerKwp: 4 * 0.9 * 30,
 
   /** Suất đầu tư ước tính. */
-  systemCostPerKwp: 12_000_000, // VND/kWp
+  systemCostPerKwp: 13_000_000, // VND/kWp
 
   /** Công suất đề xuất luôn làm tròn LÊN theo bước này. */
   powerRoundStep: 0.5,
@@ -36,7 +43,7 @@ export const CALC_CONFIG = {
   },
 } as const;
 
-export type CustomerType = "household" | "production" | "business";
+export type CustomerType = "household" | "production" | "business" | "farm";
 
 // ─── A. Biểu giá bậc thang hộ gia đình ────────────────────────────
 interface HouseholdTier {
@@ -117,14 +124,18 @@ export function roundUpPower(value: number): number {
 export interface SolarCalcResult {
   /** Điện năng tiêu thụ ước tính mỗi tháng (kWh). */
   energy: number;
-  /** Phần điện được điện mặt trời bù. */
-  offsetEnergy: number;
+  /** Lượng điện ĐẶT MỤC TIÊU bù bằng điện mặt trời (theo offsetRatio). */
+  targetOffsetEnergy: number;
+  /** Sản lượng hệ PV đề xuất thực sự tạo ra mỗi tháng (kWh). */
+  solarProduction: number;
+  /** Lượng điện THỰC SỰ được bù — không vượt quá sản lượng hệ tạo ra. */
+  actualOffsetEnergy: number;
   /** Phần còn phải mua từ lưới. */
   remainingEnergy: number;
   rawPower: number;
   /** Công suất đề xuất, đã làm tròn lên bước 0,5 kWp. */
   recommendedPower: number;
-  /** Giá điện đại diện (chỉ có với nhà xưởng / doanh nghiệp). */
+  /** Giá điện đại diện (chỉ có với nhà xưởng / doanh nghiệp / trang trại). */
   effectiveElectricityRate?: number;
   currentBill: number;
   billAfterSolar: number;
@@ -134,68 +145,76 @@ export interface SolarCalcResult {
   paybackYears: number;
 }
 
-// ─── E. Hộ gia đình ───────────────────────────────────────────────
-export function calculateHousehold(monthlyBill: number): SolarCalcResult {
-  const energy = householdBillToKwh(monthlyBill);
-  const offsetEnergy = energy * CALC_CONFIG.offsetRatio.household;
-  const remainingEnergy = energy * (1 - CALC_CONFIG.offsetRatio.household);
+/**
+ * Phần dùng chung của mọi nhóm khách: từ lượng điện tiêu thụ suy ra công
+ * suất đề xuất và lượng điện thực sự được bù.
+ *
+ * Bước chặn `Math.min` là lưới an toàn: hệ thống không được phép tiết kiệm
+ * nhiều hơn lượng điện nó thực sự tạo ra. Vì công suất luôn làm tròn LÊN nên
+ * sản lượng luôn ≥ mục tiêu, thực tế mức chặn này chưa bao giờ cắt — nhưng
+ * giữ lại để nếu sau này đổi cách làm tròn thì kết quả vẫn không bị ảo.
+ */
+function sizeSystem(energy: number, offsetRatio: number) {
+  const targetOffsetEnergy = energy * offsetRatio;
 
-  const rawPower = offsetEnergy / CALC_CONFIG.monthlyYieldPerKwp;
+  const rawPower = targetOffsetEnergy / CALC_CONFIG.monthlyYieldPerKwp;
   const recommendedPower = roundUpPower(rawPower);
 
-  // Tính lại tiền điện phần còn lại theo đúng biểu giá bậc thang
-  const billAfterSolar = calculateHouseholdBill(remainingEnergy);
-  const monthlySaving = monthlyBill - billAfterSolar;
-  const annualSaving = monthlySaving * 12;
-  const investment = recommendedPower * CALC_CONFIG.systemCostPerKwp;
+  const solarProduction = recommendedPower * CALC_CONFIG.monthlyYieldPerKwp;
+  const actualOffsetEnergy = Math.min(targetOffsetEnergy, solarProduction);
+  const remainingEnergy = Math.max(0, energy - actualOffsetEnergy);
 
   return {
-    energy,
-    offsetEnergy,
-    remainingEnergy,
+    targetOffsetEnergy,
     rawPower,
     recommendedPower,
+    solarProduction,
+    actualOffsetEnergy,
+    remainingEnergy,
+    investment: recommendedPower * CALC_CONFIG.systemCostPerKwp,
+  };
+}
+
+/** Ghép phần tiền bạc vào kết quả sau khi đã biết hoá đơn còn lại. */
+function finish(
+  monthlyBill: number,
+  billAfterSolar: number,
+  sized: ReturnType<typeof sizeSystem>,
+  energy: number,
+  rate?: number,
+): SolarCalcResult {
+  const monthlySaving = monthlyBill - billAfterSolar;
+  const annualSaving = monthlySaving * 12;
+  return {
+    energy,
+    ...sized,
+    effectiveElectricityRate: rate,
     currentBill: monthlyBill,
     billAfterSolar,
     monthlySaving,
     annualSaving,
-    investment,
-    paybackYears: investment / annualSaving,
+    paybackYears: sized.investment / annualSaving,
   };
 }
 
-// ─── F & G. Nhà xưởng và doanh nghiệp (giá điện phẳng theo khung giờ) ──
+// ─── Hộ gia đình: tính lại hoá đơn theo biểu giá bậc thang ────────
+export function calculateHousehold(monthlyBill: number): SolarCalcResult {
+  const energy = householdBillToKwh(monthlyBill);
+  const sized = sizeSystem(energy, CALC_CONFIG.offsetRatio.household);
+  const billAfterSolar = calculateHouseholdBill(sized.remainingEnergy);
+  return finish(monthlyBill, billAfterSolar, sized, energy);
+}
+
+// ─── Nhà xưởng / doanh nghiệp / trang trại: giá điện phẳng theo khung giờ ──
 function calculateFlatRate(
   monthlyBill: number,
   rate: number,
   offsetRatio: number,
 ): SolarCalcResult {
   const energy = monthlyBill / rate;
-  const offsetEnergy = energy * offsetRatio;
-  const remainingEnergy = energy * (1 - offsetRatio);
-
-  const rawPower = offsetEnergy / CALC_CONFIG.monthlyYieldPerKwp;
-  const recommendedPower = roundUpPower(rawPower);
-
-  const billAfterSolar = remainingEnergy * rate;
-  const monthlySaving = monthlyBill - billAfterSolar;
-  const annualSaving = monthlySaving * 12;
-  const investment = recommendedPower * CALC_CONFIG.systemCostPerKwp;
-
-  return {
-    energy,
-    offsetEnergy,
-    remainingEnergy,
-    rawPower,
-    recommendedPower,
-    effectiveElectricityRate: rate,
-    currentBill: monthlyBill,
-    billAfterSolar,
-    monthlySaving,
-    annualSaving,
-    investment,
-    paybackYears: investment / annualSaving,
-  };
+  const sized = sizeSystem(energy, offsetRatio);
+  const billAfterSolar = sized.remainingEnergy * rate;
+  return finish(monthlyBill, billAfterSolar, sized, energy, rate);
 }
 
 export const calculateProduction = (monthlyBill: number) =>
@@ -204,7 +223,11 @@ export const calculateProduction = (monthlyBill: number) =>
 export const calculateBusiness = (monthlyBill: number) =>
   calculateFlatRate(monthlyBill, BUSINESS_RATE, CALC_CONFIG.offsetRatio.business);
 
-// ─── H. Hàm chung cho toàn website ────────────────────────────────
+/** Trang trại / nông nghiệp — dùng biểu giá sản xuất, tỉ lệ bù riêng. */
+export const calculateFarm = (monthlyBill: number) =>
+  calculateFlatRate(monthlyBill, PRODUCTION_RATE, CALC_CONFIG.offsetRatio.farm);
+
+// ─── Hàm chung cho toàn website ───────────────────────────────────
 export function calculateSolar({
   customerType,
   monthlyBill,
@@ -219,6 +242,8 @@ export function calculateSolar({
       return calculateProduction(monthlyBill);
     case "business":
       return calculateBusiness(monthlyBill);
+    case "farm":
+      return calculateFarm(monthlyBill);
     default:
       throw new Error("Invalid customer type");
   }
@@ -227,13 +252,17 @@ export function calculateSolar({
 /** Map loại công trình hiển thị trên giao diện sang nhóm biểu giá. */
 export const CUSTOMER_TYPE_MAP: Record<string, CustomerType> = {
   "Nhà ở": "household",
+
   "Nhà xưởng": "production",
   "Nhà máy": "production",
   "Công nghiệp": "production",
-  "Trang trại": "production",
+
   "Văn phòng": "business",
   "Doanh nghiệp": "business",
   "Kinh doanh": "business",
+
+  "Trang trại": "farm",
+  "Nông nghiệp": "farm",
 };
 
 /** Dòng ghi chú bắt buộc hiển thị kèm kết quả. */
