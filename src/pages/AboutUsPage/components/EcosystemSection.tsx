@@ -9,6 +9,7 @@ import { aboutEcosystemSection } from "../../../data/aboutUsData";
 import { brandLogos, products, productSections } from "../../../data/productData";
 import { useAnimeOnView } from "../../../hooks/useAnimeOnView";
 import { CountUp, GOLD, NAVY, Reveal, SectionHeading } from "./aboutShared";
+import { BrandStrip } from "./BrandStrip";
 
 const categoryIcon: Record<string, React.ReactNode> = {
   "tam-pin": <WbSunnyRoundedIcon sx={{ fontSize: 22 }} />,
@@ -134,39 +135,13 @@ export function EcosystemSection() {
           ))}
         </div>
 
-        {/* Dải thương hiệu đang phân phối — logo chính hãng, cỡ lớn */}
+        {/* Dải thương hiệu đang phân phối — logo chạy ngang, cỡ lớn */}
         <Reveal delay={120} className="mt-8">
-          <div className="rounded-2xl border border-gray-100 bg-white px-6 py-8 sm:px-10 sm:py-10">
-            <p className="mb-7 text-center text-xs font-bold uppercase tracking-[0.25em] text-gray-400">
+          <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white px-2 py-8 sm:px-4 sm:py-10">
+            <p className="mb-6 text-center text-xs font-bold uppercase tracking-[0.25em] text-gray-400">
               Thương hiệu phân phối
             </p>
-            <div className="grid grid-cols-2 items-center gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-4">
-              {brandChips.map((b) =>
-                b.logo ? (
-                  <div key={b.name} className="flex h-16 items-center justify-center sm:h-20">
-                    <img
-                      src={b.logo}
-                      alt={b.name}
-                      loading="lazy"
-                      title={b.name}
-                      // mix-blend-multiply: file logo có nền trắng, trộn nhân để
-                      // nền hoà vào nền thẻ thay vì lộ ô trắng.
-                      className="max-h-12 w-auto max-w-full object-contain mix-blend-multiply transition-transform duration-300 hover:scale-105 sm:max-h-16"
-                    />
-                  </div>
-                ) : (
-                  // Hãng chưa có file logo -> hiển thị bằng chữ theo màu nhận diện.
-                  <div key={b.name} className="flex h-16 items-center justify-center sm:h-20">
-                    <span
-                      className="text-center text-lg font-black uppercase leading-tight tracking-wide sm:text-xl"
-                      style={{ color: b.color }}
-                    >
-                      {b.name}
-                    </span>
-                  </div>
-                ),
-              )}
-            </div>
+            <BrandStrip items={brandChips} />
           </div>
         </Reveal>
       </div>
