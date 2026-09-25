@@ -14,6 +14,14 @@ export const productsPageHeader = {
   badge:       "Thiết bị chính hãng",
   headline:    "Sản phẩm nổi bật",
   description: "Thiết bị điện năng lượng mặt trời chính hãng đến từ các thương hiệu hàng đầu thế giới",
+  /** Ảnh nền hero: navy bên trái để đặt chữ, thiết bị dồn về bên phải. */
+  backgroundImage: "/background/product/product_hero.webp",
+  /** Ba nhóm thiết bị kèm thời hạn bảo hành, xếp ngang dưới phần mô tả. */
+  warranties: [
+    { label: "Tấm pin năng lượng", value: "Bảo hành 15-30 năm" },
+    { label: "Pin lưu trữ",        value: "Bảo hành 5-10 năm" },
+    { label: "Inverter",           value: "Bảo hành 5-10 năm" },
+  ],
 };
 
 // ---------- PRODUCT ----------

@@ -1,64 +1,12 @@
 import { Link } from "react-router-dom";
 import { animate, stagger } from "animejs";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import SolarPowerRoundedIcon from "@mui/icons-material/SolarPowerRounded";
-import FactoryRoundedIcon from "@mui/icons-material/FactoryRounded";
-import PlaceRoundedIcon from "@mui/icons-material/PlaceRounded";
-import BoltRoundedIcon from "@mui/icons-material/BoltRounded";
-import { projectsHero, projectsStatsNote } from "../../../data/projectData";
+import { projectsHero } from "../../../data/projectData";
 import { useAnimeOnView } from "../../../hooks/useAnimeOnView";
-import { CountUp } from "../../../components/common/CountUp";
 import { GOLD, NAVY } from "../../../themes/brand";
 
-export interface HeroStat {
-  icon: React.ReactNode;
-  value: number;
-  decimals?: number;
-  suffix?: string;
-  label: string;
-}
-
-/** Hero trang Dự án: nền ảnh tối + số liệu tổng hợp chạy lên khi vào khung nhìn. */
-export function ProjectsHero({
-  totalMwp,
-  projectCount,
-  provinceCount,
-  yearlyGwh,
-}: {
-  totalMwp: number;
-  projectCount: number;
-  provinceCount: number;
-  yearlyGwh: number;
-}) {
-  const stats: HeroStat[] = [
-    {
-      icon: <BoltRoundedIcon sx={{ fontSize: 20 }} />,
-      value: totalMwp,
-      decimals: 1,
-      suffix: " MWp",
-      label: "Tổng công suất đã lắp đặt",
-    },
-    {
-      icon: <FactoryRoundedIcon sx={{ fontSize: 20 }} />,
-      value: projectCount,
-      suffix: "",
-      label: "Công trình tiêu biểu",
-    },
-    {
-      icon: <PlaceRoundedIcon sx={{ fontSize: 20 }} />,
-      value: provinceCount,
-      suffix: "",
-      label: "Tỉnh thành đã triển khai",
-    },
-    {
-      icon: <SolarPowerRoundedIcon sx={{ fontSize: 20 }} />,
-      value: yearlyGwh,
-      decimals: 1,
-      suffix: " GWh",
-      label: "Sản lượng ước tính mỗi năm",
-    },
-  ];
-
+/** Hero trang Dự án: nền ảnh công trình tối, chữ và nút trượt lên khi vào khung nhìn. */
+export function ProjectsHero() {
   const contentRef = useAnimeOnView<HTMLDivElement>((el) => {
     const items = el.querySelectorAll<HTMLElement>("[data-hero-item]");
     const anim = animate(items, {
@@ -96,7 +44,7 @@ export function ProjectsHero({
       />
 
       <div ref={contentRef} className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl pb-10 pt-14 sm:pt-20">
+        <div className="max-w-3xl pb-14 pt-14 sm:pb-20 sm:pt-20">
           <div data-hero-item className="mb-4 flex items-center gap-2">
             <span className="h-0.5 w-7" style={{ backgroundColor: GOLD }} />
             <span
@@ -141,30 +89,6 @@ export function ProjectsHero({
           </div>
         </div>
 
-        {/* Dải số liệu — nổi lên trên mép dưới của hero */}
-        <div
-          data-hero-item
-          className="relative z-10 grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-white/10 lg:grid-cols-4"
-        >
-          {stats.map((s) => (
-            <div key={s.label} className="bg-[#121b45]/85 px-5 py-6 backdrop-blur-sm sm:px-6">
-              <span
-                className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl"
-                style={{ backgroundColor: `${GOLD}1F`, color: GOLD }}
-              >
-                {s.icon}
-              </span>
-              <CountUp
-                value={s.value}
-                decimals={s.decimals ?? 0}
-                suffix={s.suffix}
-                className="block text-2xl font-black leading-none text-white sm:text-[1.75rem]"
-              />
-              <p className="mt-2 text-xs leading-snug text-white/45">{s.label}</p>
-            </div>
-          ))}
-        </div>
-        <p className="pb-10 pt-3 text-[11px] text-white/40">{projectsStatsNote}</p>
       </div>
     </section>
   );

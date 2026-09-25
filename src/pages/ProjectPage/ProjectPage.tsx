@@ -84,24 +84,6 @@ export default function ProjectsPage() {
   const [status, setStatus] = useState<ProjectFilterValue>("all");
   const [category, setCategory] = useState<ProjectCategory | "all">("all");
 
-  // ── Số liệu tổng hợp cho hero: luôn tính từ danh sách dự án thật ──
-  const summary = useMemo(() => {
-    const totalKwp = projects.reduce((sum, p) => sum + p.capacityKwp, 0);
-    // Địa điểm trong hồ sơ ghi cả cấp phường/thành phố ("Dĩ An, TP.HCM"),
-    // nên phải lấy phần cuối mới đếm đúng số tỉnh thành.
-    const provinces = new Set(
-      projects.map((p) => p.location.split(",").pop()!.trim()),
-    );
-    // Ước tính sản lượng: 120 kWh/kWp/tháng theo giả định dùng cho calculator.
-    const yearlyKwh = totalKwp * 120 * 12;
-    return {
-      totalMwp: Math.round((totalKwp / 1000) * 10) / 10,
-      projectCount: projects.length,
-      provinceCount: provinces.size,
-      yearlyGwh: Math.round((yearlyKwh / 1_000_000) * 10) / 10,
-    };
-  }, []);
-
   const featured = useMemo(() => projects.filter((p) => p.featured), []);
 
   const categoryOptions = useMemo(() => {
@@ -138,7 +120,7 @@ export default function ProjectsPage() {
 
   return (
     <div className="min-h-screen bg-white pt-[72px]">
-      <ProjectsHero {...summary} />
+      <ProjectsHero />
 
       {/* ══ DỰ ÁN TRỌNG ĐIỂM ══ */}
       {featured.length > 0 && (

@@ -357,11 +357,32 @@ export default function ProductsPage() {
     <div
       className="min-h-screen bg-white overflow-x-hidden"
     >
-      {/* ══ HEADER — nền màu đặc, không ảnh, căn trái ══ */}
-      <div
-        className="relative pt-[72px]"
-        style={{ backgroundColor: HEADER_BG }}
-      >
+      {/* ══ HEADER — ảnh nền thiết bị, chữ dồn về nửa trái ══ */}
+      <div className="relative pt-[72px]" style={{ backgroundColor: HEADER_BG }}>
+        <img
+          src={productsPageHeader.backgroundImage}
+          alt=""
+          aria-hidden
+          className="absolute inset-0 h-full w-full object-cover object-right"
+        />
+        {/* Ảnh vốn đã tối ở nửa trái; phủ thêm một lớp chuyển màu để chữ luôn
+            đọc rõ kể cả khi khung hẹp làm phần thiết bị tràn sang trái. */}
+        <div
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(100deg, ${HEADER_BG} 0%, ${HEADER_BG}F2 38%, ${HEADER_BG}99 62%, ${HEADER_BG}33 100%)`,
+          }}
+        />
+        {/* Khung hẹp: chữ nằm đè lên giữa ảnh nên cần thêm một lớp phủ đậm. */}
+        <div
+          aria-hidden
+          className="absolute inset-0 xl:hidden"
+          style={{
+            background: `linear-gradient(180deg, ${HEADER_BG}D9 0%, ${HEADER_BG}A6 55%, ${HEADER_BG}D9 100%)`,
+          }}
+        />
+
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 text-left">
           <div className="flex items-center gap-2 mb-4">
             <span className="w-6 h-0.5" style={{ backgroundColor: GOLD }} />
@@ -375,9 +396,24 @@ export default function ProductsPage() {
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-3">
             {productsPageHeader.headline}
           </h1>
-          <p className="text-white/60 text-base max-w-xl leading-relaxed">
+          <p className="text-white/70 text-base max-w-md leading-relaxed">
             {productsPageHeader.description}
           </p>
+
+          {/* Ba nhóm thiết bị + thời hạn bảo hành */}
+          <div className="mt-8 flex flex-wrap items-stretch gap-x-8 gap-y-5 sm:gap-x-12">
+            {productsPageHeader.warranties.map((w, i) => (
+              <div
+                key={w.label}
+                className={i > 0 ? "sm:border-l sm:border-white/15 sm:pl-8 lg:pl-12" : ""}
+              >
+                <p className="text-sm font-bold text-white sm:text-base">{w.label}</p>
+                <p className="mt-1 text-sm font-semibold" style={{ color: GOLD }}>
+                  {w.value}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 

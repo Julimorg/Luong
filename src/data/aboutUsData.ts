@@ -105,33 +105,21 @@ export const aboutWhyItems: WhyChooseItem[] = [
   { icon: "check", title: "Chính sách minh bạch", description: "Báo giá rõ ràng, hợp đồng chi tiết, không phát sinh chi phí ẩn trong suốt quá trình hợp tác cùng khách hàng." },
 ];
 
-// ---------- DẢI NIỀM TIN: CAM KẾT + CHỨNG NHẬN + ĐỐI TÁC ----------
+// ---------- DẢI ĐỐI TÁC THƯƠNG HIỆU ----------
 export const aboutTrustBand = {
-  eyebrow: "CAM KẾT",
-  headline: "Cam kết chất lượng",
-  description: "Chúng tôi luôn đặt chất lượng và uy tín lên hàng đầu trong từng công trình.",
-  checklist: [
-    "Thiết bị chính hãng, có đầy đủ chứng nhận CO, CQ",
-    "Thi công đúng kỹ thuật, đảm bảo an toàn và hiệu quả",
-    "Quy trình minh bạch, báo giá rõ ràng",
-    "Hỗ trợ sau bán hàng tận tâm, đồng hành dài hạn",
-  ],
-  // TODO: thay bằng file ảnh chứng nhận thật của DAT khi có, đặt trong public/certificates/
-  certificateImage: "https://images.unsplash.com/photo-1638636241638-aef5120c5153?w=900&q=80",
-  certificateAlt: "Chứng nhận đại lý phân phối DAT",
   partnersHeading: "Đối tác thương hiệu uy tín",
 };
 
 // Danh sách thương hiệu đang phân phối — khớp với dữ liệu trang Sản phẩm.
-export const aboutBrandLogos: { name: string; color: string }[] = [
-  { name: "LONGi", color: "#d93c1c" },
-  { name: "JA Solar", color: "#003087" },
-  { name: "TCL Solar", color: "#cc0000" },
-  { name: "GoodWe", color: "#e8001c" },
-  { name: "Sungrow", color: "#fbae17" },
-  { name: "SolaX", color: "#ef6c1a" },
-  { name: "INVT", color: "#005bac" },
-  { name: "Lithium Valley", color: "#2a9d8f" },
+export const aboutBrandLogos: { name: string; color: string; logo?: string }[] = [
+  { name: "LONGi",          color: "#d93c1c", logo: "/brands/longi.webp" },
+  { name: "JA Solar",       color: "#003087", logo: "/brands/ja-solar.webp" },
+  { name: "TCL Solar",      color: "#cc0000" },
+  { name: "GoodWe",         color: "#e8001c", logo: "/brands/goodwe.webp" },
+  { name: "Sungrow",        color: "#fbae17" },
+  { name: "SolaX",          color: "#ef6c1a", logo: "/brands/solax.webp" },
+  { name: "INVT",           color: "#005bac", logo: "/brands/invt.webp" },
+  { name: "Lithium Valley", color: "#2a9d8f", logo: "/brands/lithium-valley.webp" },
 ];
 
 
