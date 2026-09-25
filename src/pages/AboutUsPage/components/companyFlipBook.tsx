@@ -8,13 +8,16 @@ import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
 import { GOLD } from "../../../themes/brand";
 
 
-// ─── Cấu hình nguồn ảnh — 26 ảnh convert từ PDF ─────────────────────
-const TOTAL_PAGES = 26;
-const IMAGE_PATH_PREFIX = "/flipBookImg/flipBook_1_page-";
-const IMAGE_EXTENSION = ".jpg";
+// ─── Cấu hình nguồn ảnh ─────────────────────────────────────────────
+// 27 trang hồ sơ năng lực, xuất sẵn dạng .webp khổ A4 (596 × 843) từ bộ
+// artboard trong documents/flipbook-img. Tên file đã được đánh số lại liên
+// tục 01..27 theo đúng thứ tự trang, vì số artboard gốc bị ngắt quãng.
+const TOTAL_PAGES = 27;
+const IMAGE_PATH_PREFIX = "/flipBookImg/hsnl-";
+const IMAGE_EXTENSION = ".webp";
 
 function buildPageSrc(index: number) {
-  const num = String(index + 1).padStart(4, "0");
+  const num = String(index + 1).padStart(2, "0");
   return `${IMAGE_PATH_PREFIX}${num}${IMAGE_EXTENSION}`;
 }
 
@@ -46,7 +49,12 @@ export function CompanyFlipbook() {
 
   const goPrev = () => bookRef.current?.pageFlip().flipPrev();
   const goNext = () => bookRef.current?.pageFlip().flipNext();
-  const toggleFullscreen = () => setIsFullscreen((f) => !f);
+  // Chuyển chế độ khiến HTMLFlipBook bị mount lại và quay về trang bìa,
+  // nên phải đưa bộ đếm trang về 0 cho khớp với những gì đang hiển thị.
+  const toggleFullscreen = () => {
+    setIsFullscreen((f) => !f);
+    setCurrentPage(0);
+  };
 
   // Khoá cuộn trang nền + cho phép nhấn Esc để đóng khi đang xem toàn màn hình
   useEffect(() => {
