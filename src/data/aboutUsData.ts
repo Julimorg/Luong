@@ -58,6 +58,8 @@ export interface WhyChooseItem {
   icon: "search" | "handshake" | "shield" | "engineering" | "support" | "check";
   title: string;
   description: string;
+  /** Nếu có, thẻ chỉ hiển thị ảnh này, bỏ hết icon và chữ. */
+  banner?: { src: string; alt: string };
 }
 export const aboutWhyItems: WhyChooseItem[] = [
   { icon: "shield", title: "Thiết bị chính hãng", description: "Sản phẩm từ các thương hiệu uy tín hàng đầu, có đầy đủ chứng chỉ CO, CQ, đảm bảo nguồn gốc minh bạch và hiệu suất ổn định lâu dài." },
@@ -65,7 +67,16 @@ export const aboutWhyItems: WhyChooseItem[] = [
   { icon: "handshake", title: "Tư vấn phù hợp", description: "Tối ưu hiệu quả đầu tư theo từng nhu cầu thực tế." },
   { icon: "engineering", title: "Thi công đúng kỹ thuật", description: "Đội ngũ giàu kinh nghiệm, an toàn và hiệu quả." },
   { icon: "support", title: "Hỗ trợ sau bán hàng", description: "Bảo hành, bảo trì tận tâm, đồng hành dài hạn." },
-  { icon: "check", title: "Chính sách minh bạch", description: "Báo giá rõ ràng, hợp đồng chi tiết, không phát sinh chi phí ẩn trong suốt quá trình hợp tác cùng khách hàng." },
+  // Thẻ cuối là dải ảnh đối tác, không dùng icon/chữ; title chỉ để làm key.
+  {
+    icon: "check",
+    title: "Đối tác chiến lược DATSOLAR",
+    description: "",
+    banner: {
+      src: "/background/about/datsolar-partner.webp",
+      alt: "VIETHUNGSOLAR là đối tác chiến lược của DATSOLAR — kết nối nguồn hàng chính hãng, nâng cao giá trị từng công trình",
+    },
+  },
 ];
 
 // ---------- NĂNG LỰC — dải số liệu chạy số khi cuộn tới ----------

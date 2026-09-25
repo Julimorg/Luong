@@ -52,7 +52,27 @@ export function WhyChooseBento() {
           {aboutWhyItems.map((item, i) => {
             const Icon = whyIconMap[item.icon];
             const isFeature = i === 0;
-            const isClosing = i === aboutWhyItems.length - 1;
+
+            // Thẻ dạng ảnh: ảnh đã có nền và chữ riêng nên bỏ hết padding,
+            // nền và nội dung của thẻ, chỉ để ảnh phủ kín.
+            if (item.banner) {
+              return (
+                <motion.div
+                  key={item.title}
+                  variants={fadeUp}
+                  whileHover={{ y: -4 }}
+                  className="overflow-hidden rounded-2xl lg:col-span-3"
+                >
+                  <img
+                    src={item.banner.src}
+                    alt={item.banner.alt}
+                    loading="lazy"
+                    className="block h-full w-full object-cover"
+                  />
+                </motion.div>
+              );
+            }
+
             return (
               <motion.div
                 key={item.title}
@@ -60,11 +80,10 @@ export function WhyChooseBento() {
                 whileHover={{ y: -4 }}
                 className={[
                   "rounded-2xl p-6 sm:p-7 flex transition-shadow duration-300",
-                  isFeature ? "lg:col-span-2 flex-col justify-between" : "",
-                  isClosing ? "lg:col-span-3 flex-row items-center gap-6" : !isFeature ? "flex-col" : "",
+                  isFeature ? "lg:col-span-2 flex-col justify-between" : "flex-col",
                 ].join(" ")}
                 style={{
-                  backgroundColor: isFeature ? `${GOLD}0F` : isClosing ? NAVY : "#f7f8fa",
+                  backgroundColor: isFeature ? `${GOLD}0F` : "#f7f8fa",
                   border: isFeature ? `1px solid ${GOLD}40` : "1px solid transparent",
                 }}
               >
@@ -72,24 +91,20 @@ export function WhyChooseBento() {
                   className={`flex-shrink-0 flex items-center justify-center rounded-xl mb-4 ${
                     isFeature ? "w-14 h-14" : "w-11 h-11"
                   }`}
-                  style={{
-                    backgroundColor: isClosing ? `${GOLD}1A` : `${GOLD}1A`,
-                    color: GOLD,
-                    marginBottom: isClosing ? 0 : undefined,
-                  }}
+                  style={{ backgroundColor: `${GOLD}1A`, color: GOLD }}
                 >
                   <Icon sx={{ fontSize: isFeature ? 28 : 22 }} />
                 </span>
                 <div>
                   <p
                     className={`font-extrabold mb-2 ${isFeature ? "text-xl sm:text-2xl" : "text-sm sm:text-base"}`}
-                    style={{ color: isClosing ? "#fff" : NAVY }}
+                    style={{ color: NAVY }}
                   >
                     {item.title}
                   </p>
                   <p
                     className={`leading-relaxed ${isFeature ? "text-sm sm:text-base" : "text-xs sm:text-sm"}`}
-                    style={{ color: isClosing ? "rgba(255,255,255,0.6)" : "#6b7280" }}
+                    style={{ color: "#6b7280" }}
                   >
                     {item.description}
                   </p>
