@@ -13,6 +13,9 @@ import { ProjectCard } from "./components/ProjectCard";
 import { ProjectsHero } from "./components/ProjectsHero";
 import { FeaturedProject } from "./components/FeaturedProject";
 import { GOLD, NAVY } from "../../themes/brand";
+import { Seo } from "../../seo/Seo";
+import { pageSeo } from "../../seo/pageSeo";
+import { breadcrumbSchema } from "../../seo/siteMeta";
 
 // ─── Reveal wrapper dùng cho tiêu đề / thanh lọc ───────────────
 function Reveal({
@@ -120,6 +123,17 @@ export default function ProjectsPage() {
 
   return (
     <div className="min-h-screen bg-white pt-[72px]">
+      <Seo
+        title={pageSeo.projects.title}
+        description={pageSeo.projects.description}
+        path="/du-an"
+        schemas={[
+          breadcrumbSchema([
+            { name: "Trang chủ", path: "/" },
+            { name: "Dự án", path: "/du-an" },
+          ]),
+        ]}
+      />
       <ProjectsHero />
 
       {/* ══ DỰ ÁN TRỌNG ĐIỂM ══ */}

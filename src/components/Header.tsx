@@ -26,7 +26,9 @@ const LOGO_HEIGHT_DESKTOP = 60;
 const LOGO_WIDTH_DESKTOP = 230;
 
 export default function Header() {
-  const [scrolled, setScrolled] = useState(() => window.scrollY > 60);
+  // Lúc dựng HTML tĩnh không có window, nên mặc định là chưa cuộn;
+  // effect bên dưới sẽ đồng bộ lại ngay khi chạy trong trình duyệt.
+  const [scrolled, setScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const theme = useTheme();
 

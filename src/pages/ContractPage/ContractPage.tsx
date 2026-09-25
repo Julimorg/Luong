@@ -30,6 +30,9 @@ import {
 } from "../../data/contractData";
 import { MessengerIcon, ZaloIcon } from "../../components/icons/SocialIcons";
 import { GOLD, NAVY } from "../../themes/brand";
+import { Seo } from "../../seo/Seo";
+import { pageSeo } from "../../seo/pageSeo";
+import { breadcrumbSchema, localBusinessSchema } from "../../seo/siteMeta";
 
 // ─── Brand colors ─────────────────────────────────────────────
 
@@ -122,6 +125,18 @@ export default function ContactPage() {
 
   return (
     <div className="pt-[72px] relative bg-[#f3f4f6] min-h-screen">
+      <Seo
+        title={pageSeo.contact.title}
+        description={pageSeo.contact.description}
+        path="/lien-he"
+        schemas={[
+          localBusinessSchema,
+          breadcrumbSchema([
+            { name: "Trang chủ", path: "/" },
+            { name: "Liên hệ", path: "/lien-he" },
+          ]),
+        ]}
+      />
 
       {/* ══ NAVY BAND (background) ══ */}
       <div className="absolute top-[72px] inset-x-0 h-[400px] sm:h-[440px] overflow-hidden">

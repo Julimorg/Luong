@@ -1,23 +1,8 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import { ViteReactSSG } from "vite-react-ssg";
 import "./index.css";
-import App from "./App.tsx";
-import ReactQueryProvider from "./provider/ReactQueryProvider.tsx";
-import { ToastContainer } from "react-toastify";
+import { routes } from "./routes";
 
-
-  
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <ReactQueryProvider>
-      <App />
-      <ToastContainer
-        theme="light"
-        position="top-right"
-        autoClose={3000}
-        closeOnClick
-        pauseOnHover={false}
-      />
-    </ReactQueryProvider>
-  </StrictMode>,
-);
+// ViteReactSSG thay cho createRoot: lúc `vite-react-ssg build` nó render sẵn
+// từng route ra file HTML tĩnh, lúc chạy trong trình duyệt nó hydrate lại
+// đúng cây React đó. Không cần server, vẫn deploy dạng static như trước.
+export const createRoot = ViteReactSSG({ routes });

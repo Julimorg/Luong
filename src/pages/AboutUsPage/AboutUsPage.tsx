@@ -6,11 +6,25 @@ import { CapabilitiesSection } from "./components/CapabilitiesSection";
 import { ProcessSection } from "./components/ProcessSection";
 import { EcosystemSection } from "./components/EcosystemSection";
 import { WhyChooseBento } from "./components/WhyChooseBento";
+import { Seo } from "../../seo/Seo";
+import { pageSeo } from "../../seo/pageSeo";
+import { breadcrumbSchema } from "../../seo/siteMeta";
 
 // ─── MAIN ─────────────────────────────────────────────────────
 export default function AboutUsPage() {
   return (
     <div className="pt-[72px]">
+      <Seo
+        title={pageSeo.about.title}
+        description={pageSeo.about.description}
+        path="/gioi-thieu"
+        schemas={[
+          breadcrumbSchema([
+            { name: "Trang chủ", path: "/" },
+            { name: "Giới thiệu", path: "/gioi-thieu" },
+          ]),
+        ]}
+      />
       {/* ══════════════════ INTRO + FLIPBOOK (giữ nguyên) ══════════════════ */}
       <section className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

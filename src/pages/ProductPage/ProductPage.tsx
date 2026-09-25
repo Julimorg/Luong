@@ -19,6 +19,9 @@ import {
 import { ProductCard } from "./components/ProductCard";
 import { ComboSection } from "./components/ComboSection";
 import { GOLD, NAVY } from "../../themes/brand";
+import { Seo } from "../../seo/Seo";
+import { pageSeo } from "../../seo/pageSeo";
+import { breadcrumbSchema } from "../../seo/siteMeta";
 
 const HEADER_BG = "#121b45";
 
@@ -357,6 +360,17 @@ export default function ProductsPage() {
     <div
       className="min-h-screen bg-white overflow-x-hidden"
     >
+      <Seo
+        title={pageSeo.products.title}
+        description={pageSeo.products.description}
+        path="/san-pham"
+        schemas={[
+          breadcrumbSchema([
+            { name: "Trang chủ", path: "/" },
+            { name: "Sản phẩm", path: "/san-pham" },
+          ]),
+        ]}
+      />
       {/* ══ HEADER — ảnh nền thiết bị, chữ dồn về nửa trái ══ */}
       <div className="relative pt-[72px]" style={{ backgroundColor: HEADER_BG }}>
         <img

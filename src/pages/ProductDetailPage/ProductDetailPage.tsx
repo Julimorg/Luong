@@ -30,6 +30,9 @@ import { useScrollReveal } from "../../hooks/useScrollReveal";
 import { products, productsBreadcrumb, productSections, type Product } from "../../data/productData";
 import { productDetails, type ProductDetail } from "../../data/productDetailData";
 import { GOLD, NAVY } from "../../themes/brand";
+import { Seo } from "../../seo/Seo";
+import { clampDescription } from "../../seo/pageSeo";
+import { absoluteUrl, breadcrumbSchema } from "../../seo/siteMeta";
 
 
 const HOTLINE = "+84901234567";
@@ -282,8 +285,38 @@ export default function ProductDetailPage() {
       ? detail.applications.map((label, i) => ({ label, icon: APPLICATION_ICONS[i % APPLICATION_ICONS.length] }))
       : DEFAULT_APPLICATIONS;
 
+  // Mô tả cho Google lấy từ đoạn giới thiệu thật của sản phẩm, cắt về đúng
+  // độ dài hiển thị; không có thì ghép từ hãng và công suất.
+  const seoDescription = clampDescription(
+    detail.description ?? `${product.name} — ${product.brand} chính hãng, phân phối bởi VIETHUNGSOLAR. Đầy đủ CO, CQ, datasheet kỹ thuật và bảo hành hãng.`,
+  );
+
   return (
     <div className="pt-[72px] min-h-screen bg-white">
+      <Seo
+        title={product.name}
+        description={seoDescription}
+        path={`/san-pham/${product.id}`}
+        image={product.image}
+        type="article"
+        schemas={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Product",
+            name: product.name,
+            image: absoluteUrl(product.image),
+            description: seoDescription,
+            sku: product.model,
+            brand: { "@type": "Brand", name: product.brand },
+            category: categoryTitle,
+          },
+          breadcrumbSchema([
+            { name: "Trang chủ", path: "/" },
+            { name: "Sản phẩm", path: "/san-pham" },
+            { name: product.name, path: `/san-pham/${product.id}` },
+          ]),
+        ]}
+      />
 
       {/* ══ BREADCRUMB — nền trắng thuần, không còn nền xám ══ */}
       <div className="border-b border-gray-100 bg-white">

@@ -26,3 +26,6 @@ scripts/.build/
 
 # python
 __pycache__/
+
+# Thư mục tạm của vite-react-ssg khi build
+.vite-react-ssg-temp

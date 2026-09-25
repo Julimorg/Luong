@@ -16,6 +16,9 @@ import { projects, categoryLabels } from "../../data/projectData";
 import { useScrollReveal, revealClasses } from "../../hooks/useScrollReveal";
 import { projectDetails } from "../../data/projectDetailData";
 import { GOLD, NAVY } from "../../themes/brand";
+import { Seo } from "../../seo/Seo";
+import { clampDescription } from "../../seo/pageSeo";
+import { breadcrumbSchema } from "../../seo/siteMeta";
 
 
 // ─── Reveal wrapper (giữ nguyên) ───────────────────────────────
@@ -106,6 +109,22 @@ export default function ProjectDetailPage() {
 
   return (
     <div className="pt-[72px] bg-[#f3f4f6] min-h-screen">
+      <Seo
+        title={project.title}
+        description={clampDescription(
+          `${project.summary} Công suất ${detail.capacity}, thi công tại ${detail.location} bởi VIETHUNGSOLAR.`,
+        )}
+        path={`/du-an/${project.id}`}
+        image={project.image}
+        type="article"
+        schemas={[
+          breadcrumbSchema([
+            { name: "Trang chủ", path: "/" },
+            { name: "Dự án", path: "/du-an" },
+            { name: project.title, path: `/du-an/${project.id}` },
+          ]),
+        ]}
+      />
       {/* ══════════════ BREADCRUMB ══════════════ */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">

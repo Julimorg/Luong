@@ -14,4 +14,21 @@ export default defineConfig({
     tailwindcss(),
     babel({ presets: [reactCompilerPreset()] })
   ],
+  ssr: {
+    // Khi dựng HTML tĩnh, Node tự resolve các gói này sẽ lỗi vì chúng phát
+    // hành ESM không đầy đủ (import thẳng vào thư mục). Cho Vite bundle luôn
+    // thay vì để Node xử lý thì hết lỗi ERR_UNSUPPORTED_DIR_IMPORT.
+    noExternal: [
+      '@mui/material',
+      '@mui/system',
+      '@mui/utils',
+      '@mui/icons-material',
+      '@mui/styled-engine',
+      '@emotion/react',
+      '@emotion/styled',
+      'react-toastify',
+      'framer-motion',
+      'animejs',
+    ],
+  },
 })

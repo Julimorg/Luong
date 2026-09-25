@@ -5,10 +5,19 @@ import { ProjectsSection } from "./components/home/ProjectsSection";
 import { SolarCalculator } from "./components/home/SolarCalculator";
 import { SolutionsSection } from "./components/home/SolutionsSection";
 import { ProcessSection } from "./components/home/StatsSection";
+import { Seo } from "../../seo/Seo";
+import { pageSeo } from "../../seo/pageSeo";
+import { localBusinessSchema } from "../../seo/siteMeta";
 
 export default function HomePage() {
   return (
     <div id="home">
+      <Seo
+        title={pageSeo.home.title}
+        description={pageSeo.home.description}
+        path="/"
+        schemas={[localBusinessSchema]}
+      />
       <HeroSection />
       <SolutionsSection />
       <ProcessSection />

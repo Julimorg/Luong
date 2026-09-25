@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite-react-ssg build && node scripts/gen-sitemap.mjs",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:spa": "tsc -b && vite build"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -24,10 +25,11 @@
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-pageflip": "^2.0.3",
-    "react-router-dom": "^7.17.0",
+    "react-router-dom": "^6.30.6",
     "react-toastify": "^11.1.0",
     "tailwindcss": "^4.3.0",
-    "three": "^0.186.0"
+    "three": "^0.186.0",
+    "vite-react-ssg": "^0.9.2"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",

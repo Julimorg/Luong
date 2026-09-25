@@ -5,6 +5,9 @@ import { SolutionExplorer } from "./components/SolutionExplorer";
 import { SystemComparison } from "./components/SystemComparison";
 import { SolutionFaq } from "./components/SolutionFaq";
 import { SubTypeDetailModal } from "./components/SubTypeDetailModal";
+import { Seo } from "../../seo/Seo";
+import { pageSeo } from "../../seo/pageSeo";
+import { breadcrumbSchema } from "../../seo/siteMeta";
 
 export default function SolutionPage() {
   // Modal chi tiết một cấu hình — mở từ thẻ trong phần khám phá giải pháp.
@@ -22,6 +25,17 @@ export default function SolutionPage() {
 
   return (
     <div className="pt-[72px]">
+      <Seo
+        title={pageSeo.solutions.title}
+        description={pageSeo.solutions.description}
+        path="/giai-phap"
+        schemas={[
+          breadcrumbSchema([
+            { name: "Trang chủ", path: "/" },
+            { name: "Giải pháp", path: "/giai-phap" },
+          ]),
+        ]}
+      />
       <SolutionHero />
       <SolutionExplorer onOpen={openDetail} />
       <SystemComparison />
