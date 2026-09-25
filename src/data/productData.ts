@@ -57,6 +57,21 @@ export interface ProductBrandInfo {
   linkTo?: string;
 }
 
+/**
+ * File logo của từng hãng trong public/brands/.
+ * Key phải khớp chính xác với field `brand` của sản phẩm.
+ * Hãng chưa có file logo thì để trống — nơi hiển thị sẽ tự rơi về chữ.
+ */
+export const brandLogos: Record<string, string> = {
+  LONGi: "/brands/longi.webp",
+  "JA Solar": "/brands/ja-solar.webp",
+  GoodWe: "/brands/goodwe.webp",
+  SolaX: "/brands/solax.webp",
+  INVT: "/brands/invt.webp",
+  "Lithium Valley": "/brands/lithium-valley.webp",
+  // Chưa có file: "TCL Solar", "Sungrow"
+};
+
 export const productSections: ProductSection[] = [
   {
     id: "tam-pin",

@@ -6,7 +6,7 @@ import MemoryRoundedIcon from "@mui/icons-material/MemoryRounded";
 import BatteryChargingFullRoundedIcon from "@mui/icons-material/BatteryChargingFullRounded";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { aboutEcosystemSection } from "../../../data/aboutUsData";
-import { products, productSections } from "../../../data/productData";
+import { brandLogos, products, productSections } from "../../../data/productData";
 import { useAnimeOnView } from "../../../hooks/useAnimeOnView";
 import { CountUp, GOLD, NAVY, Reveal, SectionHeading } from "./aboutShared";
 
@@ -39,7 +39,7 @@ export function EcosystemSection() {
   const brandChips = useMemo(() => {
     const seen = new Map<string, string>();
     for (const p of products) if (!seen.has(p.brand)) seen.set(p.brand, p.brandColor ?? GOLD);
-    return [...seen.entries()].map(([name, color]) => ({ name, color }));
+    return [...seen.entries()].map(([name, color]) => ({ name, color, logo: brandLogos[name] }));
   }, []);
 
   const gridRef = useAnimeOnView<HTMLDivElement>((el) => {
@@ -134,17 +134,39 @@ export function EcosystemSection() {
           ))}
         </div>
 
-        {/* Dải thương hiệu đang phân phối */}
+        {/* Dải thương hiệu đang phân phối — logo chính hãng, cỡ lớn */}
         <Reveal delay={120} className="mt-8">
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 rounded-2xl border border-gray-100 bg-white px-6 py-5">
-            <span className="text-xs font-bold uppercase tracking-widest text-gray-400">
+          <div className="rounded-2xl border border-gray-100 bg-white px-6 py-8 sm:px-10 sm:py-10">
+            <p className="mb-7 text-center text-xs font-bold uppercase tracking-[0.25em] text-gray-400">
               Thương hiệu phân phối
-            </span>
-            {brandChips.map((b) => (
-              <span key={b.name} className="text-sm font-black uppercase" style={{ color: b.color }}>
-                {b.name}
-              </span>
-            ))}
+            </p>
+            <div className="grid grid-cols-2 items-center gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-4">
+              {brandChips.map((b) =>
+                b.logo ? (
+                  <div key={b.name} className="flex h-16 items-center justify-center sm:h-20">
+                    <img
+                      src={b.logo}
+                      alt={b.name}
+                      loading="lazy"
+                      title={b.name}
+                      // mix-blend-multiply: file logo có nền trắng, trộn nhân để
+                      // nền hoà vào nền thẻ thay vì lộ ô trắng.
+                      className="max-h-12 w-auto max-w-full object-contain mix-blend-multiply transition-transform duration-300 hover:scale-105 sm:max-h-16"
+                    />
+                  </div>
+                ) : (
+                  // Hãng chưa có file logo -> hiển thị bằng chữ theo màu nhận diện.
+                  <div key={b.name} className="flex h-16 items-center justify-center sm:h-20">
+                    <span
+                      className="text-center text-lg font-black uppercase leading-tight tracking-wide sm:text-xl"
+                      style={{ color: b.color }}
+                    >
+                      {b.name}
+                    </span>
+                  </div>
+                ),
+              )}
+            </div>
           </div>
         </Reveal>
       </div>
