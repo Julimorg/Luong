@@ -86,7 +86,7 @@ function formatInputNumber(n: number) {
 const CUSTOMER_TYPE_BY_CONG_TRINH: Record<LoaiCongTrinh, CustomerType> = {
   nha_o: "household",
   nha_xuong: "production",
-  trang_trai: "production",
+  trang_trai: "farm",
   van_phong: "business",
 };
 

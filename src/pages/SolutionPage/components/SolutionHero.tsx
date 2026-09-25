@@ -4,7 +4,6 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 import { solutionHeader } from "../../../data/solutionData";
 import { useAnimeOnView } from "../../../hooks/useAnimeOnView";
-import { SolarFieldCanvas } from "../../../components/three/SolarFieldCanvas";
 import { GOLD, NAVY } from "./solutionTheme";
 
 export function SolutionHero() {
@@ -25,27 +24,20 @@ export function SolutionHero() {
       className="relative overflow-hidden"
       style={{ backgroundColor: NAVY }}
     >
-      {/* Nền: ảnh tĩnh làm lớp đáy, cánh đồng pin 3D phủ lên khi máy chạy được */}
-      <img
-        src="/background/dashboard/hero_background.png"
-        alt=""
+      {/* Nền: ảnh công trình + một lớp phủ chuyển màu, giống header trang
+          Dự án và Sản phẩm — không làm mờ hay đánh bóng thêm. */}
+      <div
         aria-hidden
-        className="absolute inset-0 h-full w-full object-cover opacity-25"
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: "url(/background/dashboard/hero_background.png)" }}
       />
-      <SolarFieldCanvas />
       <div
         aria-hidden
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(100deg, #0b1130 0%, rgba(11,17,48,0.88) 30%, rgba(11,17,48,0.42) 62%, rgba(11,17,48,0.12) 100%)",
+            "linear-gradient(100deg, rgba(18,27,69,0.96) 0%, rgba(18,27,69,0.88) 45%, rgba(18,27,69,0.55) 100%)",
         }}
-      />
-      {/* Vệt sáng vàng mềm ở góc phải cho khung hình bớt phẳng */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-24 top-1/4 h-80 w-80 rounded-full blur-3xl"
-        style={{ backgroundColor: `${GOLD}26` }}
       />
 
       <div

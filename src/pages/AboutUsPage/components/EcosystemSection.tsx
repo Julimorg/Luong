@@ -6,7 +6,8 @@ import MemoryRoundedIcon from "@mui/icons-material/MemoryRounded";
 import BatteryChargingFullRoundedIcon from "@mui/icons-material/BatteryChargingFullRounded";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { aboutEcosystemSection } from "../../../data/aboutUsData";
-import { brandLogos, products, productSections } from "../../../data/productData";
+import { featuredBrands } from "../../../data/dashBoardData";
+import { products, productSections } from "../../../data/productData";
 import { useAnimeOnView } from "../../../hooks/useAnimeOnView";
 import { CountUp, GOLD, NAVY, Reveal, SectionHeading } from "./aboutShared";
 import { BrandStrip } from "./BrandStrip";
@@ -37,11 +38,12 @@ export function EcosystemSection() {
     [],
   );
 
-  const brandChips = useMemo(() => {
-    const seen = new Map<string, string>();
-    for (const p of products) if (!seen.has(p.brand)) seen.set(p.brand, p.brandColor ?? GOLD);
-    return [...seen.entries()].map(([name, color]) => ({ name, color, logo: brandLogos[name] }));
-  }, []);
+  // Dải logo dùng chung danh sách với trang chủ (featuredBrands) để hai trang
+  // luôn hiện đúng một bộ logo, không phải khai báo hai nơi.
+  const brandChips = useMemo(
+    () => featuredBrands.map((b) => ({ name: b.name, logo: b.logo })),
+    [],
+  );
 
   const gridRef = useAnimeOnView<HTMLDivElement>((el) => {
     const cards = el.querySelectorAll<HTMLElement>("[data-card]");
