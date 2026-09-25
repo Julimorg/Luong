@@ -82,7 +82,7 @@ export const productSections: ProductSection[] = [
   },
   {
     id: "inverter",
-    title: "Inverter Hòa Lưới & Lưu Trữ",
+    title: "Inverter Hòa Lưới & Hybrid",
     viewAll: "/san-pham/inverter",
     subtitle: "Inverter hòa lưới, Hybrid áp thấp và Hybrid áp cao cho mọi quy mô hệ thống",
     tagline: "Từ 3kW dân dụng đến 110kW cho nhà máy – khu công nghiệp",
