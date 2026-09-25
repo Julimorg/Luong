@@ -177,7 +177,7 @@ export default function ProjectsPage() {
                 className="text-2xl font-extrabold leading-tight sm:text-3xl lg:text-4xl"
                 style={{ color: NAVY }}
               >
-                Toàn bộ dự án đã triển khai
+                Các dự án tiêu biểu
               </h2>
               <p className="mt-3 text-sm text-gray-500 sm:text-base">
                 Lọc theo loại công trình hoặc trạng thái để xem dự án gần với nhu cầu của bạn nhất.
