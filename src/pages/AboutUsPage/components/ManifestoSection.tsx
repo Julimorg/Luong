@@ -61,18 +61,28 @@ export function ManifestoSection() {
 
         <h2
           ref={quoteRef}
-          className="mt-5 text-2xl font-extrabold leading-tight tracking-tight sm:text-4xl lg:text-[2.75rem]"
+          className="mt-5 text-3xl font-extrabold uppercase leading-tight tracking-tight sm:text-4xl lg:text-[2.75rem]"
           style={{ color: NAVY }}
         >
-          <span style={{ color: GOLD }}>“</span>
-          {aboutManifesto.quote.split(" ").map((w, i) => (
-            <span key={`${w}-${i}`} data-word className="inline-block">
-              {w}
-              {"\u00A0"}
-            </span>
-          ))}
-          <span style={{ color: GOLD }}>”</span>
+          {/* Tách hai vế để vế sau tô vàng; mỗi từ là một span cho hiệu ứng chạy chữ. */}
+          {[
+            { text: aboutManifesto.headline, color: NAVY },
+            { text: aboutManifesto.headlineAccent, color: GOLD },
+          ].map((part) =>
+            part.text.split(" ").map((w, i) => (
+              <span key={`${part.text}-${w}-${i}`} data-word className="inline-block" style={{ color: part.color }}>
+                {w}
+                {"\u00A0"}
+              </span>
+            )),
+          )}
         </h2>
+
+        <Reveal delay={120}>
+          <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-gray-500 sm:text-base">
+            {aboutManifesto.description}
+          </p>
+        </Reveal>
 
         <div className="mt-12 grid gap-4 text-left sm:grid-cols-2">
           {cards.map((c, i) => (

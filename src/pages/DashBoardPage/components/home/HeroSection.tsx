@@ -26,7 +26,7 @@ export function HeroSection() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 w-full">
         {/* ── Khối nội dung căn giữa hoàn toàn ── */}
-        <div className="flex flex-col items-center text-center max-w-3xl mx-auto">
+        <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
           {/* Logo icon phía trên */}
           <img
             src={HERO_LOGO_SRC}
@@ -43,10 +43,8 @@ export function HeroSection() {
             </span>
             <span className="w-6 h-0.5" style={{ backgroundColor: GOLD }} />
           </div>
-          <h1
-            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-5 animate-[fadeInUp_0.9s_0.1s_ease_both]"
-            style={{ whiteSpace: "pre-line" }}
-          >
+          {/* Từ lg trở lên khoá một dòng; màn hẹp vẫn cho xuống dòng để khỏi tràn ngang. */}
+          <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] xl:text-6xl font-extrabold text-white leading-tight mb-5 lg:whitespace-nowrap animate-[fadeInUp_0.9s_0.1s_ease_both]">
             {heroData.headline}
           </h1>
           <p className="text-white/70 text-base sm:text-lg leading-relaxed mb-8 max-w-lg animate-[fadeInUp_0.9s_0.2s_ease_both]">

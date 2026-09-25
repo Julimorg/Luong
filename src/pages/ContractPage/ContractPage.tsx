@@ -17,7 +17,7 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 import { useScrollReveal } from "../../hooks/useScrollReveal";
-import { type ContactItem, contactForm, contactBreadcrumb, contactPageHeader, contactItems, contactMap } from "../../data/contractData";
+import { type ContactItem, contactForm, contactBreadcrumb, contactPageHeader, contactItems, contactMap, CONTACT_EMAIL } from "../../data/contractData";
 import { GOLD, NAVY } from "../../themes/brand";
 
 // ─── Brand colors ─────────────────────────────────────────────
@@ -79,7 +79,15 @@ export default function ContactPage() {
     try {
       await emailjs.send(
         SERVICE_ID, TEMPLATE_ID,
-        { from_name: form.name, from_phone: form.phone, from_email: form.email, message: form.message },
+        {
+          from_name: form.name,
+          from_phone: form.phone,
+          from_email: form.email,
+          message: form.message,
+          // Hộp thư nhận yêu cầu — template EmailJS dùng biến {{to_email}}
+          // để gửi thẳng về địa chỉ này.
+          to_email: CONTACT_EMAIL,
+        },
         PUBLIC_KEY
       );
       setStatus("success");

@@ -3,11 +3,9 @@ import { CompanyFlipbook } from "./components/companyFlipBook";
 import { GOLD, Reveal } from "./components/aboutShared";
 import { ManifestoSection } from "./components/ManifestoSection";
 import { CapabilitiesSection } from "./components/CapabilitiesSection";
-import { ShowcaseTabsSection } from "./components/ShowcaseTabsSection";
 import { ProcessSection } from "./components/ProcessSection";
 import { EcosystemSection } from "./components/EcosystemSection";
 import { WhyChooseBento } from "./components/WhyChooseBento";
-import { TrustBandSection } from "./components/TrustBandSection";
 
 // ─── MAIN ─────────────────────────────────────────────────────
 export default function AboutUsPage() {
@@ -55,15 +53,13 @@ export default function AboutUsPage() {
       </section>
 
       {/* ══════════════════ TỪ ĐÂY LÀ PHẦN THÂN THIẾT KẾ MỚI ══════════════════ */}
-      {/* Mạch nội dung: tin điều gì → năng lực → làm được gì → làm thế nào →
-          thiết bị phân phối → vì sao chọn → cam kết → giải đáp → liên hệ */}
+      {/* Mạch nội dung: tin điều gì → năng lực → làm thế nào →
+          thiết bị phân phối → vì sao chọn */}
       <ManifestoSection />
       <CapabilitiesSection />
-      <ShowcaseTabsSection />
       <ProcessSection />
       <EcosystemSection />
       <WhyChooseBento />
-      <TrustBandSection />
     </div>
   );
 }

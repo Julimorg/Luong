@@ -36,14 +36,14 @@ const HOTLINE = "+84901234567";
 const HOTLINE_DISPLAY = "0908011931";
 
 // ─── Reveal (giữ nguyên) ────────────────────────────────────────
-function Reveal({ children, delay = 0, className = "" }: {
-  children: React.ReactNode; delay?: number; className?: string;
+function Reveal({ children, delay = 0, className = "", style }: {
+  children: React.ReactNode; delay?: number; className?: string; style?: React.CSSProperties;
 }) {
   const { ref, isVisible } = useScrollReveal({ threshold: 0.06 });
   return (
     <div
       ref={ref}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={{ transitionDelay: `${delay}ms`, ...style }}
       className={`transition-all duration-700 ease-out ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
       } ${className}`}
@@ -200,6 +200,32 @@ export default function ProductDetailPage() {
   const [specsExpanded, setSpecsExpanded] = useState(false);
   const totalSpecRows = (detail?.fullSpecs.length ?? 0) + 1; // +1 cho dòng "Xuất xứ"
   const isSpecsLong = totalSpecRows > 18;
+
+  // Cột phải (điểm nổi bật + ứng dụng + tài liệu) cao bao nhiêu thì khoá cột
+  // thông số bấy nhiêu, để đáy hai cột luôn trùng nhau. Không thể làm bằng CSS
+  // thuần vì chiều cao hàng của grid luôn bằng cột CAO NHẤT — tức chính bảng
+  // thông số. Vì vậy phải đo cột phải rồi gán cứng chiều cao cho cột trái.
+  const rightColRef = useRef<HTMLDivElement>(null);
+  const [specsColHeight, setSpecsColHeight] = useState<number | null>(null);
+
+  useEffect(() => {
+    const el = rightColRef.current;
+    if (!el) return;
+    // Dưới lg hai cột xếp chồng nên không khoá chiều cao.
+    const wide = window.matchMedia("(min-width: 1024px)");
+    // ResizeObserver tự bắn một lần ngay khi observe nên không cần gọi tay.
+    const sync = () => setSpecsColHeight(wide.matches ? el.offsetHeight : null);
+    const ro = new ResizeObserver(sync);
+    ro.observe(el);
+    wide.addEventListener("change", sync);
+    return () => {
+      ro.disconnect();
+      wide.removeEventListener("change", sync);
+    };
+  }, [productId]);
+
+  // Chỉ khoá khi đang thu gọn; bấm "Xem đầy đủ" thì bảng dài tự nhiên.
+  const lockedSpecsHeight = !specsExpanded && specsColHeight ? specsColHeight : null;
 
   const related = useMemo(() => {
     if (!product) return [];
@@ -379,13 +405,12 @@ export default function ProductDetailPage() {
         {/* ══ THÔNG SỐ KỸ THUẬT (trái) | ĐIỂM NỔI BẬT → ỨNG DỤNG → TÀI LIỆU (phải) ══
              Bảng thông số rất dài, nên 3 khối còn lại xếp chồng trong cùng một cột
              bên phải để không bỏ trống khoảng lớn và luôn thẳng hàng với nhau. */}
-        <div
-          className={`grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 mb-14 ${
-            specsExpanded ? "items-start" : "lg:items-stretch"
-          }`}
-        >
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 mb-14 items-start">
           {/* ── Cột trái: bảng thông số kỹ thuật ── */}
-          <Reveal className={specsExpanded ? "" : "flex flex-col lg:h-full"}>
+          <Reveal
+            className={lockedSpecsHeight ? "flex flex-col" : ""}
+            style={lockedSpecsHeight ? { height: lockedSpecsHeight } : undefined}
+          >
             <h2 className="text-lg font-extrabold uppercase mb-5" style={{ color: NAVY }}>
               Thông số kỹ thuật
               <div className="h-[3px] w-10 rounded-full mt-1.5" style={{ backgroundColor: GOLD }} />
@@ -396,10 +421,10 @@ export default function ProductDetailPage() {
                 tài liệu khác nhau nên cột phải cao thấp khác nhau), để lưới tự
                 kéo hai cột bằng nhau rồi cho khung bảng chiếm hết phần còn lại
                 — đáy bảng luôn trùng đáy mục "Tài liệu tải về". */}
-            <div className={`relative ${specsExpanded ? "" : "min-h-0 flex-1"}`}>
+            <div className={`relative ${lockedSpecsHeight ? "min-h-0 flex-1" : ""}`}>
               <div
                 className={`rounded-2xl border border-gray-100 ${
-                  specsExpanded ? "overflow-hidden" : "h-full overflow-y-auto"
+                  lockedSpecsHeight ? "h-full overflow-y-auto" : "overflow-hidden"
                 }`}
               >
                 <table className="w-full text-sm">
@@ -419,7 +444,7 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Vệt mờ báo hiệu bảng còn nội dung bên dưới */}
-              {!specsExpanded && isSpecsLong && (
+              {lockedSpecsHeight && isSpecsLong && (
                 <div
                   aria-hidden
                   className="pointer-events-none absolute inset-x-0 bottom-0 h-16 rounded-b-2xl"
@@ -445,8 +470,8 @@ export default function ProductDetailPage() {
             )}
           </Reveal>
 
-          {/* ── Cột phải: điểm nổi bật → tài liệu tải về → ứng dụng phù hợp ── */}
-          <div className="flex flex-col gap-10">
+          {/* ── Cột phải: điểm nổi bật → ứng dụng phù hợp → tài liệu tải về ── */}
+          <div ref={rightColRef} className="flex flex-col gap-10">
             <Reveal delay={100}>
               <h2 className="text-lg font-extrabold uppercase mb-5" style={{ color: NAVY }}>
                 Điểm nổi bật

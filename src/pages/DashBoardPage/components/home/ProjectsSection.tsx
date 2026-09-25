@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, type Variants } from "framer-motion";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SectionEyebrow } from "../common/SectionEyebrow";
 import { projectCards, projectsSection } from "../../../../data/dashBoardData";
 import { GOLD, NAVY } from "../../themes/colors";
@@ -102,6 +102,15 @@ function ProjectAccordionCard({
           {project.title}
         </h3>
       </div>
+
+      {/* Link phủ kín card: giữ được chuột phải / mở tab mới mà không phải
+          bọc lại toàn bộ khối animation. */}
+      <Link
+        to={project.to}
+        aria-label={project.title}
+        className="absolute inset-0 z-10 rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+        style={{ outlineColor: GOLD }}
+      />
     </motion.div>
   );
 }
@@ -166,27 +175,28 @@ export function ProjectsSection() {
           className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:hidden"
         >
           {projectCards.map((project, i) => (
-            <motion.div
-              key={project.id}
-              variants={cardEntranceVariants}
-              className="relative rounded-2xl overflow-hidden aspect-[4/3]"
-            >
-              <img
-                src={project.image}
-                alt={project.title}
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
-              <span
-                className="absolute top-4 left-4 font-extrabold text-white/20 select-none"
-                style={{ fontSize: "2.25rem" }}
+            <motion.div key={project.id} variants={cardEntranceVariants}>
+              <Link
+                to={project.to}
+                className="relative block rounded-2xl overflow-hidden aspect-[4/3] no-underline"
               >
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <div className="absolute inset-x-0 bottom-0 p-5">
-                <p className="text-white/70 text-xs font-medium mb-1.5">Công suất {project.capacity}</p>
-                <h3 className="text-white font-bold text-sm leading-snug">{project.title}</h3>
-              </div>
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+                <span
+                  className="absolute top-4 left-4 font-extrabold text-white/20 select-none"
+                  style={{ fontSize: "2.25rem" }}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div className="absolute inset-x-0 bottom-0 p-5">
+                  <p className="text-white/70 text-xs font-medium mb-1.5">Công suất {project.capacity}</p>
+                  <h3 className="text-white font-bold text-sm leading-snug">{project.title}</h3>
+                </div>
+              </Link>
             </motion.div>
           ))}
         </motion.div>

@@ -2,6 +2,8 @@
 // dashboardData.ts — Cấu hình toàn bộ nội dung trang chủ
 // ============================================================
 
+import { projects } from "./projectData";
+
 // ---------- NAVIGATION ----------
 export const navLinks = [
   { label: "Trang chủ", to: "/" },
@@ -11,7 +13,7 @@ export const navLinks = [
   { label: "Giải Pháp", to: "/giai-phap" },
 ];
 
-export const headerPhone = "1800 1234";
+export const headerPhone = "0931 227 668";
 
 // ---------- HERO ----------
 export const heroData = {
@@ -151,36 +153,20 @@ export const projectsSection = {
   cta: { label: "Xem tất cả dự án", href: "#projects" },
 };
 
-export const projectCards = [
-  {
-    id: 1,
-    image: "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=600&q=80",
-    title: "Nhà máy May Việt Tân – Vũng Tàu",
-    capacity: "12 MWp",
-    status: "Hoàn thành",
-  },
-  {
-    id: 2,
-    image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600&q=80",
-    title: "Nhà máy Bao bì Tân Tiến – Bình Dương",
-    capacity: "8 MWp",
-    status: "Hoàn thành",
-  },
-  {
-    id: 3,
-    image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=600&q=80",
-    title: "Trường Quốc tế Việt Úc – TP. HCM",
-    capacity: "300 kWp",
-    status: "Hoàn thành",
-  },
-  {
-    id: 4,
-    image: "https://images.unsplash.com/photo-1548337138-e87d889cc369?w=600&q=80",
-    title: "Nhà máy Cà Phê Chính xác – Đắk Nông",
-    capacity: "5 MWp",
-    status: "Hoàn thành",
-  },
-];
+// Thẻ dự án hiển thị ở trang chủ lấy thẳng từ dữ liệu trang Dự án
+// (src/data/projectData.ts) để hai trang không bao giờ lệch nhau.
+// HOME_PROJECT_COUNT quyết định lấy bao nhiêu dự án đầu danh sách.
+const HOME_PROJECT_COUNT = 4;
+
+export const projectCards = projects.slice(0, HOME_PROJECT_COUNT).map((p) => ({
+  id: p.id,
+  image: p.image,
+  title: p.title,
+  capacity: p.capacity,
+  status: p.status,
+  /** Đường dẫn sang trang chi tiết dự án. */
+  to: `/du-an/${p.id}`,
+}));
 
 // ---------- FEATURED BRANDS (Nhãn hàng nổi bật) ----------
 export const featuredBrandsSection = {
@@ -259,4 +245,13 @@ export const footerData = {
   },
   socials: ["facebook", "zalo"],
   copyright: "@2026 VIETHUNGSOLAR. All Rights Reserved.",
+};
+
+// ---------- MẠNG XÃ HỘI (dùng chung Footer + trang Liên hệ) ----------
+export const socialLinks = {
+  facebookName: "VIỆT HÙNG SOLAR",
+  facebook: "https://www.facebook.com/viethungsolarhcm/",
+  messenger: "https://www.messenger.com/t/311605852044332?locale=en_US",
+  /** Chưa có Zalo OA riêng — tạm trỏ theo số hotline, đổi khi có link chính thức. */
+  zalo: `https://zalo.me/${footerData.contact.phone.replace(/\D/g, "")}`,
 };

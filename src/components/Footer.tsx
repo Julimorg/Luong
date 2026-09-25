@@ -3,7 +3,7 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import { footerData } from "../data/dashBoardData";
+import { footerData, socialLinks } from "../data/dashBoardData";
 
 // ─── Icon Zalo — dựng theo logo chính thức: khối bo tròn xanh + chữ "Zalo" trắng ───
 function ZaloIcon() {
@@ -42,8 +42,8 @@ const LOGO_OFFSET_Y = -6; // px
 // ─── Cột giữa "VỀ VIETHUNGSOLAR" — 4 link điều hướng nội bộ ───────────
 // Link mạng xã hội — Zalo mở thẳng theo số hotline trong footerData.
 const socialHref: Record<string, string> = {
-  facebook: "https://www.facebook.com/",
-  zalo: `https://zalo.me/${footerData.contact.phone.replace(/\D/g, "")}`,
+  facebook: socialLinks.facebook,
+  zalo: socialLinks.zalo,
 };
 
 const aboutLinks = [
