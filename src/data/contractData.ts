@@ -87,6 +87,31 @@ export const contactMap = {
   address: COMPANY_ADDRESS,
 };
 
+// ---------- LIÊN HỆ NHANH (dưới form) ----------
+export interface QuickContact {
+  id: "zalo" | "messenger";
+  label: string;
+  sub: string;
+  href: string;
+}
+
+export const quickContactHeading = "Hoặc liên hệ nhanh qua";
+
+export const quickContacts: QuickContact[] = [
+  {
+    id: "zalo",
+    label: "Chat qua Zalo",
+    sub: "Tư vấn nhanh chóng",
+    href: socialLinks.zalo,
+  },
+  {
+    id: "messenger",
+    label: "Facebook / Messenger",
+    sub: "Nhắn tin trực tiếp cho chúng tôi",
+    href: socialLinks.messenger,
+  },
+];
+
 // ---------- FORM ----------
 export const contactForm = {
   title: "GỬI YÊU CẦU TƯ VẤN",

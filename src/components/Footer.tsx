@@ -4,27 +4,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import { footerData, socialLinks } from "../data/dashBoardData";
-
-// ─── Icon Zalo — dựng theo logo chính thức: khối bo tròn xanh + chữ "Zalo" trắng ───
-function ZaloIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 48 48" role="img" aria-label="Zalo" xmlns="http://www.w3.org/2000/svg">
-      <rect width="48" height="48" rx="12" fill="#0068FF" />
-      <text
-        x="24"
-        y="31"
-        textAnchor="middle"
-        fill="#fff"
-        fontFamily="Roboto, Arial, sans-serif"
-        fontSize="17"
-        fontWeight="700"
-        letterSpacing="-0.5"
-      >
-        Zalo
-      </text>
-    </svg>
-  );
-}
+import { ZaloIcon } from "./icons/SocialIcons";
 
 const socialIconMap: Record<string, React.ReactNode> = {
   facebook: <FacebookIcon sx={{ fontSize: 20 }} />,

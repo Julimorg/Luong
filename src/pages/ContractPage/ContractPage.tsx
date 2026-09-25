@@ -17,7 +17,18 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 import { useScrollReveal } from "../../hooks/useScrollReveal";
-import { type ContactItem, contactForm, contactBreadcrumb, contactPageHeader, contactItems, contactMap, CONTACT_EMAIL } from "../../data/contractData";
+import {
+  type ContactItem,
+  contactForm,
+  contactBreadcrumb,
+  contactPageHeader,
+  contactItems,
+  contactMap,
+  CONTACT_EMAIL,
+  quickContactHeading,
+  quickContacts,
+} from "../../data/contractData";
+import { MessengerIcon, ZaloIcon } from "../../components/icons/SocialIcons";
 import { GOLD, NAVY } from "../../themes/brand";
 
 // ─── Brand colors ─────────────────────────────────────────────
@@ -33,6 +44,12 @@ const infoIconMap: Record<ContactItem["icon"], React.ReactNode> = {
   phone:       <PhoneIcon sx={{ fontSize: 20 }} />,
   email:       <EmailIcon sx={{ fontSize: 20 }} />,
   facebook:    <FacebookIcon sx={{ fontSize: 20 }} />,
+};
+
+// ─── Icon các kênh liên hệ nhanh dưới form ────────────────────
+const quickContactIconMap = {
+  zalo: <ZaloIcon size={26} />,
+  messenger: <MessengerIcon size={26} />,
 };
 
 // ─── Types ────────────────────────────────────────────────────
@@ -344,6 +361,41 @@ export default function ContactPage() {
                     <SendIcon sx={{ fontSize: 18 }} />
                     {status === "sending" ? contactForm.sendingLabel : contactForm.submitLabel}
                   </button>
+
+                  {/* ── Liên hệ nhanh: Zalo / Messenger ── */}
+                  <div>
+                    {/* Gạch ngang hai bên, chữ nằm giữa */}
+                    <div className="flex items-center gap-3">
+                      <span className="h-px flex-1 bg-gray-200" />
+                      <span className="text-xs text-gray-400">{quickContactHeading}</span>
+                      <span className="h-px flex-1 bg-gray-200" />
+                    </div>
+
+                    <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {quickContacts.map((c) => (
+                        <a
+                          key={c.id}
+                          href={c.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 no-underline transition-all duration-200 hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md"
+                        >
+                          <span className="flex-shrink-0">{quickContactIconMap[c.id]}</span>
+                          {/* Cột form khá hẹp nên cho chữ xuống dòng thay vì cắt bớt. */}
+                          <span className="min-w-0 flex-1">
+                            <span className="block text-sm font-bold leading-snug" style={{ color: NAVY }}>
+                              {c.label}
+                            </span>
+                            <span className="mt-0.5 block text-xs leading-snug text-gray-400">{c.sub}</span>
+                          </span>
+                          <NavigateNextIcon
+                            sx={{ fontSize: 18, color: "#9ca3af", flexShrink: 0 }}
+                            className="transition-transform duration-200 group-hover:translate-x-0.5"
+                          />
+                        </a>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             </Reveal>
