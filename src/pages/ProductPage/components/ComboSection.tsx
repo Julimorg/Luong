@@ -210,7 +210,8 @@ export function ComboSection() {
       const w = el.clientWidth;
       const isNarrow = w < 720;
       const slideW = isNarrow ? Math.min(w * 0.88, 560) : Math.min(w * 0.6, 780);
-      setMetrics({ slideW, spacing: slideW * (isNarrow ? 0.94 : 0.76), compact: slideW < 520 });
+      // Hệ số càng nhỏ, hai poster hai bên càng thụt vào sát poster giữa.
+      setMetrics({ slideW, spacing: slideW * (isNarrow ? 0.86 : 0.62), compact: slideW < 520 });
     };
     measure();
     const ro = new ResizeObserver(measure);

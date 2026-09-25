@@ -37,7 +37,7 @@ def brand_name(*candidates):
     return ''
 BRAND_COLORS = {
     'GoodWe': '#e8001c',
-    'SolaX': '#00a0e9',
+    'SolaX': '#ef6c1a',
     'Sungrow': '#f6b918',
     'INVT': '#005bac',
     'Lithium Valley': '#2a9d8f',

@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
 import { animate, stagger } from "animejs";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import SolarPowerRoundedIcon from "@mui/icons-material/SolarPowerRounded";
 import FactoryRoundedIcon from "@mui/icons-material/FactoryRounded";
 import PlaceRoundedIcon from "@mui/icons-material/PlaceRounded";
 import BoltRoundedIcon from "@mui/icons-material/BoltRounded";
-import { projectsBreadcrumb, projectsHero, projectsStatsNote } from "../../../data/projectData";
+import { projectsHero, projectsStatsNote } from "../../../data/projectData";
 import { useAnimeOnView } from "../../../hooks/useAnimeOnView";
 import { CountUp } from "../../../components/common/CountUp";
 import { GOLD, NAVY } from "../../../themes/brand";
@@ -97,26 +96,7 @@ export function ProjectsHero({
       />
 
       <div ref={contentRef} className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb */}
-        <nav data-hero-item className="flex items-center gap-1 pt-6 text-sm">
-          {projectsBreadcrumb.map((crumb, i) => (
-            <span key={crumb.to} className="flex items-center gap-1">
-              {i > 0 && <NavigateNextIcon sx={{ fontSize: 16, color: "rgba(255,255,255,0.4)" }} />}
-              {i < projectsBreadcrumb.length - 1 ? (
-                <Link
-                  to={crumb.to}
-                  className="text-white/55 no-underline transition-colors duration-200 hover:text-[#fbae17]"
-                >
-                  {crumb.label}
-                </Link>
-              ) : (
-                <span className="font-medium text-white">{crumb.label}</span>
-              )}
-            </span>
-          ))}
-        </nav>
-
-        <div className="max-w-3xl pb-10 pt-10 sm:pt-14">
+        <div className="max-w-3xl pb-10 pt-14 sm:pt-20">
           <div data-hero-item className="mb-4 flex items-center gap-2">
             <span className="h-0.5 w-7" style={{ backgroundColor: GOLD }} />
             <span

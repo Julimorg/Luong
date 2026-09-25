@@ -129,7 +129,7 @@ export const aboutBrandLogos: { name: string; color: string }[] = [
   { name: "TCL Solar", color: "#cc0000" },
   { name: "GoodWe", color: "#e8001c" },
   { name: "Sungrow", color: "#fbae17" },
-  { name: "SolaX", color: "#00a0e9" },
+  { name: "SolaX", color: "#ef6c1a" },
   { name: "INVT", color: "#005bac" },
   { name: "Lithium Valley", color: "#2a9d8f" },
 ];

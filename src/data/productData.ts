@@ -272,7 +272,7 @@ export const products: Product[] = [
     group:      "Hybrid áp thấp",
     image:      "/products/inverter/solax-x1-hyb-5kw-x1-hyb-5-0-lv-eu-5-6.webp",
     brand:      "SolaX",
-    brandColor: "#00a0e9",
+    brandColor: "#ef6c1a",
     name:       "Inverter Hybrid SolaX X1-HYB 5kW",
     model:      "X1-HYB-5.0-LV-EU",
     specs:      [
@@ -286,7 +286,7 @@ export const products: Product[] = [
     group:      "Hybrid áp thấp",
     image:      "/products/inverter/solax-x1-hyb-5kw-x1-hyb-5-0-lv-eu-5-6.webp",
     brand:      "SolaX",
-    brandColor: "#00a0e9",
+    brandColor: "#ef6c1a",
     name:       "Inverter Hybrid SolaX X1-HYB 6kW – X1-HYB-6.0-LV",
     model:      "X1-HYB-6.0-LV",
     specs:      [
@@ -300,7 +300,7 @@ export const products: Product[] = [
     group:      "Hybrid áp thấp",
     image:      "/products/inverter/solax-x1-hyb-5kw-x1-hyb-5-0-lv-eu-5-6.webp",
     brand:      "SolaX",
-    brandColor: "#00a0e9",
+    brandColor: "#ef6c1a",
     name:       "Inverter Hybrid SolaX X1-HYB 6kW – X1-HYB-6.0-LV-EU",
     model:      "X1-HYB-6.0-LV-EU",
     specs:      [
@@ -314,7 +314,7 @@ export const products: Product[] = [
     group:      "Hybrid áp thấp",
     image:      "/products/inverter/solax-x1-reno-8kw-x1-reno-8-0-lv.webp",
     brand:      "SolaX",
-    brandColor: "#00a0e9",
+    brandColor: "#ef6c1a",
     name:       "Inverter Hybrid SolaX X1-RENO 8kW",
     model:      "X1-RENO-8.0-LV",
     specs:      [
@@ -525,7 +525,7 @@ export const products: Product[] = [
     group:      "Hybrid áp cao",
     image:      "/products/inverter/solax-0ceae4c9-6f2a-4b8d-be9a-be263058914e.webp",
     brand:      "SolaX",
-    brandColor: "#00a0e9",
+    brandColor: "#ef6c1a",
     name:       "Inverter Hybrid SolaX X3-AELIO-49.9K 49.9kW 3 Pha",
     model:      "X3-AELIO-49.9K",
     specs:      [
@@ -539,7 +539,7 @@ export const products: Product[] = [
     group:      "Hybrid áp cao",
     image:      "/products/inverter/solax-0ceae4c9-6f2a-4b8d-be9a-be263058914e.webp",
     brand:      "SolaX",
-    brandColor: "#00a0e9",
+    brandColor: "#ef6c1a",
     name:       "Inverter Hybrid SolaX X3-AELIO-60K 60kW 3 Pha",
     model:      "X3-AELIO-60K",
     specs:      [
@@ -948,7 +948,7 @@ export const products: Product[] = [
     group:      "Pin áp thấp (LV)",
     image:      "/products/pin-luu-tru/solax-t-bat-sys-lv-d150.webp",
     brand:      "SolaX",
-    brandColor: "#00a0e9",
+    brandColor: "#ef6c1a",
     name:       "Pin lưu trữ áp thấp SolaX T-BAT-SYS-LV D150",
     model:      "T-BAT-SYS-LV D150",
     specs:      [
@@ -962,7 +962,7 @@ export const products: Product[] = [
     group:      "Pin áp thấp (LV)",
     image:      "/products/pin-luu-tru/solax-tsys-ld160.webp",
     brand:      "SolaX",
-    brandColor: "#00a0e9",
+    brandColor: "#ef6c1a",
     name:       "Pin lưu trữ áp thấp SolaX TSYS-LD160 16kWh",
     model:      "TSYS-LD160",
     specs:      [
@@ -1019,7 +1019,7 @@ export const products: Product[] = [
     group:      "Pin áp cao (HV)",
     image:      "/products/pin-luu-tru/solax-tb-hr140.webp",
     brand:      "SolaX",
-    brandColor: "#00a0e9",
+    brandColor: "#ef6c1a",
     name:       "Module pin lưu trữ SolaX TB-HR140 14.3kWh",
     model:      "TB-HR140",
     specs:      [
@@ -1090,7 +1090,7 @@ export const products: Product[] = [
     group:      "Phụ kiện hệ pin",
     image:      "/products/pin-luu-tru/solax-tbms-r15.webp",
     brand:      "SolaX",
-    brandColor: "#00a0e9",
+    brandColor: "#ef6c1a",
     name:       "Bộ quản lý pin SolaX TBMS-R15",
     model:      "TBMS-R15",
     specs:      [

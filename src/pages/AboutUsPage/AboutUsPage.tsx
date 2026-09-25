@@ -1,6 +1,4 @@
-import { Link } from "react-router-dom";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { aboutBreadcrumb, aboutIntro, aboutStats } from "../../data/aboutUsData";
+import { aboutIntro, aboutStats } from "../../data/aboutUsData";
 import { CompanyFlipbook } from "./components/companyFlipBook";
 import { GOLD, Reveal } from "./components/aboutShared";
 import { ManifestoSection } from "./components/ManifestoSection";
@@ -15,29 +13,6 @@ import { TrustBandSection } from "./components/TrustBandSection";
 export default function AboutUsPage() {
   return (
     <div className="pt-[72px]">
-      {/* ══════════════════ BREADCRUMB (giữ nguyên) ══════════════════ */}
-      <div className="bg-gray-50 border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-          <nav className="flex items-center gap-1 text-sm">
-            {aboutBreadcrumb.map((crumb, i) => (
-              <span key={crumb.to} className="flex items-center gap-1">
-                {i > 0 && <NavigateNextIcon sx={{ fontSize: 16, color: "#9ca3af" }} />}
-                {i < aboutBreadcrumb.length - 1 ? (
-                  <Link
-                    to={crumb.to}
-                    className="text-gray-500 hover:text-[#fbae17] no-underline transition-colors duration-200"
-                  >
-                    {crumb.label}
-                  </Link>
-                ) : (
-                  <span className="text-[#121b45] font-medium">{crumb.label}</span>
-                )}
-              </span>
-            ))}
-          </nav>
-        </div>
-      </div>
-
       {/* ══════════════════ INTRO + FLIPBOOK (giữ nguyên) ══════════════════ */}
       <section className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

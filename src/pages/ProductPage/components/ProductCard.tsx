@@ -23,18 +23,6 @@ export function ProductCard({ product, showGroup = false }: ProductCardProps) {
         className="relative flex items-center justify-center bg-gradient-to-b from-slate-50 to-white p-5"
         style={{ height: 180 }}
       >
-        {/* Nhóm thiết bị — nhãn nhỏ góc trên để phân biệt Hybrid / Hòa lưới / Pin…
-            z-10: khi hover, ảnh được scale nên tạo stacking context và đứng cùng
-            lớp vẽ với nhãn; không có z-index thì ảnh (đứng sau trong DOM) sẽ đè
-            lên và che mất chữ. */}
-        {showGroup && (
-          <span
-            className="absolute left-3 top-3 z-10 rounded-full bg-white/85 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide backdrop-blur-sm"
-            style={{ color: brandColor }}
-          >
-            {product.group}
-          </span>
-        )}
         <img
           src={product.image}
           alt={product.name}
@@ -64,6 +52,13 @@ export function ProductCard({ product, showGroup = false }: ProductCardProps) {
         <span className="w-fit rounded bg-gray-50 px-1.5 py-0.5 font-mono text-[10px] tracking-tight text-gray-500">
           {product.model}
         </span>
+
+        {/* Nhóm thiết bị — để dưới phần chữ thay vì in đè lên ảnh sản phẩm */}
+        {showGroup && (
+          <p className="text-xs text-gray-400">
+            Loại: <span className="font-semibold" style={{ color: brandColor }}>{product.group}</span>
+          </p>
+        )}
 
         <div className="mt-1 flex flex-col gap-0.5">
           {product.specs.map((s) => (

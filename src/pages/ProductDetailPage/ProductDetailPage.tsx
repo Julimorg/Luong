@@ -32,10 +32,6 @@ import { productDetails, type ProductDetail } from "../../data/productDetailData
 import { GOLD, NAVY } from "../../themes/brand";
 
 
-// Chiều cao bảng thông số khi chưa mở rộng — xấp xỉ chiều cao cột bên phải
-// (Điểm nổi bật + Ứng dụng phù hợp), để hai cột kết thúc gần nhau.
-const SPECS_COLLAPSED_HEIGHT = 770;
-
 const HOTLINE = "+84901234567";
 const HOTLINE_DISPLAY = "0908011931";
 
@@ -383,24 +379,28 @@ export default function ProductDetailPage() {
         {/* ══ THÔNG SỐ KỸ THUẬT (trái) | ĐIỂM NỔI BẬT → ỨNG DỤNG → TÀI LIỆU (phải) ══
              Bảng thông số rất dài, nên 3 khối còn lại xếp chồng trong cùng một cột
              bên phải để không bỏ trống khoảng lớn và luôn thẳng hàng với nhau. */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 mb-14 items-start">
+        <div
+          className={`grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 mb-14 ${
+            specsExpanded ? "items-start" : "lg:items-stretch"
+          }`}
+        >
           {/* ── Cột trái: bảng thông số kỹ thuật ── */}
-          <Reveal>
+          <Reveal className={specsExpanded ? "" : "flex flex-col lg:h-full"}>
             <h2 className="text-lg font-extrabold uppercase mb-5" style={{ color: NAVY }}>
               Thông số kỹ thuật
               <div className="h-[3px] w-10 rounded-full mt-1.5" style={{ backgroundColor: GOLD }} />
             </h2>
 
-            {/* Bảng dài hơn cột bên phải rất nhiều -> giới hạn chiều cao cho cân với
-                cột phải; trong khung vẫn cuộn được, hoặc bấm nút để mở toàn bộ. */}
-            <div className="relative">
+            {/* Bảng thông số dài hơn cột bên phải rất nhiều. Thay vì đoán một
+                chiều cao cố định (mỗi sản phẩm có số điểm nổi bật, ứng dụng và
+                tài liệu khác nhau nên cột phải cao thấp khác nhau), để lưới tự
+                kéo hai cột bằng nhau rồi cho khung bảng chiếm hết phần còn lại
+                — đáy bảng luôn trùng đáy mục "Tài liệu tải về". */}
+            <div className={`relative ${specsExpanded ? "" : "min-h-0 flex-1"}`}>
               <div
-                className="rounded-2xl border border-gray-100 overflow-hidden"
-                style={
-                  specsExpanded
-                    ? undefined
-                    : { maxHeight: SPECS_COLLAPSED_HEIGHT, overflowY: "auto" }
-                }
+                className={`rounded-2xl border border-gray-100 ${
+                  specsExpanded ? "overflow-hidden" : "h-full overflow-y-auto"
+                }`}
               >
                 <table className="w-full text-sm">
                   <tbody>

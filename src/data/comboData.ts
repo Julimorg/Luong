@@ -211,7 +211,7 @@ export const combos: ComboItem[] = [
     title: "COMBO NHÀ MÁY",
     subtitle: "Giải pháp tối ưu cho nhà máy hoạt động giờ tối",
     brand: "SOLAX",
-    brandColor: "#00a0e9",
+    brandColor: "#ef6c1a",
     warrantyYears: "10",
     warrantyNote: "Biến tần & bộ lưu trữ SolaX",
     warrantyFootnote: "Thời hạn bảo hành theo chính sách của hãng tại thời điểm bán.",
