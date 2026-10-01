@@ -253,5 +253,5 @@ export const socialLinks = {
   facebook: "https://www.facebook.com/viethungsolarhcm/",
   messenger: "https://www.messenger.com/t/311605852044332?locale=en_US",
   /** Chưa có Zalo OA riêng — tạm trỏ theo số hotline, đổi khi có link chính thức. */
-  zalo: `https://zalo.me/${footerData.contact.phone.replace(/\D/g, "")}`,
+  zalo: `https://zalo.me/1423287266718925590`,
 };
