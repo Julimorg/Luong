@@ -40,13 +40,17 @@ function Reveal({ children, delay = 0, className = "" }: {
   );
 }
 
-// ─── Bảng thông tin của combo đang xem ──────────────────────────
-function ComboDetailPanel({ combo }: { combo: ComboItem }) {
+// ─── Bảng thông tin của combo ───────────────────────────────────
+// Mọi combo đều được render cùng lúc (xếp chồng trong một ô grid) nên chiều cao
+// khung luôn bằng panel cao nhất -> đổi slide không làm layout bên dưới nhảy.
+// `isActive` chỉ quyết định panel nào chạy animation vào.
+function ComboDetailPanel({ combo, isActive }: { combo: ComboItem; isActive: boolean }) {
   const navigate = useNavigate();
   const ref = useRef<HTMLDivElement>(null);
 
-  // Nội dung đổi theo slide -> cho các dòng bay lên so le bằng anime.js.
+  // Panel vừa được chọn -> cho các dòng bay lên so le bằng anime.js.
   useEffect(() => {
+    if (!isActive) return;
     const el = ref.current;
     if (!el || prefersReducedMotion()) return;
     const items = el.querySelectorAll<HTMLElement>("[data-stagger]");
@@ -57,12 +61,12 @@ function ComboDetailPanel({ combo }: { combo: ComboItem }) {
       delay: (_el, i) => (i ?? 0) * 60,
       ease: "outExpo",
     });
-  }, [combo.id]);
+  }, [isActive]);
 
   return (
     <div
       ref={ref}
-      className="grid grid-cols-1 gap-6 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm lg:grid-cols-[1.15fr_1fr] lg:gap-10 lg:p-8"
+      className="grid h-full grid-cols-1 gap-6 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm lg:grid-cols-[1.15fr_1fr] lg:gap-10 lg:p-8"
     >
       {/* Cột trái: thương hiệu, các con số chính và lợi ích của combo */}
       <div>
@@ -195,12 +199,28 @@ export function ComboSection() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
+  // Chỉ autoplay khi section đang nằm trong màn hình.
+  const sectionRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(true);
+
   const stageRef = useRef<HTMLDivElement>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const progressRef = useRef<HTMLSpanElement>(null);
   const [metrics, setMetrics] = useState({ slideW: 640, spacing: 470, compact: false });
 
   const count = list.length;
+
+  // ── Theo dõi section có đang hiển thị hay không ──
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.2 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   // ── Kích thước slide theo bề rộng khung, tính lại khi resize ──
   useLayoutEffect(() => {
@@ -280,11 +300,11 @@ export function ComboSection() {
     [count],
   );
 
-  // ── Tự động chạy + thanh tiến trình ──
+  // ── Tự động chạy + thanh tiến trình (dừng khi tạm dừng hoặc khi ra khỏi màn hình) ──
   useEffect(() => {
     const bar = progressRef.current;
     if (!bar) return;
-    if (paused || count < 2 || prefersReducedMotion()) {
+    if (paused || !inView || count < 2 || prefersReducedMotion()) {
       utils.set(bar, { scaleX: 0 });
       return;
     }
@@ -297,7 +317,7 @@ export function ComboSection() {
     return () => {
       anim.cancel();
     };
-  }, [index, paused, count, go]);
+  }, [index, paused, inView, count, go]);
 
   // ── Kéo/vuốt để chuyển slide ──
   // Quan trọng: KHÔNG gọi setPointerCapture ngay ở pointerdown. Khi khung
@@ -360,7 +380,12 @@ export function ComboSection() {
   if (!active) return null;
 
   return (
-    <section className="relative overflow-hidden bg-[#f7f8fb] py-12 sm:py-16">
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden bg-[#f7f8fb] py-12 sm:py-16"
+      // Tắt scroll anchoring: trình duyệt di động không tự bù scroll khi nội dung đổi.
+      style={{ overflowAnchor: "none" }}
+    >
       {/* Vệt sáng trang trí */}
       <div
         aria-hidden
@@ -521,7 +546,21 @@ export function ComboSection() {
         </div>
 
         {/* ── Thông tin chi tiết combo đang xem ── */}
-        <ComboDetailPanel combo={active} />
+        {/* Xếp chồng mọi panel trong cùng một ô grid -> chiều cao = panel cao nhất,
+            đổi slide không còn làm layout phía dưới nhảy lên xuống. */}
+        <div className="grid">
+          {list.map((c, i) => (
+            <div
+              key={c.id}
+              aria-hidden={i !== index}
+              className={`col-start-1 row-start-1 ${
+                i === index ? "" : "invisible pointer-events-none"
+              }`}
+            >
+              <ComboDetailPanel combo={c} isActive={i === index} />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -13,6 +13,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import InfoIcon from "@mui/icons-material/Info";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import SquareFootIcon from "@mui/icons-material/SquareFoot";
 import { useNavigate } from "react-router-dom";
 import { RevealSection } from "../common/Reveal";
 import { SectionEyebrow } from "../common/SectionEyebrow";
@@ -27,8 +28,8 @@ import {
 import type { IProvince } from "../../../../interface/IProvince";
 
 type LoaiCongTrinh = "nha_o" | "nha_xuong" | "van_phong" | "trang_trai";
-type DienTichMai = "duoi_40" | "tu_40_80" | "tu_80_150" | "tren_150" | "khong_ro";
 type CalcStatus = "idle" | "loading" | "done";
+type RoofStatusType = "success" | "warning" | "danger" | "info";
 
 const DEFAULT_PROVINCE_CODE = 79; // Thành phố Hồ Chí Minh
 const FALLBACK_PROVINCES: IProvince[] = [
@@ -45,17 +46,20 @@ const CONG_TRINH_OPTIONS: { value: LoaiCongTrinh; label: string; icon: React.Rea
   { value: "trang_trai", label: "Trang trại", icon: <AgricultureIcon sx={{ fontSize: 22 }} /> },
 ];
 
-const DIEN_TICH_OPTIONS: { value: DienTichMai; label: string }[] = [
-  { value: "duoi_40", label: "< 40m²" },
-  { value: "tu_40_80", label: "40 - 80m²" },
-  { value: "tu_80_150", label: "80 - 150m²" },
-  { value: "tren_150", label: "> 150m²" },
-  { value: "khong_ro", label: "Không rõ" },
+// ─── Diện tích mái ───────────────────────────────────────────────────
+// Nút chọn nhanh: bấm vào sẽ điền sẵn một giá trị đại diện vào ô nhập.
+// Nút nào sáng lên là tuỳ theo số đang có trong ô (<= max của nút đó).
+const DIEN_TICH_PRESETS: { label: string; value: number; max: number }[] = [
+  { label: "< 40m²", value: 30, max: 39 },
+  { label: "40 - 80m²", value: 60, max: 80 },
+  { label: "80 - 150m²", value: 115, max: 150 },
 ];
+const MAX_DIEN_TICH = 1_000_000_000; // 1 tỷ m²
 
-const DIEN_TICH_AREA_MAP: Record<DienTichMai, number | null> = {
-  duoi_40: 30, tu_40_80: 60, tu_80_150: 115, tren_150: 180, khong_ro: null,
-};
+// 1 kWp cần khoảng 6,7 m² mái -> diện tích cần = công suất đề xuất × 6,7
+const M2_PER_KWP = 6.7;
+// Sai lệch cho phép để coi là "xấp xỉ": diện tích mái nằm trong ±10% diện tích cần.
+const AREA_TOLERANCE = 0.1;
 
 // ─── Giới hạn nhập tiền điện ─────────────────────────────────────────
 const MIN_TIEN_DIEN = 0;
@@ -95,14 +99,25 @@ function formatPayback(years: number) {
   return `${years.toLocaleString("vi-VN", { maximumFractionDigits: 1 })} năm`;
 }
 
+function formatArea(n: number) {
+  return n.toLocaleString("vi-VN", { maximumFractionDigits: 1 });
+}
+
+interface RoofStatus {
+  type: RoofStatusType;
+  message: string;
+}
+
 interface CalcOutput extends SolarCalcResult {
-  roofStatus: { type: "success" | "warning" | "danger" | "info"; message: string };
+  /** Diện tích mái cần để lắp công suất đề xuất (m²). */
+  requiredArea: number;
+  roofStatus: RoofStatus;
 }
 
 function useSolarResult(
   tienDien: number,
   loaiCongTrinh: LoaiCongTrinh,
-  dienTichMai: DienTichMai,
+  dienTichMai: number | null,
 ): CalcOutput {
   return useMemo(() => {
     const calc = calculateSolar({
@@ -110,37 +125,55 @@ function useSolarResult(
       monthlyBill: tienDien,
     });
 
-    const roofArea = DIEN_TICH_AREA_MAP[dienTichMai];
-    let roofStatus: CalcOutput["roofStatus"];
+    const requiredArea = calc.recommendedPower * M2_PER_KWP;
+    let roofStatus: RoofStatus;
 
-    if (roofArea === null) {
+    if (dienTichMai === null || dienTichMai <= 0) {
+      // Chưa nhập diện tích mái -> chưa có gì để so sánh.
       roofStatus = {
         type: "info",
         message:
-          "Công suất được ước tính dựa trên mức tiêu thụ điện. Kỹ sư sẽ khảo sát thực tế để xác định công suất phù hợp.",
+          "Chưa có diện tích mái để đối chiếu. Công suất được ước tính dựa trên mức tiêu thụ điện, kỹ thuật viên VIETHUNGSOLAR sẽ khảo sát thực tế để xác định phương án phù hợp.",
       };
     } else {
-      const congSuatMaiToiDa = roofArea / 6.8;
-      if (congSuatMaiToiDa >= calc.recommendedPower) {
-        roofStatus = { type: "success", message: "Diện tích mái phù hợp để lắp đặt hệ thống đề xuất." };
+      const ratio = dienTichMai / requiredArea;
+      if (ratio < 1 - AREA_TOLERANCE) {
+        // ② Mái nhỏ hơn diện tích cần lắp
+        roofStatus = {
+          type: "danger",
+          message:
+            "Diện tích mái ước tính chưa đáp ứng công suất đề xuất. VIETHUNGSOLAR sẽ khảo sát thực tế để tư vấn công suất và phương án bố trí phù hợp nhất.",
+        };
+      } else if (ratio <= 1 + AREA_TOLERANCE) {
+        // ① Mái xấp xỉ diện tích cần lắp
+        roofStatus = {
+          type: "warning",
+          message:
+            "Diện tích mái ước tính phù hợp với công suất đề xuất. Kỹ thuật viên VIETHUNGSOLAR sẽ khảo sát thực tế để xác định chính xác diện tích khả dụng và phương án bố trí tối ưu.",
+        };
       } else {
-        const chenhLech = (calc.recommendedPower - congSuatMaiToiDa) / calc.recommendedPower;
-        roofStatus =
-          chenhLech <= 0.2
-            ? { type: "warning", message: "Diện tích mái có thể chưa đủ cho công suất đề xuất. Kỹ sư VIETHUNGSOLAR sẽ khảo sát và tối ưu phương án phù hợp." }
-            : { type: "danger", message: "Diện tích mái hiện tại chưa đáp ứng công suất đề xuất. Chúng tôi sẽ tư vấn phương án tối ưu theo diện tích thực tế hoặc nhu cầu sử dụng." };
+        // ③ Mái lớn hơn diện tích cần lắp
+        roofStatus = {
+          type: "success",
+          message:
+            "Diện tích mái ước tính đáp ứng tốt công suất đề xuất. Kỹ thuật viên VIETHUNGSOLAR sẽ khảo sát thực tế để xác định phương án lắp đặt tối ưu.",
+        };
       }
     }
 
-    return { ...calc, roofStatus };
+    return { ...calc, requiredArea, roofStatus };
   }, [tienDien, loaiCongTrinh, dienTichMai]);
 }
 
-function RoofStatusBanner({ status }: { status: { type: "success" | "warning" | "danger" | "info"; message: string } }) {
+function RoofStatusBanner({ status }: { status: RoofStatus }) {
   const styleMap = {
-    success: { bg: "rgba(34,197,94,0.1)", color: "#16a34a", icon: <CheckCircleIcon sx={{ fontSize: 18 }} /> },
-    warning: { bg: "rgba(246,185,24,0.12)", color: GOLD_DARK, icon: <WarningAmberIcon sx={{ fontSize: 18 }} /> },
+    // Vàng/cam nhẹ — diện tích vừa đủ
+    warning: { bg: "rgba(246,185,24,0.12)", color: GOLD_DARK, icon: <CheckCircleIcon sx={{ fontSize: 18 }} /> },
+    // Đỏ nhạt — diện tích không đủ
     danger: { bg: "rgba(239,68,68,0.1)", color: "#dc2626", icon: <WarningAmberIcon sx={{ fontSize: 18 }} /> },
+    // Xanh nhẹ — diện tích dư
+    success: { bg: "rgba(34,197,94,0.1)", color: "#16a34a", icon: <CheckCircleIcon sx={{ fontSize: 18 }} /> },
+    // Xanh dương — chưa nhập diện tích
     info: { bg: "rgba(59,130,246,0.1)", color: "#2563eb", icon: <InfoIcon sx={{ fontSize: 18 }} /> },
   }[status.type];
 
@@ -156,7 +189,8 @@ export function SolarCalculator() {
   const navigate = useNavigate();
   const [tienDien, setTienDien] = useState(6_000_000);
   const [loaiCongTrinh, setLoaiCongTrinh] = useState<LoaiCongTrinh>("nha_o");
-  const [dienTichMai, setDienTichMai] = useState<DienTichMai>("tu_40_80");
+  // Diện tích mái (m²). null = chưa nhập.
+  const [dienTichMai, setDienTichMai] = useState<number | null>(60);
   const [status, setStatus] = useState<CalcStatus>("idle");
   const [loadingMsgIndex, setLoadingMsgIndex] = useState(0);
   const [khuVuc, setKhuVuc] = useState<IProvince | null>(null);
@@ -243,10 +277,29 @@ export function SolarCalculator() {
     setLoaiCongTrinh(val);
     collapseResult();
   };
-  const handleDienTichChange = (val: DienTichMai) => {
-    setDienTichMai(val);
+
+  // Ô nhập diện tích mái: chỉ nhận chữ số (chặn chữ, dấu "-", dấu "."), tối đa 1 tỷ.
+  const handleDienTichInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const digitsOnly = e.target.value.replace(/\D/g, "");
+    if (digitsOnly === "") {
+      setDienTichMai(null);
+      collapseResult();
+      return;
+    }
+    setDienTichMai(Math.min(parseInt(digitsOnly, 10), MAX_DIEN_TICH));
     collapseResult();
   };
+  const handleDienTichPreset = (value: number) => {
+    setDienTichMai(value);
+    collapseResult();
+  };
+
+  // Nút chọn nhanh nào đang sáng, suy ra từ số trong ô nhập.
+  const activePresetLabel =
+    dienTichMai !== null && dienTichMai > 0
+      ? DIEN_TICH_PRESETS.find((p) => dienTichMai <= p.max)?.label ?? null
+      : null;
+
   const handleKhuVucChange = (val: IProvince | null) => {
     setKhuVuc(val);
     collapseResult();
@@ -392,18 +445,18 @@ export function SolarCalculator() {
                 />
               </div>
 
-              {/* Câu 4: Diện tích mái */}
+              {/* Câu 4: Diện tích mái — nút chọn nhanh + ô nhập số (m²) */}
               <div>
                 <p className="font-semibold text-sm mb-4" style={{ color: NAVY }}>
                   Câu 4. Diện tích mái (ước lượng) của bạn là bao nhiêu?
                 </p>
-                <div className="flex flex-wrap gap-2">
-                  {DIEN_TICH_OPTIONS.map((opt) => {
-                    const active = dienTichMai === opt.value;
+                <div className="flex flex-wrap items-center gap-2">
+                  {DIEN_TICH_PRESETS.map((opt) => {
+                    const active = activePresetLabel === opt.label;
                     return (
                       <button
-                        key={opt.value}
-                        onClick={() => handleDienTichChange(opt.value)}
+                        key={opt.label}
+                        onClick={() => handleDienTichPreset(opt.value)}
                         className="rounded-lg border px-3.5 py-2 text-xs font-medium transition-all duration-200"
                         style={{
                           borderColor: active ? GOLD : "#e5e7eb",
@@ -415,7 +468,38 @@ export function SolarCalculator() {
                       </button>
                     );
                   })}
+
+                  {/* Ô nhập nằm ngay cạnh nút "80 - 150m²", flex-1 để kéo dài tới hết cột
+                      (tức là hết nút "Trang trại" ở Câu 2). Màn hẹp thì tự xuống dòng. */}
+                  <TextField
+                  size="small"
+                  value={dienTichMai === null ? "" : formatInputNumber(dienTichMai)}
+                  onChange={handleDienTichInputChange}
+                  placeholder="Nhập diện tích"
+                  inputProps={{ inputMode: "numeric", "aria-label": "Diện tích mái (m²)" }}
+                  InputProps={{
+                    startAdornment: (
+                      <SquareFootIcon sx={{ fontSize: 18, color: GOLD, ml: 0.5, mr: 0.75 }} />
+                    ),
+                    endAdornment: (
+                      <span style={{ color: GOLD_DARK, fontWeight: 700, fontSize: "0.85rem", marginLeft: 4 }}>m²</span>
+                    ),
+                  }}
+                  sx={{
+                    flex: "1 1 150px",
+                    minWidth: 150,
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                      fontSize: "0.8rem",
+                      fontWeight: 600,
+                      "& fieldset": { borderColor: "#e5e7eb" },
+                      "&:hover fieldset": { borderColor: GOLD },
+                      "&.Mui-focused fieldset": { borderColor: GOLD, borderWidth: "1px" },
+                    },
+                  }}
+                  />
                 </div>
+                <p className="mt-1.5 text-xs text-gray-400">Chỉ nhập số, tối đa 1.000.000.000 m²</p>
               </div>
             </div>
 
@@ -456,6 +540,12 @@ export function SolarCalculator() {
                         <AccessTimeIcon sx={{ fontSize: 15, color: GOLD }} /> Thời gian hoàn vốn
                       </span>
                       <span className="font-bold text-sm" style={{ color: NAVY }}>≈ {formatPayback(result.paybackYears)}</span>
+                    </div>
+                    <div className="flex items-center justify-between px-4 py-3">
+                      <span className="flex items-center gap-1.5 text-gray-500 text-xs">
+                        <SquareFootIcon sx={{ fontSize: 15, color: GOLD }} /> Diện tích mái cần lắp
+                      </span>
+                      <span className="font-bold text-sm" style={{ color: NAVY }}>≈ {formatArea(result.requiredArea)} m²</span>
                     </div>
                   </div>
                 </div>
